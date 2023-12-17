@@ -3,7 +3,7 @@ package core.hitbox;
 /* IMPORTANT for the ones which will work with entities.
  */
 
-/* An interface which deals with the hitbox of entities */
+/* An interface for the hitbox of entities */
 
 public interface Hitbox {
     /* The general idea is to model the hitbox of an entity with a set of rectangles. java.awt.Rectangle could be used

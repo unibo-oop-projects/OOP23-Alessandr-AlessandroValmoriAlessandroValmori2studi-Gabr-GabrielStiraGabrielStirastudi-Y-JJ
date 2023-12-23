@@ -1,6 +1,7 @@
 package core.entities.api;
 
 import core.hitbox.Hitbox;
+import core.utilities.*;
 
 /* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...
  * Referring in particular to Barry, obstacles, power-up, coins, mini power-up, any form of particle which has collisions, etc...

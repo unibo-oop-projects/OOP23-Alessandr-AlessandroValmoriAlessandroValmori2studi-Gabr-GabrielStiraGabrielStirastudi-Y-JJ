@@ -1,5 +1,7 @@
 package core.entities.api;
 
+import core.hitbox.Hitbox;
+
 /* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...
  * Referring in particular to Barry, obstacles, power-up, coins, mini power-up, any form of particle which has collisions, etc...
  * Choose if you want to implement a general interface Entities and then maybe some abstract classes to specify the behaviour of
@@ -8,11 +10,15 @@ package core.entities.api;
 
 /* An interface for the entities */
 
-public interface Entities {
+public interface Entity {
+    enum EntityType {
+        BARRY, OBSTACLE, POWERUP, OTHERS
+    }
 
-    void update();
-    void draw();
-    /* getPosition()     to decide what coordinate system we will use (we could create a utility class to define the methods we need, or 
-    implement an already existing interface) */
+    EntityType getEntityType();
+    Pair<Double, Double> getStartingPosition();
+    Pair<Double, Double> getCurrentPosition();
+    void setCurrentPosition(Pair<Double, Double> newCurrentPosition);
+    Hitbox getHitbox();
 
 }

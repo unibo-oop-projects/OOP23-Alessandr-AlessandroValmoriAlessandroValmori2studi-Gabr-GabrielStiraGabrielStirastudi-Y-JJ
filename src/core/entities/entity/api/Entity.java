@@ -1,4 +1,4 @@
-package core.entities.api;
+package core.entities.entity.api;
 
 import core.hitbox.Hitbox;
 import core.utilities.*;

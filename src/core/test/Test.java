@@ -2,9 +2,10 @@ package core.test;
 
 import static core.entities.entity.api.Entity.EntityType.*;
 import static core.entities.obstacle.api.Obstacle.ObstacleType.*;
+import static core.entities.powerup.api.PowerUp.PowerUpType.*;
 import static org.junit.Assert.assertEquals;
 
-import core.entities.entity.api.AbstractEntity;
+import core.entities.entity.api.Entity;
 import core.entities.entity.api.EntityFactory;
 import core.entities.entity.impl.EntityFactoryImpl;
 import core.entities.obstacle.impl.ObstacleImpl;
@@ -19,11 +20,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
-
 public class Test {
 	private EntityFactory entityFactory;
-	private Map<EntityType, Set<? extends AbstractEntity>> entities = new HashMap<>();
+	private Map<EntityType, Set<Entity>> entities = new HashMap<>();
 
 	@org.junit.Before
 	public void initFactory() {
@@ -57,6 +56,12 @@ public class Test {
 
 		Arrays.stream(EntityType.values()).forEach(e -> entities.put(e, new HashSet<>()));
 		
-		//entities.computeIfAbsent(OBSTACLE, k -> new HashSet<>()).add(this.entityFactory.generateObstacle(MISSILE, new StandardMissileMovement(new Pair<Double, Double>(0.0, 0.0)), new Hitbox()));
-	}
+		entities.computeIfAbsent(OBSTACLE, k -> new HashSet<>())
+				.add(this.entityFactory.generateObstacle(MISSILE, new StandardMissileMovement(new Pair<Double, Double>(0.0, 0.0)), new Hitbox()));
+
+		entities.computeIfAbsent(POWERUP, k -> new HashSet<>())
+				.add(this.entityFactory.generatePowerUp(MRCUDDLE, new StandardMissileMovement(new Pair<Double, Double>(0.0, 0.0)), new Hitbox()));
+				
+		System.out.println(entities);
+	}	
 }

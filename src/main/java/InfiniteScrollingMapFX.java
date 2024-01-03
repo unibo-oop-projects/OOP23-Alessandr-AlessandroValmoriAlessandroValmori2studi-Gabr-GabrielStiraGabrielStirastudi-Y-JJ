@@ -2,7 +2,7 @@
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Pane; 
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
@@ -31,7 +31,7 @@ public class InfiniteScrollingMapFX extends Application {
         root = new Pane();
         Scene scene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
 
-        backgroundImage = new Image("file:C:/Users/zyk10/Downloads/UseForJetPackJ/background1.png");
+        backgroundImage = new Image("file:resources/bg.png");
         bgImageView1 = new ImageView(backgroundImage);
         bgImageView2 = new ImageView(backgroundImage);
         bgImageView1.setFitWidth(MAP_WIDTH);

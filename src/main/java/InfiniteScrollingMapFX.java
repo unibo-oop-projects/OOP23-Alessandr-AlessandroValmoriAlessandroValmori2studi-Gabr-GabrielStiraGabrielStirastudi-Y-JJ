@@ -71,16 +71,18 @@ public class InfiniteScrollingMapFX extends Application {
         Image[] images = new Image[imagesLength];
         for (int i = 0; i < numberOfMissiles; i++) {
             for(int j=0; j < numberOfMissiles; j++ ) {
-                String imagePath = "file:C:/Users/zyk10/Downloads/UseForJetPackJ/missile_" + (i + 1) + ".png";
+                String imagePath = "file:resources/sprites/entities/obstacles/missile/missile_" + (i + 1) + ".png";
                 images[index] = new Image(imagePath);    
                 index++;
             }
         }
 
+        
+
         int numberOfWarnings = 2; 
         Image[] warnings = new Image[numberOfWarnings];
         for (int i = 0; i < numberOfWarnings; i++) { 
-            String warningPath = "file:C:/Users/zyk10/Downloads/UseForJetPackJ/missile_warning_" + (i + 1) + ".png";
+            String warningPath = "file:resources/sprites/entities/obstacles/missile/missile_warnings/missile_warning_" + (i + 1) + ".png";
             warnings[i] = new Image(warningPath);
          
         }

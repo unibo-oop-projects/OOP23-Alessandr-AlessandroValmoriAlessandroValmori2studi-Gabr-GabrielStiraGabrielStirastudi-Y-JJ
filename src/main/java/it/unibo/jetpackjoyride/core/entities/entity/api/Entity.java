@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.entity.api;
 
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
-import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.*;
 
 /* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...
  * Referring in particular to Barry, obstacles, power-up, coins, mini power-up, any form of particle which has collisions, etc...
@@ -13,11 +13,13 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public interface Entity {
     enum EntityType {
-        OBSTACLE, POWERUP, PICKUP
+        BARRY, OBSTACLE, POWERUP, OTHERS
     }
 
     EntityType getEntityType();
-    it.unibo.jetpackjoyride.core.movement.Movement getEntityMovement();
-    it.unibo.jetpackjoyride.core.hitbox.Hitbox getHitbox();
+    Pair<Double, Double> getStartingPosition();
+    Pair<Double, Double> getCurrentPosition();
+    void setCurrentPosition(Pair<Double, Double> newCurrentPosition);
+    Hitbox getHitbox();
 
 }

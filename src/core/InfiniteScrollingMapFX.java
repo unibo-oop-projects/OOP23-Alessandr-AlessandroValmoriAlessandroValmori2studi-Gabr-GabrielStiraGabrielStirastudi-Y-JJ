@@ -1,4 +1,4 @@
-package com.fxversion;
+/*package com.fxversion;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -124,3 +124,4 @@ public class InfiniteScrollingMapFX extends Application {
         launch(args);
     }
 }
+*/

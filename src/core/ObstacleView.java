@@ -1,4 +1,4 @@
-package com.fxversion;
+/*package com.fxversion;
 
 import java.util.Random;
 import javafx.scene.shape.Rectangle;
@@ -38,4 +38,4 @@ public class ObstacleView {
     public ImageView getImageView() {
         return imageView;
     }
-}
+}*/

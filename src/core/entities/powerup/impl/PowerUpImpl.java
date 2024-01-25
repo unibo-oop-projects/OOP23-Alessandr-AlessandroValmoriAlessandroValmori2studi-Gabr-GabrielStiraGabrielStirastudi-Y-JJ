@@ -6,12 +6,12 @@ import core.entities.entity.api.AbstractEntity;
 
 import core.entities.powerup.api.PowerUp;
 import core.hitbox.Hitbox;
-import core.movement.impl.MovementImpl;
+import core.movement.Movement;
 
 public class PowerUpImpl extends AbstractEntity implements PowerUp{
     private final PowerUpType powerUpType;
     
-    public PowerUpImpl(PowerUpType powerUpType, MovementImpl movement, Hitbox hitbox) {
+    public PowerUpImpl(PowerUpType powerUpType, Movement movement, Hitbox hitbox) {
         super(POWERUP, movement, hitbox);
         this.powerUpType = powerUpType;
     }

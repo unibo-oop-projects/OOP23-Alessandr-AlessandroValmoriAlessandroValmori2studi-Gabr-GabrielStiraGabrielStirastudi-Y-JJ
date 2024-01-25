@@ -13,6 +13,5 @@ public interface Obstacle extends Entity {
 
     ObstacleType getObstacleType();
 
-    /* return true if the obstacle has been succesfully deactivated */
-    boolean deactivateObstacle();
+    void changeObstacleStatus(ObstacleStatus newObstacleStatus);
 }

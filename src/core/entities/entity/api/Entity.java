@@ -1,7 +1,7 @@
 package core.entities.entity.api;
 
 import core.hitbox.Hitbox;
-import core.utilities.*;
+import core.movement.Movement;
 
 /* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...
  * Referring in particular to Barry, obstacles, power-up, coins, mini power-up, any form of particle which has collisions, etc...
@@ -13,13 +13,11 @@ import core.utilities.*;
 
 public interface Entity {
     enum EntityType {
-        BARRY, OBSTACLE, POWERUP, OTHERS
+        OBSTACLE, POWERUP, PICKUP
     }
 
     EntityType getEntityType();
-    Pair<Double, Double> getStartingPosition();
-    Pair<Double, Double> getCurrentPosition();
-    void setCurrentPosition(Pair<Double, Double> newCurrentPosition);
+    Movement getEntityMovement();
     Hitbox getHitbox();
 
 }

@@ -7,6 +7,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class ObstacleImpl extends AbstractEntity implements Obstacle {
 
@@ -33,6 +34,30 @@ public class ObstacleImpl extends AbstractEntity implements Obstacle {
 
     public void changeObstacleMovement(Movement newMovement) {
         this.movement= newMovement;
+    }
+
+    @Override
+    public boolean deactivateObstacle() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deactivateObstacle'");
+    }
+
+    @Override
+    public Pair<Double, Double> getStartingPosition() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getStartingPosition'");
+    }
+
+    @Override
+    public Pair<Double, Double> getCurrentPosition() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPosition'");
+    }
+
+    @Override
+    public void setCurrentPosition(Pair<Double, Double> newCurrentPosition) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCurrentPosition'");
     }
     
 }

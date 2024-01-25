@@ -1,4 +1,4 @@
-package com.fxversion;
+/*package com.fxversion;
 
 import java.util.Random;
 
@@ -78,3 +78,4 @@ public class ObstacleModel {
     }
 
 }
+*/

@@ -1,4 +1,4 @@
-package com.fxversion;
+/*package com.fxversion;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -21,3 +21,4 @@ public class ObstacleController {
         return view.getImageView();
     }
 }
+*/

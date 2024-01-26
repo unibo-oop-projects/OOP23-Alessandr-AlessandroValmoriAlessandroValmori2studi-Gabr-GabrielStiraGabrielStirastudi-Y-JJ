@@ -8,17 +8,17 @@ public interface Movement {
 
     Pair<Double, Double> getCurrentPosition();
 
+    Pair<Double, Double> getSpeed();
+
+    Pair<Double, Double> getAcceleration();
+
     void setStartingPosition(Pair<Double, Double> startPos);
 
     void setCurrentPosition(Pair<Double, Double> currPos);
 
     void setAcceleration(Pair<Double, Double> newAcceleration);
 
-    Pair<Double, Double> getAcceleration();
-
     void setSpeed(Pair<Double, Double> newSpeed);
-
-    Pair<Double, Double> getSpeed();
 
     void update();
 }

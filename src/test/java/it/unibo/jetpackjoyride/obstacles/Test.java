@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.obstacles;
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType.*;
-import static it.unibo.jetpackjoyride.core.movement.impl.MissileMovement.MissileMovementType;
+import static it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers.*;
 import static org.junit.Assert.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
@@ -13,17 +13,19 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.impl.MissileMovement;
 import it.unibo.jetpackjoyride.utilities.Pair;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
 
 import java.util.*;
 
 
 public class Test {
-	private final static Movement DEFAULTMISSILEMOVEMENT = new MissileMovement(new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of(MissileMovementType.DEFAULT));
+	private final static Movement DEFAULTMISSILEMOVEMENT = new MovementGenerator(new Pair<>(0.0, 0.0), new Pair<>(1.0, 1.0), new Pair<>(0.0, 0.0), List.of(DEFAULT)).generateMovement();
 	private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
 
 	private EntityGenerator entityGenerator;
+	
+
 
 	@org.junit.Before
 	public void initFactory() {
@@ -38,18 +40,15 @@ public class Test {
 		assertEquals(missile.getObstacleType(), MISSILE);
 		assertEquals(missile.getObstacleStatus(), INACTIVE);
 
-		missile.getEntityMovement().setSpeed(new Pair<>(1.0, 5.0));
-		int counter=0;
+		//missile.getEntityMovement().setSpeed(new Pair<>(1.0, 5.0));
+
 		while(true) {
 			try {
 				Thread.sleep(30);
 			  } catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			  }
-			  counter++;
-			if(counter == 100) {
-				missile.changeObstacleMovement(new MissileMovement(missile.getEntityMovement().getCurrentPosition(), missile.getEntityMovement().getSpeed(), missile.getEntityMovement().getAcceleration(), List.of(MissileMovementType.BOUNCING)));
-			}
+
 			missile.getEntityMovement().update();
 			System.out.println("Position:" + missile.getEntityMovement().getCurrentPosition() + "     Speed: " + missile.getEntityMovement().getSpeed());
 			System.out.flush();

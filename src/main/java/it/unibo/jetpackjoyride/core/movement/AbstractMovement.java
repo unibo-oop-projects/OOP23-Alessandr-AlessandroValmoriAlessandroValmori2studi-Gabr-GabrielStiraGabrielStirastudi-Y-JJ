@@ -53,6 +53,4 @@ public abstract class AbstractMovement implements Movement {
     }
 
     public abstract void update();
-
-    
 }

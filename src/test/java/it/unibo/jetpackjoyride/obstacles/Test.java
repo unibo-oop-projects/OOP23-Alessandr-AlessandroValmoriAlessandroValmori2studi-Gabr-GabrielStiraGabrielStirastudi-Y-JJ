@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.obstacles;
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType.*;
-import static it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers.*;
 import static org.junit.Assert.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
@@ -14,13 +13,13 @@ import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
+import it.unibo.jetpackjoyride.core.movement.impl.MovementFactoryImpl;
 
 import java.util.*;
 
 
 public class Test {
-	private final static Movement DEFAULTMISSILEMOVEMENT = new MovementGenerator(new Pair<>(0.0, 0.0), new Pair<>(1.0, 1.0), new Pair<>(0.0, 0.0), List.of(DEFAULT)).generateMovement();
+	private final static Movement DEFAULTMISSILEMOVEMENT = new MovementFactoryImpl().speedyMovement(new Pair<>(0.0,0.0), new Pair<>(1.0,1.0), new Pair<>(0.0,0.0));
 	private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
 
 	private EntityGenerator entityGenerator;
@@ -39,8 +38,6 @@ public class Test {
 		assertEquals(missile.getEntityType(), OBSTACLE);
 		assertEquals(missile.getObstacleType(), MISSILE);
 		assertEquals(missile.getObstacleStatus(), INACTIVE);
-
-		//missile.getEntityMovement().setSpeed(new Pair<>(1.0, 5.0));
 
 		while(true) {
 			try {

@@ -16,4 +16,5 @@ public class EntityGeneratorImpl implements EntityGenerator {
         return new ObstacleImpl(obstacleType, obstacleMovement, obstacleHitbox);
     }
 
+    
 }

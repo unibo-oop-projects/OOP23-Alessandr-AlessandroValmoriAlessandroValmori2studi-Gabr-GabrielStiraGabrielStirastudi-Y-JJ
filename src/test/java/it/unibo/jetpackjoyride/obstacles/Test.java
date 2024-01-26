@@ -12,14 +12,18 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import it.unibo.jetpackjoyride.core.movement.impl.MovementFactoryImpl;
+
 
 import java.util.*;
 
 
 public class Test {
-	private final static Movement DEFAULTMISSILEMOVEMENT = new MovementFactoryImpl().speedyMovement(new Pair<>(0.0,0.0), new Pair<>(1.0,1.0), new Pair<>(0.0,0.0));
+	private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.SPEEDY, MovementChangers.BOUNCING, MovementChangers.DIAGONALUP));
+	
+
 	private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
 
 	private EntityGenerator entityGenerator;
@@ -33,7 +37,7 @@ public class Test {
 
 	@org.junit.Test
 	public void testObstacles() {
-		ObstacleImpl missile = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMISSILEMOVEMENT, null);
+		ObstacleImpl missile = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMOVEMENT, null);
 
 		assertEquals(missile.getEntityType(), OBSTACLE);
 		assertEquals(missile.getObstacleType(), MISSILE);
@@ -47,7 +51,7 @@ public class Test {
 			  }
 
 			missile.getEntityMovement().update();
-			System.out.println("Position:" + missile.getEntityMovement().getCurrentPosition() + "     Speed: " + missile.getEntityMovement().getSpeed());
+			System.out.println("Position:" + missile.getEntityMovement().getCurrentPosition() + "     Speed: " + missile.getEntityMovement().getSpeed() + "     Acceleratio: " + missile.getEntityMovement().getAcceleration());
 			System.out.flush();
 		}
 	}	
@@ -55,7 +59,7 @@ public class Test {
 
 	@org.junit.Test
 	public void testHitboxes() {
-		ObstacleImpl missile = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMISSILEMOVEMENT, MISSILEHITBOX);
+		ObstacleImpl missile = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMOVEMENT, MISSILEHITBOX);
 
 		missile.getEntityMovement().setSpeed(new Pair<>(1.0, 5.0));
 		while(true) {

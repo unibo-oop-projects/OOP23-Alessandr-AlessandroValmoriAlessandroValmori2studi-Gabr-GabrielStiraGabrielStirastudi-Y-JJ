@@ -22,7 +22,8 @@ import java.awt.Toolkit;
 public class EntityHandlerImpl implements EntityHandler {
 
     private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
-	private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
+	private final static Movement HOMINGMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT, MovementChangers.HOMING));
+    private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
 
     private EntityGenerator entityGenerator;
     private EntityView view;
@@ -32,7 +33,7 @@ public class EntityHandlerImpl implements EntityHandler {
 
     public void initialize() {
         entityGenerator = new EntityGeneratorImpl();
-        ciao = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMOVEMENT, MISSILEHITBOX);
+        ciao = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, HOMINGMOVEMENT, MISSILEHITBOX);
 
         int index=0;
         Image[] images = new Image[35];

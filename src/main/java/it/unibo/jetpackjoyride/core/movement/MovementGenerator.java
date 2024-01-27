@@ -12,6 +12,7 @@ public class MovementGenerator {
     private Pair<Double,Double> currentPos;
     private Pair<Double,Double> speed;
     private Pair<Double,Double> acceleration;
+    private Double rotationAngle;
 
     private List<MovementChangers> listOfModifiers = new ArrayList<>();
 
@@ -23,6 +24,7 @@ public class MovementGenerator {
         this.currentPos = startingPosition;
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
+        this.rotationAngle = 0.0;
         setMovementChangers(List.of(MovementChangers.DEFAULT));
     }
 
@@ -42,16 +44,18 @@ public class MovementGenerator {
                     break;
                 case DIAGONALUP:
                     this.speed = new Pair<>(this.speed.get1(), this.speed.get1());
+                    this.rotationAngle = 45.0;
                     break;
                 case DIAGONALDOWN:
                     this.speed = new Pair<>(this.speed.get1(), -this.speed.get1());
+                    this.rotationAngle = -45.0;
                 default:
                     break;
             }
         }
 
 
-        return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.listOfModifiers) {
+        return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.listOfModifiers, this.rotationAngle) {
 
             @Override
             public void update() {
@@ -66,13 +70,14 @@ public class MovementGenerator {
             public void applyModifiers() {
                 /* HOMING */
                 if(listOfChangers.contains(MovementChangers.HOMING)) {
-                    xyacceleration = new Pair<>(xyacceleration.get1(), (playerPos.get2() - currentPosition.get2()));
+                    xyacceleration = new Pair<>(xyacceleration.get1(), 0.1*(playerPos.get2() - currentPosition.get2()));
                 }
 
                 /* BOUNCING */
                 if(listOfChangers.contains(MovementChangers.BOUNCING)) {
-                    if(currentPosition.get2()<0 || currentPosition.get2()>100) {
+                    if(currentPosition.get2()<0 || currentPosition.get2()>700) {
                         xyspeed = new Pair<>(xyspeed.get1(), -xyspeed.get2());
+                        rotationAngle = -rotationAngle;
                     }
                 }
             }

@@ -14,4 +14,6 @@ public interface Obstacle extends Entity {
     ObstacleType getObstacleType();
 
     void changeObstacleStatus(ObstacleStatus newObstacleStatus);
+
+    boolean isOutOfBounds();
 }

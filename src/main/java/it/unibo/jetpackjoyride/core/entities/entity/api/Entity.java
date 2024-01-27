@@ -19,5 +19,6 @@ public interface Entity {
     EntityType getEntityType();
     Movement getEntityMovement();
     Hitbox getHitbox();
+    void update();
 
 }

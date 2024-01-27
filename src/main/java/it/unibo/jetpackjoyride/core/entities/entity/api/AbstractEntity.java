@@ -25,4 +25,9 @@ public abstract class AbstractEntity implements Entity {
     public Hitbox getHitbox() {
         return this.hitbox;
     }
+
+    public void update() {
+        this.movement.update();
+        this.hitbox.updateHitbox(this.movement.getCurrentPosition());
+    }
 }

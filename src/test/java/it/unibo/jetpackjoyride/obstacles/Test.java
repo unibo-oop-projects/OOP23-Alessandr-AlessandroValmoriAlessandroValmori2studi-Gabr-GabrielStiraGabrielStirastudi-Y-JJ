@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.obstacles;
+/*package it.unibo.jetpackjoyride.obstacles;
 
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.*;
@@ -75,4 +75,4 @@ public class Test {
 			System.out.flush();
 		}
 	}
-}
+}*/

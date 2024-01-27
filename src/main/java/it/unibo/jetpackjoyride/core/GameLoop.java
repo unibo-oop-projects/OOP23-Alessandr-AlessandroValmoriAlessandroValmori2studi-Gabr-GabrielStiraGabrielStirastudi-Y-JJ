@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
+import it.unibo.jetpackjoyride.core.handler.EntityHandler;
+import it.unibo.jetpackjoyride.core.handler.EntityHandlerImpl;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -17,24 +19,29 @@ public class GameLoop {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
+    /* TEMPORANEO*/
+    //private EntityHandler entities;
+    /* TEMPORANEO*/
     Pane root ;
 
     public GameLoop(){
         initializeScene();
         initializeGameElements();
         setupTimer();
-       
     }
+
     private void initializeScene() {
-         root = new Pane();
+        root = new Pane();
         gameScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
     }
 
     private void initializeGameElements(){
         gameInfo = new GameInfo(MAP_WIDTH, MAP_HEIGHT);
         map = new MapBackgroundImpl(gameInfo);
+        /* TEMPORANEO*/
+        //entities = new EntityHandlerImpl();
+        /* TEMPORANEO*/
         root.getChildren().add((Node)map);
-        
     }
 
     private void setupTimer(){
@@ -51,6 +58,9 @@ public class GameLoop {
     private void update(){ 
         updateScreenSize();
         map.updateBackground();
+        /* TEMPORANEO*/
+        //entities.update();
+        /* TEMPORANEO*/
     }
 
     private void updateScreenSize() {

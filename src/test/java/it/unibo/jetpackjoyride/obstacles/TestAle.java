@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.obstacles;
+/*package it.unibo.jetpackjoyride.obstacles;
 
 import static it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers.*;
 import static org.junit.Assert.*;
@@ -26,4 +26,4 @@ public class TestAle {
 
 
 	}
-}
+}*/

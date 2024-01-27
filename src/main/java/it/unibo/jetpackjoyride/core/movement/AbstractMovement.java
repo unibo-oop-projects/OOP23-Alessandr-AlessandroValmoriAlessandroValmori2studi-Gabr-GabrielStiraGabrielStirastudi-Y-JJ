@@ -11,17 +11,19 @@ public abstract class AbstractMovement implements Movement {
     public Pair<Double, Double> currentPosition;
     public Pair<Double,Double> xyacceleration;
     public Pair<Double,Double> xyspeed;
+    public Double rotationAngle;
 
     private List<MovementChangers> listOfChangers = new ArrayList<>();
 
-    public final static Pair<Double,Double> playerPos = new Pair<>(0.0, 10.0);
+    public final static Pair<Double,Double> playerPos = new Pair<>(100.0, 400.0);
     public final static Double TIME = 0.1;
 
-    public AbstractMovement(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, List<MovementChangers> listOfChangers) {
+    public AbstractMovement(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, List<MovementChangers> listOfChangers, Double rotationAngle) {
         this.currentPosition = startingPosition;
         this.xyspeed = startingSpeed;
         this.xyacceleration = startingAcceleration;
         this.listOfChangers = listOfChangers;
+        this.rotationAngle = rotationAngle;
     }
 
     @Override
@@ -58,8 +60,16 @@ public abstract class AbstractMovement implements Movement {
         return this.listOfChangers;
     }
 
-    public void setMovementChangers( List<MovementChangers> listOfChangers) {
+    public void setMovementChangers(List<MovementChangers> listOfChangers) {
         this.listOfChangers = listOfChangers;
+    }
+
+    public void setRotation(Double newRotationAngle) {
+        this.rotationAngle = newRotationAngle;
+    }
+
+    public Double getRotation() {
+        return this.rotationAngle;
     }
 
     public abstract void applyModifiers();

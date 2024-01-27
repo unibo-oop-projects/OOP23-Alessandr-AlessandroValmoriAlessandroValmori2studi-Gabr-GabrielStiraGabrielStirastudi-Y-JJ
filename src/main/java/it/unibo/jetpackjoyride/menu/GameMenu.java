@@ -26,7 +26,7 @@ public class GameMenu {
     private ImageView menuImageView;
 
     public GameMenu(Stage primaryStage, GameLoop gameLoop){
-        String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.jpg").toExternalForm();
+        String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
         menuImage = new Image(menuImgUrl);
         menuImageView = new ImageView(menuImage);
         menuImageView.setFitHeight(MAP_HEIGHT);

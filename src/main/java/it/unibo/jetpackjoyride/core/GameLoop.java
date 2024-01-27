@@ -20,7 +20,7 @@ public class GameLoop {
     private AnimationTimer timer;
     private MapBackground map;
     /* TEMPORANEO*/
-    //private EntityHandler entities;
+    private EntityHandler entities;
     /* TEMPORANEO*/
     Pane root ;
 
@@ -39,9 +39,11 @@ public class GameLoop {
         gameInfo = new GameInfo(MAP_WIDTH, MAP_HEIGHT);
         map = new MapBackgroundImpl(gameInfo);
         /* TEMPORANEO*/
-        //entities = new EntityHandlerImpl();
+        entities = new EntityHandlerImpl();
+        entities.initialize();
         /* TEMPORANEO*/
         root.getChildren().add((Node)map);
+        root.getChildren().add(entities.getImageView());
     }
 
     private void setupTimer(){
@@ -59,7 +61,7 @@ public class GameLoop {
         updateScreenSize();
         map.updateBackground();
         /* TEMPORANEO*/
-        //entities.update();
+        entities.update();
         /* TEMPORANEO*/
     }
 

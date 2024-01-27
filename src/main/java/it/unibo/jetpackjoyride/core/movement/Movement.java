@@ -4,15 +4,11 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public interface Movement {
 
-    Pair<Double, Double> getStartingPosition();
-
     Pair<Double, Double> getCurrentPosition();
 
     Pair<Double, Double> getSpeed();
 
     Pair<Double, Double> getAcceleration();
-
-    void setStartingPosition(Pair<Double, Double> startPos);
 
     void setCurrentPosition(Pair<Double, Double> currPos);
 

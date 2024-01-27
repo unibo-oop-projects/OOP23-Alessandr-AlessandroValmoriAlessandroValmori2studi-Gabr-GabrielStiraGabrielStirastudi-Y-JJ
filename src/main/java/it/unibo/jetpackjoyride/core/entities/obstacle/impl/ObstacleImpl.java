@@ -36,7 +36,7 @@ public class ObstacleImpl extends AbstractEntity implements Obstacle {
     }
 
     public boolean isOutOfBounds() {
-        return this.movement.getCurrentPosition().get1() < 0;
+        return this.movement.getCurrentPosition().get1() < -200;
     }
     
 }

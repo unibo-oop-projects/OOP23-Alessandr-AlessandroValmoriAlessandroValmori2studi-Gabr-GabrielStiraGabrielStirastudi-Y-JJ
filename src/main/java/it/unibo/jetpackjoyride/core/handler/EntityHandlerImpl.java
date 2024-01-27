@@ -47,10 +47,10 @@ public class EntityHandlerImpl implements EntityHandler {
     }
 
     public void update() {
-        ciao.getEntityMovement().update();
+        ciao.update();
         view.updateView(ciao);
         if(ciao.isOutOfBounds()) {
-            ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),random.nextDouble()*screen.getHeight()));
+            ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),random.nextDouble()*700));
         }
         System.out.println("Position: " + ciao.getEntityMovement().getCurrentPosition());
     }

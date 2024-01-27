@@ -8,7 +8,6 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public abstract class AbstractMovement implements Movement {
 
-    public Pair<Double, Double> startingPosition;
     public Pair<Double, Double> currentPosition;
     public Pair<Double,Double> xyacceleration;
     public Pair<Double,Double> xyspeed;
@@ -19,24 +18,15 @@ public abstract class AbstractMovement implements Movement {
     public final static Double TIME = 0.1;
 
     public AbstractMovement(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, List<MovementChangers> listOfChangers) {
-        this.startingPosition = startingPosition;
         this.currentPosition = startingPosition;
         this.xyspeed = startingSpeed;
         this.xyacceleration = startingAcceleration;
         this.listOfChangers = listOfChangers;
     }
 
-    public Pair<Double, Double> getStartingPosition() {
-        return this.startingPosition;
-    }
-
+    @Override
     public Pair<Double, Double> getCurrentPosition() {
         return this.currentPosition;
-    }
-
-    @Override
-    public void setStartingPosition(Pair<Double, Double> startPos) {
-        this.startingPosition = startPos;
     }
 
     @Override
@@ -44,18 +34,22 @@ public abstract class AbstractMovement implements Movement {
         this.currentPosition = currPos;
     }
 
+    @Override
     public void setAcceleration(Pair<Double, Double> newAcceleration) {
         this.xyacceleration = newAcceleration;
     }
 
+    @Override
     public Pair<Double, Double> getAcceleration() {
         return this.xyacceleration;
     }
 
+    @Override
     public void setSpeed(Pair<Double, Double> newSpeed) {
         this.xyspeed = newSpeed;
     }
 
+    @Override
     public Pair<Double, Double> getSpeed() {
         return this.xyspeed;
     }
@@ -70,5 +64,6 @@ public abstract class AbstractMovement implements Movement {
 
     public abstract void applyModifiers();
 
+    @Override
     public abstract void update();
 }

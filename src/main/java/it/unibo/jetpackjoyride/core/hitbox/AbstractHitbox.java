@@ -16,11 +16,11 @@ public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double,Double>> hitbox;
     private boolean hitboxStatus = false;
 
-    public AbstractHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions) {
-        createHitbox(hitboxStartingPos, hitboxDimensions);
+    public AbstractHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions, Double startingAngle) {
+        createHitbox(hitboxStartingPos, hitboxDimensions, startingAngle);
     }
 
-    public void createHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions) {
+    public void createHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions, Double startingAngle) {
         final Double width = hitboxDimensions.get1();
         final Double height = hitboxDimensions.get2();
         final Double initialX = hitboxStartingPos.get1() - width/2;
@@ -32,6 +32,8 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX+width, initialY));
         this.hitbox.add(new Pair<>(initialX, initialY+height));
         this.hitbox.add(new Pair<>(initialX+width, initialY+height));
+
+        updateHitbox(hitboxStartingPos, startingAngle);
     }
 
     public void setHitboxOn() {
@@ -54,29 +56,33 @@ public abstract class AbstractHitbox implements Hitbox {
 
         return new Pair<>(maxX-(maxX-minX)/2,maxY-(maxY-minY)/2);
     }
+
+    private Pair<Double,Double> computeNewPoint(Pair<Double,Double> toCompute, Pair<Double,Double> anchor, Double angle) {
+        AffineTransform rotationTransform = new AffineTransform();
+        rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
+
+        Point2D oldPoint = new Point2D.Double();
+        Point2D newPoint= new Point2D.Double();
+
+        oldPoint.setLocation(Double.valueOf(toCompute.get1()), Double.valueOf(toCompute.get2()));
+
+        rotationTransform.transform(oldPoint, newPoint);
+        return new Pair<>(newPoint.getX(), newPoint.getY());
+    }
        
-    public void updateHitbox(Pair<Double, Double> newPosition, Double rotationAngle) {
+    public void updateHitbox(Pair<Double, Double> newPosition, Double angle) {
         final Double newX = newPosition.get1();
         final Double newY = newPosition.get2();
-
-        Pair<Double,Double> oldCenter = computeCenter();
-        
-        AffineTransform rotationTransform = new AffineTransform();
-        rotationTransform.rotate(Math.toRadians(rotationAngle), oldCenter.get1(), oldCenter.get2());
 
         Set<Pair<Double,Double>> newHitbox = new HashSet<>();
 
         for(var elem : this.hitbox) {
-            Point2D oldPoint = new Point2D.Double();
-            Point2D newPoint= new Point2D.Double();
-
-            oldPoint.setLocation(Double.valueOf(elem.get1()), Double.valueOf(elem.get2()));
-
-            rotationTransform.transform(oldPoint, newPoint);
-            newHitbox.add(new Pair<>(newPoint.getX() + (newX - oldCenter.get1()), newPoint.getY() + (newY - oldCenter.get2())));
+            Pair<Double,Double> newPoint = computeNewPoint(elem, computeCenter(), angle);
+            newHitbox.add(new Pair<>(newPoint.get1() + (newX - computeCenter().get1()), newPoint.get2() + (newY - computeCenter().get2())));
         };
 
         this.hitbox = newHitbox;
+        System.out.println(computeCenter());
     }
 
     public boolean isTouching(Pair<Double,Double> pos) {

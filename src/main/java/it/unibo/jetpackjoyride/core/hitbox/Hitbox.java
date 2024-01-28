@@ -18,6 +18,8 @@ public interface Hitbox {
      void setHitboxOff();
 
      boolean isHitboxOn();
+
+     boolean isTouching(Pair<Double, Double> pos);
      
      void updateHitbox(Pair<Double, Double> newPosition, Double rotationAngle);
 

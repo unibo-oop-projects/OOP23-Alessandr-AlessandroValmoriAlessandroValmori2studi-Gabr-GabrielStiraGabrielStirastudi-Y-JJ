@@ -23,7 +23,7 @@ public class EntityHandlerImpl implements EntityHandler {
 
     private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(600.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
 	private final static Movement HOMINGMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT, MovementChangers.HOMING));
-    private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
+    private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(600.0,400.0));
 
     private EntityGenerator entityGenerator;
     private EntityView view;
@@ -53,9 +53,8 @@ public class EntityHandlerImpl implements EntityHandler {
         view.updateView(ciao);
         ciao.getEntityMovement().setRotation(angle++);
         if(ciao.isOutOfBounds()) {
-            ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),random.nextDouble()*700));
+            ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),500.0));
         }
-        //System.out.println("Position: " + ciao.getEntityMovement().getCurrentPosition());
     }
 
     public ImageView getImageView() {

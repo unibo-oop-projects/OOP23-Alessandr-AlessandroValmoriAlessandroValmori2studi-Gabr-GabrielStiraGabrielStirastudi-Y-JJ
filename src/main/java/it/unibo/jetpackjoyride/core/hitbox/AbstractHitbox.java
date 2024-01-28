@@ -1,16 +1,19 @@
 package it.unibo.jetpackjoyride.core.hitbox;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
+
 import java.awt.geom.AffineTransform;
 
 import it.unibo.jetpackjoyride.utilities.Pair;
+import java.awt.Polygon;
+import java.awt.geom.*;
+
+import java.util.*;
 
 
 
 
 public abstract class AbstractHitbox implements Hitbox {
-    private Shape hitbox;
+    private Set<Pair<Double,Double>> hitbox;
     private boolean hitboxStatus = false;
 
     public AbstractHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions) {
@@ -18,12 +21,17 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     public void createHitbox(Pair<Double,Double> hitboxStartingPos, Pair<Double,Double> hitboxDimensions) {
-        final int initialX = hitboxStartingPos.get1().intValue();
-        final int initialY = hitboxStartingPos.get1().intValue();
-        final int width = hitboxDimensions.get1().intValue();
-        final int height = hitboxDimensions.get2().intValue();
+        final Double width = hitboxDimensions.get1();
+        final Double height = hitboxDimensions.get2();
+        final Double initialX = hitboxStartingPos.get1() - width/2;
+        final Double initialY = hitboxStartingPos.get2() - height/2;
 
-        this.hitbox = new Rectangle(initialX, initialY, width, height);
+        this.hitbox = new HashSet<>();
+
+        this.hitbox.add(new Pair<>(initialX, initialY));
+        this.hitbox.add(new Pair<>(initialX+width, initialY));
+        this.hitbox.add(new Pair<>(initialX, initialY+height));
+        this.hitbox.add(new Pair<>(initialX+width, initialY+height));
     }
 
     public void setHitboxOn() {
@@ -37,23 +45,51 @@ public abstract class AbstractHitbox implements Hitbox {
     public boolean isHitboxOn() {
         return this.hitboxStatus;
     }
+
+    private Pair<Double,Double> computeCenter() {
+        Double maxX = this.hitbox.stream().mapToDouble(p -> p.get1()).max().getAsDouble();
+        Double minX = this.hitbox.stream().mapToDouble(p -> p.get1()).min().getAsDouble();
+        Double maxY = this.hitbox.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
+        Double minY = this.hitbox.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
+
+        return new Pair<>(maxX-(maxX-minX)/2,maxY-(maxY-minY)/2);
+    }
        
     public void updateHitbox(Pair<Double, Double> newPosition, Double rotationAngle) {
-        final int newX = newPosition.get1().intValue();
-        final int newY = newPosition.get2().intValue();
+        final Double newX = newPosition.get1();
+        final Double newY = newPosition.get2();
 
-        AffineTransform rotationTransform = new AffineTransform();
-
-        rotationTransform.rotate(Math.toRadians(rotationAngle), this.hitbox.getBounds().getCenterX(), this.hitbox.getBounds().getCenterY());
-
-        Shape rotatedHitbox = rotationTransform.createTransformedShape(this.hitbox).getBounds();
-
-        //System.out.println("X rel: " + this.hitbox.getBounds().getCenterX() + " Y rel: " + this.hitbox.getBounds().getCenterY());
-        //System.out.println("X: " + rotatedHitbox.getBounds().getCenterX() + " Y: " + rotatedHitbox.getBounds().getCenterY());
+        Pair<Double,Double> oldCenter = computeCenter();
         
+        AffineTransform rotationTransform = new AffineTransform();
+        rotationTransform.rotate(Math.toRadians(rotationAngle), oldCenter.get1(), oldCenter.get2());
+
+        Set<Pair<Double,Double>> newHitbox = new HashSet<>();
+
+        for(var elem : this.hitbox) {
+            Point2D oldPoint = new Point2D.Double();
+            Point2D newPoint= new Point2D.Double();
+
+            oldPoint.setLocation(Double.valueOf(elem.get1()), Double.valueOf(elem.get2()));
+
+            rotationTransform.transform(oldPoint, newPoint);
+            newHitbox.add(new Pair<>(newPoint.getX() + (newX - oldCenter.get1()), newPoint.getY() + (newY - oldCenter.get2())));
+        };
+
+        this.hitbox = newHitbox;
+    }
+
+    public boolean isTouching(Pair<Double,Double> pos) {
+        Polygon allPoints = new Polygon();
+
+        for(var vertex : this.hitbox) {
+            allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue());
+        }
+
+        return allPoints.contains(pos.get1(), pos.get2());
     }
 
     public Pair<Double,Double> getHitboxPosition() {
-        return new Pair<>(this.hitbox.getBounds().getCenterX(), this.hitbox.getBounds().getCenterY());
+        return computeCenter();
     }
 }

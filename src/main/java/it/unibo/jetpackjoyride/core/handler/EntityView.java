@@ -20,7 +20,7 @@ public class EntityView {
         imageView.setY(entity.getEntityMovement().getCurrentPosition().get2());
         imageView.setFitWidth(200);
         imageView.setFitHeight(50);
-        imageView.setRotate(entity.getEntityMovement().getRotation());
+        imageView.setRotate(entity.getEntityMovement().getRotation().get1());
 
 
         imageView.setImage(images[animationFrame]);

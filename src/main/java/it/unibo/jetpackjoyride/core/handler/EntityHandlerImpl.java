@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.core.handler;
 import java.util.List;
-import java.util.Random;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
@@ -21,20 +20,19 @@ import java.awt.Toolkit;
 
 public class EntityHandlerImpl implements EntityHandler {
 
-    private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(600.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
-	private final static Movement HOMINGMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT, MovementChangers.HOMING));
-    private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(600.0,400.0));
+    private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(600.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
+    private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(600.0,400.0), 0.0);
 
     private EntityGenerator entityGenerator;
     private EntityView view;
     private ObstacleImpl ciao;
-    private Random random = new Random();
     final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    private double angle=0;
+    private double angle=5;
 
     public void initialize() {
         entityGenerator = new EntityGeneratorImpl();
         ciao = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMOVEMENT, MISSILEHITBOX);
+        ciao.getEntityMovement().setRotation(new Pair<>(0.0, angle));
 
         int index=0;
         Image[] images = new Image[35];
@@ -51,7 +49,6 @@ public class EntityHandlerImpl implements EntityHandler {
     public void update() {
         ciao.update();
         view.updateView(ciao);
-        ciao.getEntityMovement().setRotation(angle++);
         if(ciao.isOutOfBounds()) {
             ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),500.0));
         }

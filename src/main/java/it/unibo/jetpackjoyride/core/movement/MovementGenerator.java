@@ -12,19 +12,25 @@ public class MovementGenerator {
     private Pair<Double,Double> currentPos;
     private Pair<Double,Double> speed;
     private Pair<Double,Double> acceleration;
-    private Double rotationAngle;
+    private Pair<Double, Double> rotationInfo;
 
     private List<MovementChangers> listOfModifiers = new ArrayList<>();
 
     public enum MovementChangers{
-        DEFAULT, DIAGONALUP, DIAGONALDOWN, BOUNCING, HOMING, SLOW, SPEEDY,
+        DEFAULT, // Default speed set in DEFAULTSPEED, no special/custom effects that change the physics of movement
+        DIAGONALUP, // Same speed is set for both x and y velocity, creating a diagonal trajectory (UP)
+        DIAGONALDOWN, // Same speed is set for both x and y velocity (now inverted), creating a diagonal trajectory (DOWN)
+        BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
+        HOMING, // Acceleration of y in changed based on the y difference between the player entity and this entity
+        SLOW, // Slower speed set by the SLOWMODIFIER
+        SPEEDY, // Faster speed set by the SPEEDYMODIFIER
     }
 
-    public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration) {
+    public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo) {
         this.currentPos = startingPosition;
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
-        this.rotationAngle = 0.0;
+        this.rotationInfo = rotationInfo;
         setMovementChangers(List.of(MovementChangers.DEFAULT));
     }
 
@@ -44,18 +50,18 @@ public class MovementGenerator {
                     break;
                 case DIAGONALUP:
                     this.speed = new Pair<>(this.speed.get1(), this.speed.get1());
-                    this.rotationAngle = 45.0;
+                    this.rotationInfo = new Pair<>(45.0, this.rotationInfo.get2());
                     break;
                 case DIAGONALDOWN:
                     this.speed = new Pair<>(this.speed.get1(), -this.speed.get1());
-                    this.rotationAngle = -45.0;
+                    this.rotationInfo = new Pair<>(-45.0, this.rotationInfo.get2());
                 default:
                     break;
             }
         }
 
 
-        return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.listOfModifiers, this.rotationAngle) {
+        return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.rotationInfo, this.listOfModifiers) {
 
             @Override
             public void update() {
@@ -64,6 +70,7 @@ public class MovementGenerator {
                 xyspeed = new Pair<>(xyspeed.get1() + xyacceleration.get1() * TIME , xyspeed.get2() + xyacceleration.get2() * TIME);
                 /* S = V * T */
                 currentPosition = new Pair<>(currentPosition.get1() + xyspeed.get1() * TIME, currentPosition.get2() + xyspeed.get2() * TIME);
+                rotationInfo = new Pair<>(rotationInfo.get1()+rotationInfo.get2(), rotationInfo.get2());
             }
 
             @Override
@@ -77,7 +84,7 @@ public class MovementGenerator {
                 if(listOfChangers.contains(MovementChangers.BOUNCING)) {
                     if(currentPosition.get2()<0 || currentPosition.get2()>700) {
                         xyspeed = new Pair<>(xyspeed.get1(), -xyspeed.get2());
-                        rotationAngle = -rotationAngle;
+                        rotationInfo = new Pair<>(-rotationInfo.get1(),rotationInfo.get2());
                     }
                 }
             }

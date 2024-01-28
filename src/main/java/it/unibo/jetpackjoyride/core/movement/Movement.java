@@ -10,7 +10,7 @@ public interface Movement {
 
     Pair<Double, Double> getAcceleration();
 
-    Double getRotation();
+    Pair<Double, Double> getRotation();
 
     void setCurrentPosition(Pair<Double, Double> currPos);
 
@@ -18,7 +18,7 @@ public interface Movement {
 
     void setSpeed(Pair<Double, Double> newSpeed);
 
-    void setRotation(Double newRotationAngle);
+    void setRotation(Pair<Double, Double> newRotationAngle);
 
     void update();
 }

@@ -21,7 +21,7 @@ public class EntityView {
         imageView.setFitWidth(200);
         imageView.setFitHeight(50);
         imageView.setRotate(entity.getEntityMovement().getRotation());
-  
+
 
         imageView.setImage(images[animationFrame]);
         animationFrame = (animationFrame + 1) % images.length;

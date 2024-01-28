@@ -21,7 +21,7 @@ import java.awt.Toolkit;
 
 public class EntityHandlerImpl implements EntityHandler {
 
-    private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
+    private final static Movement DEFAULTMOVEMENT = new MovementGenerator(new Pair<>(600.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT));
 	private final static Movement HOMINGMOVEMENT = new MovementGenerator(new Pair<>(1200.0,800.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT, MovementChangers.HOMING));
     private final static Hitbox MISSILEHITBOX = new MissileHitbox(new Pair<>(0.0, 0.0));
 
@@ -30,10 +30,11 @@ public class EntityHandlerImpl implements EntityHandler {
     private ObstacleImpl ciao;
     private Random random = new Random();
     final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    private double angle=0;
 
     public void initialize() {
         entityGenerator = new EntityGeneratorImpl();
-        ciao = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, HOMINGMOVEMENT, MISSILEHITBOX);
+        ciao = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, DEFAULTMOVEMENT, MISSILEHITBOX);
 
         int index=0;
         Image[] images = new Image[35];
@@ -50,10 +51,11 @@ public class EntityHandlerImpl implements EntityHandler {
     public void update() {
         ciao.update();
         view.updateView(ciao);
+        ciao.getEntityMovement().setRotation(angle++);
         if(ciao.isOutOfBounds()) {
             ciao.getEntityMovement().setCurrentPosition(new Pair<>(screen.getWidth(),random.nextDouble()*700));
         }
-        System.out.println("Position: " + ciao.getEntityMovement().getCurrentPosition());
+        //System.out.println("Position: " + ciao.getEntityMovement().getCurrentPosition());
     }
 
     public ImageView getImageView() {

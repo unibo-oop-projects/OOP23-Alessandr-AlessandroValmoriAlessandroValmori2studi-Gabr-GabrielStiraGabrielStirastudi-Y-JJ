@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import java.util.*;
 
 /** */
-public class GameLoop {
+public class GameLoop   {
     public static final int MAP_WIDTH = 1200; 
     public static final int MAP_HEIGHT = 800;
 
@@ -68,6 +68,7 @@ public class GameLoop {
              
         };
     }
+
 
     private void update(){ 
         updateScreenSize();

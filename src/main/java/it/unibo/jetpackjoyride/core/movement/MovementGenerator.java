@@ -24,6 +24,7 @@ public class MovementGenerator {
         HOMING, // Acceleration of y in changed based on the y difference between the player entity and this entity
         SLOW, // Slower speed set by the SLOWMODIFIER
         SPEEDY, // Faster speed set by the SPEEDYMODIFIER
+        STATIC // No velocity, the object is still and doesn't move
     }
 
     public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo) {
@@ -31,7 +32,7 @@ public class MovementGenerator {
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
         this.rotationInfo = rotationInfo;
-        setMovementChangers(List.of(MovementChangers.DEFAULT));
+        setMovementChangers(List.of());
     }
 
     public Movement setMovementChangers(List<MovementChangers> listOfChangers) {
@@ -55,6 +56,8 @@ public class MovementGenerator {
                 case DIAGONALDOWN:
                     this.speed = new Pair<>(this.speed.get1(), -this.speed.get1());
                     this.rotationInfo = new Pair<>(-45.0, this.rotationInfo.get2());
+                case STATIC:
+                    this.speed = new Pair<>(0.0,0.0);
                 default:
                     break;
             }
@@ -86,6 +89,11 @@ public class MovementGenerator {
                         xyspeed = new Pair<>(xyspeed.get1(), -xyspeed.get2());
                         rotationInfo = new Pair<>(-rotationInfo.get1(),rotationInfo.get2());
                     }
+                }
+
+                if(currentPosition.get1() < -200) {
+                    Random random = new Random();
+                    currentPosition = new Pair<>(1200.0, 800*random.nextDouble());
                 }
             }
             

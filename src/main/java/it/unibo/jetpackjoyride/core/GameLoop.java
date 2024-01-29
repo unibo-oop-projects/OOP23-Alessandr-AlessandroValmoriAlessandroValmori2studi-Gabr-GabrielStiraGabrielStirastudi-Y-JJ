@@ -51,7 +51,7 @@ public class GameLoop {
         // TEMPORARY
         root.getChildren().add((Node)map);
         for (ObstacleController obstacle : obstaclesControllers) {
-            root.getChildren().add(obstacle.getImageView());
+            root.getChildren().add((Node)obstacle.getImageView());
         }
     }
 

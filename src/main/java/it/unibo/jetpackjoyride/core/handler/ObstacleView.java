@@ -9,11 +9,13 @@ public class ObstacleView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
+    private int divisor;
 
     public ObstacleView(Image[] images) {
         this.images = images;
         imageView = new ImageView();
         this.animationFrame = 0;
+        this.divisor = 0;
     }
 
     public void updateView(ObstacleImpl obstacle) {
@@ -21,12 +23,30 @@ public class ObstacleView {
         imageView.setY(obstacle.getEntityMovement().getCurrentPosition().get2());
         imageView.setRotate(obstacle.getEntityMovement().getRotation().get1());
 
-        if(obstacle.getObstacleType().equals(ObstacleType.MISSILE)) {
-            imageView.setFitWidth(200);
-            imageView.setFitHeight(50);
+        double width;
+        double height;
+
+        switch (obstacle.getObstacleType()) {
+            case MISSILE:
+                width=200;
+                height=50;
+                divisor=0;
+                break;
+            case ZAPPER:
+                width=300;
+                height=100;
+                divisor=0;
+            default:
+                width=200;
+                height=50;
+                divisor=0;
+                break;
         }
 
-        imageView.setImage(images[animationFrame]);
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+
+        imageView.setImage(images[divisor + animationFrame]);
         animationFrame = (animationFrame + 1) % images.length;
 
     }

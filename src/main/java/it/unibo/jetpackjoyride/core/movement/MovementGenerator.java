@@ -5,7 +5,7 @@ import java.util.*;
 
 public class MovementGenerator {
 
-    private final static Pair<Double,Double> DEFAULTSPEED = new Pair<>(-100.0, 0.0);
+    private final static Pair<Double,Double> DEFAULTSPEED = new Pair<>(-50.0, 0.0);
     private final static Double SPEEDYMODIFIER = 1.5;
     private final static Double SLOWMODIFIER = 0.7;
 

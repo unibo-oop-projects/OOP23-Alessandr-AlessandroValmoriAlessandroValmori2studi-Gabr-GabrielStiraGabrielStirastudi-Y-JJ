@@ -82,7 +82,6 @@ public abstract class AbstractHitbox implements Hitbox {
         };
 
         this.hitbox = newHitbox;
-        System.out.println(computeCenter());
     }
 
     public boolean isTouching(Pair<Double,Double> pos) {

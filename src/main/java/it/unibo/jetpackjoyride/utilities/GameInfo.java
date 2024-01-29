@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.utilities;
 
 
 public class GameInfo {
+    public static final int MAP_WIDTH = 1200; 
+    public static final int MAP_HEIGHT = 800;
+
     public static int moveSpeed = 2;
 
     private double screenWidth;
@@ -9,9 +12,9 @@ public class GameInfo {
     private double screenRatio;
     
 
-    public GameInfo(double screenWidth, double screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    public GameInfo() {
+        this.screenWidth = MAP_WIDTH;
+        this.screenHeight = MAP_HEIGHT;
         this.screenRatio = this.screenWidth/this.screenHeight;
     }
 

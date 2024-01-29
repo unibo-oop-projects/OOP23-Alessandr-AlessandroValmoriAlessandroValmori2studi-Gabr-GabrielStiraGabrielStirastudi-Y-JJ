@@ -12,9 +12,7 @@ import javafx.scene.layout.Pane;
 
 /** */
 public class GameLoop {
-    public static final int MAP_WIDTH = 1200; 
-    public static final int MAP_HEIGHT = 800;
-
+   
     private Scene gameScene;
     private GameInfo gameInfo;
     private AnimationTimer timer;
@@ -32,11 +30,12 @@ public class GameLoop {
 
     private void initializeScene() {
         root = new Pane();
-        gameScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
+        gameInfo = new GameInfo();
+        gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
     }
 
     private void initializeGameElements(){
-        gameInfo = new GameInfo(MAP_WIDTH, MAP_HEIGHT);
+        
         map = new MapBackgroundImpl(gameInfo);
         /* TEMPORANEO*/
         //entities = new EntityHandlerImpl();

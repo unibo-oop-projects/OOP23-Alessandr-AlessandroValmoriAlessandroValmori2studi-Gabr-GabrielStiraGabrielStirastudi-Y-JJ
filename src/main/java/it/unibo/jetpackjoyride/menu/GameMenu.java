@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -15,64 +17,73 @@ import java.awt.Toolkit;
 public class GameMenu {
     private static final int MAP_WIDTH = 800; 
     private static final int MAP_HEIGHT = 600;
+    private static final int PORTION = 4;
+    private static final int BUTTON_POS_X = 350;
+    private static final int BUTTON_POS_Y  = 430;
+    private static final int BUTTON_SPACE = 40;
+
 
     private Scene menuScene;
     private Stage mainStage;
     private Pane root;
-    private Button startButton;
-    private Button shopButton;
-    private Button exitButton;
     private Image menuImage;
     private ImageView menuImageView;
 
+    private GameLoop gameLoop;
+
     public GameMenu(Stage primaryStage, GameLoop gameLoop){
-        String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
-        menuImage = new Image(menuImgUrl);
-        menuImageView = new ImageView(menuImage);
-        menuImageView.setFitHeight(MAP_HEIGHT);
-        menuImageView.setFitWidth(MAP_WIDTH);
-        
+        this.gameLoop = gameLoop;
         mainStage = primaryStage;
-         startButton = new Button("Start Game");
-         startButton.setOnAction(e -> {
-            mainStage.setScene(gameLoop.getScene());
-
-            final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-            final int sw = (int) screen.getWidth();
-            final int sh = (int) screen.getHeight();
-            mainStage.setX(sw/7);
-            mainStage.setY(sh/18);
-        });
-         
-        shopButton = new Button("Shop");
-         shopButton.setOnAction(e -> {
-            System.out.println("Shop not exist");
-        });
-
-         exitButton = new Button("Exit");
-         exitButton.setOnAction(e -> {
-            System.exit(0);
-        });
-
-        startButton.setTranslateX(350); 
-        startButton.setTranslateY(430); 
-
-        shopButton.setTranslateX(350);
-        shopButton.setTranslateY(470);
-
-        exitButton.setTranslateX(350);
-        exitButton.setTranslateY(510);
-
-
-         root = new Pane();
-         root.getChildren().add(menuImageView);
-         root.getChildren().addAll(startButton,shopButton,exitButton);
-         menuScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
+        initializeGameMenu();
+        addButtons();
           
     }
 
     public Scene getScene(){
         return this.menuScene;
+    }
+
+    private void initializeGameMenu(){
+        String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
+        menuImage = new Image(menuImgUrl);
+        menuImageView = new ImageView(menuImage);
+        menuImageView.setFitHeight(MAP_HEIGHT);
+        menuImageView.setFitWidth(MAP_WIDTH);
+
+        root = new Pane(menuImageView);
+        menuScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
+
+        this.mainStage.setScene(menuScene);
+    }
+
+    private void addButtons(){
+         Button startButton = createButton("Start Game", 0, e -> {
+            mainStage.setScene(gameLoop.getScene());
+            setGameStagePosition();     
+        });
+         Button shopButton = createButton("Shop", 1, e -> {
+            System.out.println("Shop not exist");
+        });
+         Button exitButton = createButton("Exit", 2, e -> {
+            System.exit(0);
+        });
+        root.getChildren().addAll(startButton,shopButton,exitButton);
+    }
+
+    private Button createButton(String name, int index, EventHandler<ActionEvent> action){
+        Button button = new Button(name);
+        button.setOnAction(action);
+        button.setTranslateX(BUTTON_POS_X);
+        button.setTranslateY(BUTTON_POS_Y + (BUTTON_SPACE * index));
+        return button;
+    }
+
+    private void setGameStagePosition(){
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double sw = screenSize.getWidth();
+        double sh = screenSize.getHeight();
+        mainStage.setX((sw - MAP_WIDTH) / PORTION);
+        mainStage.setY((sh - MAP_HEIGHT) / PORTION);
     }
 
 

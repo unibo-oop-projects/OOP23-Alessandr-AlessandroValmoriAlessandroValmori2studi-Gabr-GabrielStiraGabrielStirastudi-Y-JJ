@@ -92,6 +92,7 @@ public class GameLoop implements Runnable{
 
     public void endLoop(){
         this.isRunning = false;
+        chunkMaker.over();
     }
     
     public Scene getScene(){

@@ -10,9 +10,11 @@ public class ChunkMakerImpl implements ChunkMaker{
     ObstacleSpawner obstacleSpawner;
     List<ObstacleController> listOfControllers;
     Thread chunkMaker;
+    private boolean isRunning =false;
 
     public void initialize() {
         listOfControllers = new ArrayList<>();
+        isRunning = true;
         obstacleSpawner = new ObstacleSpawner();
         chunkMaker = new Thread(this);
         this.start();
@@ -20,7 +22,7 @@ public class ChunkMakerImpl implements ChunkMaker{
 
     @Override
     public void run(){
-        while(true) {
+        while(isRunning) {
             this.listOfControllers.addAll(obstacleSpawner.generateChunk());
             try {
                 Thread.sleep(3000);
@@ -28,6 +30,10 @@ public class ChunkMakerImpl implements ChunkMaker{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void over(){
+        isRunning=false;
     }
 
     @Override

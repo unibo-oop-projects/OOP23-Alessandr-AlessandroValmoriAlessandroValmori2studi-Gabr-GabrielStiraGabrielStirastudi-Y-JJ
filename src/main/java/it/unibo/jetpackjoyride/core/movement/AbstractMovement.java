@@ -8,35 +8,27 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public abstract class AbstractMovement implements Movement {
 
-    public Pair<Double, Double> startingPosition;
     public Pair<Double, Double> currentPosition;
     public Pair<Double,Double> xyacceleration;
     public Pair<Double,Double> xyspeed;
+    public Pair<Double,Double> rotationInfo;
 
     private List<MovementChangers> listOfChangers = new ArrayList<>();
 
-    public final static Pair<Double,Double> playerPos = new Pair<>(0.0, 10.0);
+    public final static Pair<Double,Double> playerPos = new Pair<>(100.0, 400.0);
     public final static Double TIME = 0.1;
 
-    public AbstractMovement(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, List<MovementChangers> listOfChangers) {
-        this.startingPosition = startingPosition;
+    public AbstractMovement(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo, List<MovementChangers> listOfChangers) {
         this.currentPosition = startingPosition;
         this.xyspeed = startingSpeed;
         this.xyacceleration = startingAcceleration;
         this.listOfChangers = listOfChangers;
-    }
-
-    public Pair<Double, Double> getStartingPosition() {
-        return this.startingPosition;
-    }
-
-    public Pair<Double, Double> getCurrentPosition() {
-        return this.currentPosition;
+        this.rotationInfo = rotationInfo;
     }
 
     @Override
-    public void setStartingPosition(Pair<Double, Double> startPos) {
-        this.startingPosition = startPos;
+    public Pair<Double, Double> getCurrentPosition() {
+        return this.currentPosition;
     }
 
     @Override
@@ -44,18 +36,22 @@ public abstract class AbstractMovement implements Movement {
         this.currentPosition = currPos;
     }
 
+    @Override
     public void setAcceleration(Pair<Double, Double> newAcceleration) {
         this.xyacceleration = newAcceleration;
     }
 
+    @Override
     public Pair<Double, Double> getAcceleration() {
         return this.xyacceleration;
     }
 
+    @Override
     public void setSpeed(Pair<Double, Double> newSpeed) {
         this.xyspeed = newSpeed;
     }
 
+    @Override
     public Pair<Double, Double> getSpeed() {
         return this.xyspeed;
     }
@@ -64,11 +60,20 @@ public abstract class AbstractMovement implements Movement {
         return this.listOfChangers;
     }
 
-    public void setMovementChangers( List<MovementChangers> listOfChangers) {
+    public void setMovementChangers(List<MovementChangers> listOfChangers) {
         this.listOfChangers = listOfChangers;
+    }
+
+    public void setRotation(Pair<Double, Double> newRotationInfo) {
+        this.rotationInfo = newRotationInfo;
+    }
+
+    public Pair<Double, Double> getRotation() {
+        return this.rotationInfo;
     }
 
     public abstract void applyModifiers();
 
+    @Override
     public abstract void update();
 }

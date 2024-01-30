@@ -83,9 +83,6 @@ public class GameLoop implements Runnable{
         });
     }
     
-
- 
-
     public void starLoop(){
         this.isRunning = true;
     }

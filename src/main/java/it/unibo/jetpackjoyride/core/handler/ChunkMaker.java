@@ -10,4 +10,5 @@ public interface ChunkMaker extends Runnable {
     void updateModel();
     void run();
     void start();
+    void over();
 } 

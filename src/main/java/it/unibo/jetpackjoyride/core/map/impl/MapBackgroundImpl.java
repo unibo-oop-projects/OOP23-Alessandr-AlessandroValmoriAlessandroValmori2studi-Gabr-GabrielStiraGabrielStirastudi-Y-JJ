@@ -5,9 +5,11 @@ import java.net.URL;
 
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+
 
 
 
@@ -20,6 +22,7 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
     private double bgImageX1, bgImageX2;
     private double mapWidth;
     private double mapHeight;
+    TranslateTransition transition1 ,transition2;
 
     private GameInfo gameInfo;
 
@@ -32,8 +35,10 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         loadBackgroungImage();
         
     }
+
+     
     
-    @Override
+   
     public void updateBackgroundModel() {
 
         updateSize();
@@ -46,16 +51,16 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         if (bgImageX2 <= -mapWidth) {
             bgImageX2 = bgImageX1 + mapWidth;
         }
-    
+
+        
         bgImageView1.setX(bgImageX1);
         bgImageView2.setX(bgImageX2);
+    
     }
 
-    @Override
+    
     public void updateBackgroundView() {
 
-        updateSize();
-    
         bgImageView1.setX(bgImageX1);
         bgImageView2.setX(bgImageX2);
     }
@@ -115,4 +120,7 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
             bImageView.setFitWidth(width);
             bImageView.setFitHeight(height);
     }
+
+
+    
 }

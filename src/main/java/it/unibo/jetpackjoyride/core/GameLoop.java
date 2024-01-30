@@ -20,6 +20,7 @@ public class GameLoop implements Runnable{
     private MapBackground map;
     private ChunkMakerImpl chunkMaker;
     Pane root ;
+    private Pane gameElementsPane;
     private boolean isRunning;
 
 
@@ -32,6 +33,7 @@ public class GameLoop implements Runnable{
 
     private void initializeScene() {
         root = new Pane();
+        gameElementsPane = new Pane();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         setupTimer();
@@ -44,7 +46,7 @@ public class GameLoop implements Runnable{
         chunkMaker = new ChunkMakerImpl();
         chunkMaker.initialize();
 
-        root.getChildren().add((Node)map);
+        root.getChildren().addAll((Node)map,gameElementsPane);
     }
 
     private void setupTimer(){
@@ -68,7 +70,7 @@ public class GameLoop implements Runnable{
 
     private void updateView(){
         map.updateBackgroundView();
-        chunkMaker.updateView(root);
+        chunkMaker.updateView(gameElementsPane);
     }
 
     private void updateScreenSize() {
@@ -89,7 +91,6 @@ public class GameLoop implements Runnable{
  
 
     public void starLoop(){
-        timer.start();
         this.isRunning = true;
     }
 

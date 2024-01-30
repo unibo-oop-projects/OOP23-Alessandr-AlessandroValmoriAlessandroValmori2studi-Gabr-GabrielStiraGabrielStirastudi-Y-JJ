@@ -1,9 +1,8 @@
 package it.unibo.jetpackjoyride.core;
 
-// TEMPORARY
-import it.unibo.jetpackjoyride.core.handler.ChunkSpawner;
+
+import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
 import it.unibo.jetpackjoyride.core.handler.ObstacleController;
-// TEMPORARY
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -13,22 +12,16 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-import java.util.*;
-
-/** */
 public class GameLoop implements Runnable{
    
     private Scene gameScene;
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    // TEMPORARY
-    private ChunkSpawner chunkspawner;
-    // TEMPORARY
+    private ChunkMakerImpl chunkMaker;
     Pane root ;
     private boolean isRunning;
 
-    private List<ObstacleController> obstaclesControllers;
 
     public GameLoop(){
         this.isRunning = false;
@@ -46,15 +39,11 @@ public class GameLoop implements Runnable{
     private void initializeGameElements(){
         
         map = new MapBackgroundImpl(gameInfo);
-        // TEMPORARY
-        chunkspawner = new ChunkSpawner();
-        chunkspawner.initialize();
-        obstaclesControllers = chunkspawner.generateChunk();
-        // TEMPORARY
+
+        chunkMaker = new ChunkMakerImpl();
+        chunkMaker.initialize();
+
         root.getChildren().add((Node)map);
-        for (ObstacleController obstacle : obstaclesControllers) {
-            root.getChildren().add(obstacle.getImageView());
-        }
     }
 
     private void setupTimer(){
@@ -64,7 +53,6 @@ public class GameLoop implements Runnable{
             public void handle(long now) {
             
             }
-             
         };
     }
 
@@ -72,17 +60,13 @@ public class GameLoop implements Runnable{
     private void updateModel(){ 
         updateScreenSize();
         map.updateBackgroundModel();
-        for (ObstacleController obstacle : obstaclesControllers) {
-            obstacle.updateModel();
-        }
+        chunkMaker.updateModel();
         
     }
 
     private void updateView(){
         map.updateBackgroundView();
-        for (ObstacleController obstacle : obstaclesControllers) {
-            obstacle.updateView();
-        }
+        chunkMaker.updateView(root);
     }
 
     private void updateScreenSize() {

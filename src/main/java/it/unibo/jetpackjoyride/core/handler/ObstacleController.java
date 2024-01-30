@@ -3,9 +3,6 @@ package it.unibo.jetpackjoyride.core.handler;
 import javafx.scene.image.ImageView;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
-import it.unibo.jetpackjoyride.utilities.Pair;
-
-import java.util.*;
 
 public class ObstacleController {
     private ObstacleImpl model;
@@ -16,21 +13,16 @@ public class ObstacleController {
         this.view = view;
     }
 
-    public void updateView() {
-        
-        view.updateView(model);
-
-        if(model.isOutOfBounds()) {
-            Random random = new Random();
-            model.getEntityMovement().setCurrentPosition(new Pair<>(1200.0, 700.0*random.nextDouble()));
-        }
-    }
-
-    public void updateModel(){
-        model.update();
+    public void update() {
+        this.model.update();
+        this.view.updateView(model);
     }
 
     public ImageView getImageView() {
-        return view.getImageView();
+        return this.view.getImageView();
+    }
+
+    public ObstacleImpl getObstacleModel() {
+        return this.model;
     }
 }

@@ -21,7 +21,6 @@ public class GameLoop {
     private AnimationTimer timer;
     private MapBackground map;
     private ChunkMakerImpl chunkMaker;
-    private Thread chunkThread;
     Pane root ;
 
 
@@ -53,7 +52,6 @@ public class GameLoop {
             public void handle(long now) {
                 update();
             }
-             
         };
     }
 

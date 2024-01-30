@@ -28,6 +28,7 @@ public class GameMenu {
     private Pane root;
     private Image menuImage;
     private ImageView menuImageView;
+   
 
     private GameLoop gameLoop;
 
@@ -42,6 +43,7 @@ public class GameMenu {
     public Scene getScene(){
         return this.menuScene;
     }
+
 
     private void initializeGameMenu(){
         String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
@@ -59,7 +61,12 @@ public class GameMenu {
     private void addButtons(){
          Button startButton = createButton("Start Game", 0, e -> {
             mainStage.setScene(gameLoop.getScene());
-            setGameStagePosition();     
+            setGameStagePosition(); 
+            this.startLoop();
+            mainStage.setOnCloseRequest(event -> {
+              gameLoop.endLoop();
+            });
+        
         });
          Button shopButton = createButton("Shop", 1, e -> {
             System.out.println("Shop not exist");
@@ -86,5 +93,10 @@ public class GameMenu {
         mainStage.setY((sh - MAP_HEIGHT) / PORTION);
     }
 
+    private void startLoop(){
+        gameLoop.starLoop();
+        Thread gameThread = new Thread(gameLoop);
+        gameThread.start();
+    }
 
 }

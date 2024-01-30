@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -15,7 +16,7 @@ import javafx.scene.layout.Pane;
 import java.util.*;
 
 /** */
-public class GameLoop {
+public class GameLoop implements Runnable{
    
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -25,13 +26,15 @@ public class GameLoop {
     private ChunkSpawner chunkspawner;
     // TEMPORARY
     Pane root ;
+    private boolean isRunning;
 
     private List<ObstacleController> obstaclesControllers;
 
     public GameLoop(){
+        this.isRunning = false;
         initializeScene();
         initializeGameElements();
-        setupTimer();
+     
     }
 
     private void initializeScene() {
@@ -59,19 +62,27 @@ public class GameLoop {
 
             @Override
             public void handle(long now) {
-                update();
-                for (ObstacleController obstacle : obstaclesControllers) {
-                    obstacle.update();
-                }
+            
             }
              
         };
     }
 
 
-    private void update(){ 
+    private void updateModel(){ 
         updateScreenSize();
-        map.updateBackground();
+        map.updateBackgroundModel();
+        for (ObstacleController obstacle : obstaclesControllers) {
+            obstacle.updateModel();
+        }
+        
+    }
+
+    private void updateView(){
+        map.updateBackgroundView();
+        for (ObstacleController obstacle : obstaclesControllers) {
+            obstacle.updateView();
+        }
     }
 
     private void updateScreenSize() {
@@ -92,13 +103,52 @@ public class GameLoop {
  
 
     public void starLoop(){
-        timer.start();
+        this.isRunning = true;
+    }
+
+    public void endLoop(){
+        this.isRunning = false;
     }
     
-
-
     public Scene getScene(){
         return this.gameScene;
     }
+
+    @Override
+       public void run() {
+           long lastTime = System.nanoTime();
+           double amountOfTicks = 60.0;
+           double ns = 1000000000 / amountOfTicks;
+           double delta = 0;
+           long timer = System.currentTimeMillis();
+           int updates = 0;
+           int frames = 0;
+   
+           while (isRunning) {
+               long now = System.nanoTime();
+               delta += (now - lastTime) / ns;
+               lastTime = now;
+               while (delta >= 1) {
+
+                updateModel();
+                
+                Platform.runLater(()->{
+                  updateView();
+                });
+              
+                   updates++;
+                   delta--;
+               }
+   
+               frames++;
+   
+               if (System.currentTimeMillis() - timer > 1000) {
+                   timer += 1000;
+                   updates = 0;
+                   frames = 0;
+               }
+            }
+        }
+
 
 }

@@ -18,8 +18,6 @@ public class GameApp extends Application {
 
         primaryStage.setScene(gameMenu.getScene());
         primaryStage.show();
-
-        gameLoop.starLoop();
     }
 
 

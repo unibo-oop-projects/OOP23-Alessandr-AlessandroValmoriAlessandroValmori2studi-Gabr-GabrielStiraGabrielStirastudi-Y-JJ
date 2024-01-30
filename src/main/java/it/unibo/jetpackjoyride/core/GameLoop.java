@@ -1,9 +1,8 @@
 package it.unibo.jetpackjoyride.core;
 
-// TEMPORARY
-import it.unibo.jetpackjoyride.core.handler.ChunkSpawner;
+
+import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
 import it.unibo.jetpackjoyride.core.handler.ObstacleController;
-// TEMPORARY
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -11,8 +10,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-
-import java.util.*;
 
 /** */
 public class GameLoop {
@@ -23,12 +20,10 @@ public class GameLoop {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    // TEMPORARY
-    private ChunkSpawner chunkspawner;
-    // TEMPORARY
+    private ChunkMakerImpl chunkMaker;
+    private Thread chunkThread;
     Pane root ;
 
-    private List<ObstacleController> obstaclesControllers;
 
     public GameLoop(){
         initializeScene();
@@ -44,15 +39,11 @@ public class GameLoop {
     private void initializeGameElements(){
         gameInfo = new GameInfo(MAP_WIDTH, MAP_HEIGHT);
         map = new MapBackgroundImpl(gameInfo);
-        // TEMPORARY
-        chunkspawner = new ChunkSpawner();
-        chunkspawner.initialize();
-        obstaclesControllers = chunkspawner.generateChunk();
-        // TEMPORARY
+
+        chunkMaker = new ChunkMakerImpl();
+        chunkMaker.initialize();
+
         root.getChildren().add((Node)map);
-        for (ObstacleController obstacle : obstaclesControllers) {
-            root.getChildren().add((Node)obstacle.getImageView());
-        }
     }
 
     private void setupTimer(){
@@ -61,9 +52,6 @@ public class GameLoop {
             @Override
             public void handle(long now) {
                 update();
-                for (ObstacleController obstacle : obstaclesControllers) {
-                    obstacle.update();
-                }
             }
              
         };
@@ -72,6 +60,7 @@ public class GameLoop {
     private void update(){ 
         updateScreenSize();
         map.updateBackground();
+        chunkMaker.update(root);
     }
 
     private void updateScreenSize() {

@@ -34,6 +34,7 @@ public class GameLoop implements Runnable{
         root = new Pane();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+        setupTimer();
     }
 
     private void initializeGameElements(){
@@ -51,7 +52,8 @@ public class GameLoop implements Runnable{
 
             @Override
             public void handle(long now) {
-            
+                updateModel();
+                updateView();
             }
         };
     }
@@ -87,6 +89,7 @@ public class GameLoop implements Runnable{
  
 
     public void starLoop(){
+        timer.start();
         this.isRunning = true;
     }
 

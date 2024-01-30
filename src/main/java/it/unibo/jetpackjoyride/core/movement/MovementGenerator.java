@@ -90,11 +90,6 @@ public class MovementGenerator {
                         rotationInfo = new Pair<>(-rotationInfo.get1(),rotationInfo.get2());
                     }
                 }
-
-                if(currentPosition.get1() < -200) {
-                    Random random = new Random();
-                    currentPosition = new Pair<>(1200.0, 800*random.nextDouble());
-                }
             }
             
         };

@@ -5,7 +5,7 @@ public class GameInfo {
     public static final int MAP_WIDTH = 1200; 
     public static final int MAP_HEIGHT = 800;
 
-    public static int moveSpeed = 2;
+    public static int moveSpeed = 5;
 
     private double screenWidth;
     private double screenHeight;

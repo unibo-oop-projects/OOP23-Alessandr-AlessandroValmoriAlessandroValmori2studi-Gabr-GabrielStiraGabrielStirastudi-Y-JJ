@@ -34,7 +34,7 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
     }
     
     @Override
-    public void updateBackground() {
+    public void updateBackgroundModel() {
 
         updateSize();
         bgImageX1 -= moveSpeed;
@@ -46,6 +46,15 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         if (bgImageX2 <= -mapWidth) {
             bgImageX2 = bgImageX1 + mapWidth;
         }
+    
+        bgImageView1.setX(bgImageX1);
+        bgImageView2.setX(bgImageX2);
+    }
+
+    @Override
+    public void updateBackgroundView() {
+
+        updateSize();
     
         bgImageView1.setX(bgImageX1);
         bgImageView2.setX(bgImageX2);

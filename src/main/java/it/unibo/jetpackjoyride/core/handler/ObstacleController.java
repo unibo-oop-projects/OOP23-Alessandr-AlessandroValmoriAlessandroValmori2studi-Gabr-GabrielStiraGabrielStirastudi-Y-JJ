@@ -16,14 +16,18 @@ public class ObstacleController {
         this.view = view;
     }
 
-    public void update() {
-        model.update();
+    public void updateView() {
+        
         view.updateView(model);
 
         if(model.isOutOfBounds()) {
             Random random = new Random();
             model.getEntityMovement().setCurrentPosition(new Pair<>(1200.0, 700.0*random.nextDouble()));
         }
+    }
+
+    public void updateModel(){
+        model.update();
     }
 
     public ImageView getImageView() {

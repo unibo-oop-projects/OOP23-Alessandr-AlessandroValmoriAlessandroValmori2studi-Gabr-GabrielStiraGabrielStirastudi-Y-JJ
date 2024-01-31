@@ -92,11 +92,12 @@ public class GameMenu {
         mainStage.setX((sw - MAP_WIDTH) / PORTION);
         mainStage.setY((sh - MAP_HEIGHT) / PORTION);
     }
-
+/* 
     private void startLoop(){
         gameLoop.starLoop();
         Thread gameThread = new Thread(gameLoop);
         gameThread.start();
     }
+    */
 
 }

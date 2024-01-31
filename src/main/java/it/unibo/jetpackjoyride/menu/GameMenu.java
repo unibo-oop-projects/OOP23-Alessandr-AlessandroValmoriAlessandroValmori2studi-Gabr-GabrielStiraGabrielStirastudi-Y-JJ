@@ -62,7 +62,7 @@ public class GameMenu {
          Button startButton = createButton("Start Game", 0, e -> {
             mainStage.setScene(gameLoop.getScene());
             setGameStagePosition(); 
-            gameLoop.starLoop();
+            this.startLoop();
             mainStage.setOnCloseRequest(event -> {
               gameLoop.endLoop();
             });

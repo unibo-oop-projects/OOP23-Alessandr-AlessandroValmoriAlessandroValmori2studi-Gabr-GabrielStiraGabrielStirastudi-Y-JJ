@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class GameLoop implements Runnable{
+public class GameLoop{
    
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -19,6 +19,8 @@ public class GameLoop implements Runnable{
     private ChunkMakerImpl chunkMaker;
     Pane root ;
     private boolean isRunning;
+    private final int FPS=70;
+    private long nSecPerFrame= Math.round(1.0/FPS * 1e9);
 
 
     public GameLoop(){
@@ -48,11 +50,20 @@ public class GameLoop implements Runnable{
     private void setupTimer(){
         timer = new AnimationTimer() {
 
+            private long lastUpdate=0;
+
             @Override
             public void handle(long now) {
+
+                if(now - lastUpdate > nSecPerFrame){
+                   
                 updateModel();
                 updateView();
                 chunkMaker.update(root);
+
+                lastUpdate=now;
+                }
+                
             }
         };
     }
@@ -99,6 +110,8 @@ public class GameLoop implements Runnable{
         return this.gameScene;
     }
 
+    /* 
+
     @Override
        public void run() {
            long lastTime = System.nanoTime();
@@ -135,5 +148,5 @@ public class GameLoop implements Runnable{
             }
         }
 
-
+*/
 }

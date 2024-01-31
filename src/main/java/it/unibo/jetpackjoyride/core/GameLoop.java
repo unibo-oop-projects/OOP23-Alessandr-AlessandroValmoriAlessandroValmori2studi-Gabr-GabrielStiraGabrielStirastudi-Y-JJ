@@ -6,6 +6,7 @@ import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -19,6 +20,7 @@ public class GameLoop implements Runnable{
     private ChunkMakerImpl chunkMaker;
     Pane root ;
     private boolean isRunning;
+    Group obstacleGroup;
 
 
     public GameLoop(){
@@ -30,6 +32,7 @@ public class GameLoop implements Runnable{
 
     private void initializeScene() {
         root = new Pane();
+        obstacleGroup = new Group();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         setupTimer();
@@ -43,6 +46,7 @@ public class GameLoop implements Runnable{
         chunkMaker.initialize();
 
         root.getChildren().add((Node)map);
+        root.getChildren().add((Node)obstacleGroup);
     }
 
     private void setupTimer(){
@@ -52,7 +56,7 @@ public class GameLoop implements Runnable{
             public void handle(long now) {
                 updateModel();
                 updateView();
-                chunkMaker.update(root);
+                chunkMaker.update(obstacleGroup);
             }
         };
     }

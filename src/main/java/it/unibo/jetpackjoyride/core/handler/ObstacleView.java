@@ -33,7 +33,7 @@ public class ObstacleView {
                 break;
             case LASER:
                 width=infoResolution.getScreenWidth() - (0.04)*infoResolution.getScreenWidth();
-                height=infoResolution.getScreenHeight()/16;
+                height=infoResolution.getScreenHeight()/24;
                 break;
             default:
                 width=0;

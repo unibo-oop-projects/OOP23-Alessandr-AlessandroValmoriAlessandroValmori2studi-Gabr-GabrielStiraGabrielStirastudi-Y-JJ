@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.api;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-
-public interface Obstacle extends Entity {
+public interface Obstacle {
     enum ObstacleType {
         MISSILE, ZAPPER, LASER
     }

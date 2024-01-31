@@ -6,60 +6,76 @@ import java.awt.event.KeyEvent;
 
 public class BarryImpl implements Barry {
 
-    private Pair<Integer, Integer> barryPos;
-    private Pair<Integer, Integer> velocity;
-    private Pair<Integer, Integer> acceleration;
+    
 
-    private final KeyHandler keyH = new KeyHandler();
+    private final double SPEED_MODIFIER=1.5;
+    private final double FALL_MODIFIER=1.4;
+    private final double X_POSITION= 50.0;
+    private final double GROUND_LIMIT=30.0;     
+    private final double CEILING_LIMIT= 600.0;
+    private BarryStatus status;
+    private double verticalSpeed;
+    private double position;
 
-    private int heightLimit = 300;
+    /*FUTURE */
 
-    public BarryImpl(Pair<Integer, Integer> barryPos, Pair<Integer, Integer> velocity, Pair<Integer, Integer> acceleration ){
-        this.barryPos=barryPos;
-        this.velocity=velocity;
-        this.acceleration=acceleration;
+    private int coins;
+    private int distance;
+
+    /*------- */
+    
+
+
+   
+
+    public BarryImpl(){
+        this.status= BarryStatus.WALKING;
+        this.position=GROUND_LIMIT;
+        this.verticalSpeed=0;
     }
 
-  
-    public void loop(){
-        while(true) {
-			try {
-				Thread.sleep(30);
-			  } catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			  }
-
-              this.controlPlayer();
-
-			System.out.println(this.barryPos);
-		}
-    }
-
-    private void controlPlayer() {
-        if (keyH.getCurrentInput(KeyEvent.VK_SPACE)) {
-            this.propel();
-
-            System.out.println("oooooooooooooooooooo");
-        } else if (this.barryPos.get2() > 0) {
-            this.descend();
-
+    public boolean fall(){
+        if(this.status.equals(BarryStatus.WALKING)){
+            return false;
         }
-    }
-
-
-    
-    private void propel() {
-      this.barryPos = new Pair<>(this.barryPos.get1(), this.barryPos.get2()+1);
-    }
-
-    private void descend(){
-        if(this.barryPos.get2() > 0){
-            this.barryPos= new Pair<>(this.barryPos.get1(), this.barryPos.get2()-1);
+        this.verticalSpeed = this.verticalSpeed- this.FALL_MODIFIER;
+        this.position-= this.verticalSpeed;
+        if(limitReached()){
+            this.position= GROUND_LIMIT;
+            this.status = BarryStatus.WALKING;
         }
+        return true;
+        
+    }
+
+    private boolean limitReached(){
+        return this.position <= GROUND_LIMIT || this.position >= CEILING_LIMIT;
+    }
+
+    public boolean propel(){
+        if(this.status.equals(BarryStatus.HEAD_DRAGGING)){
+            return false;
+        }
+        this.verticalSpeed = this.verticalSpeed+ this.SPEED_MODIFIER;
+        this.position+= this.verticalSpeed;
+        if(limitReached()){
+            this.position = CEILING_LIMIT;
+            this.status = BarryStatus.HEAD_DRAGGING;
+        }
+        return true;
     }
 
 
-  
-    
-    
+
+	@Override
+	public Pair<Double, Double> getPosition() {
+		return new Pair<>(this.X_POSITION, this.position);
+	}
+
+
+	@Override
+	public void controlPlayer() {
+		
+	}
+
 }

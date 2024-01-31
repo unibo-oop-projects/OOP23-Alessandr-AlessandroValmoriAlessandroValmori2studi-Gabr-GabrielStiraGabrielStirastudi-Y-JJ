@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.core;
 
 
+import it.unibo.jetpackjoyride.core.entities.barry.api.BarryController;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryControllerImpl;
 import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
 import it.unibo.jetpackjoyride.core.handler.ObstacleController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
@@ -10,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 public class GameLoop implements Runnable{
@@ -21,6 +24,8 @@ public class GameLoop implements Runnable{
     //private ChunkMakerImpl chunkMaker;
     Pane root ;
     private boolean isRunning;
+    private BarryController playerController = new BarryControllerImpl();
+    private boolean spaceBarPressed=false;
 
 
     public GameLoop(){
@@ -43,6 +48,13 @@ public class GameLoop implements Runnable{
         //chunkMaker = new ChunkMakerImpl();
         //chunkMaker.initialize();
 
+          gameScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                spaceBarPressed=true;
+            }
+        });
+
+
         root.getChildren().add((Node)map);
     }
 
@@ -61,11 +73,13 @@ public class GameLoop implements Runnable{
         updateScreenSize();
         map.updateBackgroundModel();
         //chunkMaker.updateModel();
-        
+        this.playerController.controlPlayer(spaceBarPressed);
+        this.spaceBarPressed=false;
     }
 
     private void updateView(){
         map.updateBackgroundView();
+        System.out.println(this.playerController.getPos());
         //chunkMaker.updateView(root);
     }
 

@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.core;
 
-
 import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
-import it.unibo.jetpackjoyride.core.handler.ObstacleController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -20,7 +18,6 @@ public class GameLoop implements Runnable{
     private MapBackground map;
     private ChunkMakerImpl chunkMaker;
     Pane root ;
-    private Pane gameElementsPane;
     private boolean isRunning;
 
 
@@ -33,7 +30,6 @@ public class GameLoop implements Runnable{
 
     private void initializeScene() {
         root = new Pane();
-        gameElementsPane = new Pane();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         setupTimer();
@@ -46,7 +42,7 @@ public class GameLoop implements Runnable{
         chunkMaker = new ChunkMakerImpl();
         chunkMaker.initialize();
 
-        root.getChildren().addAll((Node)map,gameElementsPane);
+        root.getChildren().add((Node)map);
     }
 
     private void setupTimer(){
@@ -70,7 +66,7 @@ public class GameLoop implements Runnable{
 
     private void updateView(){
         map.updateBackgroundView();
-        chunkMaker.updateView(gameElementsPane);
+        chunkMaker.updateView(root);
     }
 
     private void updateScreenSize() {
@@ -91,6 +87,7 @@ public class GameLoop implements Runnable{
  
 
     public void starLoop(){
+        timer.start();
         this.isRunning = true;
     }
 

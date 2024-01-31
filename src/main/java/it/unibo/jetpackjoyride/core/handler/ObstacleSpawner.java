@@ -59,7 +59,7 @@ public class ObstacleSpawner {
         
         for(int i=0; i<numberOfObstacles; i++) {
             int typeOfObstacle = random.nextInt(2);
-            int typeOfMovement = random.nextInt(3);
+            int typeOfMovement = random.nextInt(4);
             int j=0;
             int k=0;
 
@@ -71,7 +71,7 @@ public class ObstacleSpawner {
             switch (typeOfObstacle) {
                 case 0:
                     //MISSILE
-                    movement = new MovementGenerator(new Pair<>(1200.0,random.nextDouble()*700), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(MovementChangers.DEFAULT, typeOfMovement == 0 ? MovementChangers.DIAGONALUP : typeOfMovement == 1 ? MovementChangers.DIAGONALDOWN : MovementChangers.DEFAULT, MovementChangers.BOUNCING));
+                    movement = new MovementGenerator(new Pair<>(1200.0,random.nextDouble()*700), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.DIAGONALUP : typeOfMovement == 1 ? MovementChangers.DIAGONALDOWN : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
                     hitbox = new MissileHitbox(new Pair<>(1200.0,400.0), 0.0);
                     obstacleType = ObstacleType.MISSILE;
                     actualImages = new Image[35];
@@ -81,7 +81,7 @@ public class ObstacleSpawner {
                     break;
                 case 1:
                     //ZAPPER
-                    movement = new MovementGenerator(new Pair<>(1200.0,random.nextDouble()*700), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.DEFAULT, MovementChangers.SLOW));
+                    movement = new MovementGenerator(new Pair<>(1200.0,random.nextDouble()*700), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.SLOW));
                     hitbox = new ZapperHitbox(new Pair<>(1200.0,400.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     actualImages = new Image[28];

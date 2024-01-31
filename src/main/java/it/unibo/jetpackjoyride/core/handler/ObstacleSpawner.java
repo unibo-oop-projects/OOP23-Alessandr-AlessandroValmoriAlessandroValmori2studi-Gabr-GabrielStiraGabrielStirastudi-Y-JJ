@@ -52,7 +52,7 @@ public class ObstacleSpawner {
         }
 
         for (int i = 0; i < 4; i++) {
-            String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/laser/laser_1.png").toExternalForm();
+            String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/laser/laser_" + (i+1) + ".png").toExternalForm();
             
             for(int j = 0 ; j < 7; j++) {
                 images[index] = new Image(imagePath);  

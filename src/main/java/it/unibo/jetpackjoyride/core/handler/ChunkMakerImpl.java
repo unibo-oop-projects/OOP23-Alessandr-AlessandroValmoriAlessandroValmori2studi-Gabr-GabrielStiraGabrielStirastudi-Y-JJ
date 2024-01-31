@@ -3,8 +3,8 @@ package it.unibo.jetpackjoyride.core.handler;
 import java.util.*;
 
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 
 public class ChunkMakerImpl implements ChunkMaker{
 
@@ -52,7 +52,7 @@ public class ChunkMakerImpl implements ChunkMaker{
     }
 
     @Override
-    public void update(Pane root) {
+    public void update(Group obstacleGroup) {
         synchronized(this.listOfControllers){
             var iterator = listOfControllers.iterator();
             while(iterator.hasNext()) {
@@ -60,12 +60,12 @@ public class ChunkMakerImpl implements ChunkMaker{
 
                 controller.update();
 
-                if(!root.getChildren().contains((Node)controller.getImageView())) {
-                    root.getChildren().add((Node)controller.getImageView());
+                if(!obstacleGroup.getChildren().contains((Node)controller.getImageView())) {
+                    obstacleGroup.getChildren().add((Node)controller.getImageView());
                 }
     
                 if(checkObstacles(controller)) {
-                    root.getChildren().remove((Node)controller.getImageView());
+                    obstacleGroup.getChildren().remove((Node)controller.getImageView());
                     iterator.remove();  
                 }
             }  

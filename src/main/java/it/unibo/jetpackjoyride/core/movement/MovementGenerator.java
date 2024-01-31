@@ -17,7 +17,6 @@ public class MovementGenerator {
     private List<MovementChangers> listOfModifiers = new ArrayList<>();
 
     public enum MovementChangers{
-        DEFAULT, // Default speed set in DEFAULTSPEED, no special/custom effects that change the physics of movement
         DIAGONALUP, // Same speed is set for both x and y velocity, creating a diagonal trajectory (UP)
         DIAGONALDOWN, // Same speed is set for both x and y velocity (now inverted), creating a diagonal trajectory (DOWN)
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
@@ -32,17 +31,15 @@ public class MovementGenerator {
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
         this.rotationInfo = rotationInfo;
-        setMovementChangers(List.of());
+        this.setMovementChangers(List.of());
     }
 
     public Movement setMovementChangers(List<MovementChangers> listOfChangers) {
         this.listOfModifiers = listOfChangers;
+        this.speed = DEFAULTSPEED;
 
         for (var type : listOfModifiers) {
             switch (type) {
-                case DEFAULT:
-                    this.speed = DEFAULTSPEED;
-                    break;
                 case SLOW:
                     this.speed = new Pair<>(SLOWMODIFIER*(this.speed.get1()), SLOWMODIFIER*(this.speed.get2()));
                     break;
@@ -56,14 +53,13 @@ public class MovementGenerator {
                 case DIAGONALDOWN:
                     this.speed = new Pair<>(this.speed.get1(), -this.speed.get1());
                     this.rotationInfo = new Pair<>(-45.0, this.rotationInfo.get2());
+                    break;
                 case STATIC:
                     this.speed = new Pair<>(0.0,0.0);
                 default:
                     break;
             }
         }
-
-
         return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.rotationInfo, this.listOfModifiers) {
 
             @Override

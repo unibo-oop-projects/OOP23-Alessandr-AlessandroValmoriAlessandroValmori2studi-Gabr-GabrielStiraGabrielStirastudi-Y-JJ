@@ -8,13 +8,11 @@ public class ObstacleView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
-    private int divisor;
 
     public ObstacleView(Image[] images) {
         this.images = images;
         imageView = new ImageView();
         this.animationFrame = 0;
-        this.divisor = 0;
     }
 
     public void updateView(ObstacleImpl obstacle) {
@@ -29,23 +27,20 @@ public class ObstacleView {
             case MISSILE:
                 width=200;
                 height=50;
-                divisor=0;
                 break;
             case ZAPPER:
                 width=300;
                 height=100;
-                divisor=0;
             default:
                 width=200;
                 height=50;
-                divisor=0;
                 break;
         }
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        imageView.setImage(images[divisor + animationFrame]);
+        imageView.setImage(images[animationFrame]);
         animationFrame = (animationFrame + 1) % images.length;
 
     }

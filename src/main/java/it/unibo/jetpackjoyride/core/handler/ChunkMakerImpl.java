@@ -23,12 +23,18 @@ public class ChunkMakerImpl implements ChunkMaker{
     @Override
     public void run(){
         while(isRunning) {
-            this.listOfControllers.addAll(obstacleSpawner.generateChunk());
+            synchronized(this.listOfControllers) {
+                this.listOfControllers.addAll(obstacleSpawner.generateChunk());
+            }
+            
+            Random random = new Random();
+            long newNum = random.nextLong(3);
+
             try {
-                Thread.sleep(3000);
+                Thread.sleep(newNum*1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            } 
         }
     }
 
@@ -43,27 +49,35 @@ public class ChunkMakerImpl implements ChunkMaker{
 
     @Override
     public void updateView(Pane root) {
-        for(var controller : listOfControllers) {
+        synchronized(this.listOfControllers){
+            var iterator = listOfControllers.iterator();
+            while(iterator.hasNext()) {
+                var controller = iterator.next();
 
-            if(!root.getChildren().contains((Node)controller.getImageView())) {
-                root.getChildren().add((Node)controller.getImageView());
-            }
-
-            if(controller.getObstacleModel().isOutOfBounds()) {
-                root.getChildren().remove((Node)controller.getImageView());
-            }
-        }        
+                if(!root.getChildren().contains((Node)controller.getImageView())) {
+                    root.getChildren().add((Node)controller.getImageView());
+                }
+    
+                if(controller.getObstacleModel().isOutOfBounds()) {
+                    root.getChildren().remove((Node)controller.getImageView());
+                }
+            }  
+        }
     }
 
     @Override
     public void updateModel() {
-        for(var controller : listOfControllers) {
-            controller.update();
-
-            if(controller.getObstacleModel().isOutOfBounds()) {
-                //this.listOfControllers.remove(controller);            
-            }
-        }        
+        synchronized(this.listOfControllers){
+            var iterator = listOfControllers.iterator();
+            while(iterator.hasNext()) {
+                var controller = iterator.next();
+                controller.update();
+    
+                if(controller.getObstacleModel().isOutOfBounds()) {
+                    iterator.remove();            
+                }
+            }  
+        }
     }
 
     @Override

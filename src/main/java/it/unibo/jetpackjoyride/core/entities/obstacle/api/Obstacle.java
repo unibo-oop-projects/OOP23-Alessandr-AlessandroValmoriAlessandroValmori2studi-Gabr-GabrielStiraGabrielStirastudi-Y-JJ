@@ -12,6 +12,4 @@ public interface Obstacle {
     ObstacleType getObstacleType();
 
     void changeObstacleStatus(ObstacleStatus newObstacleStatus);
-
-    boolean isOutOfBounds();
 }

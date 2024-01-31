@@ -34,9 +34,4 @@ public class ObstacleImpl extends AbstractEntity implements Obstacle {
     public void changeObstacleMovement(Movement newMovement) {
         this.movement= newMovement;
     }
-
-    public boolean isOutOfBounds() {
-        return this.movement.getCurrentPosition().get1() < -200;
-    }
-    
 }

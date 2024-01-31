@@ -52,6 +52,7 @@ public class GameLoop implements Runnable{
             public void handle(long now) {
                 updateModel();
                 updateView();
+                chunkMaker.update(root);
             }
         };
     }
@@ -60,13 +61,11 @@ public class GameLoop implements Runnable{
     private void updateModel(){ 
         updateScreenSize();
         map.updateBackgroundModel();
-        chunkMaker.updateModel();
         
     }
 
     private void updateView(){
         map.updateBackgroundView();
-        chunkMaker.updateView(root);
     }
 
     private void updateScreenSize() {

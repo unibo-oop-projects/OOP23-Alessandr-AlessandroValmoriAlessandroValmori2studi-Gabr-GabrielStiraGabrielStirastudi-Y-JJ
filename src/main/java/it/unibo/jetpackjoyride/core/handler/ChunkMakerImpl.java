@@ -2,21 +2,25 @@ package it.unibo.jetpackjoyride.core.handler;
 
 import java.util.*;
 
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class ChunkMakerImpl implements ChunkMaker{
 
-    ObstacleSpawner obstacleSpawner;
-    List<ObstacleController> listOfControllers;
-    Thread chunkMaker;
-    private boolean isRunning =false;
+    private ObstacleSpawner obstacleSpawner;
+    private List<ObstacleController> listOfControllers;
+    private Thread chunkMaker;
+    private boolean isRunning = false;
+    private GameInfo infoResolution;
+
 
     public void initialize() {
         listOfControllers = new ArrayList<>();
         isRunning = true;
         obstacleSpawner = new ObstacleSpawner();
         chunkMaker = new Thread(this);
+        infoResolution = new GameInfo();
         this.start();
     }
 
@@ -48,36 +52,46 @@ public class ChunkMakerImpl implements ChunkMaker{
     }
 
     @Override
-    public void updateView(Pane root) {
+    public void update(Pane root) {
         synchronized(this.listOfControllers){
             var iterator = listOfControllers.iterator();
             while(iterator.hasNext()) {
                 var controller = iterator.next();
+
+                controller.update();
 
                 if(!root.getChildren().contains((Node)controller.getImageView())) {
                     root.getChildren().add((Node)controller.getImageView());
                 }
     
-                if(controller.getObstacleModel().isOutOfBounds()) {
+                if(checkObstacles(controller)) {
                     root.getChildren().remove((Node)controller.getImageView());
+                    iterator.remove();  
                 }
             }  
         }
     }
 
-    @Override
-    public void updateModel() {
-        synchronized(this.listOfControllers){
-            var iterator = listOfControllers.iterator();
-            while(iterator.hasNext()) {
-                var controller = iterator.next();
-                controller.update();
-    
-                if(controller.getObstacleModel().isOutOfBounds()) {
-                    iterator.remove();            
+    private boolean checkObstacles(ObstacleController controller) {
+        var obstacle = controller.getObstacleModel();
+        switch (obstacle.getObstacleType()) {
+            case MISSILE:
+                if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
+                    return true;
                 }
-            }  
+                break;
+            case ZAPPER:
+                if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
+                    return true;
+                }
+            break;
+            case LASER:
+                if(obstacle.getLifetime() > 200) {
+                    return true;
+                }
+            break;
         }
+        return false;
     }
 
     @Override

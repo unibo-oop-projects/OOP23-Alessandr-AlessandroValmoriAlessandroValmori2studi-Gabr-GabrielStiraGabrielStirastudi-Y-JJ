@@ -8,26 +8,23 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class BarryView {
+
     private ImageView imageView;
-    private Image image;
+    private Image[] images;
     private int animationFrame;
     private GameInfo infoResolution;
+    private PlayerMover controller;
 
-    public BarryView(Barry barry) {
-       
+    public BarryView(Image[] images) {
+
+        this.images = images;
         this.imageView = new ImageView();
         this.infoResolution = new GameInfo();
         this.animationFrame = 0;
 
-        String imagePath = getClass().getClassLoader()
-       .getResource("sprites/entities/obstacles/missile/missile_1.png").toExternalForm();
-
-        image = new Image(imagePath);
-
-        this.update(barry);
-       
-
     }
+
+    
 
     public void update(Barry barry) {
 
@@ -39,12 +36,14 @@ public class BarryView {
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
+  
+        imageView.setImage(images[animationFrame]);
+        animationFrame = (animationFrame + 1) % images.length;
 
-        imageView.setImage(image);
+    }
 
-      
-    
-
+    public void setCurrentImages(Image[] images){
+        this.images = images;
     }
 
     public ImageView getImageView() {

@@ -31,10 +31,6 @@ public class BarryImpl implements Barry {
 
     /*------- */
     
-
-
-   
-
     public BarryImpl(){
         this.status= BarryStatus.WALKING;
         this.position=GROUND_LIMIT;
@@ -43,11 +39,8 @@ public class BarryImpl implements Barry {
     
     /*RETURN TRUE IF I AM FALLING, FALSE IF NOT */
     public boolean fall(){
-        
-       
-        
+      
         this.currentPropelMod= PROPEL_MODIFIER;
-        
 
         if(this.position+ this.fallSpeed * this.currentFallMod < GROUND_LIMIT){
         this.position+= this.fallSpeed * this.currentFallMod;
@@ -63,12 +56,9 @@ public class BarryImpl implements Barry {
         
     }
 
-    
     /*RETURNS TRUE IF I AM GOING UP, FALSE IF NOT   */
     public boolean propel(){
-
-        
-        
+ 
         this.currentFallMod= FALL_MODIFIER;
 
         if(this.position- this.propelSpeed * this.currentPropelMod > CEILING_LIMIT){
@@ -76,10 +66,6 @@ public class BarryImpl implements Barry {
         this.status= BarryStatus.PROPELLING;
         return true;
         }
-
-        
-
-        
 
         this.position= CEILING_LIMIT;
         this.status=BarryStatus.HEAD_DRAGGING;

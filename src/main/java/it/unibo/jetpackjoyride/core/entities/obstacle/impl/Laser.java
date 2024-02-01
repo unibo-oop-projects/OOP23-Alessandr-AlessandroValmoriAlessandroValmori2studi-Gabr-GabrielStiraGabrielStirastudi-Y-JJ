@@ -25,7 +25,7 @@ public class Laser extends AbstractObstacle {
             case 250:
                 this.obstacleStatus = ObstacleStatus.DEACTIVATED;
                 break;
-            case 300:
+            case 330:
                 this.obstacleStatus = ObstacleStatus.INACTIVE;
             default:
                 break;

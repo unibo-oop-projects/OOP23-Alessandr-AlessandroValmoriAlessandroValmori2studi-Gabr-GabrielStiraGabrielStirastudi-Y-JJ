@@ -100,7 +100,7 @@ public class ObstacleSpawner {
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     startingStatus = ObstacleStatus.CHARGING;
-                    actualImages = loadImages(19,33);
+                    actualImages = loadImages(19,34);
                     break;
                 default:
                     throw new IllegalStateException();

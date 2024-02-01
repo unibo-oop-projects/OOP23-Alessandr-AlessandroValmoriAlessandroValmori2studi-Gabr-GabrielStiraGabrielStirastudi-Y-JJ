@@ -26,14 +26,34 @@ public class ObstacleView {
             case MISSILE:
                 width=infoResolution.getScreenWidth()/8;
                 height=infoResolution.getScreenHeight()/16;
+                animationFrame = (animationFrame + 1) % images.length;
                 break;
             case ZAPPER:
                 width=infoResolution.getScreenWidth()/6;
                 height=infoResolution.getScreenHeight()/16;
+                animationFrame = (animationFrame + 1) % images.length;
                 break;
             case LASER:
                 width=infoResolution.getScreenWidth() - (0.04)*infoResolution.getScreenWidth();
                 height=infoResolution.getScreenHeight()/24;
+
+                switch (obstacle.getObstacleStatus()) {
+                    case CHARGING:
+                        animationFrame++;
+                        break;
+                    case ACTIVE:
+                        animationFrame = ((animationFrame + 1) % 28) + 84;
+                        break;
+                    case DEACTIVATED:
+                        if(animationFrame>84) {
+                            animationFrame = 84;
+                        }
+                        animationFrame--;
+                        break;
+                    default:
+                        animationFrame=0;
+                        break;
+                }
                 break;
             default:
                 width=0;
@@ -49,7 +69,6 @@ public class ObstacleView {
         imageView.setFitHeight(height);
 
         imageView.setImage(images[animationFrame]);
-        animationFrame = (animationFrame + 1) % images.length;
 
     }
 

@@ -102,10 +102,10 @@ public class ChunkMakerImpl implements ChunkMaker{
                     case 100:
                         obstacle.changeObstacleStatus(ACTIVE);
                         break;
-                    case 300:
+                    case 250:
                         obstacle.changeObstacleStatus(DEACTIVATED);
                         break;
-                    case 350:
+                    case 300:
                         obstacle.changeObstacleStatus(INACTIVE);
                         return true;
                     default:

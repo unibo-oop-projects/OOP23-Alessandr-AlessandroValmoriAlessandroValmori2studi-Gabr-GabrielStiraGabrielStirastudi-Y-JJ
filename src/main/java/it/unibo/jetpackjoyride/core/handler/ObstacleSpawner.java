@@ -113,6 +113,7 @@ public class ObstacleSpawner {
             }
 
             ObstacleImpl model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
+            model.changeObstacleStatus(startingStatus);
 
             ObstacleView view = new ObstacleView(actualImages);
 

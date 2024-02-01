@@ -31,6 +31,6 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     }
 
     public void changeObstacleMovement(Movement newMovement) {
-        this.movement= newMovement;
+        this.movement = newMovement;
     }
 }

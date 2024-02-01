@@ -1,15 +1,22 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
-
+import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
+
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
+
+import java.util.*;
 
 public class Missile extends AbstractObstacle {
+    private int lifetimeAfterDeactivation;
 
     public Missile(Movement movement, Hitbox hitbox) {
         super(ObstacleType.MISSILE, movement, hitbox);
+        lifetimeAfterDeactivation=50;
     }
 
     @Override
@@ -18,13 +25,19 @@ public class Missile extends AbstractObstacle {
         this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
         this.lifetime++;
 
-        if(this.movement.getCurrentPosition().get1() < -200 ||
-           !this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 
-                (this.movement.getCurrentPosition().get2() < 0 || this.movement.getCurrentPosition().get1() > 800)) {
-            this.obstacleStatus = ObstacleStatus.INACTIVE;
+        if((this.movement.getCurrentPosition().get1() < -200) ||
+           (!this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 
+                (this.movement.getCurrentPosition().get2() < 0 || this.movement.getCurrentPosition().get2() > 800)) ||
+           (this.lifetimeAfterDeactivation < 0)
+            ) {
+                    this.obstacleStatus = ObstacleStatus.INACTIVE;
         }
-        if(this.movement.getCurrentPosition().get1() == 400) {
+        if(this.movement.getCurrentPosition().get1() > 350 && this.movement.getCurrentPosition().get1() < 400) {
             this.obstacleStatus = ObstacleStatus.DEACTIVATED;
+            this.changeObstacleMovement(new MovementGenerator(this.movement.getCurrentPosition(),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.SLOW)));
+        }
+        if(this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
+            lifetimeAfterDeactivation--;
         }
     }
 }

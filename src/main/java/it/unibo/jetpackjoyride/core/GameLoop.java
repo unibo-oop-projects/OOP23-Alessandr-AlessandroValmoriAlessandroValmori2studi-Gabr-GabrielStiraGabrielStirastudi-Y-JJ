@@ -1,17 +1,18 @@
 package it.unibo.jetpackjoyride.core;
 
+import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class GameLoop implements Runnable{
+public class GameLoop{
    
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -21,6 +22,12 @@ public class GameLoop implements Runnable{
     Pane root ;
     private boolean isRunning;
     Group obstacleGroup;
+    private final int FPS=70;
+    private long nSecPerFrame= Math.round(1.0/FPS * 1e9);
+    PlayerMover playerMover;
+
+   
+    private InputHandler inputH = new InputHandler();
 
 
     public GameLoop(){
@@ -35,7 +42,10 @@ public class GameLoop implements Runnable{
         obstacleGroup = new Group();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        setupTimer();
+        
+        gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
+        gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
+        setupTimer();   
     }
 
     private void initializeGameElements(){
@@ -45,6 +55,8 @@ public class GameLoop implements Runnable{
         chunkMaker = new ChunkMakerImpl();
         chunkMaker.initialize();
 
+        playerMover = new PlayerMover();
+
         root.getChildren().add((Node)map);
         root.getChildren().add((Node)obstacleGroup);
     }
@@ -52,24 +64,40 @@ public class GameLoop implements Runnable{
     private void setupTimer(){
         timer = new AnimationTimer() {
 
+            private long lastUpdate=0;
+
             @Override
             public void handle(long now) {
+
+                if(now - lastUpdate > nSecPerFrame){
+                
+               
+
                 updateModel();
                 updateView();
                 chunkMaker.update(obstacleGroup);
+
+                lastUpdate=now;
+                }
+                
             }
         };
     }
 
 
     private void updateModel(){ 
+        
+        playerMover.move(inputH.isSpacePressed());
         updateScreenSize();
         map.updateBackgroundModel();
         
     }
 
     private void updateView(){
+        
         map.updateBackgroundView();
+        playerMover.updateView(root);
+        
     }
 
     private void updateScreenSize() {
@@ -102,42 +130,5 @@ public class GameLoop implements Runnable{
     public Scene getScene(){
         return this.gameScene;
     }
-
-    @Override
-       public void run() {
-           long lastTime = System.nanoTime();
-           double amountOfTicks = 60.0;
-           double ns = 1000000000 / amountOfTicks;
-           double delta = 0;
-           long timer = System.currentTimeMillis();
-           int updates = 0;
-           int frames = 0;
-   
-           while (isRunning) {
-               long now = System.nanoTime();
-               delta += (now - lastTime) / ns;
-               lastTime = now;
-               while (delta >= 1) {
-
-                updateModel();
-                
-                Platform.runLater(()->{
-                  updateView();
-                });
-              
-                   updates++;
-                   delta--;
-               }
-   
-               frames++;
-   
-               if (System.currentTimeMillis() - timer > 1000) {
-                   timer += 1000;
-                   updates = 0;
-                   frames = 0;
-               }
-            }
-        }
-
 
 }

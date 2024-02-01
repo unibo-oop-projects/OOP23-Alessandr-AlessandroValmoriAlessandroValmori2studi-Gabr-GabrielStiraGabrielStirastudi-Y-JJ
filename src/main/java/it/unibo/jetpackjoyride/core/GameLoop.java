@@ -131,43 +131,4 @@ public class GameLoop{
         return this.gameScene;
     }
 
-    /* 
-
-    @Override
-       public void run() {
-           long lastTime = System.nanoTime();
-           double amountOfTicks = 60.0;
-           double ns = 1000000000 / amountOfTicks;
-           double delta = 0;
-           long timer = System.currentTimeMillis();
-           int updates = 0;
-           int frames = 0;
-   
-           while (isRunning) {
-               long now = System.nanoTime();
-               delta += (now - lastTime) / ns;
-               lastTime = now;
-               while (delta >= 1) {
-
-                updateModel();
-                
-                Platform.runLater(()->{
-                  updateView();
-                });
-              
-                   updates++;
-                   delta--;
-               }
-   
-               frames++;
-   
-               if (System.currentTimeMillis() - timer > 1000) {
-                   timer += 1000;
-                   updates = 0;
-                   frames = 0;
-               }
-            }
-        }
-
-*/
 }

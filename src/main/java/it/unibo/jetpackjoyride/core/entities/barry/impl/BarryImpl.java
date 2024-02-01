@@ -6,60 +6,98 @@ import java.awt.event.KeyEvent;
 
 public class BarryImpl implements Barry {
 
-    private Pair<Integer, Integer> barryPos;
-    private Pair<Integer, Integer> velocity;
-    private Pair<Integer, Integer> acceleration;
+    
 
-    private final KeyHandler keyH = new KeyHandler();
+    private final double PROPEL_MODIFIER=1.0;
+    private final double FALL_MODIFIER=0.3;
+    private final double FALL_ACCELERATION=0.3;
+    private final double PROPEL_ACCELERATION=0.6;
+    private final double X_POSITION= 50.0;
+    private final double GROUND_LIMIT=700.0;     
+    private final double CEILING_LIMIT= 30.0;
+    private BarryStatus status;
+    private double currentFallMod=FALL_MODIFIER;
+    private double currentPropelMod=PROPEL_MODIFIER;
+    private double position;
 
-    private int heightLimit = 300;
+    private double propelSpeed=2.0;
+    private double fallSpeed=1.2;
 
-    public BarryImpl(Pair<Integer, Integer> barryPos, Pair<Integer, Integer> velocity, Pair<Integer, Integer> acceleration ){
-        this.barryPos=barryPos;
-        this.velocity=velocity;
-        this.acceleration=acceleration;
+
+    /*FUTURE */
+
+    private int coins;
+    private int distance;
+
+    /*------- */
+    
+    public BarryImpl(){
+        this.status= BarryStatus.WALKING;
+        this.position=GROUND_LIMIT;
+        
+    }
+    
+    /*RETURN TRUE IF I AM FALLING, FALSE IF NOT */
+    public boolean fall(){
+      
+        this.currentPropelMod= PROPEL_MODIFIER;
+
+        if(this.position+ this.fallSpeed * this.currentFallMod < GROUND_LIMIT){
+        this.position+= this.fallSpeed * this.currentFallMod;
+        this.status=BarryStatus.FALLING;
+        return true;
+        }
+
+        
+
+        this.position= GROUND_LIMIT;
+        this.status=BarryStatus.WALKING;
+        return false;
+        
     }
 
-  
-    public void loop(){
-        while(true) {
-			try {
-				Thread.sleep(30);
-			  } catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			  }
+    /*RETURNS TRUE IF I AM GOING UP, FALSE IF NOT   */
+    public boolean propel(){
+ 
+        this.currentFallMod= FALL_MODIFIER;
 
-              this.controlPlayer();
+        if(this.position- this.propelSpeed * this.currentPropelMod > CEILING_LIMIT){
+        this.position-= this.propelSpeed * this.currentPropelMod;
+        this.status= BarryStatus.PROPELLING;
+        return true;
+        }
 
-			System.out.println(this.barryPos);
-		}
+        this.position= CEILING_LIMIT;
+        this.status=BarryStatus.HEAD_DRAGGING;
+        return false;
     }
 
-    private void controlPlayer() {
-        if (keyH.getCurrentInput(KeyEvent.VK_SPACE)) {
+    public void move(boolean jumping){
+
+
+        
+
+        if(jumping){
             this.propel();
-
-            System.out.println("oooooooooooooooooooo");
-        } else if (this.barryPos.get2() > 0) {
-            this.descend();
-
+            this.currentPropelMod+= this.PROPEL_ACCELERATION;
+        }else if(!this.status.equals(BarryStatus.WALKING)){
+           this.fall();
+            this.currentFallMod+= this.FALL_ACCELERATION;
         }
+
+       
     }
 
-
-    
-    private void propel() {
-      this.barryPos = new Pair<>(this.barryPos.get1(), this.barryPos.get2()+1);
+    @Override
+    public BarryStatus getBarryStatus(){
+        return this.status;
     }
 
-    private void descend(){
-        if(this.barryPos.get2() > 0){
-            this.barryPos= new Pair<>(this.barryPos.get1(), this.barryPos.get2()-1);
-        }
-    }
+	@Override
+	public Pair<Double, Double> getPosition() {
+		return new Pair<>(this.X_POSITION, this.position);
+	}
 
 
-  
-    
-    
+
 }

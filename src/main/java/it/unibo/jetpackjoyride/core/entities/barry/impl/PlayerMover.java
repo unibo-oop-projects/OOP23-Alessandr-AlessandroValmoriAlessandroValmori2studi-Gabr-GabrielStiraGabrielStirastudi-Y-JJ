@@ -118,10 +118,11 @@ public class PlayerMover {
             break;
 
             case PROPELLING: 
+            case HEAD_DRAGGING:
 
             //84-111 
             actualImages = new Image[14];
-            for(i=28;  i<43 ; i++){
+            for(i=28;  i<42 ; i++){
                 actualImages[k]=images[i];
                 k++;
             }
@@ -154,6 +155,7 @@ public class PlayerMover {
 
     public void updateView(Pane root) {
         this.view.update(model);
+        this.view.setCurrentImages(this.getSpritesForStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {
             root.getChildren().add((Node) this.view.getImageView());
         }

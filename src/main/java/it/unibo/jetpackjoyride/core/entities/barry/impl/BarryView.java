@@ -43,7 +43,10 @@ public class BarryView {
     }
 
     public void setCurrentImages(Image[] images){
+        if(!this.images.equals(images)){
         this.images = images;
+        animationFrame=0;
+        }
     }
 
     public ImageView getImageView() {

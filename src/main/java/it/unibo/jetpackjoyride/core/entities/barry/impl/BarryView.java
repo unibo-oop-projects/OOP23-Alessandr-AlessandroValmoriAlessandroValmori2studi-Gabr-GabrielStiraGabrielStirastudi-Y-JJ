@@ -1,43 +1,53 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
-
-import it.unibo.jetpackjoyride.core.entities.barry.api.BarryController;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class BarryView {
-
-     private ImageView imageView;
+    private ImageView imageView;
     private Image image;
+    private int animationFrame;
+    private GameInfo infoResolution;
 
-    private BarryController controller = new BarryControllerImpl();
+    public BarryView(Barry barry) {
+       
+        this.imageView = new ImageView();
+        this.infoResolution = new GameInfo();
+        this.animationFrame = 0;
 
+        String imagePath = getClass().getClassLoader()
+       .getResource("sprites/entities/obstacles/missile/missile_1.png").toExternalForm();
 
-    public BarryView() {
-        String imagePath = getClass().getClassLoader().getResource("background/background1.png").toExternalForm();
-        this.image= new Image(imagePath);
-        imageView = new ImageView();
-        imageView.setImage(image);
-        
+        image = new Image(imagePath);
+
+        this.update(barry);
+       
+
     }
 
-     public void updateView() {
-        imageView.setX(controller.getPos().get1());
-        imageView.setX(controller.getPos().get2());
-        
+    public void update(Barry barry) {
 
-        double width=30;
-        double height=50;
+        imageView.setX(barry.getPosition().get1());
+        imageView.setY(barry.getPosition().get2());
+
+        double width = 30.0;
+        double height = 50.0;
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
         imageView.setImage(image);
-        
 
-     }
+      
+    
 
-     public ImageView getImageView() {
+    }
+
+    public ImageView getImageView() {
         return imageView;
     }
 }

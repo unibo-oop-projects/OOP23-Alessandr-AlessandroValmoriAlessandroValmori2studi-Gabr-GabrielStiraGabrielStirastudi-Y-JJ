@@ -1,9 +1,14 @@
 package it.unibo.jetpackjoyride.core;
 
+
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -21,6 +26,10 @@ public class GameLoop{
     private boolean isRunning;
     private final int FPS=70;
     private long nSecPerFrame= Math.round(1.0/FPS * 1e9);
+    PlayerMover playerMover;
+
+   
+    private InputHandler inputH = new InputHandler();
 
 
     public GameLoop(){
@@ -34,7 +43,10 @@ public class GameLoop{
         root = new Pane();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        setupTimer();
+        
+        gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
+        gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
+        setupTimer();   
     }
 
     private void initializeGameElements(){
@@ -43,6 +55,8 @@ public class GameLoop{
 
         chunkMaker = new ChunkMakerImpl();
         chunkMaker.initialize();
+
+        playerMover = new PlayerMover();
 
         root.getChildren().add((Node)map);
     }
@@ -56,7 +70,9 @@ public class GameLoop{
             public void handle(long now) {
 
                 if(now - lastUpdate > nSecPerFrame){
-                   
+                
+               
+
                 updateModel();
                 updateView();
                 chunkMaker.update(root);
@@ -70,13 +86,18 @@ public class GameLoop{
 
 
     private void updateModel(){ 
+        
+        playerMover.move(inputH.isSpacePressed());
         updateScreenSize();
         map.updateBackgroundModel();
         
     }
 
     private void updateView(){
+        
         map.updateBackgroundView();
+        playerMover.updateView(root);
+        
     }
 
     private void updateScreenSize() {

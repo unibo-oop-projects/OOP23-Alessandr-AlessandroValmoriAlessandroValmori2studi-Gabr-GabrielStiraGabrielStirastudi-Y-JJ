@@ -12,7 +12,7 @@ public class BarryImpl implements Barry {
     private final double FALL_MODIFIER=1.4;
     private final double X_POSITION= 50.0;
     private final double GROUND_LIMIT=30.0;     
-    private final double CEILING_LIMIT= 600.0;
+    private final double CEILING_LIMIT= 700.0;
     private BarryStatus status;
     private double verticalSpeed;
     private double position;
@@ -40,11 +40,13 @@ public class BarryImpl implements Barry {
             return false;
         }
        
-        this.verticalSpeed = this.verticalSpeed- this.FALL_MODIFIER;
+        this.verticalSpeed = this.verticalSpeed+ this.FALL_MODIFIER;
         this.position-= this.verticalSpeed;
         if(limitReached()){
             this.position= GROUND_LIMIT;
             this.status = BarryStatus.WALKING;
+            this.verticalSpeed=0;
+            
         }
         return true;
         
@@ -63,11 +65,15 @@ public class BarryImpl implements Barry {
         if(limitReached()){
             this.position = CEILING_LIMIT;
             this.status = BarryStatus.HEAD_DRAGGING;
+            this.verticalSpeed=0;
         }
         return true;
     }
 
-
+    @Override
+    public BarryStatus getBarryStatus(){
+        return this.status;
+    }
 
 	@Override
 	public Pair<Double, Double> getPosition() {

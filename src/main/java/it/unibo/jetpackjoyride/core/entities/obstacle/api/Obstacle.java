@@ -6,7 +6,10 @@ public interface Obstacle {
     }
 
     enum ObstacleStatus {
-        ACTIVE, INACTIVE, DEACTIVATED
+        ACTIVE, //The obstacle has a collision
+        INACTIVE, //The obstacle has no collision and can be removed
+        DEACTIVATED, //The obstacle has no more a collision but can't be removed
+        CHARGING //The obstacle has no collision, but will have in a moment
     }
 
     ObstacleType getObstacleType();

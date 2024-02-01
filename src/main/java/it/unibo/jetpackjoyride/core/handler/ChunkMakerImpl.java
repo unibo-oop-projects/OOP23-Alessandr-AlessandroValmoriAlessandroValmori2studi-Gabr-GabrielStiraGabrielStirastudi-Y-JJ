@@ -1,8 +1,17 @@
 package it.unibo.jetpackjoyride.core.handler;
 
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
+
 import java.util.*;
 
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -77,19 +86,32 @@ public class ChunkMakerImpl implements ChunkMaker{
         switch (obstacle.getObstacleType()) {
             case MISSILE:
                 if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
+                    obstacle.changeObstacleStatus(INACTIVE);
                     return true;
                 }
                 break;
             case ZAPPER:
                 if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
+                    obstacle.changeObstacleStatus(INACTIVE);
                     return true;
                 }
-            break;
+                break;
             case LASER:
-                if(obstacle.getLifetime() > 200) {
-                    return true;
+                int lifeTime = obstacle.getLifetime();
+                switch (lifeTime) {
+                    case 100:
+                        obstacle.changeObstacleStatus(ACTIVE);
+                        break;
+                    case 300:
+                        obstacle.changeObstacleStatus(DEACTIVATED);
+                        break;
+                    case 350:
+                        obstacle.changeObstacleStatus(INACTIVE);
+                        return true;
+                    default:
+                        return false;
                 }
-            break;
+                break;
         }
         return false;
     }

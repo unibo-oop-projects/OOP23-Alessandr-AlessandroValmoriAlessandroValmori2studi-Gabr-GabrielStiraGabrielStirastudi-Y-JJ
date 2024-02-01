@@ -6,6 +6,7 @@ import java.util.Random;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
@@ -22,17 +23,18 @@ import javafx.scene.image.Image;
 public class ObstacleSpawner {
     private EntityGenerator entityGenerator;
     private GameInfo infoResolution;
+    private Image[] images;
 
     public ObstacleSpawner() {
         this.entityGenerator = new EntityGeneratorImpl();
+        this.initialize();
     }
 
-    public List<ObstacleController> generateChunk() {
-        List<ObstacleController> obstacleControllers;
+    private void initialize() {
         this.infoResolution = new GameInfo();
+        this.images = new Image[91]; // 0-34 MISSILE | 35-62 ZAPPER | 63-90 LASER
 
         int index=0;
-        Image[] images = new Image[91]; // 0-34 MISSILE | 35-62 ZAPPER | 63-90 LASER
         for (int i = 0; i < 5; i++) {
             String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/missile/missile_" + (i+1) + ".png").toExternalForm();
             
@@ -59,26 +61,26 @@ public class ObstacleSpawner {
                 index++;
             }
         }
-
-        obstacleControllers = new ArrayList<>();
-
-        return randomChunk(obstacleControllers, images);
     }
 
-    private List<ObstacleController> randomChunk(List<ObstacleController> obstacleControllers, Image[] images) {
+    public List<ObstacleController> generateChunk() {
+        //At the moment the only implementation of the generation of obstacle is a random generation; will be changed in some days
+        return randomChunk();
+    }
+
+    private List<ObstacleController> randomChunk() {
+        List<ObstacleController> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = random.nextInt(4) + 1;
-        
         
         for(int i=0; i<numberOfObstacles; i++) {
             int typeOfObstacle = random.nextInt(3);
             int typeOfMovement = random.nextInt(4);
-            int j=0;
-            int k=0;
 
             Movement movement;
             Hitbox hitbox;
             ObstacleType obstacleType;
+            ObstacleStatus startingStatus;
             Image[] actualImages;
 
             switch (typeOfObstacle) {
@@ -87,32 +89,24 @@ public class ObstacleSpawner {
                     movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.DIAGONALUP : typeOfMovement == 1 ? MovementChangers.DIAGONALDOWN : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
-                    actualImages = new Image[35];
-                    for(j=0; j<35; j++) {
-                        actualImages[j] = images[j];
-                    }
+                    startingStatus = ObstacleStatus.ACTIVE;
+                    actualImages = loadImages(0,34);
                     break;
                 case 1:
                     //ZAPPER
                     movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.SLOW));
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
-                    actualImages = new Image[28];
-                    for(j=35; j<63; j++) {
-                        actualImages[k] = images[j];
-                        k++;
-                    }
+                    startingStatus = ObstacleStatus.ACTIVE;
+                    actualImages = loadImages(35,62);
                     break;
                 case 2:
                     //LASER
                     movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth()/2,random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC));
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
-                    actualImages = new Image[28];
-                    for(j=63; j<91; j++) {
-                        actualImages[k] = images[j];
-                        k++;
-                    }
+                    startingStatus = ObstacleStatus.CHARGING;
+                    actualImages = loadImages(63,90);
                     break;
                 default:
                     throw new IllegalStateException();
@@ -126,6 +120,17 @@ public class ObstacleSpawner {
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;
+    }
+
+    private Image[] loadImages(Integer fromIndex, Integer toIndex) {
+        int j=0;
+        int k=0;
+        Image[] actualImages = new Image[toIndex-fromIndex+1];
+        for(j=fromIndex; j<=toIndex; j++) {
+            actualImages[k] = this.images[j];
+            k++;
+        }
+        return actualImages;
     }
 
 

@@ -77,8 +77,9 @@ public abstract class AbstractHitbox implements Hitbox {
         Set<Pair<Double,Double>> newHitbox = new HashSet<>();
 
         for(var elem : this.hitbox) {
-            Pair<Double,Double> newPoint = computeNewPoint(elem, computeCenter(), angle);
-            newHitbox.add(new Pair<>(newPoint.get1() + (newX - computeCenter().get1()), newPoint.get2() + (newY - computeCenter().get2())));
+            Pair<Double,Double> center = computeCenter();
+            Pair<Double,Double> newPoint = computeNewPoint(elem, center, angle);
+            newHitbox.add(new Pair<>(newPoint.get1() + (newX - center.get1()), newPoint.get2() + (newY - center.get2())));
         };
 
         this.hitbox = newHitbox;

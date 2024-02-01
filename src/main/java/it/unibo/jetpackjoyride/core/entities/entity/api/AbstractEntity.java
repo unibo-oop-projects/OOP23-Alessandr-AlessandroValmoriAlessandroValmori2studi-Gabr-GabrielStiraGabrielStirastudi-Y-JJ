@@ -6,8 +6,8 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 public abstract class AbstractEntity implements Entity {
     public final EntityType entityType;
     public Movement movement;
-    public final Hitbox hitbox;
-    private int lifetime;
+    public Hitbox hitbox;
+    public int lifetime;
 
     public AbstractEntity(EntityType entityType, Movement movement, Hitbox hitbox) {
         this.entityType = entityType;
@@ -28,11 +28,7 @@ public abstract class AbstractEntity implements Entity {
         return this.hitbox;
     }
 
-    public void update() {
-        this.movement.update();
-        this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
-        this.lifetime++;
-    }
+    public abstract void update();
 
     public int getLifetime() {
         return this.lifetime;

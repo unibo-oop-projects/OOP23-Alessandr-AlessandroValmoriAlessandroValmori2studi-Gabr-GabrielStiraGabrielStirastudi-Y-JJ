@@ -1,14 +1,13 @@
 package it.unibo.jetpackjoyride.core.handler;
 
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import javafx.scene.image.ImageView;
 
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
-
 public class ObstacleController {
-    private ObstacleImpl model;
+    private Obstacle model;
     private ObstacleView view;
 
-    public ObstacleController(ObstacleImpl model, ObstacleView view) {
+    public ObstacleController(Obstacle model, ObstacleView view) {
         this.model = model;
         this.view = view;
     }
@@ -22,7 +21,7 @@ public class ObstacleController {
         return this.view.getImageView();
     }
 
-    public ObstacleImpl getObstacleModel() {
+    public Obstacle getObstacleModel() {
         return this.model;
     }
 }

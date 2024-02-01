@@ -81,9 +81,13 @@ public class MovementGenerator {
 
                 /* BOUNCING */
                 if(listOfChangers.contains(MovementChangers.BOUNCING)) {
-                    if(currentPosition.get2()<0 || currentPosition.get2()>700) {
-                        xyspeed = new Pair<>(xyspeed.get1(), -xyspeed.get2());
-                        rotationInfo = new Pair<>(-rotationInfo.get1(),rotationInfo.get2());
+                    if(currentPosition.get2()<0 ) {
+                        xyspeed = new Pair<>(xyspeed.get1(), Math.abs(xyspeed.get2()));
+                        rotationInfo = new Pair<>(-Math.abs(rotationInfo.get1()),rotationInfo.get2());
+                    }
+                    if(currentPosition.get2()>700) {
+                        xyspeed = new Pair<>(xyspeed.get1(), -Math.abs(xyspeed.get2()));
+                        rotationInfo = new Pair<>(Math.abs(rotationInfo.get1()),rotationInfo.get2());
                     }
                 }
             }

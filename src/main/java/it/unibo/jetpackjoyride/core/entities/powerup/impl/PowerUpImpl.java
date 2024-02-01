@@ -20,5 +20,11 @@ public class PowerUpImpl extends AbstractEntity implements PowerUp{
     public PowerUpType getPowerUpType() {
         return this.powerUpType;
     }
+
+    @Override
+    public void update() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
     
 }

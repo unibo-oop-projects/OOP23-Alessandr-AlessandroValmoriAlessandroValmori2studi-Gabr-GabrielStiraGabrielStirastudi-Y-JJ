@@ -32,7 +32,7 @@ public class ObstacleSpawner {
 
     private void initialize() {
         this.infoResolution = new GameInfo();
-        this.images = new Image[36]; // 0-15 MISSILE | 16-19 ZAPPER | 20-35 LASER
+        this.images = new Image[35]; // 0-14 MISSILE | 15-18 ZAPPER | 19-34 LASER
         int index=0;
 
         //MISSILE 15 total 
@@ -84,7 +84,7 @@ public class ObstacleSpawner {
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(0,15);
+                    actualImages = loadImages(0,14);
                     break;
                 case 1:
                     //ZAPPER
@@ -92,7 +92,7 @@ public class ObstacleSpawner {
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(16,19);
+                    actualImages = loadImages(15,18);
                     break;
                 case 2:
                     //LASER
@@ -100,7 +100,7 @@ public class ObstacleSpawner {
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     startingStatus = ObstacleStatus.CHARGING;
-                    actualImages = loadImages(20,35);
+                    actualImages = loadImages(19,33);
                     break;
                 default:
                     throw new IllegalStateException();

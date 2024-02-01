@@ -15,12 +15,7 @@ public class PlayerMover {
     }
 
     public void move(boolean pressed){
-        if(pressed){
-            this.model.propel();
-        }
-        else{
-            this.model.fall();
-        }
+        this.model.move(pressed);
     }
 
     public void updateView(Pane root) {

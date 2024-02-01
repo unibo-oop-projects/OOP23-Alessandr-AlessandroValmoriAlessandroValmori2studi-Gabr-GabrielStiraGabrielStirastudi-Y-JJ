@@ -119,6 +119,7 @@ public class PlayerMover {
 
             case PROPELLING: 
             case HEAD_DRAGGING:
+            
 
             //84-111 
             actualImages = new Image[14];
@@ -150,12 +151,12 @@ public class PlayerMover {
 
     public void move(boolean pressed) {
         this.model.move(pressed);
-        System.out.println(model.getBarryStatus());
+        //System.out.println(model.getBarryStatus());
     }
 
     public void updateView(Pane root) {
         this.view.update(model);
-        this.view.setCurrentImages(this.getSpritesForStatus());
+        this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {
             root.getChildren().add((Node) this.view.getImageView());
         }

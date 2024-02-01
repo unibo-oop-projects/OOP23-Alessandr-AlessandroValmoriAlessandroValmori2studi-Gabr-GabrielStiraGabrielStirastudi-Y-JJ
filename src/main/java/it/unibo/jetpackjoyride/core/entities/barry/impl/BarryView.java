@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class BarryView {
@@ -14,6 +15,7 @@ public class BarryView {
     private int animationFrame;
     private GameInfo infoResolution;
     private PlayerMover controller;
+    private BarryStatus oldStatus;
 
     public BarryView(Image[] images) {
 
@@ -21,6 +23,8 @@ public class BarryView {
         this.imageView = new ImageView();
         this.infoResolution = new GameInfo();
         this.animationFrame = 0;
+        this.oldStatus = BarryStatus.WALKING;
+
 
     }
 
@@ -42,8 +46,9 @@ public class BarryView {
 
     }
 
-    public void setCurrentImages(Image[] images){
-        if(!this.images.equals(images)){
+    public void setCurrentImages(Image[] images, BarryStatus status){
+        if(status != this.oldStatus){
+        this.oldStatus=status;
         this.images = images;
         animationFrame=0;
         }

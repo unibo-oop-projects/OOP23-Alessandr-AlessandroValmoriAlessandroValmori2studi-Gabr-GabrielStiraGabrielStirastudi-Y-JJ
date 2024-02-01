@@ -35,7 +35,7 @@ public class ObstacleView {
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
-                    animationLenght = 7;
+                        animationLenght = 4;
                         animationFrame = ((animationCounter[1])/animationLenght % 7);
                         animationCounter[1]++;
                         break;
@@ -55,7 +55,17 @@ public class ObstacleView {
             case ZAPPER:
                 width=infoResolution.getScreenWidth()/6;
                 height=infoResolution.getScreenHeight()/16;
-                animationFrame = 0;
+
+                switch (obstacle.getObstacleStatus()) {
+                    case ACTIVE:
+                        animationLenght = 17;
+                        animationFrame = ((animationCounter[1])/animationLenght % 4);
+                        animationCounter[1]++;
+                        break;
+                    default:
+                        animationFrame=0;
+                        break;   
+                }
                 break;
             case LASER:
                 width=infoResolution.getScreenWidth() - (0.04)*infoResolution.getScreenWidth();

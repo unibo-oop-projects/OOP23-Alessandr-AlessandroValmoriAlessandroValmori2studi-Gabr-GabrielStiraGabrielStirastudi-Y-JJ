@@ -1,17 +1,9 @@
 package it.unibo.jetpackjoyride.core.handler;
-
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -21,15 +13,12 @@ public class ChunkMakerImpl implements ChunkMaker{
     private List<ObstacleController> listOfControllers;
     private Thread chunkMaker;
     private boolean isRunning = false;
-    private GameInfo infoResolution;
-
 
     public void initialize() {
         listOfControllers = new ArrayList<>();
         isRunning = true;
         obstacleSpawner = new ObstacleSpawner();
         chunkMaker = new Thread(this);
-        infoResolution = new GameInfo();
         this.start();
     }
 
@@ -73,7 +62,7 @@ public class ChunkMakerImpl implements ChunkMaker{
                     obstacleGroup.getChildren().add((Node)controller.getImageView());
                 }
     
-                if(checkObstacles(controller)) {
+                if(controller.getObstacleModel().getObstacleStatus().equals(INACTIVE)) {
                     obstacleGroup.getChildren().remove((Node)controller.getImageView());
                     iterator.remove();  
                 }
@@ -81,40 +70,7 @@ public class ChunkMakerImpl implements ChunkMaker{
         }
     }
 
-    private boolean checkObstacles(ObstacleController controller) {
-        var obstacle = controller.getObstacleModel();
-        switch (obstacle.getObstacleType()) {
-            case MISSILE:
-                if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
-                    obstacle.changeObstacleStatus(INACTIVE);
-                    return true;
-                }
-                break;
-            case ZAPPER:
-                if(obstacle.getEntityMovement().getCurrentPosition().get1() < 0 - infoResolution.getScreenWidth()*0.1) {
-                    obstacle.changeObstacleStatus(INACTIVE);
-                    return true;
-                }
-                break;
-            case LASER:
-                int lifeTime = obstacle.getLifetime();
-                switch (lifeTime) {
-                    case 100:
-                        obstacle.changeObstacleStatus(ACTIVE);
-                        break;
-                    case 250:
-                        obstacle.changeObstacleStatus(DEACTIVATED);
-                        break;
-                    case 300:
-                        obstacle.changeObstacleStatus(INACTIVE);
-                        return true;
-                    default:
-                        return false;
-                }
-                break;
-        }
-        return false;
-    }
+
 
     @Override
     public List<ObstacleController> getControllers() {

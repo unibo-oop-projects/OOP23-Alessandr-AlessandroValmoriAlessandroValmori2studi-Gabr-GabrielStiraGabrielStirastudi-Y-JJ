@@ -1,19 +1,18 @@
-package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
+package it.unibo.jetpackjoyride.core.entities.obstacle.api;
 
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.*;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
-public class ObstacleImpl extends AbstractEntity implements Obstacle {
+public abstract class AbstractObstacle extends AbstractEntity implements Obstacle {
 
-    private final ObstacleType obstacleType;
-    private ObstacleStatus obstacleStatus;
+    public final ObstacleType obstacleType;
+    public ObstacleStatus obstacleStatus;
 
-    public ObstacleImpl(ObstacleType obstacleType, Movement movement, Hitbox hitbox) {
+    public AbstractObstacle(ObstacleType obstacleType, Movement movement, Hitbox hitbox) {
         super(OBSTACLE, movement, hitbox);
         this.obstacleType = obstacleType;
         this.obstacleStatus = INACTIVE;

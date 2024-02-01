@@ -6,9 +6,9 @@ import java.util.Random;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.LaserHitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
@@ -32,37 +32,28 @@ public class ObstacleSpawner {
 
     private void initialize() {
         this.infoResolution = new GameInfo();
-        this.images = new Image[175]; // 0-34 MISSILE | 35-62 ZAPPER | 63-174 LASER
+        this.images = new Image[36]; // 0-15 MISSILE | 16-19 ZAPPER | 20-35 LASER
         int index=0;
 
-        //LASER 5 total ----> 35 total
-        for (int i = 0; i < 5; i++) {
+        //MISSILE 15 total 
+        for (int i = 0; i < 15; i++) {
             String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/missile/missile_" + (i+1) + ".png").toExternalForm();
-            
-            for(int j = 0 ; j < 7; j++) {
-                images[index] = new Image(imagePath);  
-                index++;
-            }
+            images[index] = new Image(imagePath);  
+            index++;
         }
 
-        //LASER 4 total ----> 28 total
+        //ZAPPER 4 total
         for (int i = 0; i < 4; i++) {
             String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/zapper/zapper_" + (i+1) + ".png").toExternalForm();
-            
-            for(int j = 0 ; j < 7; j++) {
-                images[index] = new Image(imagePath);  
-                index++;
-            }
+            images[index] = new Image(imagePath);  
+            index++;
         }
 
-        //LASER 16 total ----> 112 total
+        //LASER 16 total
         for (int i = 0; i < 16; i++) {
             String imagePath = getClass().getClassLoader().getResource("sprites/entities/obstacles/laser/laser_" + (i+1) + ".png").toExternalForm();
-            
-            for(int j = 0 ; j < 7; j++) {
-                images[index] = new Image(imagePath);  
-                index++;
-            }
+            images[index] = new Image(imagePath);  
+            index++;  
         }
     }
 
@@ -93,7 +84,7 @@ public class ObstacleSpawner {
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(0,34);
+                    actualImages = loadImages(0,15);
                     break;
                 case 1:
                     //ZAPPER
@@ -101,7 +92,7 @@ public class ObstacleSpawner {
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(35,62);
+                    actualImages = loadImages(16,19);
                     break;
                 case 2:
                     //LASER
@@ -109,13 +100,13 @@ public class ObstacleSpawner {
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     startingStatus = ObstacleStatus.CHARGING;
-                    actualImages = loadImages(63,174);
+                    actualImages = loadImages(20,35);
                     break;
                 default:
                     throw new IllegalStateException();
             }
 
-            ObstacleImpl model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
+            Obstacle model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
             model.changeObstacleStatus(startingStatus);
 
             ObstacleView view = new ObstacleView(actualImages);

@@ -2,13 +2,16 @@ package it.unibo.jetpackjoyride.core.handler;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class ObstacleView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
+    private int animationLenght;
+    private int[] animationCounter;
     private GameInfo infoResolution;
 
     public ObstacleView(Image[] images) {
@@ -16,22 +19,43 @@ public class ObstacleView {
         this.imageView = new ImageView();
         this.infoResolution = new GameInfo();
         this.animationFrame = 0;
+        this.animationCounter = new int[3]; //0 counter for charging, 1 counter for active, 2 counter for deactivated
+        this.animationLenght = 1;
     }
 
-    public void updateView(ObstacleImpl obstacle) {
+    public void updateView(Obstacle obstacle) {
         double width;
         double height;
+        animationFrame=0;
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
                 width=infoResolution.getScreenWidth()/8;
                 height=infoResolution.getScreenHeight()/16;
-                animationFrame = (animationFrame + 1) % images.length;
+
+                switch (obstacle.getObstacleStatus()) {
+                    case ACTIVE:
+                    animationLenght = 7;
+                        animationFrame = ((animationCounter[1])/animationLenght % 7);
+                        animationCounter[1]++;
+                        break;
+                    case DEACTIVATED:
+                        animationLenght = 7;
+                        animationFrame = 7 + ((animationCounter[2])/animationLenght % 8);
+                        width=infoResolution.getScreenWidth()/8;
+                        height=infoResolution.getScreenHeight()/5;
+                        animationCounter[2]++;
+                        break;
+                    default:
+                        animationFrame=0;
+                        break;
+                }
+
                 break;
             case ZAPPER:
                 width=infoResolution.getScreenWidth()/6;
                 height=infoResolution.getScreenHeight()/16;
-                animationFrame = (animationFrame + 1) % images.length;
+                animationFrame = 0;
                 break;
             case LASER:
                 width=infoResolution.getScreenWidth() - (0.04)*infoResolution.getScreenWidth();
@@ -39,16 +63,13 @@ public class ObstacleView {
 
                 switch (obstacle.getObstacleStatus()) {
                     case CHARGING:
-                        animationFrame++;
+                        animationFrame=0;
                         break;
                     case ACTIVE:
-                        animationFrame = ((animationFrame + 1) % 28) + 84;
+                    animationFrame=0;
                         break;
                     case DEACTIVATED:
-                        if(animationFrame>84) {
-                            animationFrame = 84;
-                        }
-                        animationFrame--;
+                        animationFrame=0;
                         break;
                     default:
                         animationFrame=0;
@@ -69,7 +90,6 @@ public class ObstacleView {
         imageView.setFitHeight(height);
 
         imageView.setImage(images[animationFrame]);
-
     }
 
     public ImageView getImageView() {

@@ -51,6 +51,7 @@ public class BarryImpl implements Barry {
 
         if(this.position+ this.fallSpeed * this.currentFallMod < GROUND_LIMIT){
         this.position+= this.fallSpeed * this.currentFallMod;
+        this.status=BarryStatus.FALLING;
         return true;
         }
 
@@ -72,8 +73,11 @@ public class BarryImpl implements Barry {
 
         if(this.position- this.propelSpeed * this.currentPropelMod > CEILING_LIMIT){
         this.position-= this.propelSpeed * this.currentPropelMod;
+        this.status= BarryStatus.PROPELLING;
         return true;
         }
+
+        
 
         
 
@@ -88,10 +92,10 @@ public class BarryImpl implements Barry {
         
 
         if(jumping){
-            System.out.println(this.propel());
+            this.propel();
             this.currentPropelMod+= this.PROPEL_ACCELERATION;
         }else if(!this.status.equals(BarryStatus.WALKING)){
-            this.status = this.fall() ? BarryStatus.FALLING : BarryStatus.LAND;
+           this.fall();
             this.currentFallMod+= this.FALL_ACCELERATION;
         }
 

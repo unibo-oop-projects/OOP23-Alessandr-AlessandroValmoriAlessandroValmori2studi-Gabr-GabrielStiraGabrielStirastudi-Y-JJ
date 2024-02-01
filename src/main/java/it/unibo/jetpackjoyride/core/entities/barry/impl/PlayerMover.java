@@ -16,6 +16,7 @@ public class PlayerMover {
 
     public void move(boolean pressed){
         this.model.move(pressed);
+        System.out.println(model.getBarryStatus());
     }
 
     public void updateView(Pane root) {

@@ -1,6 +1,9 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.hitbox.AbstractHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.event.KeyEvent;
@@ -21,8 +24,10 @@ public class BarryImpl implements Barry {
     private final double GROUND_LIMIT;    
     private final double CEILING_LIMIT= 30.0;
 
-    private BarryStatus status;
-   
+    private BarryStatus status; // walking, falling ...
+
+    
+   private PlayerHitbox hitbox;
     
 
  
@@ -40,9 +45,12 @@ public class BarryImpl implements Barry {
     public BarryImpl(){
         this.status= BarryStatus.WALKING;
         gameInfo = new GameInfo();
+        
         this.GROUND_LIMIT  =gameInfo.getScreenHeight()/1.2; 
         this.position=GROUND_LIMIT;
         this.speed=0;
+        this.hitbox= new PlayerHitbox(this.getPosition(), 0.0);
+        this.hitbox.setHitboxOn();
         
     }
     
@@ -98,9 +106,6 @@ public class BarryImpl implements Barry {
 
     public void move(boolean jumping){
 
-
-        
-
         if(jumping){
             this.propel();
             
@@ -109,7 +114,9 @@ public class BarryImpl implements Barry {
            
         }
 
-       
+        this.hitbox.updateHitbox(getPosition(), 0.0);
+        System.out.println(this.hitbox.getHitboxPosition());
+
     }
 
     @Override

@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
-import it.unibo.jetpackjoyride.core.handler.ChunkMakerImpl;
+import it.unibo.jetpackjoyride.core.handler.EntityHandlerImpl;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -18,7 +18,7 @@ public class GameLoop{
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    private ChunkMakerImpl chunkMaker;
+    private EntityHandlerImpl chunkMaker;
     Pane root ;
     private boolean isRunning;
     Group obstacleGroup;
@@ -52,7 +52,7 @@ public class GameLoop{
         
         map = new MapBackgroundImpl(gameInfo);
 
-        chunkMaker = new ChunkMakerImpl();
+        chunkMaker = new EntityHandlerImpl();
         chunkMaker.initialize();
 
         playerMover = new PlayerMover();
@@ -75,7 +75,7 @@ public class GameLoop{
 
                 updateModel();
                 updateView();
-                chunkMaker.update(obstacleGroup);
+                chunkMaker.update(obstacleGroup, playerMover.getHitbox());
 
                 lastUpdate=now;
                 }

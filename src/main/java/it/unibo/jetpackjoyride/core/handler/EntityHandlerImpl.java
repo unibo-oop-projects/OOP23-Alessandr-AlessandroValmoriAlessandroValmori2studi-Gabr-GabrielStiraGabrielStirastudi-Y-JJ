@@ -1,13 +1,14 @@
 package it.unibo.jetpackjoyride.core.handler;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
 
 import java.util.*;
 
-
+import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public class ChunkMakerImpl implements ChunkMaker{
+public class EntityHandlerImpl implements EntityHandler{
 
     private ObstacleSpawner obstacleSpawner;
     private List<ObstacleController> listOfControllers;
@@ -28,12 +29,9 @@ public class ChunkMakerImpl implements ChunkMaker{
             synchronized(this.listOfControllers) {
                 this.listOfControllers.addAll(obstacleSpawner.generateChunk());
             }
-            
-            Random random = new Random();
-            long newNum = random.nextLong(3);
 
             try {
-                Thread.sleep(newNum*1000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } 
@@ -50,13 +48,19 @@ public class ChunkMakerImpl implements ChunkMaker{
     }
 
     @Override
-    public void update(Group obstacleGroup) {
+    public boolean update(Group obstacleGroup, Hitbox playerHitbox) {
         synchronized(this.listOfControllers){
             var iterator = listOfControllers.iterator();
+            boolean obstacleHitPlayer = false;
             while(iterator.hasNext()) {
                 var controller = iterator.next();
 
                 controller.update();
+
+                if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
+                    System.out.println("Obstacle " + controller.getObstacleModel().getObstacleType() + " hit the player");
+                    obstacleHitPlayer=true;
+                }
 
                 if(!obstacleGroup.getChildren().contains((Node)controller.getImageView())) {
                     obstacleGroup.getChildren().add((Node)controller.getImageView());
@@ -67,10 +71,18 @@ public class ChunkMakerImpl implements ChunkMaker{
                     iterator.remove();  
                 }
             }  
+            return obstacleHitPlayer;
         }
     }
 
-
+    private boolean collisionChecker(Hitbox hitbox, Hitbox playerHitbox) {
+        for(var vertex : playerHitbox.getHitboxVertex()) {
+            if(hitbox.isTouching(vertex)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public List<ObstacleController> getControllers() {

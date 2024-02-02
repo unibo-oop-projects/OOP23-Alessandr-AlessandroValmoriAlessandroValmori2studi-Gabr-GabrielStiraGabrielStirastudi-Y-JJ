@@ -98,4 +98,8 @@ public abstract class AbstractHitbox implements Hitbox {
     public Pair<Double,Double> getHitboxPosition() {
         return computeCenter();
     }
+
+    public Set<Pair<Double,Double>> getHitboxVertex() {
+        return this.hitbox;
+    }
 }

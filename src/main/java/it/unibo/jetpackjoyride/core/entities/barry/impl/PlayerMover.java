@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,8 +19,6 @@ public class PlayerMover {
         this.images = this.imagesArray();
         this.view = new BarryView(this.getSpritesForStatus());
     }
-
-
 
     private Image[] imagesArray() {
 
@@ -98,50 +97,47 @@ public class PlayerMover {
 
     }
 
-    private Image[] getSpritesForStatus(){
+    private Image[] getSpritesForStatus() {
 
         Image[] actualImages;
-        int i=0;
-        int k=0;
+        int i = 0;
+        int k = 0;
 
-        switch(this.model.getBarryStatus()){
+        switch (this.model.getBarryStatus()) {
 
-            case WALKING: 
+            case WALKING:
 
-            //84-111 
-            actualImages = new Image[28];
-            for(i=84;  i<112 ; i++){
-                actualImages[k]=images[i];
-                k++;
-            }
-            break;
+                // 84-111
+                actualImages = new Image[28];
+                for (i = 84; i < 112; i++) {
+                    actualImages[k] = images[i];
+                    k++;
+                }
+                break;
 
-            case PROPELLING: 
+            case PROPELLING:
             case HEAD_DRAGGING:
-            
 
-            //84-111 
-            actualImages = new Image[14];
-            for(i=28;  i<42 ; i++){
-                actualImages[k]=images[i];
-                k++;
-            }
-            break;
+                // 84-111
+                actualImages = new Image[14];
+                for (i = 28; i < 42; i++) {
+                    actualImages[k] = images[i];
+                    k++;
+                }
+                break;
 
-            case FALLING: 
+            case FALLING:
 
-            //84-111 
-            actualImages = new Image[14];
-            for(i=42;  i<56 ; i++){
-                actualImages[k]=images[i];
-                k++;
-            }
-            break;
-
-
+                // 84-111
+                actualImages = new Image[14];
+                for (i = 42; i < 56; i++) {
+                    actualImages[k] = images[i];
+                    k++;
+                }
+                break;
 
             default:
-                    throw new IllegalStateException();
+                throw new IllegalStateException();
 
         }
 
@@ -150,7 +146,7 @@ public class PlayerMover {
 
     public void move(boolean pressed) {
         this.model.move(pressed);
-        //System.out.println(model.getBarryStatus());
+        // System.out.println(model.getBarryStatus());
     }
 
     public void updateView(Pane root) {
@@ -168,6 +164,10 @@ public class PlayerMover {
 
     public Barry getBarryModel() {
         return this.model;
+    }
+
+    public PlayerHitbox getHitbox(){
+        return this.model.getHitbox();
     }
 
 }

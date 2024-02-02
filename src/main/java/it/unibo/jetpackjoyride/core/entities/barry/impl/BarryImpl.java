@@ -8,6 +8,8 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.event.KeyEvent;
 
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
+
 public class BarryImpl implements Barry {
 
     
@@ -128,6 +130,11 @@ public class BarryImpl implements Barry {
 	public Pair<Double, Double> getPosition() {
 		return new Pair<>(this.X_POSITION, this.position);
 	}
+
+    @Override
+    public PlayerHitbox getHitbox(){
+        return this.hitbox;
+    }
 
 
 

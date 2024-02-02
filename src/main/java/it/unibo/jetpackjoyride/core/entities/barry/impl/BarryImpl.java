@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.event.KeyEvent;
 
@@ -13,7 +14,7 @@ public class BarryImpl implements Barry {
     private final double FALL_ACCELERATION=0.3;
     private final double PROPEL_ACCELERATION=0.6;
     private final double X_POSITION= 50.0;
-    private final double GROUND_LIMIT=700.0;     
+    private final double GROUND_LIMIT;    
     private final double CEILING_LIMIT= 30.0;
     private BarryStatus status;
     private double currentFallMod=FALL_MODIFIER;
@@ -22,6 +23,8 @@ public class BarryImpl implements Barry {
 
     private double propelSpeed=2.0;
     private double fallSpeed=1.2;
+
+    private GameInfo gameInfo;
 
 
     /*FUTURE */
@@ -33,6 +36,8 @@ public class BarryImpl implements Barry {
     
     public BarryImpl(){
         this.status= BarryStatus.WALKING;
+        gameInfo = new GameInfo();
+        this.GROUND_LIMIT  =gameInfo.getScreenHeight()/1.2; 
         this.position=GROUND_LIMIT;
         
     }

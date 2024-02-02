@@ -75,7 +75,7 @@ public class ObstacleView {
                 }
                 break;
             case LASER:
-                width=1250;
+                width=1150;
                 height=32;
                 animationLenght = 8;
                 switch (obstacle.getObstacleStatus()) {

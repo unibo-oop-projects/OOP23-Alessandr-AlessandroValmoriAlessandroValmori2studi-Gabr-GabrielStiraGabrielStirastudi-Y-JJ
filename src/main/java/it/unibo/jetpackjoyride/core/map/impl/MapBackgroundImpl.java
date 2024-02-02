@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 
 
 
+
 public class MapBackgroundImpl extends Pane implements MapBackground {
 
    
@@ -32,11 +33,10 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         loadBackgroungImage();
         
     }
-    
-    @Override
+
     public void updateBackgroundModel() {
 
-        updateSize();
+       
         bgImageX1 -= moveSpeed;
         bgImageX2 -= moveSpeed;
     
@@ -46,16 +46,13 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         if (bgImageX2 <= -mapWidth) {
             bgImageX2 = bgImageX1 + mapWidth;
         }
-    
-        bgImageView1.setX(bgImageX1);
-        bgImageView2.setX(bgImageX2);
-    }
-
-    @Override
-    public void updateBackgroundView() {
-
         updateSize();
     
+    }
+
+    
+    public void updateBackgroundView() {
+
         bgImageView1.setX(bgImageX1);
         bgImageView2.setX(bgImageX2);
     }
@@ -65,16 +62,16 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         double newHeight = gameInfo.getScreenHeight();
 
         if (newWidth != mapWidth || newHeight != mapHeight) {
+            double ratioX1 = bgImageX1/mapWidth;
+            double ratioX2 = bgImageX2/mapWidth;
             mapWidth = newWidth;
             mapHeight = newHeight;
 
-            bgImageView1.setFitWidth(mapWidth);
-            bgImageView1.setFitHeight(mapHeight);
-            bgImageView2.setFitWidth(mapWidth);
-            bgImageView2.setFitHeight(mapHeight);
+            setImageViewSize(bgImageView1, mapWidth, mapHeight);
+            setImageViewSize(bgImageView2, mapWidth, mapHeight);
             
-            bgImageX1 = 0;
-            bgImageX2 = mapWidth;
+            bgImageX1 = mapWidth*ratioX1;
+            bgImageX2 = mapWidth*ratioX2;
 
         }
 
@@ -114,5 +111,5 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
     private void setImageViewSize(ImageView bImageView,double width, double height){
             bImageView.setFitWidth(width);
             bImageView.setFitHeight(height);
-    }
+    }    
 }

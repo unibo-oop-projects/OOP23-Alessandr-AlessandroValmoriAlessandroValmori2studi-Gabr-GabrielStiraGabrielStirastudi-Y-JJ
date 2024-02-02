@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -46,16 +47,24 @@ public class GameMenu {
 
 
     private void initializeGameMenu(){
-        String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
-        menuImage = new Image(menuImgUrl);
-        menuImageView = new ImageView(menuImage);
-        menuImageView.setFitHeight(MAP_HEIGHT);
-        menuImageView.setFitWidth(MAP_WIDTH);
-
-        root = new Pane(menuImageView);
-        menuScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
-
-        this.mainStage.setScene(menuScene);
+        try {
+            String menuImgUrl = getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm();
+            if(menuImgUrl != null){
+                menuImage = new Image(menuImgUrl);
+                menuImageView = new ImageView(menuImage);
+                menuImageView.setFitHeight(MAP_HEIGHT);
+                menuImageView.setFitWidth(MAP_WIDTH);
+        
+                root = new Pane(menuImageView);
+                menuScene = new Scene(root, MAP_WIDTH, MAP_HEIGHT);
+        
+                this.mainStage.setScene(menuScene);
+            }else{
+                System.err.println("GameMenu Image was not found");
+            }
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
     }
 
     private void addButtons(){
@@ -72,7 +81,7 @@ public class GameMenu {
             System.out.println("Shop not exist");
         });
          Button exitButton = createButton("Exit", 2, e -> {
-            System.exit(0);
+            Platform.exit();
         });
         root.getChildren().addAll(startButton,shopButton,exitButton);
     }

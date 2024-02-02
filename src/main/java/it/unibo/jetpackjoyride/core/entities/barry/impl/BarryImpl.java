@@ -9,20 +9,23 @@ public class BarryImpl implements Barry {
 
     
 
-    private final double PROPEL_MODIFIER=1.0;
-    private final double FALL_MODIFIER=0.3;
-    private final double FALL_ACCELERATION=0.3;
-    private final double PROPEL_ACCELERATION=0.6;
-    private final double X_POSITION= 50.0;
+    private final double DOWNWARD_ACC=0.6; // gravity
+    private final double UPWARDS_ACC =1.2; // jetpack propulsion
+
+    private double speed; //can be negative or positive, negative goes up, positive down
+    //its standard value is 0, when barry is walking
+
+    private final double X_POSITION= 100.0; // fixed x position 
+    private double position; // variable y position
+
     private final double GROUND_LIMIT;    
     private final double CEILING_LIMIT= 30.0;
-    private BarryStatus status;
-    private double currentFallMod=FALL_MODIFIER;
-    private double currentPropelMod=PROPEL_MODIFIER;
-    private double position;
 
-    private double propelSpeed=2.0;
-    private double fallSpeed=1.2;
+    private BarryStatus status;
+   
+    
+
+ 
 
     private GameInfo gameInfo;
 
@@ -39,40 +42,56 @@ public class BarryImpl implements Barry {
         gameInfo = new GameInfo();
         this.GROUND_LIMIT  =gameInfo.getScreenHeight()/1.2; 
         this.position=GROUND_LIMIT;
+        this.speed=0;
         
     }
     
     /*RETURN TRUE IF I AM FALLING, FALSE IF NOT */
     public boolean fall(){
       
-        this.currentPropelMod= PROPEL_MODIFIER;
+      
 
-        if(this.position+ this.fallSpeed * this.currentFallMod < GROUND_LIMIT){
-        this.position+= this.fallSpeed * this.currentFallMod;
-        this.status=BarryStatus.FALLING;
-        return true;
-        }
+        if(this.position + this.speed < GROUND_LIMIT){
+            if(this.position + this.speed < CEILING_LIMIT){
+                this.speed=0;
+                this.position=CEILING_LIMIT;
 
-        
+            }
+            this.speed+= this.DOWNWARD_ACC;
+            this.position+= this.speed;
+            this.status= BarryStatus.FALLING;
+            return true;
+            }
+    
+            this.position= GROUND_LIMIT;
+            this.status=BarryStatus.WALKING;
+            this.speed=0;
+            return false;
 
-        this.position= GROUND_LIMIT;
-        this.status=BarryStatus.WALKING;
-        return false;
+            
         
     }
 
     /*RETURNS TRUE IF I AM GOING UP, FALSE IF NOT   */
     public boolean propel(){
  
-        this.currentFallMod= FALL_MODIFIER;
+        
 
-        if(this.position- this.propelSpeed * this.currentPropelMod > CEILING_LIMIT){
-        this.position-= this.propelSpeed * this.currentPropelMod;
+        if(this.position + this.speed > CEILING_LIMIT){
+
+            if(this.position + this.speed > GROUND_LIMIT){
+                this.speed=0;
+                this.position=GROUND_LIMIT;
+
+            }
+        this.speed-= this.UPWARDS_ACC;
+        this.position+= this.speed;
         this.status= BarryStatus.PROPELLING;
         return true;
         }
 
         this.position= CEILING_LIMIT;
+        this.speed=0;
         this.status=BarryStatus.HEAD_DRAGGING;
         return false;
     }
@@ -84,10 +103,10 @@ public class BarryImpl implements Barry {
 
         if(jumping){
             this.propel();
-            this.currentPropelMod+= this.PROPEL_ACCELERATION;
+            
         }else if(!this.status.equals(BarryStatus.WALKING)){
            this.fall();
-            this.currentFallMod+= this.FALL_ACCELERATION;
+           
         }
 
        

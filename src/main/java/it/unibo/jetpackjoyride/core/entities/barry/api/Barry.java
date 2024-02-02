@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.barry.api;
 
+import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public interface Barry {
@@ -19,6 +20,8 @@ public interface Barry {
 
 
     public void move(boolean jumping);
+
+    public PlayerHitbox getHitbox();
 
 
 }

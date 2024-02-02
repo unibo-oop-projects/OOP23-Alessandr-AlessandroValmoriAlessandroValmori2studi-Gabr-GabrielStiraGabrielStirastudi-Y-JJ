@@ -30,8 +30,8 @@ public class ObstacleView {
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
-                width=infoResolution.getScreenWidth()/8;
-                height=infoResolution.getScreenHeight()/16;
+                width=150;
+                height=50;
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
@@ -53,8 +53,8 @@ public class ObstacleView {
 
                 break;
             case ZAPPER:
-                width=infoResolution.getScreenWidth()/5;
-                height=infoResolution.getScreenHeight()/8;
+                width=200;
+                height=100;
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
@@ -75,8 +75,8 @@ public class ObstacleView {
                 }
                 break;
             case LASER:
-                width=infoResolution.getScreenWidth() - (0.04)*infoResolution.getScreenWidth();
-                height=infoResolution.getScreenHeight()/24;
+                width=1250;
+                height=32;
                 animationLenght = 8;
                 switch (obstacle.getObstacleStatus()) {
                     case CHARGING:

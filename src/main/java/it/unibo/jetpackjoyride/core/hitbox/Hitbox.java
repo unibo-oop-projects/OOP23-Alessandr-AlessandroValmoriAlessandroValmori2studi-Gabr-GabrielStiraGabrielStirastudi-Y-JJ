@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.hitbox;
 
+import java.util.Set;
+
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 /* IMPORTANT for the ones which will work with entities.
@@ -26,4 +28,6 @@ public interface Hitbox {
      void updateHitbox(Pair<Double, Double> newPosition, Double angle);
 
      Pair<Double,Double> getHitboxPosition();
+
+     Set<Pair<Double,Double>> getHitboxVertex();
 }

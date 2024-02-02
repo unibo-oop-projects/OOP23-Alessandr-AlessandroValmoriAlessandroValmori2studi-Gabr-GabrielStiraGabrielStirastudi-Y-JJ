@@ -117,8 +117,6 @@ public class BarryImpl implements Barry {
         }
 
         this.hitbox.updateHitbox(getPosition(), 0.0);
-        System.out.println(this.hitbox.getHitboxPosition());
-
     }
 
     @Override

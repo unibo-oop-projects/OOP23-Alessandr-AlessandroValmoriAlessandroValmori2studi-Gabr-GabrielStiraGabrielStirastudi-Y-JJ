@@ -4,6 +4,8 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
+import java.util.*;
+
 public class Zapper extends AbstractObstacle {
     public Zapper(Movement movement, Hitbox hitbox) {
         super(ObstacleType.ZAPPER, movement, hitbox);
@@ -18,6 +20,10 @@ public class Zapper extends AbstractObstacle {
 
         if(this.movement.getCurrentPosition().get1() < -200) {
             this.obstacleStatus = ObstacleStatus.INACTIVE;
+        }
+        Random random = new Random();
+        if(random.nextInt(100) == 1) {
+            this.obstacleStatus = ObstacleStatus.DEACTIVATED;
         }
     }
 }

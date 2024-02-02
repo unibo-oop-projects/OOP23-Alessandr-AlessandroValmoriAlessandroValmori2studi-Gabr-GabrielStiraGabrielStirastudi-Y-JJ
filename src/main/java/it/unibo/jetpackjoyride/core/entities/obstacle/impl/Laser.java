@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
 
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
@@ -17,6 +18,10 @@ public class Laser extends AbstractObstacle {
         this.movement.update();
         this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
         this.lifetime++;
+
+        if(this.obstacleStatus.equals(DEACTIVATED) && this.lifetime < 250) {
+            this.lifetime = 250;
+        }
 
         switch (this.lifetime) {
             case 100:

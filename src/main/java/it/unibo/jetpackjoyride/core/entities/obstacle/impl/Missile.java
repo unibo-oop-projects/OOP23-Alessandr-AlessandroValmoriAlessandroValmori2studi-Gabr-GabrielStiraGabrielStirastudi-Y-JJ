@@ -32,11 +32,10 @@ public class Missile extends AbstractObstacle {
             ) {
                     this.obstacleStatus = ObstacleStatus.INACTIVE;
         }
-        if(this.movement.getCurrentPosition().get1() > 350 && this.movement.getCurrentPosition().get1() < 400) {
-            this.obstacleStatus = ObstacleStatus.DEACTIVATED;
-            this.changeObstacleMovement(new MovementGenerator(this.movement.getCurrentPosition(),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.SLOW)));
-        }
         if(this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
+            if(lifetimeAfterDeactivation==50) {
+                this.changeObstacleMovement(new MovementGenerator(this.movement.getCurrentPosition(),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0),new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.SLOW)));
+            }
             lifetimeAfterDeactivation--;
         }
     }

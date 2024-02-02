@@ -21,9 +21,5 @@ public class Zapper extends AbstractObstacle {
         if(this.movement.getCurrentPosition().get1() < -200) {
             this.obstacleStatus = ObstacleStatus.INACTIVE;
         }
-        Random random = new Random();
-        if(random.nextInt(100) == 1) {
-            this.obstacleStatus = ObstacleStatus.DEACTIVATED;
-        }
     }
 }

@@ -31,12 +31,11 @@ public class BarryView {
     
 
     public void update(Barry barry) {
-
-        imageView.setX(barry.getPosition().get1());
-        imageView.setY(barry.getPosition().get2());
-
         double width = infoResolution.getScreenWidth()/8;
         double height = infoResolution.getScreenHeight()/10;
+
+        imageView.setX(barry.getPosition().get1() - width/2);
+        imageView.setY(barry.getPosition().get2() - height/2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);

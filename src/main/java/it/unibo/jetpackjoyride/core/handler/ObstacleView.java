@@ -53,14 +53,21 @@ public class ObstacleView {
 
                 break;
             case ZAPPER:
-                width=infoResolution.getScreenWidth()/6;
-                height=infoResolution.getScreenHeight()/16;
+                width=infoResolution.getScreenWidth()/5;
+                height=infoResolution.getScreenHeight()/8;
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
                         animationLenght = 6;
                         animationFrame = ((animationCounter[1])/animationLenght % 4);
                         animationCounter[1]++;
+                        break;
+                    case DEACTIVATED:
+                    animationLenght = 4;
+                    animationFrame = 3 + ((animationCounter[2])/animationLenght % 17);
+                    if(animationFrame != 19) {
+                        animationCounter[2]++;
+                    }
                         break;
                     default:
                         animationFrame=0;

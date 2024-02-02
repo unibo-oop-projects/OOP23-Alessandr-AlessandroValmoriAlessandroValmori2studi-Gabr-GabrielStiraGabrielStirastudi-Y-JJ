@@ -35,8 +35,8 @@ public class BarryView {
         imageView.setX(barry.getPosition().get1());
         imageView.setY(barry.getPosition().get2());
 
-        double width = 30.0;
-        double height = 50.0;
+        double width = infoResolution.getScreenWidth()/8;
+        double height = infoResolution.getScreenHeight()/10;
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);

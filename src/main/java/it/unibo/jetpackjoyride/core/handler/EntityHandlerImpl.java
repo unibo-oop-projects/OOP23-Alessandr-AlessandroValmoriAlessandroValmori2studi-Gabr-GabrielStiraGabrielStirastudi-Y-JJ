@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.handler;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
 
 import java.util.*;
@@ -59,6 +60,7 @@ public class EntityHandlerImpl implements EntityHandler{
 
                 if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
                     System.out.println("Obstacle " + controller.getObstacleModel().getObstacleType() + " hit the player");
+                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
                     obstacleHitPlayer=true;
                 }
 
@@ -71,6 +73,15 @@ public class EntityHandlerImpl implements EntityHandler{
                     iterator.remove();  
                 }
             }  
+
+            // Deactivate all obstacles on screen if one hit the player
+            if(obstacleHitPlayer) {
+                iterator = listOfControllers.iterator();
+                while(iterator.hasNext()) { 
+                    var controller = iterator.next();
+                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
+                }
+            }
             return obstacleHitPlayer;
         }
     }

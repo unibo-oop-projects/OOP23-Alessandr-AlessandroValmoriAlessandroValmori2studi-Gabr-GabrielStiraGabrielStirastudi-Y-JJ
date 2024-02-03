@@ -68,8 +68,6 @@ public class EntityHandlerImpl implements EntityHandler{
                 controller.update();
 
                 if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
-                    System.out.println("Obstacle " + controller.getObstacleModel().getObstacleType() + " hit the player");
-                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
                     obstacleHitPlayer=true;
                 }
 

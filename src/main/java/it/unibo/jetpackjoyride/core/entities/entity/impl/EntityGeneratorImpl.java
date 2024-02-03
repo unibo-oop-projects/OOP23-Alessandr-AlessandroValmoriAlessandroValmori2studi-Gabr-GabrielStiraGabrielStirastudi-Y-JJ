@@ -25,7 +25,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case LASER:
                 return new Laser(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
             default:
-                return new CustomObstacle(obstacleMovement, obstacleHitbox); //Don't like canon obstacles? Create it yourself
+                return null;
         }
     }
 
@@ -39,9 +39,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case MRCUDDLES:
                 return new MrCuddles(powerUpMovement, powerUpHitbox); //Canon powerup existing in the original game
             default:
-                return null; //Don't like canon powerups? Create it yourself
+                return null;
         }
     }
-
-    
 }

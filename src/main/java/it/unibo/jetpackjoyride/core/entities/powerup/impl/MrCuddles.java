@@ -1,14 +1,11 @@
 package it.unibo.jetpackjoyride.core.entities.powerup.impl;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
-
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class MrCuddles extends AbstractPowerUp{
-    private PerformingAction performingAction;
 
     public MrCuddles(Movement movement, Hitbox hitbox) {
         super(PowerUpType.MRCUDDLES, movement, hitbox);
@@ -46,13 +43,5 @@ public class MrCuddles extends AbstractPowerUp{
             default:
                 break;
         }
-    }
-
-    public PerformingAction getPerformingAction() {
-        return this.performingAction;
-    }
-
-
-
-    
+    }   
 }

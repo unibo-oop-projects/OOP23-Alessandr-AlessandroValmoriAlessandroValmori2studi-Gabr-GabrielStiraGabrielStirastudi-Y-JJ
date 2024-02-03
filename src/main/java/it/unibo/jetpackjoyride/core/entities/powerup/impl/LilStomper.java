@@ -7,7 +7,6 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class LilStomper extends AbstractPowerUp{
     private int loadJump;
-    private PerformingAction performingAction;
 
     public LilStomper(Movement movement, Hitbox hitbox) {
         super(PowerUpType.LILSTOMPER, movement, hitbox);
@@ -67,12 +66,4 @@ public class LilStomper extends AbstractPowerUp{
                 break;
         }
     }
-
-    public PerformingAction getPerformingAction() {
-        return this.performingAction;
-    }
-
-
-
-    
 }

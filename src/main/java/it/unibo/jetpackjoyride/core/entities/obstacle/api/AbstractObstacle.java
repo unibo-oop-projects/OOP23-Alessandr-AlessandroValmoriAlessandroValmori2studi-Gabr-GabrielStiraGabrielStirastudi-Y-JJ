@@ -4,7 +4,7 @@ import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public abstract class AbstractObstacle extends AbstractEntity implements Obstacle {
@@ -33,4 +33,13 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     public void changeObstacleMovement(Movement newMovement) {
         this.movement = newMovement;
     }
+
+    public void update() {
+        this.lifetime++;
+        this.movement.update();
+        this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
+        this.updateStatus();
+    }
+
+    protected abstract void updateStatus();
 }

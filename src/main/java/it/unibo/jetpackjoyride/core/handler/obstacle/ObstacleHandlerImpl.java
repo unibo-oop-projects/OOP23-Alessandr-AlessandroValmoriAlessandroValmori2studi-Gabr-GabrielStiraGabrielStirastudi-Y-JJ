@@ -1,23 +1,16 @@
-package it.unibo.jetpackjoyride.core.handler;
+package it.unibo.jetpackjoyride.core.handler.obstacle;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
-import it.unibo.jetpackjoyride.utilities.Pair;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 
-public class EntityHandlerImpl implements EntityHandler{
+public class ObstacleHandlerImpl implements ObstacleHandler{
 
     private ObstacleSpawner obstacleSpawner;
     private List<ObstacleController> listOfControllers;
@@ -69,6 +62,8 @@ public class EntityHandlerImpl implements EntityHandler{
 
                 if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
                     obstacleHitPlayer=true;
+                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
+                    System.out.println("Obstacle " + controller.getObstacleModel().getHitbox().getHitboxPosition() + " hit the player " + playerHitbox.getHitboxPosition());
                 }
 
                 if(!obstacleGroup.getChildren().contains((Node)controller.getImageView())) {
@@ -81,7 +76,7 @@ public class EntityHandlerImpl implements EntityHandler{
                 }
             }  
 
-            // Deactivate all obstacles on screen if one hit the player
+            // Deactivate all obstacles on screen if one hit the player (give the player a brief moment to focus again)
             if(obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
                 while(iterator.hasNext()) { 

@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;

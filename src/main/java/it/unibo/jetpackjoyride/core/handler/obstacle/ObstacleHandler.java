@@ -1,11 +1,11 @@
-package it.unibo.jetpackjoyride.core.handler;
+package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 
-public interface EntityHandler extends Runnable {
+public interface ObstacleHandler extends Runnable {
     List<ObstacleController> getControllers();
     boolean update(Group obstacleGroup, Hitbox playerHitbox); //returns true if an obstacle hit the player
     void run();

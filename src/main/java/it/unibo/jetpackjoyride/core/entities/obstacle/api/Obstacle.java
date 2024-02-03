@@ -19,4 +19,6 @@ public interface Obstacle extends Entity {
     void changeObstacleStatus(ObstacleStatus newObstacleStatus);
 
     ObstacleStatus getObstacleStatus();
+
+    void update();
 }

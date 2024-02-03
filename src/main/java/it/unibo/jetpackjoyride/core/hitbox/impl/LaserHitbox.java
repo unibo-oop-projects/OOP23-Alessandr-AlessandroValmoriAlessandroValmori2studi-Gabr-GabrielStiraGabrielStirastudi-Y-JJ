@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.core.hitbox.impl;
 
-import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.hitbox.AbstractHitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class LaserHitbox extends AbstractHitbox {

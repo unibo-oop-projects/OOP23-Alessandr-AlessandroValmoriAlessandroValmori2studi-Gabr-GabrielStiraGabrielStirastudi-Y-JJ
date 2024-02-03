@@ -1,6 +1,4 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
-
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;

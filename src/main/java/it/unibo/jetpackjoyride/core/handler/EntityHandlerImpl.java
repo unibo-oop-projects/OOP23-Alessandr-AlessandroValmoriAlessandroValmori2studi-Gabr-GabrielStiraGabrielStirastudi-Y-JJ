@@ -5,9 +5,17 @@ import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.Obstac
 
 import java.util.*;
 
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 
 public class EntityHandlerImpl implements EntityHandler{
 
@@ -17,10 +25,11 @@ public class EntityHandlerImpl implements EntityHandler{
     private boolean isRunning = false;
 
     public void initialize() {
-        listOfControllers = new ArrayList<>();
-        isRunning = true;
-        obstacleSpawner = new ObstacleSpawner();
-        chunkMaker = new Thread(this);
+        this.isRunning = true;
+        this.listOfControllers = new ArrayList<>();
+        this.obstacleSpawner = new ObstacleSpawner();
+
+        this.chunkMaker = new Thread(this);
         this.start();
     }
 

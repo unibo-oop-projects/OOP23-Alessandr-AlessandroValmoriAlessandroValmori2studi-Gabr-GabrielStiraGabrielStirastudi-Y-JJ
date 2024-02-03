@@ -20,8 +20,8 @@ public class PowerUpView {
         this.imageView = new ImageView();
         this.infoResolution = new GameInfo();
         this.animationFrame = 0;
-        this.animationCounter = new int[4]; //0 counter for walking, 1 counter for ascending, 
-                                            //2 counter for descending, 3 counter for landing
+        this.animationCounter = new int[5]; //0 counter for walking, 1 counter for ascending, 
+                                            //2 counter for descending, 3 counter for descending-landing, 4 counter for landing
         this.animationLenght = 1;
     }
 
@@ -41,26 +41,27 @@ public class PowerUpView {
                         animationCounter[0]++;
                         break;
                     case ASCENDING:
-                    if(animationCounter[1] < 20) {
-                        animationLenght = 3;
-                        animationFrame = 5 + ((animationCounter[1])/animationLenght % 8);
+                        animationLenght = 4;
+                        animationFrame = 5 + ((animationCounter[1])/animationLenght % 12);
                         animationCounter[1]++;
-                    } else {
-                        animationLenght = 6;
-                        animationFrame = 13 + ((animationCounter[1])/animationLenght % 2);
-                        animationCounter[1]++;
-                    }
                         break;
                     case DESCENDING:
-                    animationLenght = 6;
-                    animationFrame = 15 + ((animationCounter[2])/animationLenght % 2);
-                    animationCounter[2]++;
+                    if(powerUp.getEntityMovement().getSpeed().get2()<150) {
+                        animationLenght = 6;
+                        animationFrame = 15 + ((animationCounter[2])/animationLenght % 2);
+                        animationCounter[2]++;
+                    } else {
+                        animationLenght = 8;
+                        animationFrame = 17 + ((animationCounter[3])/animationLenght % 2);
+                        animationCounter[3]++;
+                    }
+                    
                         break;
                     case LANDING:
                     animationLenght = 4;
-                    animationFrame = 19 + ((animationCounter[3])/animationLenght % 5);
-                    animationCounter[3]++;
-                    if(animationCounter[3] > 20) {
+                    animationFrame = 19 + ((animationCounter[4])/animationLenght % 5);
+                    animationCounter[4]++;
+                    if(animationCounter[4] > 20) {
                         for(int i=0; i<4; i++) {
                             animationCounter[i] = 0;
                         }

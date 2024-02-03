@@ -5,8 +5,6 @@ import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper.PerformingAction;
-
 public class PowerUpView {
     private ImageView imageView;
     private Image[] images;
@@ -42,18 +40,26 @@ public class PowerUpView {
                         break;
                     case ASCENDING:
                         animationLenght = 4;
-                        animationFrame = 5 + ((animationCounter[1])/animationLenght % 12);
-                        animationCounter[1]++;
+                        animationFrame = 5 + ((animationCounter[1])/animationLenght % 10);
+                        if(animationCounter[1] < 39 ) {
+                            animationCounter[1]++;
+                        } else {
+                            animationCounter[1] = 32;
+                        }
                         break;
                     case DESCENDING:
-                    if(powerUp.getEntityMovement().getSpeed().get2()<150) {
+                    if(powerUp.getEntityMovement().getSpeed().get2()<=50) {
                         animationLenght = 6;
                         animationFrame = 15 + ((animationCounter[2])/animationLenght % 2);
                         animationCounter[2]++;
                     } else {
                         animationLenght = 8;
                         animationFrame = 17 + ((animationCounter[3])/animationLenght % 2);
-                        animationCounter[3]++;
+                        if(animationCounter[3]<15) {
+                            animationCounter[3]++;
+                        } else {
+                            animationCounter[3] = 15;
+                        }
                     }
                     
                         break;
@@ -72,6 +78,30 @@ public class PowerUpView {
                         break;
                 }
                
+                break;
+            case MRCUDDLES:
+                width = 600;
+                height = 400;
+                switch (powerUp.getPerformingAction()) {
+                    case ASCENDING:
+                        animationLenght = 5;
+                        animationFrame = ((animationCounter[1])/animationLenght % 5);
+                        if(animationCounter[1] > 0) {
+                            animationCounter[1]--;
+                        }
+                        break;
+                    case DESCENDING:
+                        animationLenght = 5;
+                        animationFrame = 1 + ((animationCounter[1])/animationLenght % 4);
+                        if(animationCounter[1]<16) {
+                            animationCounter[1]++;
+                        }
+                        break;
+                    default:
+                        animationFrame=0;
+                        break;
+                }
+
                 break;
             default:
                 width=0;

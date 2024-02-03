@@ -1,8 +1,8 @@
 package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
-import it.unibo.jetpackjoyride.core.handler.EntityHandlerImpl;
-import it.unibo.jetpackjoyride.core.handler.PowerUpController;
+import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandlerImpl;
+import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -20,9 +20,9 @@ public class GameLoop{
     private AnimationTimer timer;
     private MapBackground map;
 
-    private EntityHandlerImpl entityHandler;
+    private ObstacleHandlerImpl entityHandler;
     private PlayerMover playerMover;
-    private PowerUpController powerUpHandler;
+    private PowerUpHandler powerUpHandler;
 
     private final int FPS=70;
     private final long nSecPerFrame= Math.round(1.0/FPS * 1e9);
@@ -57,11 +57,11 @@ public class GameLoop{
         
         map = new MapBackgroundImpl(gameInfo);
 
-        entityHandler = new EntityHandlerImpl();
+        entityHandler = new ObstacleHandlerImpl();
         entityHandler.initialize();
 
         playerMover = new PlayerMover();
-        powerUpHandler = new PowerUpController();
+        powerUpHandler = new PowerUpHandler();
 
         root.getChildren().add((Node)map);
         root.getChildren().add((Node)obstacleGroup);

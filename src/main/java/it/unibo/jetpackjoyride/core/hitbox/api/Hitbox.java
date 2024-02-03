@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.core.hitbox;
+package it.unibo.jetpackjoyride.core.hitbox.api;
 
 import java.util.Set;
 

@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
 
@@ -18,10 +18,7 @@ public class Missile extends AbstractObstacle {
     }
 
     @Override
-    public void update() {
-        this.movement.update();
-        this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
-        this.lifetime++;
+    protected void updateStatus() {
 
         if((this.movement.getCurrentPosition().get1() < -200) ||
            (!this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 

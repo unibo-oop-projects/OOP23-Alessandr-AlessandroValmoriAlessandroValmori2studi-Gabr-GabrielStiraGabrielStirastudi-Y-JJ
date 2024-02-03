@@ -9,8 +9,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
-import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public class EntityGeneratorImpl implements EntityGenerator {
@@ -37,7 +36,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case BADASHOG:
                 return null; //Canon powerup existing in the original game
             case MRCUDDLES:
-                return new MrCuddles(powerUpMovement, powerUpHitbox); //Canon powerup existing in the original game
+                return null; //new MrCuddles(powerUpMovement, powerUpHitbox); //Canon powerup existing in the original game
             default:
                 return null;
         }

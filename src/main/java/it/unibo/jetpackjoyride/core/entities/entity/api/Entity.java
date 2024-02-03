@@ -1,6 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.entity.api;
 
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 /* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...

@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.core.handler;
+package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import javafx.scene.image.ImageView;

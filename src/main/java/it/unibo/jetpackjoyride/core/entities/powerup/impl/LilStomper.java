@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.powerup.impl;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
 

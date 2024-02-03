@@ -1,6 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.entity.api;
 
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public abstract class AbstractEntity implements Entity {

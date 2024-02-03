@@ -36,7 +36,7 @@ public class LilStomper extends AbstractPowerUp{
                     this.loadJump++;
                 }
                 if(this.loadJump == 10 || !isSpaceBarPressed) {
-                    this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), -this.loadJump*4.5 - 130.0));
+                    this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), -this.loadJump*4.0 - 130.0));
                     this.loadJump = 0;
                     this.performingAction = PerformingAction.ASCENDING;
                 }
@@ -47,7 +47,7 @@ public class LilStomper extends AbstractPowerUp{
                 }
                 break;
             case DESCENDING:
-                if(this.movement.getSpeed().get2()>100) {
+                if(this.movement.getSpeed().get2()>10) {
                     if(isSpaceBarPressed) {
                         this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), 30.0));
                     } else {
@@ -55,10 +55,10 @@ public class LilStomper extends AbstractPowerUp{
                     }
                 }
 
-                if(this.movement.getCurrentPosition().get2()>700) {
+                if(this.movement.getCurrentPosition().get2()>650) {
                     this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), 0.0));
                     this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), 0.0));
-                    this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1(), 700.0));
+                    this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1(), 650.0));
                     this.performingAction = PerformingAction.LANDING;
                     this.loadJump = -20;
                 }

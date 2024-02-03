@@ -26,11 +26,10 @@ public class PowerUpController {
         Image[] actualImage = new Image[24];
 
         for (int i = 0; i < 24; i++) {
-            System.out.println(i);
             actualImage[i] = new Image(getClass().getClassLoader().getResource("sprites/entities/powerups/lilstomper/lilstomper_" + (i+1) + ".png").toExternalForm()); 
         }
 
-        this.model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(500.0,700.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.GRAVITY)),null);
+        this.model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(500.0,650.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.GRAVITY)),null);
         this.view = new PowerUpView(actualImage);
     }
 

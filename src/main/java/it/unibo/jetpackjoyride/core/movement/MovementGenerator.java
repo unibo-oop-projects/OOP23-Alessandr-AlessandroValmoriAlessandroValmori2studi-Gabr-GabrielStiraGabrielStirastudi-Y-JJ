@@ -94,7 +94,7 @@ public class MovementGenerator {
 
                 /* GRAVITY */
                 if(listOfChangers.contains(MovementChangers.GRAVITY)) {
-                    if(currentPosition.get2()<700) {
+                    if(currentPosition.get2()<650) {
                         xyacceleration = new Pair<>(xyacceleration.get1(), xyacceleration.get2()+8.0);
                     }
                 }

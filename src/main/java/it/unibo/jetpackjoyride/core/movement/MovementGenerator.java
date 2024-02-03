@@ -24,7 +24,8 @@ public class MovementGenerator {
         SLOW, // Slower speed set by the SLOWMODIFIER
         SPEEDY, // Faster speed set by the SPEEDYMODIFIER
         STATIC, // No velocity, the object is still and doesn't move
-        GRAVITY // y speed is accelerated downwards
+        GRAVITY, // y speed is accelerated downwards
+        INVERSEGRAVITY, // y speed is accelerated upwards
     }
 
     public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo) {
@@ -95,7 +96,14 @@ public class MovementGenerator {
                 /* GRAVITY */
                 if(listOfChangers.contains(MovementChangers.GRAVITY)) {
                     if(currentPosition.get2()<650) {
-                        xyacceleration = new Pair<>(xyacceleration.get1(), xyacceleration.get2()+8.0);
+                        xyacceleration = new Pair<>(xyacceleration.get1(), +16.0);
+                    }
+                }
+
+                /* INVERSEGRAVITY */
+                if(listOfChangers.contains(MovementChangers.INVERSEGRAVITY)) {
+                    if(currentPosition.get2()>150) {
+                        xyacceleration = new Pair<>(xyacceleration.get1(), -16.0);
                     }
                 }
             }

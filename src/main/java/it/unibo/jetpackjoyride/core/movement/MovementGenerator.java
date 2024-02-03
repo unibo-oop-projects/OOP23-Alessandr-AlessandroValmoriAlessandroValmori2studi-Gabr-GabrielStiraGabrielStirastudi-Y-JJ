@@ -23,7 +23,8 @@ public class MovementGenerator {
         HOMING, // Acceleration of y in changed based on the y difference between the player entity and this entity
         SLOW, // Slower speed set by the SLOWMODIFIER
         SPEEDY, // Faster speed set by the SPEEDYMODIFIER
-        STATIC // No velocity, the object is still and doesn't move
+        STATIC, // No velocity, the object is still and doesn't move
+        GRAVITY // y speed is accelerated downwards
     }
 
     public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo) {
@@ -88,6 +89,13 @@ public class MovementGenerator {
                     if(currentPosition.get2()>700) {
                         xyspeed = new Pair<>(xyspeed.get1(), -Math.abs(xyspeed.get2()));
                         rotationInfo = new Pair<>(Math.abs(rotationInfo.get1()),rotationInfo.get2());
+                    }
+                }
+
+                /* GRAVITY */
+                if(listOfChangers.contains(MovementChangers.GRAVITY)) {
+                    if(currentPosition.get2()<700) {
+                        xyacceleration = new Pair<>(xyacceleration.get1(), xyacceleration.get2()+8.0);
                     }
                 }
             }

@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.EntityHandlerImpl;
+import it.unibo.jetpackjoyride.core.handler.PowerUpController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -18,20 +19,23 @@ public class GameLoop{
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    private EntityHandlerImpl chunkMaker;
-    Pane root ;
-    private boolean isRunning;
-    Group obstacleGroup;
+
+    private EntityHandlerImpl entityHandler;
+    private PlayerMover playerMover;
+    private PowerUpController powerUpHandler;
+
     private final int FPS=70;
-    private long nSecPerFrame= Math.round(1.0/FPS * 1e9);
-    PlayerMover playerMover;
+    private final long nSecPerFrame= Math.round(1.0/FPS * 1e9);
+
+    private Pane root ;
+    private Group obstacleGroup;
+    private Group powerUpGroup;
 
    
     private InputHandler inputH = new InputHandler();
 
 
     public GameLoop(){
-        this.isRunning = false;
         initializeScene();
         initializeGameElements();
      
@@ -40,6 +44,7 @@ public class GameLoop{
     private void initializeScene() {
         root = new Pane();
         obstacleGroup = new Group();
+        powerUpGroup = new Group();
         gameInfo = new GameInfo();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         
@@ -52,13 +57,15 @@ public class GameLoop{
         
         map = new MapBackgroundImpl(gameInfo);
 
-        chunkMaker = new EntityHandlerImpl();
-        chunkMaker.initialize();
+        entityHandler = new EntityHandlerImpl();
+        entityHandler.initialize();
 
         playerMover = new PlayerMover();
+        powerUpHandler = new PowerUpController();
 
         root.getChildren().add((Node)map);
         root.getChildren().add((Node)obstacleGroup);
+        root.getChildren().add((Node)powerUpGroup);
     }
 
     private void setupTimer(){
@@ -75,8 +82,8 @@ public class GameLoop{
 
                 updateModel();
                 updateView();
-                chunkMaker.update(obstacleGroup, playerMover.getHitbox());
-
+                entityHandler.update(obstacleGroup, playerMover.getHitbox());
+                powerUpHandler.update(inputH.isSpacePressed(), powerUpGroup);
                 lastUpdate=now;
                 }
                 
@@ -97,7 +104,6 @@ public class GameLoop{
         
         map.updateBackgroundView();
         playerMover.updateView(root);
-        
     }
 
     private void updateScreenSize() {
@@ -119,12 +125,10 @@ public class GameLoop{
 
     public void starLoop(){
         timer.start();
-        this.isRunning = true;
     }
 
     public void endLoop(){
-        this.isRunning = false;
-        chunkMaker.over();
+        entityHandler.over();
     }
     
     public Scene getScene(){

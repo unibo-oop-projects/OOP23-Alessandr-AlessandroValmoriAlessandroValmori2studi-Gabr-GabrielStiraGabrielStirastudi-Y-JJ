@@ -7,8 +7,6 @@ import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
-
 import java.util.*;
 
 public class Missile extends AbstractObstacle {

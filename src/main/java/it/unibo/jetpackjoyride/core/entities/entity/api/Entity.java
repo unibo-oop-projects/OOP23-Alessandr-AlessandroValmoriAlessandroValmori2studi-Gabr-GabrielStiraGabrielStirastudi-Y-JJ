@@ -20,6 +20,4 @@ public interface Entity {
     Movement getEntityMovement();
     Hitbox getHitbox();
     int getLifetime();
-    void update();
-
 }

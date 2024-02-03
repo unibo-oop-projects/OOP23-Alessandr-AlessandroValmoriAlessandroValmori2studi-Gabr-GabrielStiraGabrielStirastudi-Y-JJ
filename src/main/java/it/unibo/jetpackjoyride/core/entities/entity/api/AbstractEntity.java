@@ -28,8 +28,6 @@ public abstract class AbstractEntity implements Entity {
         return this.hitbox;
     }
 
-    public abstract void update();
-
     public int getLifetime() {
         return this.lifetime;
     }

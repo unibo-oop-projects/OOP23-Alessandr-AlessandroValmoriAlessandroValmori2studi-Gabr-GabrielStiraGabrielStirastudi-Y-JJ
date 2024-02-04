@@ -80,7 +80,8 @@ public class ObstacleSpawner {
             switch (typeOfObstacle) {
                 case 0:
                     //MISSILE
-                    movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.DIAGONALUP : typeOfMovement == 1 ? MovementChangers.DIAGONALDOWN : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
+
+                    movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.GRAVITY : typeOfMovement == 1 ? MovementChangers.SLOW : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     startingStatus = ObstacleStatus.ACTIVE;

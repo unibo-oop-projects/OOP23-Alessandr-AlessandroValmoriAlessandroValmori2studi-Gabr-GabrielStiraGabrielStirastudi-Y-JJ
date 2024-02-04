@@ -22,7 +22,7 @@ public class Missile extends AbstractObstacle {
 
         if((this.movement.getCurrentPosition().get1() < -200) ||
            (!this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 
-                (this.movement.getCurrentPosition().get2() < 0 || this.movement.getCurrentPosition().get2() > 800)) ||
+                (this.movement.getCurrentPosition().get2() < 150 || this.movement.getCurrentPosition().get2() > 650)) ||
            (this.lifetimeAfterDeactivation < 0)
             ) {
                     this.obstacleStatus = ObstacleStatus.INACTIVE;

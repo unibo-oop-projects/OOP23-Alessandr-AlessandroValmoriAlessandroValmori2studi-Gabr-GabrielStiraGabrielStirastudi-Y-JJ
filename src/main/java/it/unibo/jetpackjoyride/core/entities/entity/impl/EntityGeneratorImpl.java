@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.core.entities.entity.impl;
 
 
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
@@ -9,8 +11,12 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+
+import java.util.*;
 
 public class EntityGeneratorImpl implements EntityGenerator {
 
@@ -29,14 +35,14 @@ public class EntityGeneratorImpl implements EntityGenerator {
     }
 
     @Override
-    public PowerUp generatePowerUp(PowerUpType powerUpType, Movement powerUpMovement, Hitbox powerUpHitbox) {
+    public List<PowerUp> generatePowerUp(PowerUpType powerUpType, Movement powerUpMovement, Hitbox powerUpHitbox) {
         switch (powerUpType) {
             case LILSTOMPER:
-                return new LilStomper(powerUpMovement, powerUpHitbox); //Canon powerup existing in the original game
+                return List.of(new LilStomper(powerUpMovement, powerUpHitbox)); //Canon powerup existing in the original game
             case BADASHOG:
                 return null; //Canon powerup existing in the original game
             case MRCUDDLES:
-                return null; //new MrCuddles(powerUpMovement, powerUpHitbox); //Canon powerup existing in the original game
+                return new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle(); //Canon powerup existing in the original game
             default:
                 return null;
         }

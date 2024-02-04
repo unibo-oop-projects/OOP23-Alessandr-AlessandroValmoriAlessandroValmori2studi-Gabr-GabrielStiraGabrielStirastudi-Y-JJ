@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
 
 public class PowerUpView {
     private ImageView imageView;
@@ -11,12 +11,10 @@ public class PowerUpView {
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
-    private GameInfo infoResolution;
 
     public PowerUpView(Image[] images) {
         this.images = images;
         this.imageView = new ImageView();
-        this.infoResolution = new GameInfo();
         this.animationFrame = 0;
         this.animationCounter = new int[5]; //0 counter for walking, 1 counter for ascending, 
                                             //2 counter for descending, 3 counter for descending-landing, 4 counter for landing
@@ -82,26 +80,31 @@ public class PowerUpView {
             case MRCUDDLES:
                 width = 600;
                 height = 400;
-                switch (powerUp.getPerformingAction()) {
-                    case ASCENDING:
-                        animationLenght = 5;
-                        animationFrame = ((animationCounter[1])/animationLenght % 5);
-                        if(animationCounter[1] > 0) {
-                            animationCounter[1]--;
-                        }
-                        break;
-                    case DESCENDING:
-                        animationLenght = 5;
-                        animationFrame = 1 + ((animationCounter[1])/animationLenght % 4);
-                        if(animationCounter[1]<16) {
-                            animationCounter[1]++;
-                        }
-                        break;
-                    default:
-                        animationFrame=0;
-                        break;
+                if(powerUp.getPowerUpStatus().equals(PowerUpStatus.ACTIVE)) {
+                    switch (powerUp.getPerformingAction()) {
+                        case ASCENDING:
+                            animationLenght = 5;
+                            animationFrame = ((animationCounter[1])/animationLenght % 5);
+                            if(animationCounter[1] > 0) {
+                                animationCounter[1]--;
+                            }
+                            break;
+                        case DESCENDING:
+                            animationLenght = 5;
+                            animationFrame = 1 + ((animationCounter[1])/animationLenght % 4);
+                            if(animationCounter[1]<16) {
+                                animationCounter[1]++;
+                            }
+                            break;
+                        default:
+                            animationFrame=0;
+                            break;
+                    }
                 }
-
+                else 
+                {
+                    animationFrame = 5;   
+                }
                 break;
             default:
                 width=0;

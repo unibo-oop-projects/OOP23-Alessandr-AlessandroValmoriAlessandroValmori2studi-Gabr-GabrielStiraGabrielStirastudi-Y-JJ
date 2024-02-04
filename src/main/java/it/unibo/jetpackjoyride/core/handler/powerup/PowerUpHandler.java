@@ -14,7 +14,6 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class PowerUpHandler {
     private List<PowerUpController> listOfControllers;
@@ -48,11 +47,9 @@ public class PowerUpHandler {
         }  
     }
 
-
-
     private void init() {
 
-        PowerUp model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(500.0,650.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.GRAVITY)),null);
+        /*PowerUp model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(500.0,650.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.GRAVITY)),null);
         
         Image[] actualImage = new Image[24];
         for (int i = 0; i < 24; i++) {
@@ -62,17 +59,24 @@ public class PowerUpHandler {
 
         PowerUpController powerup = new PowerUpController(model, view);
 
-        listOfControllers.add(powerup);
+        listOfControllers.add(powerup);*/
         
-                
-        /*Image[] actualImage = new Image[5];
+              
+        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(200.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.INVERSEGRAVITY)),null);
+        Image[] actualImage = new Image[6];
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             actualImage[i] = new Image(getClass().getClassLoader().getResource("sprites/entities/powerups/mrcuddles/mrcuddles_" + (i+1) + ".png").toExternalForm()); 
         }
+
+        List<PowerUpController> powerup = new ArrayList<>();
+        for(int i=0; i<model.size(); i++) {
+            PowerUpView view = new PowerUpView(actualImage);
+            powerup.add(new PowerUpController(model.get(i), view));
+
+        }
+
+        listOfControllers.addAll(powerup);
         
-        this.model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(200.0,650.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC, MovementChangers.INVERSEGRAVITY)),null);
-        */
-  
     }
 }

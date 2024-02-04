@@ -8,10 +8,10 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public abstract class AbstractMovement implements Movement {
 
-    public Pair<Double, Double> currentPosition;
-    public Pair<Double,Double> xyacceleration;
-    public Pair<Double,Double> xyspeed;
-    public Pair<Double,Double> rotationInfo;
+    private Pair<Double, Double> currentPosition;
+    private Pair<Double,Double> xyacceleration;
+    private Pair<Double,Double> xyspeed;
+    private Pair<Double,Double> rotationInfo;
 
     private List<MovementChangers> listOfChangers = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public abstract class AbstractMovement implements Movement {
         return this.rotationInfo;
     }
 
-    public abstract void applyModifiers();
+    protected abstract void applyModifiers();
 
     @Override
     public abstract void update();

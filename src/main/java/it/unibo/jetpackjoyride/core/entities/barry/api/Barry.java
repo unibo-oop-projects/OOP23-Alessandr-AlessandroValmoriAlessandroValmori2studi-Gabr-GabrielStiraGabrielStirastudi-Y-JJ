@@ -11,10 +11,6 @@ public interface Barry {
 
     public Pair<Double, Double> getPosition();
     
-    
-    public boolean propel();
-
-    public boolean fall();
 
     public BarryStatus getBarryStatus();
 

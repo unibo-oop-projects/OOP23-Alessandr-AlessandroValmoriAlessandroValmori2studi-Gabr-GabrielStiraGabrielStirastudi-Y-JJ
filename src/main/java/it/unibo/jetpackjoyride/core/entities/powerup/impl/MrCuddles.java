@@ -6,13 +6,12 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class MrCuddles extends AbstractPowerUp{
-    private final static Integer MRCUDDLESLENGHT = 15;
-    public Integer indexOfBody;
+    private final static Integer MRCUDDLESLENGHT = 12;
+    private Integer indexOfBody;
     private List<Boolean> lastFrames;
 
     public MrCuddles(Movement movement, Hitbox hitbox, Integer indexOfBody) {
@@ -34,7 +33,7 @@ public class MrCuddles extends AbstractPowerUp{
         }
         this.lastFrames.add(isSpaceBarPressed);
 
-        Double rotationAngle = -5 + (double)(1*this.lastFrames.stream().filter(p -> p.equals(true)).count());
+        Double rotationAngle = this.movement.getSpeed().get2()/5;
         this.movement.setRotation(new Pair<>(rotationAngle,0.0));
         this.movement.update();
 
@@ -44,16 +43,6 @@ public class MrCuddles extends AbstractPowerUp{
             } else {
                 this.performingAction = PerformingAction.ASCENDING;
             }
-        }
-        
-
-        if(this.movement.getCurrentPosition().get2()<150) {
-            this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), 0.0));
-            this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1(), 150.0));
-        }
-        if(this.movement.getCurrentPosition().get2()>650) {
-            this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), 0.0));
-            this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1(), 650.0));
         }
         
         switch (this.performingAction) {

@@ -16,8 +16,6 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
-import java.util.*;
-
 public class EntityGeneratorImpl implements EntityGenerator {
 
     @Override

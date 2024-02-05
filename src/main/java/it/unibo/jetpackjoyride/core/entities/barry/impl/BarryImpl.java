@@ -52,7 +52,7 @@ public class BarryImpl implements Barry {
     }
     
     /*RETURN TRUE IF I AM FALLING, FALSE IF NOT */
-    public boolean fall(){
+    private boolean fall(){
       
       
 
@@ -78,7 +78,7 @@ public class BarryImpl implements Barry {
     }
 
     /*RETURNS TRUE IF I AM GOING UP, FALSE IF NOT   */
-    public boolean propel(){
+    private boolean propel(){
  
         
 

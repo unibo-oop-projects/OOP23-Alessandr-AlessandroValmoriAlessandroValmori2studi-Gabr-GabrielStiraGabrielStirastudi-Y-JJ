@@ -17,8 +17,6 @@ public class Pair<X,Y> {
 		this.y = y;
 	}
 
-	
-
 	public X get1() {
 		return x;
 	}
@@ -34,7 +32,7 @@ public class Pair<X,Y> {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

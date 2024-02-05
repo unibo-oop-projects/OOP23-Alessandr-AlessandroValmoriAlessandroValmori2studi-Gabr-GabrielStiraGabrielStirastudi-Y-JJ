@@ -5,7 +5,7 @@ import java.util.*;
 
 public class MovementGenerator {
 
-    private final static Pair<Double,Double> MAPMOVINGSPEED = new Pair<>(-75.0, 0.0);
+    private final static Pair<Double,Double> MAPMOVINGSPEED = new Pair<>(-100.0, 0.0);
     private final static Double SPEEDYMODIFIER = 1.5;
     private final static Double SLOWMODIFIER = 0.7;
 
@@ -20,8 +20,8 @@ public class MovementGenerator {
         INITIALLYSTILL, // x and y speed is initially 0 but can be changed
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
         HOMING, // Acceleration of y in changed based on the y difference between the player entity and this entity
-        SLOW, // Slower speed set by the SLOWMODIFIER
-        SPEEDY, // Faster speed set by the SPEEDYMODIFIER
+        SLOW, // Slower initial speed set by the SLOWMODIFIER
+        SPEEDY, // Faster initial speed set by the SPEEDYMODIFIER
         STATIC, // No velocity, the object is still and doesn't move
         GRAVITY, // y speed is accelerated downwards
         INVERSEGRAVITY, // y speed is accelerated upwards
@@ -69,16 +69,12 @@ public class MovementGenerator {
 
                 /* GRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.GRAVITY)) {
-                    if(this.getCurrentPosition().get2()<650) {
-                        this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +25.0));
-                    }
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +25.0));
                 }
 
                 /* INVERSEGRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.INVERSEGRAVITY)) {
-                    if(this.getCurrentPosition().get2()>150) {
-                        this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -25.0));
-                    }
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -25.0));
                 }
 
                 /* BOUNCING */
@@ -103,11 +99,15 @@ public class MovementGenerator {
                 if(this.getMovementChangers().contains(MovementChangers.BOUNDS)) {
                     if(this.getCurrentPosition().get2()>650) {
                         this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), 650.0));
-                        this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        if(this.getSpeed().get2()>0) {
+                            this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        }
                     }
                     if(this.getCurrentPosition().get2()<150) {
                         this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), 150.0));
-                        this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        if(this.getSpeed().get2()<0) {
+                            this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        }
                     }
                 }
             }

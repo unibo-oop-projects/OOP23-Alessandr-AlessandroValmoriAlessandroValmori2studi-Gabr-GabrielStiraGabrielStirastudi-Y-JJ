@@ -32,23 +32,23 @@ public class PowerUpView {
                 height = 230;
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
-                        animationLenght = 6;
+                        animationLenght = 12;
                         animationFrame = ((animationCounter[0])/animationLenght % 6);
                         animationCounter[0]++;
                         break;
                     case ASCENDING:
-                        animationLenght = 4;
+                        animationLenght = 5;
                         animationFrame = 5 + ((animationCounter[1])/animationLenght % 10);
-                        if(animationCounter[1] < 39 ) {
+                        if(animationCounter[1] < animationLenght*10 - 1 ) {
                             animationCounter[1]++;
                         } else {
-                            animationCounter[1] = 32;
+                            animationCounter[1] = animationLenght*8;
                         }
                         break;
                     case DESCENDING:
                     if(powerUp.getEntityMovement().getSpeed().get2()<=50) {
                         animationLenght = 6;
-                        animationFrame = 15 + ((animationCounter[2])/animationLenght % 2);
+                        animationFrame = 13 + ((animationCounter[2])/animationLenght % 4);
                         animationCounter[2]++;
                     } else {
                         animationLenght = 8;
@@ -62,10 +62,10 @@ public class PowerUpView {
                     
                         break;
                     case LANDING:
-                    animationLenght = 4;
+                    animationLenght = 8;
                     animationFrame = 19 + ((animationCounter[4])/animationLenght % 5);
                     animationCounter[4]++;
-                    if(animationCounter[4] > 20) {
+                    if(animationCounter[4] > animationLenght*5) {
                         for(int i=0; i<4; i++) {
                             animationCounter[i] = 0;
                         }

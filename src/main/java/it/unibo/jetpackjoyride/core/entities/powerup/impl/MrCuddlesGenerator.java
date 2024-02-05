@@ -11,15 +11,15 @@ import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class MrCuddlesGenerator {
-    private final static Integer MRCUDDLESLENGHT = 15;
+    private final static Integer MRCUDDLESLENGHT = 12;
     private List<PowerUp> mrCuddles;
 
 
     public MrCuddlesGenerator(Movement powerUpMovement, Hitbox powerUpHitbox) {
         this.mrCuddles = new ArrayList<>();
 
-        for(int i=MRCUDDLESLENGHT; i>=0; i--) {   
-            Movement delayedMovement = new MovementGenerator(new Pair<>(powerUpMovement.getCurrentPosition().get1()-35.0*i-(i != 0 ? 45.0 : 0.0), powerUpMovement.getCurrentPosition().get2()), powerUpMovement.getSpeed(), powerUpMovement.getAcceleration(), powerUpMovement.getRotation()).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL, MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
+        for(int i=MRCUDDLESLENGHT-1; i>=0; i--) {   
+            Movement delayedMovement = new MovementGenerator(new Pair<>(powerUpMovement.getCurrentPosition().get1()-35.0*i-(i != 0 ? 10.0 : 0.0), powerUpMovement.getCurrentPosition().get2()), powerUpMovement.getSpeed(), powerUpMovement.getAcceleration(), powerUpMovement.getRotation()).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL, MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
             PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);
             this.mrCuddles.add(mrCuddlesBody);
         }

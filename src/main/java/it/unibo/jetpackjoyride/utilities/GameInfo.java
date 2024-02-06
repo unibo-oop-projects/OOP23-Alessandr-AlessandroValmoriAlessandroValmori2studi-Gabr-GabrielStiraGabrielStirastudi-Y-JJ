@@ -1,17 +1,18 @@
 package it.unibo.jetpackjoyride.utilities;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 public class GameInfo {
-    public static final int MAP_WIDTH = 1600; 
-    public static final int MAP_HEIGHT = 700;
+    private Dimension screenSize;
+    private double screenHeight;
+    private double screenWidth;
 
     public static AtomicInteger moveSpeed = new AtomicInteger(5);
 
     private static GameInfo instance;
 
-    private double screenWidth;
-    private double screenHeight;
     private double screenRatio;
 
     public static GameInfo getInstance() {
@@ -27,8 +28,9 @@ public class GameInfo {
     
 
     private GameInfo() {
-        this.screenWidth = MAP_WIDTH;
-        this.screenHeight = MAP_HEIGHT;
+        this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.screenWidth = screenSize.width*0.75;
+        this.screenHeight = screenSize.height*0.75;
         this.screenRatio = this.screenWidth/this.screenHeight;
     }
 

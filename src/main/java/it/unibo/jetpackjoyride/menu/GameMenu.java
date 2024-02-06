@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.menu.shop.impl.ShopController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,6 +31,8 @@ public class GameMenu {
     private Pane root;
     private Image menuImage;
     private ImageView menuImageView;
+
+    private ShopController shopController;
     
    
 
@@ -42,6 +45,7 @@ public class GameMenu {
         mainStage = primaryStage;
         initializeGameMenu();
         addButtons();
+        shopController = new ShopController();
           
     }
 
@@ -82,7 +86,8 @@ public class GameMenu {
         
         });
          Button shopButton = createButton("Shop", 1, e -> {
-            System.out.println("Shop not exist");
+            mainStage.setScene(gameLoop.getScene());
+            setGameStagePosition(); 
         });
          Button exitButton = createButton("Exit", 2, e -> {
             Platform.exit();
@@ -112,12 +117,5 @@ public class GameMenu {
         mainStage.setX(stageX);
         mainStage.setY(stageY);
     }
-/* 
-    private void startLoop(){
-        gameLoop.starLoop();
-        Thread gameThread = new Thread(gameLoop);
-        gameThread.start();
-    }
-    */
 
 }

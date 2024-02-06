@@ -49,7 +49,7 @@ public class BarryImpl implements Barry {
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();
 
-        this.GROUND_LIMIT = gameInfo.getScreenHeight() / 1.2;
+        this.GROUND_LIMIT = gameInfo.getScreenHeight() *0.9;
         this.position = GROUND_LIMIT;
         this.speed = 0;
         this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);

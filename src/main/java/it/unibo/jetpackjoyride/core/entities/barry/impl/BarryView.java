@@ -12,7 +12,6 @@ public class BarryView {
     private Image[] images;
     private int animationFrame;
     private GameInfo infoResolution;
-    private PlayerMover controller;
     private BarryStatus oldStatus;
 
     public BarryView(Image[] images) {

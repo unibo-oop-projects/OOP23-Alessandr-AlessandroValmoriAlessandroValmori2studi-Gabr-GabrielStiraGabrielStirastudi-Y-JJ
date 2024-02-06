@@ -1,14 +1,18 @@
 package it.unibo.jetpackjoyride.core.entities.entity.api;
 
-
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import java.util.List;
 
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.ObstacleImpl;
-import it.unibo.jetpackjoyride.core.hitbox.Hitbox;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 
 
 public interface EntityGenerator {
-    ObstacleImpl generateObstacle(ObstacleType obstacleType, Movement obstacleMovement, Hitbox obstacleHitbox);
+    Obstacle generateObstacle(ObstacleType obstacleType, Movement obstacleMovement, Hitbox obstacleHitbox);
+
+    List<PowerUp> generatePowerUp(PowerUpType powerUpType, Movement powerUpMovement, Hitbox powerUpHitbox);
 }

@@ -75,7 +75,7 @@ public class GameMenu {
          Button startButton = createButton("Start Game", 0, e -> {
             mainStage.setScene(gameLoop.getScene());
             setGameStagePosition(); 
-            this.startLoop();
+            gameLoop.starLoop();
             mainStage.setOnCloseRequest(event -> {
               gameLoop.endLoop();
             });
@@ -112,11 +112,12 @@ public class GameMenu {
         mainStage.setX(stageX);
         mainStage.setY(stageY);
     }
-
+/* 
     private void startLoop(){
         gameLoop.starLoop();
         Thread gameThread = new Thread(gameLoop);
         gameThread.start();
     }
+    */
 
 }

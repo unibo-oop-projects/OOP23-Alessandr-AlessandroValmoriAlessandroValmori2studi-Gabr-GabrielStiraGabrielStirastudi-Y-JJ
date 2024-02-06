@@ -4,8 +4,22 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 
 public interface PowerUp extends Entity {
     enum PowerUpType {
-        MRCUDDLE, BADASHOG, LILSTOMPER
+        MRCUDDLES, BADASHOG, LILSTOMPER,
+    }
+
+    enum PowerUpStatus {
+        CHARGING, ACTIVE, DEACTIVATED, DESTROYED
+    }
+
+    public enum PerformingAction {
+        WALKING, JUMPING, ASCENDING, DESCENDING, LANDING
     }
 
     PowerUpType getPowerUpType();
+
+    PowerUpStatus getPowerUpStatus();
+
+    PerformingAction getPerformingAction();
+
+    void update(boolean isSpaceBarPressed);
 }

@@ -5,7 +5,7 @@ import java.util.*;
 
 public class MovementGenerator {
 
-    private final static Pair<Double,Double> DEFAULTSPEED = new Pair<>(-50.0, 0.0);
+    private final static Pair<Double,Double> MAPMOVINGSPEED = new Pair<>(-100.0, 0.0);
     private final static Double SPEEDYMODIFIER = 1.5;
     private final static Double SLOWMODIFIER = 0.7;
 
@@ -17,13 +17,15 @@ public class MovementGenerator {
     private List<MovementChangers> listOfModifiers = new ArrayList<>();
 
     public enum MovementChangers{
-        DEFAULT, // Default speed set in DEFAULTSPEED, no special/custom effects that change the physics of movement
-        DIAGONALUP, // Same speed is set for both x and y velocity, creating a diagonal trajectory (UP)
-        DIAGONALDOWN, // Same speed is set for both x and y velocity (now inverted), creating a diagonal trajectory (DOWN)
+        INITIALLYSTILL, // x and y speed is initially 0 but can be changed
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
         HOMING, // Acceleration of y in changed based on the y difference between the player entity and this entity
-        SLOW, // Slower speed set by the SLOWMODIFIER
-        SPEEDY, // Faster speed set by the SPEEDYMODIFIER
+        SLOW, // Slower initial speed set by the SLOWMODIFIER
+        SPEEDY, // Faster initial speed set by the SPEEDYMODIFIER
+        STATIC, // No velocity, the object is still and doesn't move
+        GRAVITY, // y speed is accelerated downwards
+        INVERSEGRAVITY, // y speed is accelerated upwards
+        BOUNDS, // x and y will only vary between specified limits
     }
 
     public MovementGenerator(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed, Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo) {
@@ -31,64 +33,84 @@ public class MovementGenerator {
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
         this.rotationInfo = rotationInfo;
-        setMovementChangers(List.of(MovementChangers.DEFAULT));
+    }
+
+    public MovementGenerator(Movement oldMovement) {
+        this.currentPos = oldMovement.getCurrentPosition();
+        this.speed = oldMovement.getSpeed();
+        this.acceleration = oldMovement.getAcceleration();
+        this.rotationInfo = oldMovement.getRotation();
     }
 
     public Movement setMovementChangers(List<MovementChangers> listOfChangers) {
         this.listOfModifiers = listOfChangers;
 
-        for (var type : listOfModifiers) {
-            switch (type) {
-                case DEFAULT:
-                    this.speed = DEFAULTSPEED;
-                    break;
-                case SLOW:
-                    this.speed = new Pair<>(SLOWMODIFIER*(this.speed.get1()), SLOWMODIFIER*(this.speed.get2()));
-                    break;
-                case SPEEDY:
-                    this.speed = new Pair<>(SPEEDYMODIFIER*(this.speed.get1()), SPEEDYMODIFIER*(this.speed.get2())); 
-                    break;
-                case DIAGONALUP:
-                    this.speed = new Pair<>(this.speed.get1(), this.speed.get1());
-                    this.rotationInfo = new Pair<>(45.0, this.rotationInfo.get2());
-                    break;
-                case DIAGONALDOWN:
-                    this.speed = new Pair<>(this.speed.get1(), -this.speed.get1());
-                    this.rotationInfo = new Pair<>(-45.0, this.rotationInfo.get2());
-                default:
-                    break;
-            }
-        }
-
+        Double speedModifier = (this.listOfModifiers.contains(MovementChangers.SPEEDY) ? SPEEDYMODIFIER : this.listOfModifiers.contains(MovementChangers.SLOW) ? SLOWMODIFIER : this.listOfModifiers.contains(MovementChangers.INITIALLYSTILL) ? 0.0 : 1.0);
+        this.speed = new Pair<>(MAPMOVINGSPEED.get1()*speedModifier, MAPMOVINGSPEED.get2()*speedModifier); //initial speed
 
         return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.rotationInfo, this.listOfModifiers) {
 
             @Override
             public void update() {
-                applyModifiers();
+                this.applyModifiers();
                 /* V = U + AT */
-                xyspeed = new Pair<>(xyspeed.get1() + xyacceleration.get1() * TIME , xyspeed.get2() + xyacceleration.get2() * TIME);
+                this.setSpeed(new Pair<>(this.getSpeed().get1() + this.getAcceleration().get1() * TIME , this.getSpeed().get2() + this.getAcceleration().get2() * TIME));
                 /* S = V * T */
-                currentPosition = new Pair<>(currentPosition.get1() + xyspeed.get1() * TIME, currentPosition.get2() + xyspeed.get2() * TIME);
-                rotationInfo = new Pair<>(rotationInfo.get1()+rotationInfo.get2(), rotationInfo.get2());
+                this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1() + this.getSpeed().get1() * TIME, this.getCurrentPosition().get2() + this.getSpeed().get2() * TIME));
+                this.setRotation(new Pair<>(this.getRotation().get1()+this.getRotation().get2(), this.getRotation().get2()));
             }
 
             @Override
             public void applyModifiers() {
                 /* HOMING */
-                if(listOfChangers.contains(MovementChangers.HOMING)) {
-                    xyacceleration = new Pair<>(xyacceleration.get1(), 0.1*(playerPos.get2() - currentPosition.get2()));
+                if(this.getMovementChangers().contains(MovementChangers.HOMING)) {
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), 0.1*(playerPos.get2() - this.getCurrentPosition().get2())));
+                }
+
+                /* GRAVITY */
+                if(this.getMovementChangers().contains(MovementChangers.GRAVITY)) {
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +25.0));
+                }
+
+                /* INVERSEGRAVITY */
+                if(this.getMovementChangers().contains(MovementChangers.INVERSEGRAVITY)) {
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -25.0));
                 }
 
                 /* BOUNCING */
-                if(listOfChangers.contains(MovementChangers.BOUNCING)) {
-                    if(currentPosition.get2()<0 || currentPosition.get2()>700) {
-                        xyspeed = new Pair<>(xyspeed.get1(), -xyspeed.get2());
-                        rotationInfo = new Pair<>(-rotationInfo.get1(),rotationInfo.get2());
+                if(this.getMovementChangers().contains(MovementChangers.BOUNCING)) {
+                    if(this.getCurrentPosition().get2()<0 ) {
+                        this.setSpeed(new Pair<>(this.getSpeed().get1(), Math.abs(this.getSpeed().get2())));
+                        this.setRotation(new Pair<>(-Math.abs(this.getRotation().get1()),this.getRotation().get2()));
+                    }
+                    if(this.getCurrentPosition().get2()>700) {
+                        this.setSpeed(new Pair<>(this.getSpeed().get1(), -Math.abs(this.getSpeed().get2())));
+                        this.setRotation(new Pair<>(Math.abs(this.getRotation().get1()),this.getRotation().get2()));
+                    }
+                }
+
+                /* STATIC */
+                if(this.getMovementChangers().contains(MovementChangers.STATIC)) {
+                    this.setAcceleration(new Pair<>(0.0,0.0));
+                    this.setSpeed(new Pair<>(0.0,0.0));
+                }
+
+                /* BOUNDS */
+                if(this.getMovementChangers().contains(MovementChangers.BOUNDS)) {
+                    if(this.getCurrentPosition().get2()>650) {
+                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), 650.0));
+                        if(this.getSpeed().get2()>0) {
+                            this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        }
+                    }
+                    if(this.getCurrentPosition().get2()<150) {
+                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), 150.0));
+                        if(this.getSpeed().get2()<0) {
+                            this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
+                        }
                     }
                 }
             }
-            
         };
     }
 

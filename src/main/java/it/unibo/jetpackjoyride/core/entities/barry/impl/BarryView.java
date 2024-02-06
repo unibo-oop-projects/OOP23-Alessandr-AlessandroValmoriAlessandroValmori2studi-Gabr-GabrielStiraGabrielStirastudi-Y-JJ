@@ -18,7 +18,7 @@ public class BarryView {
 
         this.images = images;
         this.imageView = new ImageView();
-        this.infoResolution = new GameInfo();
+        this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
         this.oldStatus = BarryStatus.WALKING;
 

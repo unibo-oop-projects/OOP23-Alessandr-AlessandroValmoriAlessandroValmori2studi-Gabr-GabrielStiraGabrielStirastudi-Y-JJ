@@ -23,7 +23,7 @@ public class CoinShape {
 
     private List<Pair<Double,Double>> straightLine(){
         int numOfCoins = 15;
-        double posY = gameInfo.getScreenHeight()*random.nextDouble();
+        double posY = gameInfo.getScreenHeight()*0.9*random.nextDouble();
         double posX = gameInfo.getScreenWidth();
         List<Pair<Double,Double>> outlist = new ArrayList<>();
         for(int i=0 ; i < numOfCoins ; i++ ){

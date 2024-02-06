@@ -31,7 +31,7 @@ public class ObstacleSpawner {
     }
 
     private void initialize() {
-        this.infoResolution = new GameInfo();
+        this.infoResolution = GameInfo.getInstance();
         this.images = new Image[51]; // 0-14 MISSILE | 15-34 ZAPPER | 35-50 LASER
         int index=0;
 

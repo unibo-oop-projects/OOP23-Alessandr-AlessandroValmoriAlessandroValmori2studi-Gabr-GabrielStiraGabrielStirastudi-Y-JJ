@@ -16,7 +16,7 @@ public class ObstacleView {
     public ObstacleView(Image[] images) {
         this.images = images;
         this.imageView = new ImageView();
-        this.infoResolution = new GameInfo();
+        this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
         this.animationCounter = new int[3]; //0 counter for charging, 1 counter for active, 2 counter for deactivated
         this.animationLenght = 1;

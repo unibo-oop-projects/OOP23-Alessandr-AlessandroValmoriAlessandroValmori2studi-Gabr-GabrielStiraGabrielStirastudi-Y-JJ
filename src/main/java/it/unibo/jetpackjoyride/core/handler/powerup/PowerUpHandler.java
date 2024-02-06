@@ -62,7 +62,7 @@ public class PowerUpHandler {
         listOfControllers.add(powerup);*/
         
               
-        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(400.0,400.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL,MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),null);
+        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(400.0,150.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL,MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),null);
         Image[] actualImage = new Image[6];
         
         for (int i = 0; i < 6; i++) {

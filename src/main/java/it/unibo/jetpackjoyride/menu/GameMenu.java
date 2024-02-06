@@ -86,7 +86,10 @@ public class GameMenu {
         
         });
          Button shopButton = createButton("Shop", 1, e -> {
-            mainStage.setScene(gameLoop.getScene());
+            mainStage.setScene(shopController.getScene());
+            mainStage.setOnCloseRequest(event -> {
+                System.exit(0);
+              });
             setGameStagePosition(); 
         });
          Button exitButton = createButton("Exit", 2, e -> {

@@ -4,16 +4,21 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 
 public interface Obstacle extends Entity {
     enum ObstacleType {
-        MISSILE, ZAPPER, LASER
+        MISSILE, ZAPPER, LASER, CUSTOMOBSTACLE
     }
 
     enum ObstacleStatus {
-        ACTIVE, INACTIVE, DEACTIVATED
+        CHARGING,//The obstacle has no collision, but will have in a moment
+        ACTIVE, //The obstacle has a collision
+        DEACTIVATED, //The obstacle has no more a collision but can't be removed
+        INACTIVE //The obstacle has no collision and can be removed
     }
 
     ObstacleType getObstacleType();
 
     void changeObstacleStatus(ObstacleStatus newObstacleStatus);
 
-    boolean isOutOfBounds();
+    ObstacleStatus getObstacleStatus();
+
+    void update();
 }

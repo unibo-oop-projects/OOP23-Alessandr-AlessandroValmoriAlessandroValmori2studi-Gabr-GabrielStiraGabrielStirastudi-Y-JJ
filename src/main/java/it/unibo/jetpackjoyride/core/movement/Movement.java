@@ -1,6 +1,9 @@
 package it.unibo.jetpackjoyride.core.movement;
 
+import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
+
+import java.util.*;
 
 public interface Movement {
 
@@ -11,6 +14,10 @@ public interface Movement {
     Pair<Double, Double> getAcceleration();
 
     Pair<Double, Double> getRotation();
+
+    List<MovementChangers> getMovementChangers();
+
+    void setMovementChangers(List<MovementChangers> listOfChangers);
 
     void setCurrentPosition(Pair<Double, Double> currPos);
 

@@ -7,6 +7,6 @@ public final class Game {
     private Game() { }
 
     public static void main(final String[] args) {
-        Application.launch(GameApp.class, args);
+       Application.launch(GameApp.class, args);
     }
 }

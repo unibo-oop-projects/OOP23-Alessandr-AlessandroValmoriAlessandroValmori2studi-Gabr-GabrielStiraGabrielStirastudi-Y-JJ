@@ -14,8 +14,8 @@ import javafx.scene.layout.Pane;
 
 public class MapBackgroundImpl extends Pane implements MapBackground {
 
-    private final String BACKGROUNG_IMAGE1_PATH = "background/background1.png";
-    private final String BACKGROUNG_IMAGE2_PATH = "background/background2.png";
+    private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
+    private final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
 
 
    

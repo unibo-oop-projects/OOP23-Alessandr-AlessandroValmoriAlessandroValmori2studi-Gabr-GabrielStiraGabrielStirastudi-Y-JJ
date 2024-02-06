@@ -69,12 +69,12 @@ public class MovementGenerator {
 
                 /* GRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.GRAVITY)) {
-                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +25.0));
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +30.0));
                 }
 
                 /* INVERSEGRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.INVERSEGRAVITY)) {
-                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -25.0));
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -30.0));
                 }
 
                 /* BOUNCING */

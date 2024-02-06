@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core;
 
+import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 // TEMPORARY
 import it.unibo.jetpackjoyride.core.handler.ChunkSpawner;
 import it.unibo.jetpackjoyride.core.handler.ObstacleController;
@@ -24,6 +25,7 @@ public class GameLoop implements Runnable{
     private MapBackground map;
     // TEMPORARY
     private ChunkSpawner chunkspawner;
+    private CoinGenerator coinGenerator;
     // TEMPORARY
     Pane root ;
     private boolean isRunning;
@@ -39,7 +41,7 @@ public class GameLoop implements Runnable{
 
     private void initializeScene() {
         root = new Pane();
-        gameInfo = new GameInfo();
+        gameInfo = GameInfo.getInstance();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
     }
 
@@ -52,26 +54,21 @@ public class GameLoop implements Runnable{
         obstaclesControllers = chunkspawner.generateChunk();
         // TEMPORARY
         root.getChildren().add((Node)map);
+        coinGenerator = new CoinGenerator();
+      
         for (ObstacleController obstacle : obstaclesControllers) {
             root.getChildren().add(obstacle.getImageView());
         }
+        root.getChildren().add(coinGenerator.getCanvas());
     }
 
-    private void setupTimer(){
-        timer = new AnimationTimer() {
-
-            @Override
-            public void handle(long now) {
-            
-            }
-             
-        };
-    }
+    
 
 
     private void updateModel(){ 
         updateScreenSize();
         map.updateBackgroundModel();
+        coinGenerator.updatPosition();
         for (ObstacleController obstacle : obstaclesControllers) {
             obstacle.updateModel();
         }
@@ -80,6 +77,7 @@ public class GameLoop implements Runnable{
 
     private void updateView(){
         map.updateBackgroundView();
+        coinGenerator.renderCoin();
         for (ObstacleController obstacle : obstaclesControllers) {
             obstacle.updateView();
         }
@@ -103,6 +101,7 @@ public class GameLoop implements Runnable{
  
 
     public void starLoop(){
+        coinGenerator.startGenerate();
         this.isRunning = true;
     }
 

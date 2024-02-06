@@ -14,6 +14,10 @@ import javafx.scene.layout.Pane;
 
 public class MapBackgroundImpl extends Pane implements MapBackground {
 
+    private final String BACKGROUNG_IMAGE1_PATH = "background/background1.png";
+    private final String BACKGROUNG_IMAGE2_PATH = "background/background2.png";
+
+
    
     private int moveSpeed;
 
@@ -27,7 +31,7 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
     public MapBackgroundImpl(GameInfo gameInfo){
       
         this.gameInfo = gameInfo;
-        moveSpeed = GameInfo.moveSpeed;
+        moveSpeed = GameInfo.moveSpeed.get();
         mapHeight = gameInfo.getScreenHeight();
         mapWidth = gameInfo.getScreenWidth();
         loadBackgroungImage();
@@ -40,10 +44,10 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         bgImageX1 -= moveSpeed;
         bgImageX2 -= moveSpeed;
     
-        if (bgImageX1 <= -mapWidth) {
+        if (isOutofMap(bgImageX1)) {
             bgImageX1 = bgImageX2 + mapWidth;
         }
-        if (bgImageX2 <= -mapWidth) {
+        if (isOutofMap(bgImageX2)) {
             bgImageX2 = bgImageX1 + mapWidth;
         }
         updateSize();
@@ -79,8 +83,8 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
 
     private void loadBackgroungImage(){
 
-        bgImageView1 = creatImageView("background/background1.png");
-        bgImageView2 = creatImageView("background/background2.png");
+        bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
+        bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
 
         setImageViewSize(bgImageView1, mapWidth, mapHeight);
         setImageViewSize(bgImageView2, mapWidth, mapHeight);
@@ -96,14 +100,14 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         try {
             URL backgroundImageUrl = getClass().getClassLoader().getResource(path);
             if(backgroundImageUrl == null){
-                throw new FileNotFoundException();
+                throw new FileNotFoundException("Backgroung Image was not found: " + path);
             }
             String url = backgroundImageUrl.toExternalForm();
             Image backgroundImage = new Image(url);
             ImageView backImageView = new ImageView(backgroundImage);
             return backImageView;
         } catch (FileNotFoundException e) {
-            System.out.println("The Image was not found");
+            System.err.println("Error message :" + e.getMessage());
         }
         return null;
     }
@@ -112,4 +116,8 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
             bImageView.setFitWidth(width);
             bImageView.setFitHeight(height);
     }    
+
+    private boolean isOutofMap(double x){
+        return x<=-mapWidth;
+    }
 }

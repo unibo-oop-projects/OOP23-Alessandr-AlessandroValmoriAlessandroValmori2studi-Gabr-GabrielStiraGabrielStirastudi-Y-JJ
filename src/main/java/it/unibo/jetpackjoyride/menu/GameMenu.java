@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,12 +30,15 @@ public class GameMenu {
     private Pane root;
     private Image menuImage;
     private ImageView menuImageView;
+    
    
 
     private GameLoop gameLoop;
+    private GameInfo gameInfo;
 
     public GameMenu(Stage primaryStage, GameLoop gameLoop){
         this.gameLoop = gameLoop;
+        gameInfo = GameInfo.getInstance();
         mainStage = primaryStage;
         initializeGameMenu();
         addButtons();
@@ -98,8 +102,15 @@ public class GameMenu {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double sw = screenSize.getWidth();
         double sh = screenSize.getHeight();
-        mainStage.setX((sw - MAP_WIDTH) / PORTION);
-        mainStage.setY((sh - MAP_HEIGHT) / PORTION);
+        double mapw = gameInfo.getScreenWidth(); 
+        double maph = gameInfo.getScreenHeight(); 
+
+    
+        double stageX = (sw - mapw) / (PORTION/2);
+        double stageY = (sh - maph) / PORTION;
+
+        mainStage.setX(stageX);
+        mainStage.setY(stageY);
     }
 
     private void startLoop(){

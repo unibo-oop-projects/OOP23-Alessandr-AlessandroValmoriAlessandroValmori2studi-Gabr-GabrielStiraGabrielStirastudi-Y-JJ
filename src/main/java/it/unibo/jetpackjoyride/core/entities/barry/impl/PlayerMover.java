@@ -12,7 +12,7 @@ public class PlayerMover {
     private Barry model;
     private BarryView view;
     private Image[] images;
-    private boolean playerStatusChanged = false;
+   
 
     public PlayerMover() {
         this.model = new BarryImpl();

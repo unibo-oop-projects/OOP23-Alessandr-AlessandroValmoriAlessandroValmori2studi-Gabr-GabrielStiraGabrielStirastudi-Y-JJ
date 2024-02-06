@@ -3,8 +3,8 @@ package it.unibo.jetpackjoyride.utilities;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameInfo {
-    public static final int MAP_WIDTH = 1600; 
-    public static final int MAP_HEIGHT = 700;
+    public static final int MAP_WIDTH = 1200; 
+    public static final int MAP_HEIGHT = 800;
 
     public static AtomicInteger moveSpeed = new AtomicInteger(5);
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public abstract class AbstractMovement implements Movement {
@@ -12,6 +13,7 @@ public abstract class AbstractMovement implements Movement {
     private Pair<Double,Double> xyacceleration;
     private Pair<Double,Double> xyspeed;
     private Pair<Double,Double> rotationInfo;
+    private Pair<Double,Double> screenLastSize;
 
     private List<MovementChangers> listOfChangers = new ArrayList<>();
 
@@ -24,6 +26,8 @@ public abstract class AbstractMovement implements Movement {
         this.xyacceleration = startingAcceleration;
         this.listOfChangers = listOfChangers;
         this.rotationInfo = rotationInfo;
+
+        this.screenLastSize = new Pair<>(GameInfo.getInstance().getScreenWidth(),GameInfo.getInstance().getScreenHeight());
     }
 
     @Override
@@ -76,4 +80,12 @@ public abstract class AbstractMovement implements Movement {
 
     @Override
     public abstract void update();
+
+    public Pair<Double,Double> getLastScreenSize() {
+        return this.screenLastSize;
+    }
+
+    public void setLastScreenSize(Pair<Double,Double> newScreenSize) {
+        this.screenLastSize = newScreenSize;
+    }
 }

@@ -11,26 +11,25 @@ public class ObstacleView {
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
-    private GameInfo infoResolution;
 
     public ObstacleView(Image[] images) {
         this.images = images;
         this.imageView = new ImageView();
-        this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
         this.animationCounter = new int[3]; //0 counter for charging, 1 counter for active, 2 counter for deactivated
         this.animationLenght = 1;
     }
 
     public void updateView(Obstacle obstacle) {
-        double width;
-        double height;
-        animationFrame=0;
+        Double width;
+        Double height;
+        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
-                width=150;
-                height=50;
+                width=screenSizeX/8;
+                height=screenSizeY/16;
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
@@ -41,8 +40,8 @@ public class ObstacleView {
                     case DEACTIVATED:
                         animationLenght = 7;
                         animationFrame = 7 + ((animationCounter[2])/animationLenght % 8);
-                        width=infoResolution.getScreenWidth()/8;
-                        height=infoResolution.getScreenHeight()/5;
+                        width=screenSizeX/8;
+                        height=screenSizeY/5;
                         animationCounter[2]++;
                         break;
                     default:
@@ -52,8 +51,8 @@ public class ObstacleView {
 
                 break;
             case ZAPPER:
-                width=200;
-                height=100;
+                width=screenSizeX/6;
+                height=screenSizeY/8;
 
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
@@ -74,9 +73,10 @@ public class ObstacleView {
                 }
                 break;
             case LASER:
-                width=1150;
-                height=32;
+                width=screenSizeX - screenSizeX/8;
+                height=screenSizeY/24;
                 animationLenght = 8;
+
                 switch (obstacle.getObstacleStatus()) {
                     case CHARGING:
                         animationFrame = ((animationCounter[0])/animationLenght % 12);
@@ -96,8 +96,8 @@ public class ObstacleView {
                 }
                 break;
             default:
-                width=0;
-                height=0;
+            width=0.0;
+            height=0.0;
                 break;
         }
 

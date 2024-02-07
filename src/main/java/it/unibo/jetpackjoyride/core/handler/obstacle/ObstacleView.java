@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class ObstacleView {

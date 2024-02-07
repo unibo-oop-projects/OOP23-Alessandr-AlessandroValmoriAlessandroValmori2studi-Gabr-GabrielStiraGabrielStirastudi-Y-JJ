@@ -76,7 +76,7 @@ public abstract class AbstractMovement implements Movement {
         return this.rotationInfo;
     }
 
-    protected abstract void applyModifiers();
+    protected abstract void applyModifiers(Double screenSizeX, Double screenSizeY);
 
     @Override
     public abstract void update();

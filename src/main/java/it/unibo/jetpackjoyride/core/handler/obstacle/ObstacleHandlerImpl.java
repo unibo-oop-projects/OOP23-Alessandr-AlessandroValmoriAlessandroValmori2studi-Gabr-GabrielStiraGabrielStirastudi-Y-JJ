@@ -5,8 +5,9 @@ import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.Obstac
 
 import java.util.*;
 
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Group;
 import javafx.scene.Node;
 

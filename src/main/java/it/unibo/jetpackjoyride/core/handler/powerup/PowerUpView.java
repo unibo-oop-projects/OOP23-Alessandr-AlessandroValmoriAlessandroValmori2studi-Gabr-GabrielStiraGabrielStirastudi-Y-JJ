@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class PowerUpView {
     private ImageView imageView;
@@ -24,15 +25,17 @@ public class PowerUpView {
     public void updateView(PowerUp powerUp) {
         double width;
         double height;
+        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         animationFrame=0;
 
         switch (powerUp.getPowerUpType()) {
             case LILSTOMPER:
-                width = 300;
-                height = 230;
+                width = screenSizeX/4;
+                height = screenSizeY/3;
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
-                        animationLenght = 12;
+                        animationLenght = 6;
                         animationFrame = ((animationCounter[0])/animationLenght % 6);
                         animationCounter[0]++;
                         break;
@@ -62,7 +65,7 @@ public class PowerUpView {
                     
                         break;
                     case LANDING:
-                    animationLenght = 8;
+                    animationLenght = 4;
                     animationFrame = 19 + ((animationCounter[4])/animationLenght % 5);
                     animationCounter[4]++;
                     if(animationCounter[4] > animationLenght*5) {

@@ -13,7 +13,7 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public interface Entity {
     enum EntityType {
-        OBSTACLE, POWERUP, PICKUP
+        OBSTACLE, POWERUP, PICKUP, CONTROLLABLE
     }
 
     EntityType getEntityType();

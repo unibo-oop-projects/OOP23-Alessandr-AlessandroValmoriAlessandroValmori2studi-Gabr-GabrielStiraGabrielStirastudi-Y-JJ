@@ -22,7 +22,6 @@ import javafx.scene.image.Image;
 
 public class ObstacleSpawner {
     private EntityGenerator entityGenerator;
-    private GameInfo infoResolution;
     private Image[] images;
 
     public ObstacleSpawner() {
@@ -31,7 +30,6 @@ public class ObstacleSpawner {
     }
 
     private void initialize() {
-        this.infoResolution = GameInfo.getInstance();
         this.images = new Image[51]; // 0-14 MISSILE | 15-34 ZAPPER | 35-50 LASER
         int index=0;
 
@@ -63,6 +61,9 @@ public class ObstacleSpawner {
     }
 
     private List<ObstacleController> randomChunk() {
+        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+
         List<ObstacleController> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = random.nextInt(4) + 1;
@@ -81,7 +82,7 @@ public class ObstacleSpawner {
                 case 0:
                     //MISSILE
 
-                    movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.GRAVITY : typeOfMovement == 1 ? MovementChangers.SLOW : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
+                    movement = new MovementGenerator(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.GRAVITY : typeOfMovement == 1 ? MovementChangers.SLOW : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     startingStatus = ObstacleStatus.ACTIVE;
@@ -89,7 +90,7 @@ public class ObstacleSpawner {
                     break;
                 case 1:
                     //ZAPPER
-                    movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth(),random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.SLOW));
+                    movement = new MovementGenerator(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.SLOW));
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     startingStatus = ObstacleStatus.ACTIVE;
@@ -97,7 +98,7 @@ public class ObstacleSpawner {
                     break;
                 case 2:
                     //LASER
-                    movement = new MovementGenerator(new Pair<>(infoResolution.getScreenWidth()/2,random.nextDouble()*infoResolution.getScreenHeight()), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC));
+                    movement = new MovementGenerator(new Pair<>(screenSizeX/2,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC));
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     startingStatus = ObstacleStatus.CHARGING;

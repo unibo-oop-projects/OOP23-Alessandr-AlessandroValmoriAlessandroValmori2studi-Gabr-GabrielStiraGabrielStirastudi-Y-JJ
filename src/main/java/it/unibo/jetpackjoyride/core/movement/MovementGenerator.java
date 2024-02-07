@@ -53,8 +53,10 @@ public class MovementGenerator {
         return new AbstractMovement(this.currentPos, this.speed, this.acceleration, this.rotationInfo, this.listOfModifiers) {
             @Override
             public void update() {
-                this.applyModifiers();
-                this.checkForScreen();
+                Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+                Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+                this.applyModifiers(screenSizeX, screenSizeY);
+                this.checkForScreen(screenSizeX, screenSizeY);
                 /* V = U + AT */
                 this.setSpeed(new Pair<>(this.getSpeed().get1() + this.getAcceleration().get1() * TIME, this.getSpeed().get2() + this.getAcceleration().get2() * TIME));
                 /* S = V * T */
@@ -62,9 +64,7 @@ public class MovementGenerator {
                 this.setRotation(new Pair<>(this.getRotation().get1()+this.getRotation().get2(), this.getRotation().get2()));   
             }
 
-            private void checkForScreen() {
-                Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-                Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+            private void checkForScreen(Double screenSizeX, Double screenSizeY) {
                 Pair<Double,Double> currentScreenSize = new Pair<>(screenSizeX,screenSizeY);
 
                 if(!this.getLastScreenSize().equals(currentScreenSize)){
@@ -81,7 +81,7 @@ public class MovementGenerator {
             }
 
             @Override
-            public void applyModifiers() {
+            public void applyModifiers(Double sizeX, Double sizeY) {
                 /* HOMING */
                 if(this.getMovementChangers().contains(MovementChangers.HOMING)) {
                     this.setAcceleration(new Pair<>(this.getAcceleration().get1(), 0.1*(playerPos.get2() - this.getCurrentPosition().get2())));
@@ -89,21 +89,21 @@ public class MovementGenerator {
 
                 /* GRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.GRAVITY)) {
-                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +screenSizeY/26));
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), +sizeY/26));
                 }
 
                 /* INVERSEGRAVITY */
                 if(this.getMovementChangers().contains(MovementChangers.INVERSEGRAVITY)) {
-                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -screenSizeY/26));
+                    this.setAcceleration(new Pair<>(this.getAcceleration().get1(), -sizeY/26));
                 }
 
                 /* BOUNCING */
                 if(this.getMovementChangers().contains(MovementChangers.BOUNCING)) {
-                    if(this.getCurrentPosition().get2()<screenSizeY/10 ) {
+                    if(this.getCurrentPosition().get2()<sizeY/8 ) {
                         this.setSpeed(new Pair<>(this.getSpeed().get1(), Math.abs(this.getSpeed().get2())));
                         this.setRotation(new Pair<>(-Math.abs(this.getRotation().get1()),this.getRotation().get2()));
                     }
-                    if(this.getCurrentPosition().get2()>screenSizeY-screenSizeY/10) {
+                    if(this.getCurrentPosition().get2()>sizeY-sizeY/8) {
                         this.setSpeed(new Pair<>(this.getSpeed().get1(), -Math.abs(this.getSpeed().get2())));
                         this.setRotation(new Pair<>(Math.abs(this.getRotation().get1()),this.getRotation().get2()));
                     }
@@ -117,14 +117,14 @@ public class MovementGenerator {
 
                 /* BOUNDS */
                 if(this.getMovementChangers().contains(MovementChangers.BOUNDS)) {
-                    if(this.getCurrentPosition().get2()>screenSizeY-screenSizeY/10) {
-                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), screenSizeY-screenSizeY/10));
+                    if(this.getCurrentPosition().get2()>sizeY-sizeY/8) {
+                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), sizeY-sizeY/8));
                         if(this.getSpeed().get2()>0) {
                             this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
                         }
                     }
-                    if(this.getCurrentPosition().get2()<screenSizeY/10) {
-                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), screenSizeY/10));
+                    if(this.getCurrentPosition().get2()<sizeY/8) {
+                        this.setCurrentPosition(new Pair<>(this.getCurrentPosition().get1(), sizeY/8));
                         if(this.getSpeed().get2()<0) {
                             this.setSpeed(new Pair<>(this.getSpeed().get1(), 0.0));
                         }

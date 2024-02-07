@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.powerup.impl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class LilStomper extends AbstractPowerUp{
@@ -17,7 +18,7 @@ public class LilStomper extends AbstractPowerUp{
     @Override
     public void update(boolean isSpaceBarPressed) {
         this.movement.update();
-        System.out.println("Later : Speed " + this.movement.getSpeed() + " pos " + this.movement.getCurrentPosition() + " acc " + this.movement.getAcceleration());
+        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         switch (this.performingAction) {
             case WALKING:
                 if(isSpaceBarPressed) {
@@ -29,7 +30,7 @@ public class LilStomper extends AbstractPowerUp{
                     this.loadJump++;
                 }
                 if(this.loadJump == 15 || !isSpaceBarPressed) {
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -this.loadJump*6 - 70.0));
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -this.loadJump*6 - screenSizeY/8));
                     this.loadJump = 0;
                     this.performingAction = PerformingAction.ASCENDING;
                 }
@@ -42,14 +43,14 @@ public class LilStomper extends AbstractPowerUp{
                 break;
             case DESCENDING:
                 if(isSpaceBarPressed) {
-                    if(this.movement.getSpeed().get2()>30.0) {
-                        this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), 30.0));
+                    if(this.movement.getSpeed().get2()>screenSizeY/20) {
+                        this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), screenSizeY/20));
                     }
                 }
 
-                if(this.movement.getCurrentPosition().get2()>600) {
+                if(this.movement.getCurrentPosition().get2()>screenSizeY-screenSizeY/8) {
                     this.performingAction = PerformingAction.LANDING;
-                    this.loadJump = -40;
+                    this.loadJump = -20;
                 }
                 break;
             case LANDING:

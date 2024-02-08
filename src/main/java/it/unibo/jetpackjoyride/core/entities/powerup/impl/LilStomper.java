@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.powerup.impl;
 
+import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -7,7 +8,13 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class LilStomper extends AbstractPowerUp{
-    private int loadJump;
+    private final static Double BASEJUMPHEIGHTSPEED = 80.0;
+    private final static Double TICKJUMPHEITGHSPEED = 5.5;
+    private final static Integer MAXTICKSFORJUMP = 15;
+    private final static Integer RECOVERTICKSAFTERLANDING = 20;
+    private final static Double DESCENDINGBASESPEED = 30.0;
+
+    private Integer loadJump;
 
     public LilStomper(Movement movement, Hitbox hitbox) {
         super(PowerUpType.LILSTOMPER, movement, hitbox);
@@ -17,8 +24,9 @@ public class LilStomper extends AbstractPowerUp{
 
     @Override
     public void update(boolean isSpaceBarPressed) {
-        this.movement.update();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        GameInfo infoResolution = GameInfo.getInstance();
+        Double screenSizeY = infoResolution.getScreenHeight();
+
         switch (this.performingAction) {
             case WALKING:
                 if(isSpaceBarPressed) {
@@ -29,8 +37,8 @@ public class LilStomper extends AbstractPowerUp{
                 if(isSpaceBarPressed) {
                     this.loadJump++;
                 }
-                if(this.loadJump == 15 || !isSpaceBarPressed) {
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -this.loadJump*6 - screenSizeY/8));
+                if(this.loadJump == MAXTICKSFORJUMP || !isSpaceBarPressed) {
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), (-this.loadJump*TICKJUMPHEITGHSPEED - BASEJUMPHEIGHTSPEED)*screenSizeY/infoResolution.getDefaultHeight()));
                     this.loadJump = 0;
                     this.performingAction = PerformingAction.ASCENDING;
                 }
@@ -42,15 +50,25 @@ public class LilStomper extends AbstractPowerUp{
                 }
                 break;
             case DESCENDING:
-                if(isSpaceBarPressed) {
-                    if(this.movement.getSpeed().get2()>screenSizeY/20) {
-                        this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), screenSizeY/20));
-                    }
+                if(isSpaceBarPressed && (this.movement.getSpeed().get2() > (DESCENDINGBASESPEED)*screenSizeY/infoResolution.getDefaultHeight())) {
+                    this.performingAction = PerformingAction.GLIDING;
                 }
 
                 if(this.movement.getCurrentPosition().get2()>screenSizeY-screenSizeY/8) {
                     this.performingAction = PerformingAction.LANDING;
-                    this.loadJump = -20;
+                    this.loadJump = -RECOVERTICKSAFTERLANDING;
+                }
+                break;
+            case GLIDING:
+                if(isSpaceBarPressed) {
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(),(DESCENDINGBASESPEED)*screenSizeY/infoResolution.getDefaultHeight())); 
+                } else {
+                    this.performingAction = PerformingAction.DESCENDING;
+                }
+
+                if(this.movement.getCurrentPosition().get2()>screenSizeY-screenSizeY/8) {
+                    this.performingAction = PerformingAction.LANDING;
+                    this.loadJump = -RECOVERTICKSAFTERLANDING;
                 }
                 break;
             case LANDING:
@@ -62,5 +80,7 @@ public class LilStomper extends AbstractPowerUp{
             default:
                 break;
         }
+
+        this.movement.update();
     }
 }

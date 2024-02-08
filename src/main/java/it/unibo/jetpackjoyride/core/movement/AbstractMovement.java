@@ -9,7 +9,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public abstract class AbstractMovement implements Movement {
 
-    private Pair<Double, Double> currentPosition;
+    private Pair<Double,Double> currentPosition;
     private Pair<Double,Double> xyacceleration;
     private Pair<Double,Double> xyspeed;
     private Pair<Double,Double> rotationInfo;

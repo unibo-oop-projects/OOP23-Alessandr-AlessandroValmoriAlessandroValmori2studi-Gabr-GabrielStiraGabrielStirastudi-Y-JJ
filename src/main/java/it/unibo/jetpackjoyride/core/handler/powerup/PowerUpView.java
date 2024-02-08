@@ -2,8 +2,13 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+
+import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.POWERUP;
+
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
+
+
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class PowerUpView {
@@ -35,10 +40,11 @@ public class PowerUpView {
                 height = screenSizeY/3;
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
-                        animationLenght = 6;
+                        animationLenght = 7;
                         animationFrame = ((animationCounter[0])/animationLenght % 6);
                         animationCounter[0]++;
-                        break;
+                    break;
+
                     case ASCENDING:
                         animationLenght = 5;
                         animationFrame = 5 + ((animationCounter[1])/animationLenght % 10);
@@ -47,36 +53,38 @@ public class PowerUpView {
                         } else {
                             animationCounter[1] = animationLenght*8;
                         }
-                        break;
+                    break;
+
                     case DESCENDING:
-                    if(powerUp.getEntityMovement().getSpeed().get2()<=50) {
+                    animationLenght = 8;
+                    animationFrame = 17 + ((animationCounter[3])/animationLenght % 2);
+                    if(animationCounter[3]<15) {
+                        animationCounter[3]++;
+                    } else {
+                        animationCounter[3] = 15;
+                    }
+                    break;
+
+                    case GLIDING:
                         animationLenght = 6;
                         animationFrame = 13 + ((animationCounter[2])/animationLenght % 4);
                         animationCounter[2]++;
-                    } else {
-                        animationLenght = 8;
-                        animationFrame = 17 + ((animationCounter[3])/animationLenght % 2);
-                        if(animationCounter[3]<15) {
-                            animationCounter[3]++;
-                        } else {
-                            animationCounter[3] = 15;
-                        }
-                    }
-                    
-                        break;
+                    break;
+
                     case LANDING:
-                    animationLenght = 4;
-                    animationFrame = 19 + ((animationCounter[4])/animationLenght % 5);
-                    animationCounter[4]++;
-                    if(animationCounter[4] > animationLenght*5) {
-                        for(int i=0; i<4; i++) {
-                            animationCounter[i] = 0;
+                        animationLenght = 4;
+                        animationFrame = 19 + ((animationCounter[4])/animationLenght % 5);
+                        animationCounter[4]++;
+                        if(animationCounter[4] > animationLenght*5) {
+                            for(int i=0; i<4; i++) {
+                                animationCounter[i] = 0;
+                            }
                         }
-                    }
-                        break;
+                    break;
+
                     default:
                         animationFrame=0;
-                        break;
+                    break;
                 }
                
                 break;

@@ -11,8 +11,8 @@ public interface PowerUp extends Entity {
         CHARGING, ACTIVE, DEACTIVATED, DESTROYED
     }
 
-    public enum PerformingAction {
-        WALKING, JUMPING, ASCENDING, DESCENDING, LANDING
+    enum PerformingAction {
+        WALKING, JUMPING, ASCENDING, DESCENDING, GLIDING, LANDING
     }
 
     PowerUpType getPowerUpType();

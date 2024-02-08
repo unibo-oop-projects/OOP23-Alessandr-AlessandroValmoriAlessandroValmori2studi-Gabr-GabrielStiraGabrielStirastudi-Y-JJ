@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 public class GameInfo {
+    private final static double DEFAULTX = 1280;
+    private final static double DEFAULTY = 720;
     private Dimension screenSize;
     private double screenHeight;
     private double screenWidth;
@@ -28,9 +30,8 @@ public class GameInfo {
     
 
     private GameInfo() {
-        this.screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.screenWidth = screenSize.width*0.75;
-        this.screenHeight = screenSize.height*0.75;
+        this.screenWidth = DEFAULTX;
+        this.screenHeight = DEFAULTY;
         this.screenRatio = this.screenWidth/this.screenHeight;
     }
 
@@ -46,6 +47,14 @@ public class GameInfo {
 
     public double getScreenHeight() {
         return screenHeight;
+    }
+
+    public double getDefaultWidth() {
+        return DEFAULTX;
+    }
+
+    public double getDefaultHeight() {
+        return DEFAULTY;
     }
 
     public double getScreenRatio() {

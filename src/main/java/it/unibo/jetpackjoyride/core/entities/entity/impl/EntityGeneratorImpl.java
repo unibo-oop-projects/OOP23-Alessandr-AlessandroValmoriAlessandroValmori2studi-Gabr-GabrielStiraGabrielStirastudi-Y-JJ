@@ -11,7 +11,6 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
-import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;

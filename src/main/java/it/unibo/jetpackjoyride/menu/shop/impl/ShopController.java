@@ -4,22 +4,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 public class ShopController {
-    private Scene shopScene;
-    private Pane root;
+    
+  
+    private ShopModel model;
+    private ShopView view;
 
     public ShopController() {
-        initializeShop();
+       this.model = new ShopModel();
+       this.view = new ShopView();
     }
 
     public Scene getScene() {
-        return shopScene;
+        return this.view.getScene();
     }
 
-    private void initializeShop() {
-        // Create your shop view components
-        // For demonstration purposes, let's just create a simple pane
-        root = new Pane();
-        root.setPrefSize(400, 300);
-        shopScene = new Scene(root);
-    }
+   
 }

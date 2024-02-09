@@ -1,10 +1,14 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class ShopView {
     private Scene shopScene;
@@ -23,25 +27,48 @@ public class ShopView {
     }
 
     private void initializeShop() {
-        Text shopText = new Text("This is the shop view");
-        shopText.setTranslateX(50);
-        shopText.setTranslateY(50);
+        Rectangle background = new Rectangle(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+        background.setFill(Color.LIGHTBLUE);
 
-        Button button1 = new Button("Button 1");
-        button1.setPrefSize(200, 100); 
+        Button backButton = new Button("Back");
+        backButton.setPrefSize(100, 50);
+        backButton.setStyle("-fx-background-color: #CCCCCC; -fx-text-fill: black; -fx-font-size: 16;");
+        backButton.setTranslateX(20);
+        backButton.setTranslateY(20);
+        backButton.setOnAction(e -> {
+            System.out.println("Back button clicked");
+        });
+
+        Button button1 = new Button();
+        button1.setPrefSize(150, 150);
+        button1.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 16;");
         button1.setTranslateX(50);
-        button1.setTranslateY(100);
+        button1.setTranslateY(150);
+        setImageOnButton(button1, "shop/cuddleart.png");
 
-        Button button2 = new Button("Button 2");
-        button2.setPrefSize(200, 100); 
+        Button button2 = new Button();
+        button2.setPrefSize(150, 150);
+        button2.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 16;");
         button2.setTranslateX(50);
-        button2.setTranslateY(250);
+        button2.setTranslateY(350);
+        setImageOnButton(button2, "shop/lilstomper.png");
 
-        Button button3 = new Button("Button 3");
-        button3.setPrefSize(200, 100); 
+        Button button3 = new Button();
+        button3.setPrefSize(150, 150);
+        button3.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 16;");
         button3.setTranslateX(50);
-        button3.setTranslateY(400);
+        button3.setTranslateY(550);
+        setImageOnButton(button3, "shop/shield.png");
 
-        root.getChildren().addAll(shopText, button1, button2, button3);
+        root.getChildren().addAll(background, backButton, button1, button2, button3);
+    }
+
+    private void setImageOnButton(Button button, String imageUrl) {
+        Image image = new Image(getClass().getClassLoader()
+        .getResource(imageUrl).toExternalForm());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(button.getPrefWidth());
+        imageView.setFitHeight(button.getPrefHeight());
+        button.setGraphic(imageView);
     }
 }

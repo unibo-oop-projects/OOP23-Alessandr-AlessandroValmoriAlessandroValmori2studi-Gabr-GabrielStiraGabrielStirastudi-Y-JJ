@@ -36,6 +36,8 @@ public class BarryImpl implements Barry {
 
     private GameInfo gameInfo;
 
+    private boolean hasShield=true;
+
     /* FUTURE */
     private int coins;
     private int distance;
@@ -147,5 +149,10 @@ public class BarryImpl implements Barry {
     @Override
     public PlayerHitbox getHitbox() {
         return this.hitbox;
+    }
+
+    @Override
+    public boolean hasShield() {
+        return hasShield;
     }
 }

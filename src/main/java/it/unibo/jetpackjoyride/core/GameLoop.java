@@ -100,9 +100,9 @@ public class GameLoop{
 
 
     private void updateModel(){ 
-        
-        playerMover.move(inputH.isSpacePressed());
         updateScreenSize();
+        playerMover.move(inputH.isSpacePressed());
+        
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
       

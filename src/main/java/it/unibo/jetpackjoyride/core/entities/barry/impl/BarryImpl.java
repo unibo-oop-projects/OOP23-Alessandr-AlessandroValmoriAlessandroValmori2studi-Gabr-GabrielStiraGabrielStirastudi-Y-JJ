@@ -24,11 +24,14 @@ public class BarryImpl implements Barry {
     private double speed; // can be negative or positive, negative goes up, positive down
     // its standard value is 0, when Barry is walking
 
-    private final double X_POSITION = 100.0; // fixed x position
+    private double X_POSITION; // fixed x position
     private double position; // variable y position
 
-    private final double GROUND_LIMIT;
-    private final double CEILING_LIMIT = 30.0;
+    private double height;
+    private double width;
+
+    private  double GROUND_LIMIT;
+    private  double CEILING_LIMIT;
 
     private BarryStatus status; // walking, falling ...
 
@@ -50,8 +53,11 @@ public class BarryImpl implements Barry {
     public BarryImpl() {
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();
-
-        this.GROUND_LIMIT = gameInfo.getScreenHeight() *0.9;
+        this.width = gameInfo.getDefaultWidth();
+        this.height=gameInfo.getScreenHeight();
+        this.GROUND_LIMIT = gameInfo.getScreenHeight() - gameInfo.getScreenHeight()/8;
+        this.CEILING_LIMIT =gameInfo.getScreenHeight()/8;
+        this.X_POSITION = gameInfo.getDefaultWidth()/6;
         this.position = GROUND_LIMIT;
         this.speed = 0;
         this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);
@@ -72,6 +78,7 @@ public class BarryImpl implements Barry {
             this.speed += this.DOWNWARD_ACC;
             this.position += this.speed;
             this.status = BarryStatus.FALLING;
+          
             return true;
         }
 
@@ -114,11 +121,18 @@ public class BarryImpl implements Barry {
     public void move(boolean jumping) {
         if (jumping) {
             this.propel();
-        } else if (!this.status.equals(BarryStatus.WALKING)) {
+        } else  {
             this.fall();
         }
 
         this.hitbox.updateHitbox(getPosition(), 0.0);
+
+        double height= GameInfo.getInstance().getScreenHeight();
+        double width = GameInfo.getInstance().getScreenWidth();
+
+        if(height != this.height || width != this.width){
+            this.updateScreen(width, height);
+        }
     }
 
     /**
@@ -149,6 +163,15 @@ public class BarryImpl implements Barry {
     @Override
     public PlayerHitbox getHitbox() {
         return this.hitbox;
+    }
+
+   
+
+    private void updateScreen(double width, double height){
+        this.GROUND_LIMIT = height - height/8;
+        this.CEILING_LIMIT =height/8;
+        this.X_POSITION = width/6;
+        
     }
 
     @Override

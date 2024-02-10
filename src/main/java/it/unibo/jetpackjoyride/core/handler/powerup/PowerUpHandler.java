@@ -27,6 +27,7 @@ public class PowerUpHandler {
         this.init();
     }
 
+    
     public void update(boolean isSpaceBarPressed, Group powerUpGroup) {
         var iterator = listOfControllers.iterator();
         while(iterator.hasNext()) {

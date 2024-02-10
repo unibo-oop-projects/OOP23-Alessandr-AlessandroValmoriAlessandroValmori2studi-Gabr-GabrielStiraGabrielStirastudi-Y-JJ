@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Collections;
 
 import javax.sound.midi.Soundbank;
@@ -25,6 +26,7 @@ public class PlayerMover {
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+   
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
         {
@@ -90,18 +92,15 @@ public class PlayerMover {
     public void updateView(Pane root) {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
-        if (!root.getChildren().contains((Node) this.view.getImageView())) {
-            root.getChildren().add((Node) this.view.getImageView());
+        if (!root.getChildren().contains((Node)this.view.getImageView())) {
+            root.getChildren().add((Node)this.view.getImageView());
+    
         }
-    }
-
-    /**
-     * Retrieves the ImageView representing the player character.
-     * 
-     * @return The ImageView representing the player character.
-     */
-    public ImageView getImageView() {
-        return this.view.getImageView();
+        if(this.model.hasShield()){
+            if (!root.getChildren().contains((Node)this.view.getShieldImageView())) {
+                root.getChildren().add((Node)this.view.getShieldImageView());
+            }
+        }
     }
 
     /**

@@ -5,19 +5,18 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public interface Barry {
 
-    public enum BarryStatus{
+    enum BarryStatus {
         WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
     }
 
-    public Pair<Double, Double> getPosition();
-    
+    Pair<Double, Double> getPosition();
 
-    public BarryStatus getBarryStatus();
+    BarryStatus getBarryStatus();
 
+    void move(boolean jumping);
 
-    public void move(boolean jumping);
+    PlayerHitbox getHitbox();
 
-    public PlayerHitbox getHitbox();
-
+    boolean hasShield();
 
 }

@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
@@ -16,6 +17,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 public class BarryView {
 
     private ImageView imageView;
+    private ImageView shieldImageView;
     private List<Image> images;
     private int animationFrame;
     private GameInfo infoResolution;
@@ -28,6 +30,7 @@ public class BarryView {
      */
     public BarryView(List<Image> images) {
         this.images = images;
+        shieldImageView = new ImageView();
         this.imageView = new ImageView();
         this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
@@ -46,11 +49,24 @@ public class BarryView {
         imageView.setX(barry.getPosition().get1() - width / 2);
         imageView.setY(barry.getPosition().get2() - height / 2);
 
+
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
         imageView.setImage(this.images.get(animationFrame));
         animationFrame = (animationFrame + 1) % images.size();
+
+        shieldImageView.setX(barry.getPosition().get1() - width / 2);
+        shieldImageView.setY(barry.getPosition().get2() - height / 2);
+
+
+        shieldImageView.setFitWidth(width);
+        shieldImageView.setFitHeight(height);
+
+        shieldImageView.setImage(new Image("sprites/entities/player/barrySHIELD.png"));
+
+        
+
     }
 
     /**
@@ -66,7 +82,10 @@ public class BarryView {
             this.images = images;
             animationFrame = 0;
         }
+    
     }
+
+    
 
     /**
      * Retrieves the ImageView representing the visual representation of the Barry entity.
@@ -74,6 +93,10 @@ public class BarryView {
      * @return The ImageView representing the visual representation of the Barry entity.
      */
     public ImageView getImageView() {
-        return imageView;
+        return this.imageView;
+    }
+
+    public ImageView getShieldImageView() {
+        return this.shieldImageView;
     }
 }

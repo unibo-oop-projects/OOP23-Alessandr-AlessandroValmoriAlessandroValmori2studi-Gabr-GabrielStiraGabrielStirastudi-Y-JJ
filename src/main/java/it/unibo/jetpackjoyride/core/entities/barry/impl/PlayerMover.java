@@ -1,6 +1,14 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sound.midi.Soundbank;
+
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -11,145 +19,121 @@ public class PlayerMover {
 
     private Barry model;
     private BarryView view;
-    private Image[] images;
-   
+    private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    
+      private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>(){{
+        put(BarryStatus.WALKING, 4);
+        put(BarryStatus.BURNED, 4);
+        put(BarryStatus.LAND, 4);
+        put(BarryStatus.ZAPPED, 4);
+        put(BarryStatus.FALLING, 2);
+        put(BarryStatus.PROPELLING, 2);
+        put(BarryStatus.HEAD_DRAGGING, 2);
+      }};
+     
 
     public PlayerMover() {
         this.model = new BarryImpl();
-        this.images = this.imagesArray();
+        this.buildMap();
+
         this.view = new BarryView(this.getSpritesForStatus());
     }
 
-    private Image[] imagesArray() {
+    private void buildMap() {
 
-        int index = 0;
-
-        Image[] images = new Image[140]; // STORES ALL THE PLAYER SPRITES
-
-        // 0 - 27 burned
-        // 28 -41 jump
-        // 42 - 55 fall
-        // 56 - 83 land
-        // 84 - 111 walk
-        // 111 - 139 zapped
-
+        List<Image> temp = new ArrayList<>();
         for (int i = 0; i < 4; i++) { // 28, barryBurned
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barryburned" + (i + 1) + ".png").toExternalForm();
 
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
+
             }
         }
+        this.statusMap.put(BarryStatus.BURNED, new ArrayList<>(temp));
+        temp.clear();
 
         for (int i = 0; i < 2; i++) { // 14, barryjump
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barryjump" + (i + 1) + ".png").toExternalForm();
 
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
             }
         }
+        this.statusMap.put(BarryStatus.PROPELLING, new ArrayList<>(temp));
+        temp.clear();
+
+        for (int i = 0; i < 2; i++) { // 14, barryheaddragging
+            String imagePath = getClass().getClassLoader()
+                    .getResource("sprites/entities/player/barryjump" + (i + 1) + ".png").toExternalForm();
+
+            for (int j = 0; j < 7; j++) {
+                temp.add(j, new Image(imagePath));
+            }
+        }
+        this.statusMap.put(BarryStatus.HEAD_DRAGGING, new ArrayList<>(temp));
+        temp.clear();
 
         for (int i = 0; i < 2; i++) { // 14, barryfall
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barryfall" + (i + 1) + ".png").toExternalForm();
 
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
             }
         }
+        this.statusMap.put(BarryStatus.FALLING, new ArrayList<>(temp));
+        temp.clear();
 
         for (int i = 0; i < 4; i++) { // 28, barryland
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barryland" + (i + 1) + ".png").toExternalForm();
 
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
             }
         }
+        this.statusMap.put(BarryStatus.LAND, new ArrayList<>(temp));
+        temp.clear();
 
         for (int i = 0; i < 4; i++) { // 28, barrywalk
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barrywalk" + (i + 1) + ".png").toExternalForm();
-
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
             }
         }
+        this.statusMap.put(BarryStatus.WALKING, new ArrayList<>(temp));
+        temp.clear();
 
         for (int i = 0; i < 4; i++) { // 28, barryzapped
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/player/barryzapped" + (i + 1) + ".png").toExternalForm();
 
             for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                temp.add(j, new Image(imagePath));
             }
         }
-
-        return images;
+        this.statusMap.put(BarryStatus.ZAPPED, new ArrayList<>(temp));
+        temp.clear();
 
     }
 
-    private Image[] getSpritesForStatus() {
+    private List<Image> getSpritesForStatus() {
+       
+        return this.statusMap.get(this.model.getBarryStatus());
 
-        Image[] actualImages;
-        int i = 0;
-        int k = 0;
-
-        switch (this.model.getBarryStatus()) {
-
-            case WALKING:
-
-                // 84-111
-                actualImages = new Image[28];
-                for (i = 84; i < 112; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            case PROPELLING:
-            case HEAD_DRAGGING:
-
-                // 84-111
-                actualImages = new Image[14];
-                for (i = 28; i < 42; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            case FALLING:
-
-                // 84-111
-                actualImages = new Image[14];
-                for (i = 42; i < 56; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            default:
-                throw new IllegalStateException();
-
-        }
-
-        return actualImages;
     }
 
     public void move(boolean pressed) {
         this.model.move(pressed);
-        // System.out.println(model.getBarryStatus());
+
     }
 
     public void updateView(Pane root) {
+
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {
@@ -166,7 +150,7 @@ public class PlayerMover {
         return this.model;
     }
 
-    public PlayerHitbox getHitbox(){
+    public PlayerHitbox getHitbox() {
         return this.model.getHitbox();
     }
 

@@ -42,6 +42,8 @@ public class BarryView {
      *
      * @param barry The Barry entity whose view needs to be updated.
      */
+
+     
     public void update(Barry barry) {
         double width = infoResolution.getScreenWidth() / 8;
         double height = infoResolution.getScreenHeight() / 10;

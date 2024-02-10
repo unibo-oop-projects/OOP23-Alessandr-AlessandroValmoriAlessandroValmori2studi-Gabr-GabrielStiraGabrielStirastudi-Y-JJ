@@ -54,7 +54,7 @@ public class PowerUpHandler {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(screenSizeX/4,screenSizeY - screenSizeY/8), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.INITIALLYSTILL, MovementChangers.BOUNDS)),null);
+        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(screenSizeX/4,screenSizeY - screenSizeY/8), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.INITIALLYSTILL, MovementChangers.BOUNDS)),null);
         
         Image[] actualImage = new Image[24];
         for (int i = 0; i < 24; i++) {
@@ -64,10 +64,10 @@ public class PowerUpHandler {
 
         PowerUpController powerup = new PowerUpController(model.get(0), view);
 
-        listOfControllers.add(powerup);*/
+        listOfControllers.add(powerup);
         
          
-        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(400.0,150.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL,MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),null);
+        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(400.0,150.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL,MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),null);
         Image[] actualImage = new Image[6];
         
         for (int i = 0; i < 6; i++) {
@@ -81,7 +81,7 @@ public class PowerUpHandler {
 
         }
 
-        listOfControllers.addAll(powerup);
+        listOfControllers.addAll(powerup);*/
         
     }
 }

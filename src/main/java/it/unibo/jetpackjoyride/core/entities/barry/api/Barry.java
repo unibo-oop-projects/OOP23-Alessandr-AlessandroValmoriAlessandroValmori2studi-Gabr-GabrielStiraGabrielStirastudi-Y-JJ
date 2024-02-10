@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 public interface Barry {
 
     public enum BarryStatus{
-        WALKING, PROPELLING, FALLING, LAND, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
+        WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
     }
 
     public Pair<Double, Double> getPosition();

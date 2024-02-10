@@ -46,7 +46,7 @@ public class PowerUpView {
                     break;
 
                     case ASCENDING:
-                        animationLenght = 5;
+                        animationLenght = 4;
                         animationFrame = 5 + ((animationCounter[1])/animationLenght % 10);
                         if(animationCounter[1] < animationLenght*10 - 1 ) {
                             animationCounter[1]++;
@@ -56,12 +56,13 @@ public class PowerUpView {
                     break;
 
                     case DESCENDING:
-                    animationLenght = 8;
-                    animationFrame = 17 + ((animationCounter[3])/animationLenght % 2);
-                    if(animationCounter[3]<15) {
+                    animationCounter[1] = 0;
+                    animationLenght = 6;
+                    animationFrame = 14 + ((animationCounter[3])/animationLenght % 5);
+                    if(animationCounter[3]<animationLenght * 4 ) {
                         animationCounter[3]++;
                     } else {
-                        animationCounter[3] = 15;
+                        animationCounter[3] = animationLenght * 4;
                     }
                     break;
 

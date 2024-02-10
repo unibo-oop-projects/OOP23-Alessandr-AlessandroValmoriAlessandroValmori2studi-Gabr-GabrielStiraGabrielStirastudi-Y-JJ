@@ -6,7 +6,7 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
+import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class MrCuddles extends AbstractPowerUp{
@@ -32,7 +32,7 @@ public class MrCuddles extends AbstractPowerUp{
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 
-        Double rotationAngle = this.movement.getSpeed().get2()/5;
+        Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle,0.0));
         this.movement.update();
 
@@ -45,10 +45,10 @@ public class MrCuddles extends AbstractPowerUp{
 
         switch (this.performingAction) {
             case ASCENDING:
-                this.movement.setMovementChangers(List.of(MovementChangers.INITIALLYSTILL, MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));             
+                this.movement.setMovementChangers(List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));          
                 break;
             case DESCENDING:
-                this.movement.setMovementChangers(List.of(MovementChangers.INITIALLYSTILL, MovementChangers.GRAVITY, MovementChangers.BOUNDS));
+                this.movement.setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
                 break;
             default:
                 break;

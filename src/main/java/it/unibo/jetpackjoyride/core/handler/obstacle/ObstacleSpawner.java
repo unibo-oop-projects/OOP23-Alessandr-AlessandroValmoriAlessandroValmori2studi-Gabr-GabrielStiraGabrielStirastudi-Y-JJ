@@ -14,13 +14,14 @@ import it.unibo.jetpackjoyride.core.hitbox.impl.LaserHitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.ZapperHitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
+import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
+import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 
 public class ObstacleSpawner {
+    private static final Double MAPMOVEMENTSPEED = -5.0;
     private EntityGenerator entityGenerator;
     private Image[] images;
 
@@ -82,7 +83,7 @@ public class ObstacleSpawner {
                 case 0:
                     //MISSILE
 
-                    movement = new MovementGenerator(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0)).setMovementChangers(List.of(typeOfMovement == 0 ? MovementChangers.GRAVITY : typeOfMovement == 1 ? MovementChangers.SLOW : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING));
+                    movement = new MovementImpl(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(MAPMOVEMENTSPEED,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), List.of(typeOfMovement == 0 ? MovementChangers.GRAVITY : typeOfMovement == 1 ? MovementChangers.SLOW : typeOfMovement == 2 ? MovementChangers.HOMING : MovementChangers.SPEEDY, MovementChangers.BOUNCING, MovementChangers.SPEEDY));
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     startingStatus = ObstacleStatus.ACTIVE;
@@ -90,7 +91,7 @@ public class ObstacleSpawner {
                     break;
                 case 1:
                     //ZAPPER
-                    movement = new MovementGenerator(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5)).setMovementChangers(List.of(MovementChangers.SLOW));
+                    movement = new MovementImpl(new Pair<>(screenSizeX,random.nextDouble()*screenSizeY), new Pair<>(MAPMOVEMENTSPEED,0.0), new Pair<>(0.0, 0.0), new Pair<>(random.nextDouble()*180,random.nextInt(2) == 0 ? 0.0 : random.nextDouble()*5),List.of());
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     startingStatus = ObstacleStatus.ACTIVE;
@@ -98,7 +99,7 @@ public class ObstacleSpawner {
                     break;
                 case 2:
                     //LASER
-                    movement = new MovementGenerator(new Pair<>(screenSizeX/2,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.STATIC));
+                    movement = new MovementImpl(new Pair<>(screenSizeX/2,random.nextDouble()*screenSizeY), new Pair<>(0.0,0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0,0.0),List.of(MovementChangers.STATIC));
                     hitbox = new LaserHitbox(movement.getCurrentPosition(),movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     startingStatus = ObstacleStatus.CHARGING;

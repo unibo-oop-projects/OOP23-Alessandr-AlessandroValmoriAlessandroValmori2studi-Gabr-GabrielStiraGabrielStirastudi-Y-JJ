@@ -13,7 +13,7 @@ public class Zapper extends AbstractObstacle {
 
     @Override
     protected void updateStatus() {
-        Double outOfBoundsX = GameInfo.getInstance().getScreenWidth();  
+        final Double outOfBoundsX = GameInfo.getInstance().getScreenWidth();  
         if(this.movement.getCurrentPosition().get1() < -outOfBoundsX/8) {
             this.obstacleStatus = ObstacleStatus.INACTIVE;
         }

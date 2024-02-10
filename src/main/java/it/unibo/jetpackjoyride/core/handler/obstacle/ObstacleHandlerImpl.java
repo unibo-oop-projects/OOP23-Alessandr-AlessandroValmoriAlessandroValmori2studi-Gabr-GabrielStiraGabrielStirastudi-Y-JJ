@@ -1,13 +1,10 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
+
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -61,9 +58,9 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
 
                 controller.update();
 
-                if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
+                if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.ACTIVE)) {
                     obstacleHitPlayer=true;
-                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
+                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
                     System.out.println("Obstacle " + controller.getObstacleModel().getHitbox().getHitboxPosition() + " hit the player " + playerHitbox.getHitboxPosition());
                 }
 
@@ -71,7 +68,7 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
                     obstacleGroup.getChildren().add((Node)controller.getImageView());
                 }
     
-                if(controller.getObstacleModel().getObstacleStatus().equals(INACTIVE)) {
+                if(controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.INACTIVE)) {
                     obstacleGroup.getChildren().remove((Node)controller.getImageView());
                     iterator.remove();  
                 }
@@ -82,7 +79,7 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
                 iterator = listOfControllers.iterator();
                 while(iterator.hasNext()) { 
                     var controller = iterator.next();
-                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
+                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
                 }
             }
             return obstacleHitPlayer;

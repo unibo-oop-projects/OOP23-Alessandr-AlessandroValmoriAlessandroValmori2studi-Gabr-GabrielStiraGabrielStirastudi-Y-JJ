@@ -19,8 +19,8 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.util.Duration;
 
-public class CoinGenerator {
-     
+public final class CoinGenerator {
+
     private Canvas canvas;
     private final List<Coin> coinList = new ArrayList<>();
     private final List<Coin> reusableCoin = new ArrayList<>();
@@ -44,22 +44,22 @@ public class CoinGenerator {
         coinShape = new CoinShape(gameInfo);
     }
 
-    public void startGenerate(){
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e->generateCoin()));
+    public void startGenerate() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generateCoin()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
-    private void generateCoin(){
-        List<Pair<Double,Double>> shapes = coinShape.regularShapes();
-    
-        for (Pair<Double,Double> position : shapes) {
+    private void generateCoin() {
+        List<Pair<Double, Double>> shapes = coinShape.regularShapes();
+
+        for (Pair<Double, Double> position : shapes) {
             Coin coin;
-            if(!reusableCoin.isEmpty()){
+            if (!reusableCoin.isEmpty()) {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
-            }else{
-                CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position,0.0), 30, 30);
+            } else {
+                CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position, 0.0), 30, 30);
                 CoinView view = new CoinViewImpl(model);
                 coin = new Coin(model, view, canvas.getGraphicsContext2D());
             }
@@ -69,20 +69,20 @@ public class CoinGenerator {
 
     }
 
-    public void renderCoin(){
-        if(screenChange == true){
+    public void renderCoin() {
+        if (screenChange == true) {
             canvas.setHeight(mapHeight);
             canvas.setWidth(mapWidth);
             canvas.getGraphicsContext2D().clearRect(0, 0, mapWidth, mapHeight);
             screenChange = false;
         }
         for (Coin coin : coinList) {
-              coin.render();
+            coin.render();
         }
     }
 
     public void updatPosition() {
-        
+
         updateNewPos();
         checkCollision();
         Iterator<Coin> iterator = coinList.iterator();
@@ -91,7 +91,7 @@ public class CoinGenerator {
             coin.update();
             if (isOutofMap(coin.getPosition().get1())) {
                 reusableCoin.add(coin);
-                iterator.remove(); 
+                iterator.remove();
             }
         }
     
@@ -102,12 +102,12 @@ public class CoinGenerator {
     }
 
     private void updateNewPos() {
-         if (isScreenSizeChange()) {
+        if (isScreenSizeChange()) {
             double newWidth = gameInfo.getScreenWidth();
             double newHeight = gameInfo.getScreenHeight();
             double ratioX = newWidth / mapWidth;
             double ratioY = newHeight / mapHeight;
-          
+
             for (Coin coin : coinList) {
                 var oldPosition = coin.getPosition();
                 double newX = oldPosition.get1() * ratioX;
@@ -116,12 +116,12 @@ public class CoinGenerator {
             }
             mapWidth = newWidth;
             mapHeight = newHeight;
-                   
+
         }
 
     }
 
-    private boolean isScreenSizeChange(){
+    private boolean isScreenSizeChange() {
         double newWidth = gameInfo.getScreenWidth();
         double newHeight = gameInfo.getScreenHeight();
         screenChange = true;

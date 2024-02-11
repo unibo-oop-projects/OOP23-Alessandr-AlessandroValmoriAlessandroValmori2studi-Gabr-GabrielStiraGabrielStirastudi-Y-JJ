@@ -16,13 +16,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class GameLoop{
-   
+public final class GameLoop {
+
     private Scene gameScene;
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-   
+
     private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
 
@@ -30,21 +30,19 @@ public class GameLoop{
     private PlayerMover playerMover;
     private PowerUpHandler powerUpHandler;
 
-    private final int FPS=70;
-    private final long nSecPerFrame= Math.round(1.0/FPS * 1e9);
+    private final int fps = 70;
+    private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
 
-    private Pane root ;
+    private Pane root;
     private Group obstacleGroup;
     private Group powerUpGroup;
 
-   
     private InputHandler inputH = new InputHandler();
 
-
-    public GameLoop(){
+    public GameLoop() {
         initializeScene();
         initializeGameElements();
-     
+
     }
 
     private void initializeScene() {
@@ -53,14 +51,14 @@ public class GameLoop{
         obstacleGroup = new Group();
         powerUpGroup = new Group();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        
+
         gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
         gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
-        setupTimer();   
+        setupTimer();
     }
 
-    private void initializeGameElements(){
-        
+    private void initializeGameElements() {
+
         map = new MapBackgroundImpl(gameInfo);
         gameStatsHandler = new GameStatsHandler();
 
@@ -80,23 +78,23 @@ public class GameLoop{
         root.getChildren().add(gameStatsHandler.getText());
     }
 
-    private void setupTimer(){
+    private void setupTimer() {
         timer = new AnimationTimer() {
 
-            private long lastUpdate=0;
+            private long lastUpdate = 0;
 
             @Override
-            public void handle(long now) {
+            public void handle(final long now) {
 
-                if(now - lastUpdate > nSecPerFrame){
-                
-                updateModel();
-                updateView();
-                entityHandler.update(obstacleGroup, playerMover.getHitbox());
-                powerUpHandler.update(inputH.isSpacePressed(), powerUpGroup);
-                lastUpdate=now;
+                if (now - lastUpdate > nSecPerFrame) {
+
+                    updateModel();
+                    updateView();
+                    entityHandler.update(obstacleGroup, playerMover.getHitbox());
+                    powerUpHandler.update(inputH.isSpacePressed(), powerUpGroup);
+                    lastUpdate = now;
                 }
-                
+
             }
         };
     }
@@ -118,14 +116,16 @@ public class GameLoop{
         
         playerMover.move(inputH.isSpacePressed());
         updateScreenSize();
+        playerMover.move(inputH.isSpacePressed());
+
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
         gameStatsHandler.updateModel();
         
     }
 
-    private void updateView(){
-        
+    private void updateView() {
+
         map.updateBackgroundView();
         coinGenerator.renderCoin();
         playerMover.updateView(root);
@@ -138,9 +138,9 @@ public class GameLoop{
             double newWidth = newValue.doubleValue();
             gameInfo.updateInfo(newWidth, gameInfo.getScreenHeight());
         });
-    
+
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
-           
+
             double newHeight = newValue.doubleValue();
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newHeight);
         });

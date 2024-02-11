@@ -1,173 +1,121 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**
+ * The PlayerMover class is responsible for managing the movement of the player
+ * character (Barry).
+ * It handles updating the player's model and view based on user input and game
+ * logic.
+ */
 public class PlayerMover {
-
     private Barry model;
     private BarryView view;
-    private Image[] images;
-   
+    private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    private final int REPETITION = 7;
 
+    private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
+        {
+            put(BarryStatus.WALKING, 4);
+            put(BarryStatus.BURNED, 4);
+            put(BarryStatus.ZAPPED, 4);
+            put(BarryStatus.FALLING, 2);
+            put(BarryStatus.PROPELLING, 2);
+            put(BarryStatus.HEAD_DRAGGING, 2);
+        }
+    };
+
+    /**
+     * Constructs a new PlayerMover instance.
+     */
     public PlayerMover() {
         this.model = new BarryImpl();
-        this.images = this.imagesArray();
+        this.buildMap();
+
         this.view = new BarryView(this.getSpritesForStatus());
     }
 
-    private Image[] imagesArray() {
+    /**
+     * Builds the status map containing lists of images for each BarryStatus.
+     */
+    private void buildMap() {
+        for (var entry : framesPerAnimation.entrySet()) {
+            List<Image> images = new ArrayList<>();
+            for (int i = 0; i < entry.getValue(); i++) {
+                String imagePath = getClass().getClassLoader()
+                        .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
+                        .toExternalForm();
 
-        int index = 0;
-
-        Image[] images = new Image[140]; // STORES ALL THE PLAYER SPRITES
-
-        // 0 - 27 burned
-        // 28 -41 jump
-        // 42 - 55 fall
-        // 56 - 83 land
-        // 84 - 111 walk
-        // 111 - 139 zapped
-
-        for (int i = 0; i < 4; i++) { // 28, barryBurned
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barryburned" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
+                images.addAll(Collections.nCopies(REPETITION, new Image(imagePath)));
             }
+            this.statusMap.put(entry.getKey(), new ArrayList<>(images));
         }
-
-        for (int i = 0; i < 2; i++) { // 14, barryjump
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barryjump" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
-            }
-        }
-
-        for (int i = 0; i < 2; i++) { // 14, barryfall
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barryfall" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
-            }
-        }
-
-        for (int i = 0; i < 4; i++) { // 28, barryland
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barryland" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
-            }
-        }
-
-        for (int i = 0; i < 4; i++) { // 28, barrywalk
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barrywalk" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
-            }
-        }
-
-        for (int i = 0; i < 4; i++) { // 28, barryzapped
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/player/barryzapped" + (i + 1) + ".png").toExternalForm();
-
-            for (int j = 0; j < 7; j++) {
-                images[index] = new Image(imagePath);
-                index++;
-            }
-        }
-
-        return images;
-
     }
 
-    private Image[] getSpritesForStatus() {
-
-        Image[] actualImages;
-        int i = 0;
-        int k = 0;
-
-        switch (this.model.getBarryStatus()) {
-
-            case WALKING:
-
-                // 84-111
-                actualImages = new Image[28];
-                for (i = 84; i < 112; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            case PROPELLING:
-            case HEAD_DRAGGING:
-
-                // 84-111
-                actualImages = new Image[14];
-                for (i = 28; i < 42; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            case FALLING:
-
-                // 84-111
-                actualImages = new Image[14];
-                for (i = 42; i < 56; i++) {
-                    actualImages[k] = images[i];
-                    k++;
-                }
-                break;
-
-            default:
-                throw new IllegalStateException();
-
-        }
-
-        return actualImages;
+    /**
+     * Retrieves the list of sprites for the current BarryStatus.
+     * 
+     * @return The list of sprites for the current BarryStatus.
+     */
+    private List<Image> getSpritesForStatus() {
+        return this.statusMap.get(this.model.getBarryStatus());
     }
 
-    public void move(boolean pressed) {
+    /**
+     * Moves the player character based on the given input.
+     * 
+     * @param pressed Indicates whether the movement input is pressed.
+     */
+    public void move(final boolean pressed) {
+
         this.model.move(pressed);
-        // System.out.println(model.getBarryStatus());
+
     }
 
-    public void updateView(Pane root) {
+    /**
+     * Updates the view of the player character.
+     * 
+     * @param root The root pane to which the player character's view will be added.
+     */
+    public void updateView(final Pane root) {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {
             root.getChildren().add((Node) this.view.getImageView());
+
         }
-
+        if (this.model.hasShield()) {
+            if (!root.getChildren().contains((Node) this.view.getShieldImageView())) {
+                root.getChildren().add((Node) this.view.getShieldImageView());
+            }
+        }
     }
 
-    public ImageView getImageView() {
-        return this.view.getImageView();
-    }
-
+    /**
+     * Retrieves the model of the player character.
+     * 
+     * @return The model of the player character.
+     */
     public Barry getBarryModel() {
         return this.model;
     }
 
-    public PlayerHitbox getHitbox(){
+    /**
+     * Retrieves the hitbox of the player character.
+     * 
+     * @return The hitbox of the player character.
+     */
+    public PlayerHitbox getHitbox() {
         return this.model.getHitbox();
     }
-
 }

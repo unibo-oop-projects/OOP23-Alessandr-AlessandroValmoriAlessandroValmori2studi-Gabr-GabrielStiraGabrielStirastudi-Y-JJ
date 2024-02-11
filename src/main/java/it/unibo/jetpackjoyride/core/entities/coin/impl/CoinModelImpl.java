@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.core.hitbox.impl.CoinsHitbox;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-public class CoinModelImpl implements CoinModel{
+public class CoinModelImpl implements CoinModel {
 
     private Pair<Double,Double> position;
     private CoinsHitbox coinHitbox;
@@ -26,26 +26,39 @@ public class CoinModelImpl implements CoinModel{
         this.position = new Pair<Double,Double>(position.get1()-moveSpeed, position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
-
-    public Pair<Double,Double> getPosition(){
+    @Override
+    public void updateCoinModel() {
+        this.position = new Pair<Double, Double>(position.get1() - moveSpeed, position.get2());
+    }
+    @Override
+    public Pair<Double, Double> getPosition() {
         return position;
     }
+<<<<<<< HEAD
 
     public void setPosition(Pair<Double,Double> position){
+=======
+    @Override
+    public void setPosition(Pair<Double, Double> position) {
+>>>>>>> animationTimerBranch
         this.position = position;
         this.coinHitbox.updateHitbox(position, 0.0);
     }
-
-    public double getHeight(){
+    @Override
+    public double getHeight() {
         return this.coinHeight;
     }
-
-    public double getWidth(){
+    @Override
+    public double getWidth() {
         return this.coinWidth;
     }
+<<<<<<< HEAD
 
     public Hitbox geHitbox(){
         return this.coinHitbox;
     }
 
 }
+=======
+    }
+>>>>>>> animationTimerBranch

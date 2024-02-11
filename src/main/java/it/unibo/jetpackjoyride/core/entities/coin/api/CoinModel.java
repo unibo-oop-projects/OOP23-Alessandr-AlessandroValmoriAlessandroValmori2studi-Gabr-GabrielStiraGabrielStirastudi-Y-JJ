@@ -7,14 +7,11 @@ public interface CoinModel {
 
     void updateCoinModel();
 
-    Pair<Double,Double> getPosition();
+    Pair<Double, Double> getPosition();
 
-    void setPosition(Pair<Double,Double> position);
-    
+    void setPosition(Pair<Double, Double> position);
+
     double getHeight();
 
-     double getWidth();
-
-     Hitbox geHitbox();
-
+    public double getWidth();
 }

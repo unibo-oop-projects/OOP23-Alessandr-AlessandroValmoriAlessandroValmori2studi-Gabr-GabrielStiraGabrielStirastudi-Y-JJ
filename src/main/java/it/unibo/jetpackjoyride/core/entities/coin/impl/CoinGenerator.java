@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
@@ -16,13 +15,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.util.Duration;
 
-public class CoinGenerator {
+public final class CoinGenerator {
 
     private Canvas canvas;
     private GraphicsContext gc;
     private final List<Coin> coinList = new ArrayList<>();
     private final List<Coin> reusableCoin = new ArrayList<>();
-    private Random random;
     private CoinShape coinShape;
     private GameInfo gameInfo;
 

@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import java.util.Collections;
-
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -25,6 +22,7 @@ public class PlayerMover {
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    private final int REPETITION = 7;
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
         {
@@ -58,7 +56,7 @@ public class PlayerMover {
                         .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
                         .toExternalForm();
 
-                images.addAll(Collections.nCopies(7, new Image(imagePath)));
+                images.addAll(Collections.nCopies(REPETITION, new Image(imagePath)));
             }
             this.statusMap.put(entry.getKey(), new ArrayList<>(images));
         }
@@ -78,7 +76,7 @@ public class PlayerMover {
      * 
      * @param pressed Indicates whether the movement input is pressed.
      */
-    public void move(boolean pressed) {
+    public void move(final boolean pressed) {
 
         this.model.move(pressed);
 
@@ -89,7 +87,7 @@ public class PlayerMover {
      * 
      * @param root The root pane to which the player character's view will be added.
      */
-    public void updateView(Pane root) {
+    public void updateView(final Pane root) {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {

@@ -14,7 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class GameLoop {
+public final class GameLoop {
 
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -27,8 +27,8 @@ public class GameLoop {
     private PlayerMover playerMover;
     private PowerUpHandler powerUpHandler;
 
-    private final int FPS = 70;
-    private final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
+    private final int fps = 70;
+    private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
 
     private Pane root;
     private Group obstacleGroup;
@@ -78,7 +78,7 @@ public class GameLoop {
             private long lastUpdate = 0;
 
             @Override
-            public void handle(long now) {
+            public void handle(final long now) {
 
                 if (now - lastUpdate > nSecPerFrame) {
 

@@ -5,16 +5,15 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 
 import java.util.*;
 
-public class Missile extends AbstractObstacle {
-    private final static Integer DELAYBEFOREDESTRUCTION = 50;
+public final class Missile extends AbstractObstacle {
+    private static final Integer DELAYBEFOREDESTRUCTION = 50;
     private int lifetimeAfterDeactivation;
 
-    public Missile(Movement movement, Hitbox hitbox) {
+    public Missile(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, movement, hitbox);
         this.lifetimeAfterDeactivation = DELAYBEFOREDESTRUCTION;
     }

@@ -2,13 +2,14 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public class ObstacleHandlerImpl implements ObstacleHandler {
+public final class ObstacleHandlerImpl implements ObstacleHandler {
 
     private ObstacleSpawner obstacleSpawner;
     private List<ObstacleController> listOfControllers;
@@ -49,7 +50,7 @@ public class ObstacleHandlerImpl implements ObstacleHandler {
     }
 
     @Override
-    public boolean update(Group obstacleGroup, Hitbox playerHitbox) {
+    public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
             var iterator = listOfControllers.iterator();
             boolean obstacleHitPlayer = false;

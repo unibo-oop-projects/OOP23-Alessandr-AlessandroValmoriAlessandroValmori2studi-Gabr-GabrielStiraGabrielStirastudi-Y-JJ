@@ -9,10 +9,10 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-public class MrCuddles extends AbstractPowerUp {
+public final class MrCuddles extends AbstractPowerUp {
     private List<Boolean> lastFrames;
 
-    public MrCuddles(Movement movement, Hitbox hitbox, Integer indexOfBody) {
+    public MrCuddles(final Movement movement, final Hitbox hitbox, final Integer indexOfBody) {
         super(PowerUpType.MRCUDDLES, movement, hitbox);
         this.performingAction = PerformingAction.ASCENDING;
         this.lastFrames = new ArrayList<>(indexOfBody + 1);
@@ -28,7 +28,7 @@ public class MrCuddles extends AbstractPowerUp {
     }
 
     @Override
-    public void update(boolean isSpaceBarPressed) {
+    public void update(final boolean isSpaceBarPressed) {
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 

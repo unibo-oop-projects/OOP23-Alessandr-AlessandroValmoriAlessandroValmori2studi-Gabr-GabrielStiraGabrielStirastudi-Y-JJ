@@ -9,11 +9,11 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-public class MrCuddlesGenerator {
-    private final static Integer MRCUDDLESLENGHT = 12;
+public final class MrCuddlesGenerator {
+    private static final Integer MRCUDDLESLENGHT = 12;
     private List<PowerUp> mrCuddles;
 
-    public MrCuddlesGenerator(Movement powerUpMovement, Hitbox powerUpHitbox) {
+    public MrCuddlesGenerator(final Movement powerUpMovement, final Hitbox powerUpHitbox) {
         this.mrCuddles = new ArrayList<>();
 
         for (int i = MRCUDDLESLENGHT - 1; i >= 0; i--) {

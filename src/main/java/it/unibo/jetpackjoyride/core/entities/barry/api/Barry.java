@@ -19,6 +19,4 @@ public interface Barry {
 
     boolean hasShield();
 
-   
-
 }

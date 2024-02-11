@@ -37,7 +37,7 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     public void update() {
         this.lifetime++;
         this.movement.update();
-        if(this.obstacleStatus.equals(ACTIVE)) {
+        if (this.obstacleStatus.equals(ACTIVE)) {
             this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
         }
         this.updateStatus();

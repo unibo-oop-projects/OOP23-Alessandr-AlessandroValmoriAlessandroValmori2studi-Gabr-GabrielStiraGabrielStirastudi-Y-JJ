@@ -6,11 +6,11 @@ public interface CoinModel {
 
     void updateCoinModel();
 
-    Pair<Double,Double> getPosition();
+    Pair<Double, Double> getPosition();
 
-    void setPosition(Pair<Double,Double> position);
-    
+    void setPosition(Pair<Double, Double> position);
+
     double getHeight();
 
-    public double getWidth();
+    double getWidth();
 }

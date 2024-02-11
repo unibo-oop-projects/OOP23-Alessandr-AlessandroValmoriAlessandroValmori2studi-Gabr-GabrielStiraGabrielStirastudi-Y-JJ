@@ -30,8 +30,8 @@ public class BarryImpl implements Barry {
     private double height;
     private double width;
 
-    private  double GROUND_LIMIT;
-    private  double CEILING_LIMIT;
+    private double GROUND_LIMIT;
+    private double CEILING_LIMIT;
 
     private BarryStatus status; // walking, falling ...
 
@@ -39,7 +39,7 @@ public class BarryImpl implements Barry {
 
     private GameInfo gameInfo;
 
-    private boolean hasShield=true;
+    private boolean hasShield = true;
 
     /* FUTURE */
     private int coins;
@@ -48,16 +48,17 @@ public class BarryImpl implements Barry {
 
     /**
      * Constructs a new instance of BarryImpl.
-     * Initializes the initial state of Barry, including position, speed, status, hitbox, and game information.
+     * Initializes the initial state of Barry, including position, speed, status,
+     * hitbox, and game information.
      */
     public BarryImpl() {
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();
         this.width = gameInfo.getDefaultWidth();
-        this.height=gameInfo.getScreenHeight();
-        this.GROUND_LIMIT = gameInfo.getScreenHeight() - gameInfo.getScreenHeight()/8;
-        this.CEILING_LIMIT =gameInfo.getScreenHeight()/8;
-        this.X_POSITION = gameInfo.getDefaultWidth()/6;
+        this.height = gameInfo.getScreenHeight();
+        this.GROUND_LIMIT = gameInfo.getScreenHeight() - gameInfo.getScreenHeight() / 8;
+        this.CEILING_LIMIT = gameInfo.getScreenHeight() / 8;
+        this.X_POSITION = gameInfo.getDefaultWidth() / 6;
         this.position = GROUND_LIMIT;
         this.speed = 0;
         this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);
@@ -78,7 +79,7 @@ public class BarryImpl implements Barry {
             this.speed += this.DOWNWARD_ACC;
             this.position += this.speed;
             this.status = BarryStatus.FALLING;
-          
+
             return true;
         }
 
@@ -121,16 +122,16 @@ public class BarryImpl implements Barry {
     public void move(boolean jumping) {
         if (jumping) {
             this.propel();
-        } else  {
+        } else {
             this.fall();
         }
 
         this.hitbox.updateHitbox(getPosition(), 0.0);
 
-        double height= GameInfo.getInstance().getScreenHeight();
+        double height = GameInfo.getInstance().getScreenHeight();
         double width = GameInfo.getInstance().getScreenWidth();
 
-        if(height != this.height || width != this.width){
+        if (height != this.height || width != this.width) {
             this.updateScreen(width, height);
         }
     }
@@ -165,13 +166,11 @@ public class BarryImpl implements Barry {
         return this.hitbox;
     }
 
-   
+    private void updateScreen(double width, double height) {
+        this.GROUND_LIMIT = height - height / 8;
+        this.CEILING_LIMIT = height / 8;
+        this.X_POSITION = width / 6;
 
-    private void updateScreen(double width, double height){
-        this.GROUND_LIMIT = height - height/8;
-        this.CEILING_LIMIT =height/8;
-        this.X_POSITION = width/6;
-        
     }
 
     @Override

@@ -20,15 +20,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 /**
- * The PlayerMover class is responsible for managing the movement of the player character (Barry).
- * It handles updating the player's model and view based on user input and game logic.
+ * The PlayerMover class is responsible for managing the movement of the player
+ * character (Barry).
+ * It handles updating the player's model and view based on user input and game
+ * logic.
  */
 public class PlayerMover {
     private GameInfo gameInfo = GameInfo.getInstance();
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
-   
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
         {
@@ -83,9 +84,9 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(boolean pressed) {
-       
+
         this.model.move(pressed);
-       
+
     }
 
     /**
@@ -96,13 +97,13 @@ public class PlayerMover {
     public void updateView(Pane root) {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
-        if (!root.getChildren().contains((Node)this.view.getImageView())) {
-            root.getChildren().add((Node)this.view.getImageView());
-    
+        if (!root.getChildren().contains((Node) this.view.getImageView())) {
+            root.getChildren().add((Node) this.view.getImageView());
+
         }
-        if(this.model.hasShield()){
-            if (!root.getChildren().contains((Node)this.view.getShieldImageView())) {
-                root.getChildren().add((Node)this.view.getShieldImageView());
+        if (this.model.hasShield()) {
+            if (!root.getChildren().contains((Node) this.view.getShieldImageView())) {
+                root.getChildren().add((Node) this.view.getShieldImageView());
             }
         }
     }

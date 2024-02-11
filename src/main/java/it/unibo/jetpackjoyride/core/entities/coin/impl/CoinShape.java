@@ -12,25 +12,25 @@ public class CoinShape {
     private GameInfo gameInfo;
     private Random random;
 
-    public CoinShape(GameInfo gameInfo){
+    public CoinShape(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
         random = new Random();
     }
 
-    public  List<Pair<Double,Double>> regularShapes(){
+    public List<Pair<Double, Double>> regularShapes() {
         return straightLine();
     }
 
-    private List<Pair<Double,Double>> straightLine(){
+    private List<Pair<Double, Double>> straightLine() {
         int numOfCoins = 15;
-        double posY = gameInfo.getScreenHeight()*0.9*random.nextDouble();
+        double posY = gameInfo.getScreenHeight() * 0.9 * random.nextDouble();
         double posX = gameInfo.getScreenWidth();
-        List<Pair<Double,Double>> outlist = new ArrayList<>();
-        for(int i=0 ; i < numOfCoins ; i++ ){
-            outlist.add(new Pair<Double,Double>(posX, posY));
-            posX = posX+50;
+        List<Pair<Double, Double>> outlist = new ArrayList<>();
+        for (int i = 0; i < numOfCoins; i++) {
+            outlist.add(new Pair<Double, Double>(posX, posY));
+            posX = posX + 50;
         }
         return outlist;
     }
-    
+
 }

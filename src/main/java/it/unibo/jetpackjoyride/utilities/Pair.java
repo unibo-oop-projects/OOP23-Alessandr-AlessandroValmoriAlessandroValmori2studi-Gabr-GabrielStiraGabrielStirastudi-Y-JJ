@@ -6,11 +6,11 @@ import java.util.Objects;
  * A standard generic Pair<X,Y>, with getters, hashCode, equals, and toString well implemented. 
  */
 
-public class Pair<X,Y> {
-	
+public class Pair<X, Y> {
+
 	private final X x;
 	private final Y y;
-	
+
 	public Pair(X x, Y y) {
 		super();
 		this.x = x;
@@ -42,7 +42,7 @@ public class Pair<X,Y> {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Pair<X,Y> other = (Pair<X,Y>) obj;
+		Pair<X, Y> other = (Pair<X, Y>) obj;
 		return Objects.equals(x, other.x) && Objects.equals(y, other.y);
 	}
 

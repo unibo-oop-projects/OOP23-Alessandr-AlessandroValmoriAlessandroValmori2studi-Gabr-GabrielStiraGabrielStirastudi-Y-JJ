@@ -13,12 +13,15 @@ public class MrCuddlesGenerator {
     private final static Integer MRCUDDLESLENGHT = 12;
     private List<PowerUp> mrCuddles;
 
-
     public MrCuddlesGenerator(Movement powerUpMovement, Hitbox powerUpHitbox) {
         this.mrCuddles = new ArrayList<>();
 
-        for(int i=MRCUDDLESLENGHT-1; i>=0; i--) {   
-            Movement delayedMovement = new MovementImpl(new Pair<>(powerUpMovement.getCurrentPosition().get1()-35.0*i-(i != 0 ? 10.0 : 0.0), powerUpMovement.getCurrentPosition().get2()), powerUpMovement.getSpeed(), powerUpMovement.getAcceleration(), powerUpMovement.getRotation(), powerUpMovement.getMovementChangers());
+        for (int i = MRCUDDLESLENGHT - 1; i >= 0; i--) {
+            Movement delayedMovement = new MovementImpl(
+                    new Pair<>(powerUpMovement.getCurrentPosition().get1() - 35.0 * i - (i != 0 ? 10.0 : 0.0),
+                            powerUpMovement.getCurrentPosition().get2()),
+                    powerUpMovement.getSpeed(), powerUpMovement.getAcceleration(), powerUpMovement.getRotation(),
+                    powerUpMovement.getMovementChangers());
             PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);
             this.mrCuddles.add(mrCuddlesBody);
         }

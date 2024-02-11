@@ -27,18 +27,17 @@ public class GameInfo {
         }
         return instance;
     }
-    
 
     private GameInfo() {
         this.screenWidth = DEFAULTX;
         this.screenHeight = DEFAULTY;
-        this.screenRatio = this.screenWidth/this.screenHeight;
+        this.screenRatio = this.screenWidth / this.screenHeight;
     }
 
-    public void updateInfo(double screenWidth, double screenHeight){
+    public void updateInfo(double screenWidth, double screenHeight) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.screenRatio = this.screenWidth/this.screenHeight;
+        this.screenRatio = this.screenWidth / this.screenHeight;
     }
 
     public double getScreenWidth() {
@@ -61,7 +60,7 @@ public class GameInfo {
         return screenRatio;
     }
 
-    public void setMoveSpeed(int newSpeed){
+    public void setMoveSpeed(int newSpeed) {
         GameInfo.moveSpeed.set(newSpeed);
     }
 }

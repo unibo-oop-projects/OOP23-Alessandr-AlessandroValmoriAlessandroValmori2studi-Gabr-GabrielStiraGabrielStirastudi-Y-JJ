@@ -12,13 +12,13 @@ public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double, Double>> hitbox;
     private boolean hitboxStatus = false;
 
-    public AbstractHitbox(Pair<Double, Double> hitboxStartingPos, Pair<Double, Double> hitboxDimensions,
-            Double startingAngle) {
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
+            final Double startingAngle) {
         createHitbox(hitboxStartingPos, hitboxDimensions, startingAngle);
     }
 
-    public void createHitbox(Pair<Double, Double> hitboxStartingPos, Pair<Double, Double> hitboxDimensions,
-            Double startingAngle) {
+    public void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
+            final Double startingAngle) {
         final Double width = hitboxDimensions.get1();
         final Double height = hitboxDimensions.get2();
         final Double initialX = hitboxStartingPos.get1() - width / 2;
@@ -55,8 +55,8 @@ public abstract class AbstractHitbox implements Hitbox {
         return new Pair<>(maxX - (maxX - minX) / 2, maxY - (maxY - minY) / 2);
     }
 
-    private Pair<Double, Double> computeNewPoint(Pair<Double, Double> toCompute, Pair<Double, Double> anchor,
-            Double angle) {
+    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor,
+            final Double angle) {
         AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 

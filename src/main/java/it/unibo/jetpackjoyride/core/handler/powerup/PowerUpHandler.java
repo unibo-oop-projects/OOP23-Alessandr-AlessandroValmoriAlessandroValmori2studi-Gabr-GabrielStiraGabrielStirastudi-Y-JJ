@@ -8,7 +8,6 @@ import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -17,7 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 
-public class PowerUpHandler {
+public final class PowerUpHandler {
     private List<PowerUpController> listOfControllers;
     private EntityGenerator entityGenerator;
 
@@ -27,7 +26,7 @@ public class PowerUpHandler {
         this.init();
     }
 
-    public void update(boolean isSpaceBarPressed, Group powerUpGroup) {
+    public void update(final boolean isSpaceBarPressed, final Group powerUpGroup) {
         var iterator = listOfControllers.iterator();
         while (iterator.hasNext()) {
             var controller = iterator.next();

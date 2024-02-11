@@ -90,7 +90,7 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
         }
     }
 
-    private boolean collisionChecker(Hitbox hitbox, Hitbox playerHitbox) {
+    private boolean collisionChecker(final Hitbox hitbox, final Hitbox playerHitbox) {
         for (var vertex : playerHitbox.getHitboxVertex()) {
             if (hitbox.isTouching(vertex)) {
                 return true;

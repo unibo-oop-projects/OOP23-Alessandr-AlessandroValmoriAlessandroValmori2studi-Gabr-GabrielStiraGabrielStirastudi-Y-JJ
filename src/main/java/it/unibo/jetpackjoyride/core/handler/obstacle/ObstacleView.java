@@ -3,17 +3,16 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public class ObstacleView {
+public final class ObstacleView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
-    public ObstacleView(Image[] images) {
+    public ObstacleView(final Image[] images) {
         this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
@@ -21,7 +20,7 @@ public class ObstacleView {
         this.animationLenght = 1;
     }
 
-    public void updateView(Obstacle obstacle) {
+    public void updateView(final Obstacle obstacle) {
         Double width;
         Double height;
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();

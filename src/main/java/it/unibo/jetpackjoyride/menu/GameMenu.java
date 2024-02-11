@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
-import it.unibo.jetpackjoyride.menu.shop.impl.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,7 +30,7 @@ public final class GameMenu {
     private Image menuImage;
     private ImageView menuImageView;
 
-    private ShopController shopController;
+    private ShopControllerImpl shopController;
 
     private GameLoop gameLoop;
     private GameInfo gameInfo;
@@ -41,7 +41,7 @@ public final class GameMenu {
         mainStage = primaryStage;
         initializeGameMenu();
         addButtons();
-        shopController = new ShopController();
+        shopController = new ShopControllerImpl(primaryStage, gameLoop);
 
     }
 

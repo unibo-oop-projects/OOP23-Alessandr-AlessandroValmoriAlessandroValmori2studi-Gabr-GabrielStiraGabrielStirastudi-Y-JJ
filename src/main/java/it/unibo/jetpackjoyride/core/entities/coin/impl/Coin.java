@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinCotroller;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -30,6 +31,7 @@ public class Coin implements CoinCotroller {
         this.model.setPosition(position);
     }
 
+
     public void setVisible(boolean isvisible){
         this.view.setVisible(isvisible);
     }
@@ -37,4 +39,9 @@ public class Coin implements CoinCotroller {
     public Pair<Double,Double> getPosition(){
         return this.model.getPosition();
     }
+
+    public Hitbox geHitbox(){
+        return this.model.geHitbox();
+    }
+
 }

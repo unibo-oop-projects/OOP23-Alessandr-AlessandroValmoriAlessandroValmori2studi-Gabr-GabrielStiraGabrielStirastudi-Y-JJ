@@ -1,41 +1,45 @@
 package it.unibo.jetpackjoyride.core.entities.coin.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
+import it.unibo.jetpackjoyride.core.entities.coin.api.CoinCotroller;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.CoinsHitbox;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.util.Duration;
 
 public class CoinGenerator {
      
     private Canvas canvas;
-    private GraphicsContext gc;
     private final List<Coin> coinList = new ArrayList<>();
     private final List<Coin> reusableCoin = new ArrayList<>();
-    private Random random;
     private CoinShape coinShape;
     private GameInfo gameInfo;
 
     private double mapHeight;
     private double mapWidth;
+    private Hitbox playeHitbox;
+    private GameStatsModel gameStatsModel;
 
     private boolean screenChange;
 
 
-    public CoinGenerator(){
+    public CoinGenerator(Hitbox playeHitbox, GameStatsModel gameStatsModel){
         this.gameInfo = GameInfo.getInstance();
+        this.playeHitbox = playeHitbox;
+        this.gameStatsModel = gameStatsModel;
         this.canvas = new Canvas(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        this.gc = canvas.getGraphicsContext2D();
         screenChange = false;
         coinShape = new CoinShape(gameInfo);
     }
@@ -69,7 +73,7 @@ public class CoinGenerator {
         if(screenChange == true){
             canvas.setHeight(mapHeight);
             canvas.setWidth(mapWidth);
-            gc.clearRect(0, 0, mapWidth, mapHeight);
+            canvas.getGraphicsContext2D().clearRect(0, 0, mapWidth, mapHeight);
             screenChange = false;
         }
         for (Coin coin : coinList) {
@@ -80,13 +84,12 @@ public class CoinGenerator {
     public void updatPosition() {
         
         updateNewPos();
-      
+        checkCollision();
         Iterator<Coin> iterator = coinList.iterator();
         while (iterator.hasNext()) {
             Coin coin = iterator.next();
             coin.update();
             if (isOutofMap(coin.getPosition().get1())) {
-                coin.setVisible(false);
                 reusableCoin.add(coin);
                 iterator.remove(); 
             }
@@ -94,11 +97,6 @@ public class CoinGenerator {
     
     }
     
-
-    private boolean isOutofMap(double x){
-        return x < -gameInfo.getScreenWidth();
-    }
-
     public Canvas getCanvas(){
         return this.canvas;
     }
@@ -129,5 +127,26 @@ public class CoinGenerator {
         screenChange = true;
         return newWidth != mapWidth || newHeight != mapHeight;
     }
+
+    private void checkCollision(){
+        List<Coin> sortedList = coinList.stream()
+                        .filter(p->p.getPosition().get1() < gameInfo.getScreenWidth()/2)
+                        .sorted(Comparator.comparingDouble(p->p.getPosition().get1()))
+                        .collect(Collectors.toList());
+
+        for (Coin coin : sortedList) {
+              for (var vertex : playeHitbox.getHitboxVertex()) {
+                    if(coin.geHitbox().isTouching(vertex)){
+                        coin.setVisible(false);
+                        
+                    }
+              }
+        }
+    }
+
+    private boolean isOutofMap(double x){
+        return x < -gameInfo.getScreenWidth();
+    }
+
 
 }

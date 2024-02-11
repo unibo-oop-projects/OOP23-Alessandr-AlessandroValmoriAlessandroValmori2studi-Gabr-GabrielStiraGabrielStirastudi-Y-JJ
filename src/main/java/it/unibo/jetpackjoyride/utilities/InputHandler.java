@@ -1,11 +1,9 @@
 package it.unibo.jetpackjoyride.utilities;
 
-
-
 import javafx.scene.input.KeyCode;
 
 public class InputHandler {
-    private boolean isSpacePressed=false;
+    private boolean isSpacePressed = false;
 
     public InputHandler() {
         // Initialize input states

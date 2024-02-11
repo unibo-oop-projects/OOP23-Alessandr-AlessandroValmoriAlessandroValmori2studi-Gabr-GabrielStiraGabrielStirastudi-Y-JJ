@@ -29,5 +29,5 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     public PerformingAction getPerformingAction() {
         return this.performingAction;
     }
-    
+
 }

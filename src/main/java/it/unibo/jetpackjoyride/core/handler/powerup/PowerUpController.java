@@ -26,4 +26,3 @@ public class PowerUpController {
         return this.model;
     }
 }
-

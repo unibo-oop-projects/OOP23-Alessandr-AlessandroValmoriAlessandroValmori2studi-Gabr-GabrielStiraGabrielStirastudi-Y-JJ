@@ -24,16 +24,18 @@ public class Missile extends AbstractObstacle {
         final Double outOfBoundsX = GameInfo.getInstance().getScreenWidth();
         final Double outOfBoundsY = GameInfo.getInstance().getScreenHeight();
 
-        if((this.movement.getCurrentPosition().get1() < -outOfBoundsX/8) ||
-           (!this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 
-                (this.movement.getCurrentPosition().get2() > outOfBoundsY - outOfBoundsY/8 || this.movement.getCurrentPosition().get2() < outOfBoundsY/8)) ||
-           (this.lifetimeAfterDeactivation < 0)) {
-                this.obstacleStatus = ObstacleStatus.INACTIVE;
+        if ((this.movement.getCurrentPosition().get1() < -outOfBoundsX / 8) ||
+                (!this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) &&
+                        (this.movement.getCurrentPosition().get2() > outOfBoundsY - outOfBoundsY / 8
+                                || this.movement.getCurrentPosition().get2() < outOfBoundsY / 8))
+                ||
+                (this.lifetimeAfterDeactivation < 0)) {
+            this.obstacleStatus = ObstacleStatus.INACTIVE;
         }
-        if(this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
-            if(this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
-                this.movement.setSpeed(new Pair<>(0.0,0.0));  
-                this.movement.setAcceleration(new Pair<>(0.0,0.0));
+        if (this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
+            if (this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
+                this.movement.setSpeed(new Pair<>(0.0, 0.0));
+                this.movement.setAcceleration(new Pair<>(0.0, 0.0));
                 this.movement.setMovementChangers(List.of(MovementChangers.SLOW));
             }
             this.lifetimeAfterDeactivation--;

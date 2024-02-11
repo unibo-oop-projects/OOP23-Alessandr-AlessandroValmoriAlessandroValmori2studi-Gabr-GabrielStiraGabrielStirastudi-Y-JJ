@@ -10,5 +10,5 @@ public interface CoinView {
     void renderCoin(GraphicsContext gc);
 
     void setVisible(boolean isvisible);
-    
+
 }

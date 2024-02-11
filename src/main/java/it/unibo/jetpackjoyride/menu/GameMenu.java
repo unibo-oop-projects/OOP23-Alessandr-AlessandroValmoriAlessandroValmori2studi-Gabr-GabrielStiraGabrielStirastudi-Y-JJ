@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-public class GameMenu {
+public final class GameMenu {
     private static final int MAP_WIDTH = 800;
     private static final int MAP_HEIGHT = 600;
     private static final int PORTION = 4;
@@ -35,7 +35,7 @@ public class GameMenu {
     private GameLoop gameLoop;
     private GameInfo gameInfo;
 
-    public GameMenu(Stage primaryStage, GameLoop gameLoop) {
+    public GameMenu(final Stage primaryStage, GameLoop gameLoop) {
         this.gameLoop = gameLoop;
         gameInfo = GameInfo.getInstance();
         mainStage = primaryStage;
@@ -93,7 +93,7 @@ public class GameMenu {
         root.getChildren().addAll(startButton, shopButton, exitButton);
     }
 
-    private Button createButton(String name, int index, EventHandler<ActionEvent> action) {
+    private Button createButton(final String name, final int index, final EventHandler<ActionEvent> action) {
         Button button = new Button(name);
         button.setOnAction(action);
         button.setTranslateX(BUTTON_POS_X);

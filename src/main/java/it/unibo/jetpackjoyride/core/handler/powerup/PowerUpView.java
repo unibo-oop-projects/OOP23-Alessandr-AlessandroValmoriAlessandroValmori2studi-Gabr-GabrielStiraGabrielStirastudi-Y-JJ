@@ -2,22 +2,19 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
-import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.POWERUP;
-
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public class PowerUpView {
+public final class PowerUpView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
-    public PowerUpView(Image[] images) {
+    public PowerUpView(final Image[] images) {
         this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
@@ -27,7 +24,7 @@ public class PowerUpView {
         this.animationLenght = 1;
     }
 
-    public void updateView(PowerUp powerUp) {
+    public void updateView(final PowerUp powerUp) {
         double width;
         double height;
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();

@@ -121,6 +121,7 @@ public final class GameLoop {
          String filename = "gameStats.ser"; 
 
         try {
+            gameStatsHandler.getGameStatsModel().updateDate();
             GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {

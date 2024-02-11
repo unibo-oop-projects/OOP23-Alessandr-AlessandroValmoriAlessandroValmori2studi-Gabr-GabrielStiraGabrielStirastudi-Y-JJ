@@ -11,6 +11,10 @@ public interface GameStatsModel extends Serializable {
 
      int getcurrentDistance();
 
+     int getTotCoins();
+
+     void updateCoins(int coin);
+
      void addDistance();
     
      void updateDate();

@@ -12,11 +12,13 @@ public final class Coin implements CoinCotroller {
     private CoinModel model;
     private CoinView view;
     private GraphicsContext gc;
+    private boolean isCollected;
 
     public Coin(CoinModel model, CoinView view, GraphicsContext gc) {
         this.model = model;
         this.view = view;
         this.gc = gc;
+        isCollected = false;
     }
 
     public void update() {
@@ -31,6 +33,13 @@ public final class Coin implements CoinCotroller {
         this.model.setPosition(position);
     }
 
+    public boolean isCollected(){
+        return this.isCollected;
+    }
+
+    public void setCollectedState(boolean isCollected){
+        this.isCollected = isCollected;
+    }
 
     public void setVisible(boolean isvisible){
         this.view.setVisible(isvisible);

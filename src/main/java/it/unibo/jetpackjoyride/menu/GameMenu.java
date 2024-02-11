@@ -35,7 +35,7 @@ public final class GameMenu {
     private GameLoop gameLoop;
     private GameInfo gameInfo;
 
-    public GameMenu(final Stage primaryStage, GameLoop gameLoop) {
+    public GameMenu(final Stage primaryStage, final GameLoop gameLoop) {
         this.gameLoop = gameLoop;
         gameInfo = GameInfo.getInstance();
         mainStage = primaryStage;

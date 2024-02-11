@@ -9,16 +9,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-
-
-
 public class MapBackgroundImpl extends Pane implements MapBackground {
 
     private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
     private final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
 
-
-   
     private int moveSpeed;
 
     private ImageView bgImageView1, bgImageView2;
@@ -28,22 +23,21 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
 
     private GameInfo gameInfo;
 
-    public MapBackgroundImpl(GameInfo gameInfo){
-      
+    public MapBackgroundImpl(GameInfo gameInfo) {
+
         this.gameInfo = gameInfo;
         moveSpeed = GameInfo.moveSpeed.get();
         mapHeight = gameInfo.getScreenHeight();
         mapWidth = gameInfo.getScreenWidth();
         loadBackgroungImage();
-        
+
     }
 
     public void updateBackgroundModel() {
 
-       
         bgImageX1 -= moveSpeed;
         bgImageX2 -= moveSpeed;
-    
+
         if (isOutofMap(bgImageX1)) {
             bgImageX1 = bgImageX2 + mapWidth;
         }
@@ -51,10 +45,9 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
             bgImageX2 = bgImageX1 + mapWidth;
         }
         updateSize();
-    
+
     }
 
-    
     public void updateBackgroundView() {
 
         bgImageView1.setX(bgImageX1);
@@ -66,22 +59,22 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         double newHeight = gameInfo.getScreenHeight();
 
         if (newWidth != mapWidth || newHeight != mapHeight) {
-            double ratioX1 = bgImageX1/mapWidth;
-            double ratioX2 = bgImageX2/mapWidth;
+            double ratioX1 = bgImageX1 / mapWidth;
+            double ratioX2 = bgImageX2 / mapWidth;
             mapWidth = newWidth;
             mapHeight = newHeight;
 
             setImageViewSize(bgImageView1, mapWidth, mapHeight);
             setImageViewSize(bgImageView2, mapWidth, mapHeight);
-            
-            bgImageX1 = mapWidth*ratioX1;
-            bgImageX2 = mapWidth*ratioX2;
+
+            bgImageX1 = mapWidth * ratioX1;
+            bgImageX2 = mapWidth * ratioX2;
 
         }
 
     }
 
-    private void loadBackgroungImage(){
+    private void loadBackgroungImage() {
 
         bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
         bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
@@ -95,11 +88,11 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         this.getChildren().addAll(bgImageView1, bgImageView2);
     }
 
-    private ImageView creatImageView(String path){
+    private ImageView creatImageView(String path) {
 
         try {
             URL backgroundImageUrl = getClass().getClassLoader().getResource(path);
-            if(backgroundImageUrl == null){
+            if (backgroundImageUrl == null) {
                 throw new FileNotFoundException("Backgroung Image was not found: " + path);
             }
             String url = backgroundImageUrl.toExternalForm();
@@ -112,12 +105,12 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
         return null;
     }
 
-    private void setImageViewSize(ImageView bImageView,double width, double height){
-            bImageView.setFitWidth(width);
-            bImageView.setFitHeight(height);
-    }    
+    private void setImageViewSize(ImageView bImageView, double width, double height) {
+        bImageView.setFitWidth(width);
+        bImageView.setFitHeight(height);
+    }
 
-    private boolean isOutofMap(double x){
-        return x<=-mapWidth;
+    private boolean isOutofMap(double x) {
+        return x <= -mapWidth;
     }
 }

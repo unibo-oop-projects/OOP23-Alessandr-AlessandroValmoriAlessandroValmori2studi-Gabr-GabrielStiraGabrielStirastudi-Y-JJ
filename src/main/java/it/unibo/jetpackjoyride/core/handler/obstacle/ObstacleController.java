@@ -3,11 +3,11 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import javafx.scene.image.ImageView;
 
-public class ObstacleController {
+public final class ObstacleController {
     private Obstacle model;
     private ObstacleView view;
 
-    public ObstacleController(Obstacle model, ObstacleView view) {
+    public ObstacleController(final Obstacle model, final ObstacleView view) {
         this.model = model;
         this.view = view;
     }

@@ -17,7 +17,10 @@ public interface Entity {
     }
 
     EntityType getEntityType();
+
     Movement getEntityMovement();
+
     Hitbox getHitbox();
+
     int getLifetime();
 }

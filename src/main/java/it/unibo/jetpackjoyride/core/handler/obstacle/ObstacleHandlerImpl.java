@@ -1,17 +1,15 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.INACTIVE;
 
-import java.util.*;
+import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
 
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import java.util.List;
+import java.util.ArrayList;
+
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public class ObstacleHandlerImpl implements ObstacleHandler{
+public final class ObstacleHandlerImpl implements ObstacleHandler {
 
     private ObstacleSpawner obstacleSpawner;
     private List<ObstacleController> listOfControllers;
@@ -28,9 +26,9 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
     }
 
     @Override
-    public void run(){
-        while(isRunning) {
-            synchronized(this.listOfControllers) {
+    public void run() {
+        while (isRunning) {
+            synchronized (this.listOfControllers) {
                 this.listOfControllers.addAll(obstacleSpawner.generateChunk());
             }
 
@@ -38,12 +36,12 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } 
+            }
         }
     }
 
-    public void over(){
-        isRunning=false;
+    public void over() {
+        isRunning = false;
     }
 
     @Override
@@ -52,46 +50,49 @@ public class ObstacleHandlerImpl implements ObstacleHandler{
     }
 
     @Override
-    public boolean update(Group obstacleGroup, Hitbox playerHitbox) {
-        synchronized(this.listOfControllers){
+    public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
+        synchronized (this.listOfControllers) {
             var iterator = listOfControllers.iterator();
             boolean obstacleHitPlayer = false;
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 var controller = iterator.next();
 
                 controller.update();
 
-                if(collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox) && controller.getObstacleModel().getObstacleStatus().equals(ACTIVE)) {
-                    obstacleHitPlayer=true;
-                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
-                    System.out.println("Obstacle " + controller.getObstacleModel().getHitbox().getHitboxPosition() + " hit the player " + playerHitbox.getHitboxPosition());
+                if (collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox)
+                        && controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.ACTIVE)) {
+                    obstacleHitPlayer = true;
+                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
+                    System.out.println("Obstacle " + controller.getObstacleModel().getHitbox().getHitboxPosition()
+                            + " hit the player " + playerHitbox.getHitboxPosition());
                 }
 
-                if(!obstacleGroup.getChildren().contains((Node)controller.getImageView())) {
-                    obstacleGroup.getChildren().add((Node)controller.getImageView());
+                if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
+                    obstacleGroup.getChildren().add((Node) controller.getImageView());
                 }
-    
-                if(controller.getObstacleModel().getObstacleStatus().equals(INACTIVE)) {
-                    obstacleGroup.getChildren().remove((Node)controller.getImageView());
-                    iterator.remove();  
-                }
-            }  
 
-            // Deactivate all obstacles on screen if one hit the player (give the player a brief moment to focus again)
-            if(obstacleHitPlayer) {
+                if (controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.INACTIVE)) {
+                    obstacleGroup.getChildren().remove((Node) controller.getImageView());
+                    iterator.remove();
+                }
+            }
+
+            // Deactivate all obstacles on screen if one hit the player (give the player a
+            // brief moment to focus again)
+            if (obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
-                while(iterator.hasNext()) { 
+                while (iterator.hasNext()) {
                     var controller = iterator.next();
-                    controller.getObstacleModel().changeObstacleStatus(DEACTIVATED);
+                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
                 }
             }
             return obstacleHitPlayer;
         }
     }
 
-    private boolean collisionChecker(Hitbox hitbox, Hitbox playerHitbox) {
-        for(var vertex : playerHitbox.getHitboxVertex()) {
-            if(hitbox.isTouching(vertex)) {
+    private boolean collisionChecker(final Hitbox hitbox, final Hitbox playerHitbox) {
+        for (var vertex : playerHitbox.getHitboxVertex()) {
+            if (hitbox.isTouching(vertex)) {
                 return true;
             }
         }

@@ -8,16 +8,15 @@ import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator;
-import it.unibo.jetpackjoyride.core.movement.MovementGenerator.MovementChangers;
+import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
+import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 
-public class PowerUpHandler {
+public final class PowerUpHandler {
     private List<PowerUpController> listOfControllers;
     private EntityGenerator entityGenerator;
 
@@ -27,26 +26,26 @@ public class PowerUpHandler {
         this.init();
     }
 
-    public void update(boolean isSpaceBarPressed, Group powerUpGroup) {
+    public void update(final boolean isSpaceBarPressed, final Group powerUpGroup) {
         var iterator = listOfControllers.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             var controller = iterator.next();
 
             controller.update(isSpaceBarPressed, powerUpGroup);
 
-            if(!powerUpGroup.getChildren().contains((Node)controller.getImageView())) {
-                powerUpGroup.getChildren().add((Node)controller.getImageView());
+            if (!powerUpGroup.getChildren().contains((Node) controller.getImageView())) {
+                powerUpGroup.getChildren().add((Node) controller.getImageView());
             }
 
-            if(controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
-                powerUpGroup.getChildren().remove((Node)controller.getImageView());
+            if (controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
+                powerUpGroup.getChildren().remove((Node) controller.getImageView());
             }
-    
-            if(controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
-                powerUpGroup.getChildren().remove((Node)controller.getImageView());
-                iterator.remove();  
+
+            if (controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
+                powerUpGroup.getChildren().remove((Node) controller.getImageView());
+                iterator.remove();
             }
-        }  
+        }
     }
 
     private void init() {
@@ -54,34 +53,43 @@ public class PowerUpHandler {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER, new MovementGenerator(new Pair<>(screenSizeX/4,screenSizeY - screenSizeY/8), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.INITIALLYSTILL, MovementChangers.BOUNDS)),null);
-        
-        Image[] actualImage = new Image[24];
+        List<PowerUp> stomperModel = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER,
+                new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
+                        new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
+                        List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)),
+                null);
+
+        Image[] stomperActualImage = new Image[24];
         for (int i = 0; i < 24; i++) {
-            actualImage[i] = new Image(getClass().getClassLoader().getResource("sprites/entities/powerups/lilstomper/lilstomper_" + (i+1) + ".png").toExternalForm()); 
+            stomperActualImage[i] = new Image(getClass().getClassLoader()
+                    .getResource("sprites/entities/powerups/lilstomper/lilstomper_" + (i + 1) + ".png")
+                    .toExternalForm());
         }
-        PowerUpView view = new PowerUpView(actualImage);
+        PowerUpView stomperView = new PowerUpView(stomperActualImage);
 
-        PowerUpController powerup = new PowerUpController(model.get(0), view);
+        PowerUpController stomperPowerup = new PowerUpController(stomperModel.get(0), stomperView);
 
-        listOfControllers.add(powerup);*/
-        
-         
-        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES, new MovementGenerator(new Pair<>(400.0,150.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0)).setMovementChangers(List.of(MovementChangers.INITIALLYSTILL,MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),null);
+        listOfControllers.add(stomperPowerup);
+
+        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
+                new MovementImpl(new Pair<>(400.0, 150.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
+                        new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),
+                null);
         Image[] actualImage = new Image[6];
-        
+
         for (int i = 0; i < 6; i++) {
-            actualImage[i] = new Image(getClass().getClassLoader().getResource("sprites/entities/powerups/mrcuddles/mrcuddles_" + (i+1) + ".png").toExternalForm()); 
+            actualImage[i] = new Image(getClass().getClassLoader()
+                    .getResource("sprites/entities/powerups/mrcuddles/mrcuddles_" + (i + 1) + ".png").toExternalForm());
         }
 
         List<PowerUpController> powerup = new ArrayList<>();
-        for(int i=0; i<model.size(); i++) {
+        for (int i = 0; i < model.size(); i++) {
             PowerUpView view = new PowerUpView(actualImage);
             powerup.add(new PowerUpController(model.get(i), view));
 
         }
 
         listOfControllers.addAll(powerup);
-        
+
     }
 }

@@ -10,24 +10,30 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 /* An interface for the hitbox of entities */
 
 public interface Hitbox {
-  /* The general idea is to model the hitbox of an entity with a set of rectangles. Even if it is simpler to 
-    adopt the 'one rectangle' since only one rectangle has to be updated, some entities are able to rotate and
-    that would make the one rectangle implementation tricky. Therefore, an idea could be to use four Pair<>(x,y)
-    to track the vertex of a polygon, which can be a better solution in case of rotating shapes (rectangles can't
-    rotate), so that a "rotating rectangle" can be computed and act as hitbox even if it is actually a polygon.
+  /*
+   * The general idea is to model the hitbox of an entity with a set of
+   * rectangles. Even if it is simpler to
+   * adopt the 'one rectangle' since only one rectangle has to be updated, some
+   * entities are able to rotate and
+   * that would make the one rectangle implementation tricky. Therefore, an idea
+   * could be to use four Pair<>(x,y)
+   * to track the vertex of a polygon, which can be a better solution in case of
+   * rotating shapes (rectangles can't
+   * rotate), so that a "rotating rectangle" can be computed and act as hitbox
+   * even if it is actually a polygon.
    */
 
-     void setHitboxOn();
+  void setHitboxOn();
 
-     void setHitboxOff();
+  void setHitboxOff();
 
-     boolean isHitboxOn();
+  boolean isHitboxOn();
 
-     boolean isTouching(Pair<Double, Double> pos);
-     
-     void updateHitbox(Pair<Double, Double> newPosition, Double angle);
+  boolean isTouching(Pair<Double, Double> pos);
 
-     Pair<Double,Double> getHitboxPosition();
+  void updateHitbox(Pair<Double, Double> newPosition, Double angle);
 
-     Set<Pair<Double,Double>> getHitboxVertex();
+  Pair<Double, Double> getHitboxPosition();
+
+  Set<Pair<Double, Double>> getHitboxVertex();
 }

@@ -15,14 +15,15 @@ public final class ShopControllerImpl implements ShopController {
     private ShopModel model;
     private ShopView view;
     private Stage primaryStage;
-    private GameLoop gameLoop;
+
+    private GameMenu gameMenu;
 
     /**
      * Constructs a new ShopController.
      * Initializes the model and view components.
      */
-    public ShopControllerImpl(Stage primaryStage, GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
+    public ShopControllerImpl(Stage primaryStage, GameMenu gameMenu) {
+        this.gameMenu = gameMenu;
         this.primaryStage = primaryStage;
         this.model = new ShopModel();
         this.view = new ShopView(this);
@@ -39,8 +40,6 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void backToMenu() {
-        GameMenu gameMenu = new GameMenu(this.primaryStage, this.gameLoop);
-        this.primaryStage.setScene(gameMenu.getScene());
-        primaryStage.show();
+        primaryStage.setScene(gameMenu.getScene());
     }
 }

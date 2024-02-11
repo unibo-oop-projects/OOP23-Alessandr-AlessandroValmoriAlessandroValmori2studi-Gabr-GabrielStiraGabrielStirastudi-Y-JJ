@@ -136,7 +136,7 @@ public final class GameLoop {
 
     private void updateModel(){ 
         
-        playerMover.move(inputH.isSpacePressed());
+        
         updateScreenSize();
         playerMover.move(inputH.isSpacePressed());
 

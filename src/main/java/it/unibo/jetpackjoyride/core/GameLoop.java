@@ -6,6 +6,8 @@ import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandlerImpl;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
@@ -22,7 +24,7 @@ public class GameLoop{
     private MapBackground map;
    
     private CoinGenerator coinGenerator;
-   
+    private GameStatsController gameStatsHandler;
 
     private ObstacleHandlerImpl entityHandler;
     private PlayerMover playerMover;
@@ -60,6 +62,7 @@ public class GameLoop{
     private void initializeGameElements(){
         
         map = new MapBackgroundImpl(gameInfo);
+        gameStatsHandler = new GameStatsHandler();
 
         entityHandler = new ObstacleHandlerImpl();
         entityHandler.initialize();
@@ -68,11 +71,13 @@ public class GameLoop{
         powerUpHandler = new PowerUpHandler();
 
         root.getChildren().add((Node)map);
-        coinGenerator = new CoinGenerator();
+        coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
+       
       
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
+        root.getChildren().add(gameStatsHandler.getText());
     }
 
     private void setupTimer(){
@@ -85,8 +90,6 @@ public class GameLoop{
 
                 if(now - lastUpdate > nSecPerFrame){
                 
-               
-
                 updateModel();
                 updateView();
                 entityHandler.update(obstacleGroup, playerMover.getHitbox());
@@ -98,6 +101,18 @@ public class GameLoop{
         };
     }
 
+    public void starLoop(){
+        coinGenerator.startGenerate();
+        timer.start();
+    }
+
+    public void endLoop(){
+        entityHandler.over();
+    }
+    
+    public Scene getScene(){
+        return this.gameScene;
+    }
 
     private void updateModel(){ 
         
@@ -105,7 +120,7 @@ public class GameLoop{
         updateScreenSize();
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
-      
+        gameStatsHandler.updateModel();
         
     }
 
@@ -114,6 +129,7 @@ public class GameLoop{
         map.updateBackgroundView();
         coinGenerator.renderCoin();
         playerMover.updateView(root);
+        gameStatsHandler.updateView();
     }
 
     private void updateScreenSize() {
@@ -129,21 +145,4 @@ public class GameLoop{
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newHeight);
         });
     }
-    
-
- 
-
-    public void starLoop(){
-        coinGenerator.startGenerate();
-        timer.start();
-    }
-
-    public void endLoop(){
-        entityHandler.over();
-    }
-    
-    public Scene getScene(){
-        return this.gameScene;
-    }
-
 }

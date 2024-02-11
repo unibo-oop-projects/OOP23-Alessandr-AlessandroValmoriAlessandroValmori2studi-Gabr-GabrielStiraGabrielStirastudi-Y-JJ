@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.coin.api;
 
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public interface CoinModel {
@@ -12,5 +13,8 @@ public interface CoinModel {
     
     double getHeight();
 
-    public double getWidth();
+     double getWidth();
+
+     Hitbox geHitbox();
+
 }

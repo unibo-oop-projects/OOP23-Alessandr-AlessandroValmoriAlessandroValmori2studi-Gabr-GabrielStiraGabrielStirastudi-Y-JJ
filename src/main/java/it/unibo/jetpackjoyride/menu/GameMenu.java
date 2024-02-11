@@ -41,7 +41,7 @@ public final class GameMenu {
         mainStage = primaryStage;
         initializeGameMenu();
         addButtons();
-        shopController = new ShopControllerImpl(primaryStage, gameLoop);
+        shopController = new ShopControllerImpl(mainStage, this);
 
     }
 

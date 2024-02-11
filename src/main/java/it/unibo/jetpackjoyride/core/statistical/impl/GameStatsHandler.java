@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
+import java.io.IOException;
+
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
@@ -11,7 +13,14 @@ public class GameStatsHandler implements GameStatsController {
     private GameStatsView view;
 
     public GameStatsHandler( ) {      
-        this.model = new GameStats(); 
+           try {
+            this.model = GameStats.readFromFile("gameStats.ser"); 
+            System.out.println("Game stats loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Failed to load game stats: " + e.getMessage());
+          
+            this.model = new GameStats();
+        }
         this.view =  new GameStatsViewImpl();
     }
 

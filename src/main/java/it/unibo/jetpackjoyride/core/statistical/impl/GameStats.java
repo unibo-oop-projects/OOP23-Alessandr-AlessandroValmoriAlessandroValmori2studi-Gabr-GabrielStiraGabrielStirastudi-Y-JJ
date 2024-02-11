@@ -14,14 +14,16 @@ public class GameStats implements GameStatsModel {
     private static final long serialVersionUID = 48181123264L;
 
     private int bestDistance;
+    private int totCoins;
     private int currentDistance;
     
     public GameStats(){
         this.bestDistance = 0;
         this.currentDistance = 0;
+        this.totCoins = 0;
     }
 
-     public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
+    public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
             out.writeObject(stats);
         }
@@ -32,6 +34,14 @@ public class GameStats implements GameStatsModel {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             return (GameStatsModel) in.readObject();
         }
+    }
+
+    public int getTotCoins(){
+        return this.totCoins;
+    }
+
+    public void updateCoins(int coin){
+        this.totCoins = totCoins + coin;
     }
 
     public int getBestDistance(){

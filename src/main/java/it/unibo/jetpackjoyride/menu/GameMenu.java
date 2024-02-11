@@ -42,7 +42,13 @@ public final class GameMenu {
         initializeGameMenu();
         addButtons();
         shopController = new ShopControllerImpl(mainStage, this);
-
+        mainStage.setOnCloseRequest(event -> {
+            if (gameLoop != null) {
+                gameLoop.endLoop(); 
+            }
+            Platform.exit(); 
+            System.exit(0);
+        });
     }
 
     public Scene getScene() {
@@ -75,9 +81,7 @@ public final class GameMenu {
             mainStage.setScene(gameLoop.getScene());
             setGameStagePosition();
             gameLoop.starLoop();
-            mainStage.setOnCloseRequest(event -> {
-                gameLoop.endLoop();
-            });
+            
 
         });
         Button shopButton = createButton("Shop", 1, e -> {

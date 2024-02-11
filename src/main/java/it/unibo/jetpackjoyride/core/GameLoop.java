@@ -1,12 +1,16 @@
 package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
+
+import java.io.IOException;
+
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandlerImpl;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
@@ -82,6 +86,8 @@ public final class GameLoop {
         timer = new AnimationTimer() {
 
             private long lastUpdate = 0;
+            private long lastStatsupdate = 0;
+            private final long statsUpdateInterval = 1000000000L;
 
             @Override
             public void handle(final long now) {
@@ -95,6 +101,11 @@ public final class GameLoop {
                     lastUpdate = now;
                 }
 
+                if(now - lastStatsupdate > statsUpdateInterval){
+                    gameStatsHandler.updateModel();
+                    lastStatsupdate = now;
+                }
+
             }
         };
     }
@@ -106,7 +117,17 @@ public final class GameLoop {
 
     public void endLoop(){
         entityHandler.over();
+
+         String filename = "gameStats.ser"; 
+
+        try {
+            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save game stats: " + e.getMessage());
+        }
     }
+    
     
     public Scene getScene(){
         return this.gameScene;
@@ -120,7 +141,6 @@ public final class GameLoop {
 
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
-        gameStatsHandler.updateModel();
         
     }
 

@@ -26,21 +26,13 @@ public class CoinModelImpl implements CoinModel {
         this.position = new Pair<Double,Double>(position.get1()-moveSpeed, position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
-    @Override
-    public void updateCoinModel() {
-        this.position = new Pair<Double, Double>(position.get1() - moveSpeed, position.get2());
-    }
+  
     @Override
     public Pair<Double, Double> getPosition() {
         return position;
     }
-<<<<<<< HEAD
 
     public void setPosition(Pair<Double,Double> position){
-=======
-    @Override
-    public void setPosition(Pair<Double, Double> position) {
->>>>>>> animationTimerBranch
         this.position = position;
         this.coinHitbox.updateHitbox(position, 0.0);
     }
@@ -52,13 +44,9 @@ public class CoinModelImpl implements CoinModel {
     public double getWidth() {
         return this.coinWidth;
     }
-<<<<<<< HEAD
 
     public Hitbox geHitbox(){
         return this.coinHitbox;
     }
 
 }
-=======
-    }
->>>>>>> animationTimerBranch

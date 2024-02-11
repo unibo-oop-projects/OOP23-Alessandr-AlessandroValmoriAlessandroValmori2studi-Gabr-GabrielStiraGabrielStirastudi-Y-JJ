@@ -91,6 +91,7 @@ public final class CoinGenerator {
             coin.update();
             if (isOutofMap(coin.getPosition().get1())) {
                 reusableCoin.add(coin);
+                coin.setCollectedState(false);
                 iterator.remove();
             }
         }
@@ -138,7 +139,11 @@ public final class CoinGenerator {
               for (var vertex : playeHitbox.getHitboxVertex()) {
                     if(coin.geHitbox().isTouching(vertex)){
                         coin.setVisible(false);
-                        
+                        if(!coin.isCollected()){
+                            gameStatsModel.updateCoins(1);
+                            coin.setCollectedState(true);
+                        }
+                        break;
                     }
               }
         }

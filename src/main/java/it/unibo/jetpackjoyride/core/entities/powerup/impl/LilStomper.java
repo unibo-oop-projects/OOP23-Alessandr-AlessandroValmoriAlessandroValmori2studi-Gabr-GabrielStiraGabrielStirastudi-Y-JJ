@@ -6,23 +6,23 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-public class LilStomper extends AbstractPowerUp {
-    private final static Double BASEJUMPHEIGHTSPEED = 11.0;
-    private final static Double TICKJUMPHEITGHSPEED = 1.2;
-    private final static Integer MAXTICKSFORJUMP = 10;
-    private final static Integer RECOVERTICKSAFTERLANDING = 20;
-    private final static Double DESCENDINGBASESPEED = 4.0;
+public final class LilStomper extends AbstractPowerUp {
+    private static final Double BASEJUMPHEIGHTSPEED = 11.0;
+    private static final Double TICKJUMPHEITGHSPEED = 1.2;
+    private static final Integer MAXTICKSFORJUMP = 10;
+    private static final Integer RECOVERTICKSAFTERLANDING = 20;
+    private static final Double DESCENDINGBASESPEED = 4.0;
 
     private Integer loadJump;
 
-    public LilStomper(Movement movement, Hitbox hitbox) {
+    public LilStomper(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.LILSTOMPER, movement, hitbox);
         this.loadJump = 0;
         this.performingAction = PerformingAction.WALKING;
     }
 
     @Override
-    public void update(boolean isSpaceBarPressed) {
+    public void update(final boolean isSpaceBarPressed) {
         final GameInfo infoResolution = GameInfo.getInstance();
         final Double screenSizeY = infoResolution.getScreenHeight();
 

@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Coin implements CoinCotroller {
+public final class Coin implements CoinCotroller {
 
     private CoinModel model;
     private CoinView view;

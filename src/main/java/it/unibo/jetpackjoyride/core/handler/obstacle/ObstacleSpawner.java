@@ -20,7 +20,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 
-public class ObstacleSpawner {
+public final class ObstacleSpawner {
     private static final Double MAPMOVEMENTSPEED = -5.0;
     private EntityGenerator entityGenerator;
     private Image[] images;
@@ -136,7 +136,7 @@ public class ObstacleSpawner {
         return obstacleControllers;
     }
 
-    private Image[] loadImages(Integer fromIndex, Integer toIndex) {
+    private Image[] loadImages(final Integer fromIndex, final Integer toIndex) {
         int j = 0;
         int k = 0;
         Image[] actualImages = new Image[toIndex - fromIndex + 1];

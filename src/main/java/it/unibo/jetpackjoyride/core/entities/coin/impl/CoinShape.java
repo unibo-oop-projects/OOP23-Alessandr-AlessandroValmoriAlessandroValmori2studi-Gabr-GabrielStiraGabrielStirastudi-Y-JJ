@@ -7,12 +7,12 @@ import java.util.Random;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-public class CoinShape {
+public final class CoinShape {
 
     private GameInfo gameInfo;
     private Random random;
 
-    public CoinShape(GameInfo gameInfo) {
+    public CoinShape(final GameInfo gameInfo) {
         this.gameInfo = gameInfo;
         random = new Random();
     }

@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Collections;
 
-import javax.sound.midi.Soundbank;
+import java.util.Collections;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 /**
@@ -26,7 +22,6 @@ import javafx.scene.layout.Pane;
  * logic.
  */
 public class PlayerMover {
-    private GameInfo gameInfo = GameInfo.getInstance();
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();

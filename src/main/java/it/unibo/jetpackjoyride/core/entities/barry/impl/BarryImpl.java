@@ -1,7 +1,7 @@
 /**
  * BarryImpl class represents the implementation of the Barry interface,
  * which defines the behavior of the player character in the Jetpack Joyride game.
- * 
+ *
  * This class manages Barry's position, movement, and status, including walking,
  * falling, and propelling using a jetpack. It also handles hitbox-related operations.
  */
@@ -67,7 +67,7 @@ public class BarryImpl implements Barry {
 
     /**
      * Checks if Barry is falling and updates the position accordingly.
-     * 
+     *
      * @return true if Barry is falling, false otherwise
      */
     private boolean fall() {
@@ -91,7 +91,7 @@ public class BarryImpl implements Barry {
 
     /**
      * Checks if Barry is propelling upwards and updates the position accordingly.
-     * 
+     *
      * @return true if Barry is going up, false otherwise
      */
     private boolean propel() {
@@ -116,7 +116,7 @@ public class BarryImpl implements Barry {
      * Moves Barry based on the jumping condition.
      * If jumping is true, Barry propels upwards; otherwise, Barry falls.
      * Updates the hitbox after the movement.
-     * 
+     *
      * @param jumping true if Barry is jumping, false if not
      */
     public void move(boolean jumping) {
@@ -138,7 +138,7 @@ public class BarryImpl implements Barry {
 
     /**
      * Gets the current status of Barry.
-     * 
+     *
      * @return the current Barry status
      */
     @Override
@@ -148,7 +148,7 @@ public class BarryImpl implements Barry {
 
     /**
      * Gets the current position of Barry as a Pair of X and Y coordinates.
-     * 
+     *
      * @return the current position of Barry
      */
     @Override
@@ -158,7 +158,7 @@ public class BarryImpl implements Barry {
 
     /**
      * Gets the hitbox of Barry.
-     * 
+     *
      * @return the hitbox of Barry
      */
     @Override

@@ -19,6 +19,8 @@ public class ShopView {
     private Scene shopScene;
     private Pane root;
     private GameInfo gameInfo;
+    private double width;
+    private double height;
 
     /**
      * Constructor for ShopView.
@@ -26,6 +28,9 @@ public class ShopView {
     public ShopView() {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
+        this.width = gameInfo.getScreenWidth();
+        this.height = gameInfo.getScreenHeight();
+
         shopScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         initializeShop();
     }
@@ -66,7 +71,7 @@ public class ShopView {
         buyButton1.setPrefSize(80, 30);
         buyButton1.setTranslateX(210);
         buyButton1.setTranslateY(150);
-    
+
         Button equipButton1 = new Button("EQUIP");
         equipButton1.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
         equipButton1.setPrefSize(80, 30);

@@ -1,13 +1,11 @@
 package it.unibo.jetpackjoyride.utilities;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 
-public class GameInfo {
-    private final static double DEFAULTX = 1280;
-    private final static double DEFAULTY = 720;
-    private Dimension screenSize;
+
+public final class GameInfo {
+    private static final double DEFAULTX = 1280;
+    private static final double DEFAULTY = 720;
     private double screenHeight;
     private double screenWidth;
 

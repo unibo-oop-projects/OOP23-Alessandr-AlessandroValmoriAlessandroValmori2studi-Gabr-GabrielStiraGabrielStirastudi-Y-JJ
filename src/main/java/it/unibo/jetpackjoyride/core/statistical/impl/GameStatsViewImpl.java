@@ -19,9 +19,9 @@ public class GameStatsViewImpl implements GameStatsView{
     }
 
     public void updateDateView(GameStatsModel model){
-        coinAndDistanceText.setText("distance: " + model.getcurrentDistance() + 
+        coinAndDistanceText.setText("Current meter: " + model.getcurrentDistance() + 
                                     " Total Coins: " + model.getTotCoins() +
-                                    "\n" + "best meter : " + model.getBestDistance()  );
+                                    "\n" + "Last best meter : " + model.getBestDistance()  );
     }
 
     public Text getText(){

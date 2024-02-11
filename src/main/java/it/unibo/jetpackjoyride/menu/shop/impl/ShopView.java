@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,17 +22,19 @@ public class ShopView {
     private GameInfo gameInfo;
     private double width;
     private double height;
+    private ShopController controller;
 
     /**
      * Constructor for ShopView.
      */
-    public ShopView() {
+    public ShopView(ShopController controller) {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
         this.width = gameInfo.getScreenWidth();
         this.height = gameInfo.getScreenHeight();
-
+        this.controller = controller;
         shopScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+        
         initializeShop();
     }
 
@@ -55,8 +58,7 @@ public class ShopView {
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
         backButton.setOnAction(e -> {
-            System.out.println("Back button clicked");
-            // Handle back button action
+            this.controller.backToMenu();
         });
     
         Image image1 = new Image(getClass().getClassLoader().getResource("shop/cuddleart.png").toExternalForm());

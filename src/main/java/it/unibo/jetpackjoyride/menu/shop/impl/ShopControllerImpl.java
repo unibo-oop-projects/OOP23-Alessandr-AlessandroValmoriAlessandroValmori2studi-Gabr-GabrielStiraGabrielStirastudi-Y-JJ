@@ -1,8 +1,10 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,9 +14,10 @@ import javafx.stage.Stage;
  * This class manages the interaction between the shop model and view.
  */
 public final class ShopControllerImpl implements ShopController {
-    private ShopModel model;
+    
     private ShopView view;
     private Stage primaryStage;
+    private GameStatsHandler statshandler;
 
     private GameMenu gameMenu;
 
@@ -25,7 +28,7 @@ public final class ShopControllerImpl implements ShopController {
     public ShopControllerImpl(Stage primaryStage, GameMenu gameMenu) {
         this.gameMenu = gameMenu;
         this.primaryStage = primaryStage;
-        this.model = new ShopModel();
+        
         this.view = new ShopView(this);
     }
 
@@ -42,4 +45,23 @@ public final class ShopControllerImpl implements ShopController {
     public void backToMenu() {
         primaryStage.setScene(gameMenu.getScene());
     }
+
+    @Override
+    public void buy(Items item) {
+       System.out.println(item.toString() +" bought");
+    }
+
+    @Override
+    public void equip(Items item) {
+        System.out.println(item.toString() +" equipped");
+    }
+
+    @Override
+    public int retrieveBalance() {
+        return 2;
+    }
+
+    
+
+    
 }

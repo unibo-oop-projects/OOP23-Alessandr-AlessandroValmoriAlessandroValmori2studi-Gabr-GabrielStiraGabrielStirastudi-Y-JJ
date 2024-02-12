@@ -1,6 +1,9 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import java.io.IOException;
+
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
@@ -17,7 +20,7 @@ public final class ShopControllerImpl implements ShopController {
     
     private ShopView view;
     private Stage primaryStage;
-    private GameStatsHandler statshandler;
+    private GameStatsHandler gameStatsHandler;
 
     private GameMenu gameMenu;
 
@@ -27,6 +30,7 @@ public final class ShopControllerImpl implements ShopController {
      */
     public ShopControllerImpl(Stage primaryStage, GameMenu gameMenu) {
         this.gameMenu = gameMenu;
+        this.gameStatsHandler= new GameStatsHandler();
         this.primaryStage = primaryStage;
         
         this.view = new ShopView(this);
@@ -43,12 +47,30 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void backToMenu() {
+        
+         String filename = "gameStats.ser"; 
+
+        try {
+            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save game stats: " + e.getMessage());
+        }
         primaryStage.setScene(gameMenu.getScene());
     }
 
     @Override
     public void buy(Items item) {
-       System.out.println(item.toString() +" bought");
+
+        var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
+
+        if(item.getItemCost() > available){
+            System.out.println("Not enough funds :(\n");
+        }
+        else{
+        this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+        }
+       System.out.println(this.gameStatsHandler.getGameStatsModel().getTotCoins());
     }
 
     @Override

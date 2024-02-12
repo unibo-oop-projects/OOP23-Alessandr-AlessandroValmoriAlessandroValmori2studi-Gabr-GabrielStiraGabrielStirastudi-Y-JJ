@@ -2,7 +2,9 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
 
-import it.unibo.jetpackjoyride.core.GameLoop;
+import java.util.Optional;
+
+
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameMenu;
@@ -23,6 +25,8 @@ public final class ShopControllerImpl implements ShopController {
     private GameStatsHandler gameStatsHandler;
 
     private GameMenu gameMenu;
+
+    private Optional<Items> equipped = Optional.empty();
 
     /**
      * Constructs a new ShopController.
@@ -46,6 +50,31 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     @Override
+    public void buy(Items item) {
+
+        var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
+
+        if(item.getItemCost() > available){
+            System.out.println("Not enough funds :(\n");
+        }
+        else{
+        this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+        this.view.update();
+        }
+       System.out.println(this.gameStatsHandler.getGameStatsModel().getTotCoins());
+    }
+
+    @Override
+    public void equip(Items item) {
+        this.equipped = Optional.of(item);
+    }
+
+    @Override
+    public int retrieveBalance() {
+        return this.gameStatsHandler.getGameStatsModel().getTotCoins();
+    }
+
+    @Override
     public void backToMenu() {
         
          String filename = "gameStats.ser"; 
@@ -57,30 +86,6 @@ public final class ShopControllerImpl implements ShopController {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
         primaryStage.setScene(gameMenu.getScene());
-    }
-
-    @Override
-    public void buy(Items item) {
-
-        var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
-
-        if(item.getItemCost() > available){
-            System.out.println("Not enough funds :(\n");
-        }
-        else{
-        this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
-        }
-       System.out.println(this.gameStatsHandler.getGameStatsModel().getTotCoins());
-    }
-
-    @Override
-    public void equip(Items item) {
-        System.out.println(item.toString() +" equipped");
-    }
-
-    @Override
-    public int retrieveBalance() {
-        return 2;
     }
 
     

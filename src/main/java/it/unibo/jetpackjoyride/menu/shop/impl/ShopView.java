@@ -24,6 +24,7 @@ public class ShopView {
     private double width;
     private double height;
     private ShopController controller;
+    private Text moneyText;
 
     /**
      * Constructor for ShopView.
@@ -36,18 +37,6 @@ public class ShopView {
         this.controller = controller;
         shopScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         
-        initializeShop();
-    }
-
-    /**
-     * Gets the scene of the shop menu.
-     * @return The scene of the shop menu.
-     */
-    public Scene getScene() {
-        return shopScene;
-    }
-
-    private void initializeShop() {
         Image backgroundImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setFitWidth(gameInfo.getScreenWidth());
@@ -138,7 +127,7 @@ public class ShopView {
         });
     
     
-        Text moneyText = new Text("Money: $100");
+        moneyText = new Text("Money: $" + this.controller.retrieveBalance());
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         moneyText.setFill(Color.WHITE);
         moneyText.setTranslateY(30);
@@ -164,5 +153,21 @@ public class ShopView {
         descriptionText3.setTranslateY(580);
 
         root.getChildren().addAll(backgroundImageView, backButton, cuddlesImageView, buyMrCuddlesButton, equipCuddlesButton, stomperImageView, buyStomperButton, equipStomperButton, shieldImageView, buyShieldButton, equipShield, moneyText, descriptionText1, descriptionText2, descriptionText3);
+
     }
+
+    /**
+     * Gets the scene of the shop menu.
+     * @return The scene of the shop menu.
+     */
+    public Scene getScene() {
+        return shopScene;
+    }
+
+    public void update(){
+        this.moneyText.setText("Money: $" + String.valueOf(this.controller.retrieveBalance()));
+    }
+
+    
+    
 }

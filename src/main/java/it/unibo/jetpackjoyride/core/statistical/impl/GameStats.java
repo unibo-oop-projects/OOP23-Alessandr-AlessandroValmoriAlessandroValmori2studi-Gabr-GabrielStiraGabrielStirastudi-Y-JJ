@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import javax.sound.midi.Soundbank;
+
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
@@ -24,6 +26,7 @@ public class GameStats implements GameStatsModel {
     }
 
     public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
+     
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
             out.writeObject(stats);
         }

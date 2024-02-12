@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 /**
  * The view class for the shop menu.
@@ -61,62 +62,80 @@ public class ShopView {
             this.controller.backToMenu();
         });
     
-        Image image1 = new Image(getClass().getClassLoader().getResource("shop/cuddleart.png").toExternalForm());
-        ImageView imageView1 = new ImageView(image1);
-        imageView1.setFitWidth(150);
-        imageView1.setFitHeight(150);
-        imageView1.setTranslateX(50);
-        imageView1.setTranslateY(150);
+        Image cuddlesImage = new Image(getClass().getClassLoader().getResource("shop/cuddleart.png").toExternalForm());
+        ImageView cuddlesImageView = new ImageView(cuddlesImage);
+        cuddlesImageView.setFitWidth(150);
+        cuddlesImageView.setFitHeight(150);
+        cuddlesImageView.setTranslateX(50);
+        cuddlesImageView.setTranslateY(150);
     
-        Button buyButton1 = new Button("BUY");
-        buyButton1.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        buyButton1.setPrefSize(80, 30);
-        buyButton1.setTranslateX(210);
-        buyButton1.setTranslateY(150);
+        Button buyMrCuddlesButton = new Button("BUY");
+        buyMrCuddlesButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        buyMrCuddlesButton.setPrefSize(80, 30);
+        buyMrCuddlesButton.setTranslateX(210);
+        buyMrCuddlesButton.setTranslateY(150);
+        buyMrCuddlesButton.setOnAction(e -> {
+            this.controller.buy(Items.MRCUDDLES);
+        });
 
-        Button equipButton1 = new Button("EQUIP");
-        equipButton1.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        equipButton1.setPrefSize(80, 30);
-        equipButton1.setTranslateX(300);
-        equipButton1.setTranslateY(150);
+        Button equipCuddlesButton = new Button("EQUIP");
+        equipCuddlesButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipCuddlesButton.setPrefSize(80, 30);
+        equipCuddlesButton.setTranslateX(300);
+        equipCuddlesButton.setTranslateY(150);
+        equipCuddlesButton.setOnAction(e -> {
+            this.controller.equip(Items.MRCUDDLES);
+        });
 
-        Image image2 = new Image(getClass().getClassLoader().getResource("shop/lilstomper.png").toExternalForm());
-        ImageView imageView2 = new ImageView(image2);
-        imageView2.setFitWidth(150);
-        imageView2.setFitHeight(150);
-        imageView2.setTranslateX(50);
-        imageView2.setTranslateY(350);
+        Image stomperImage = new Image(getClass().getClassLoader().getResource("shop/lilstomper.png").toExternalForm());
+        ImageView stomperImageView = new ImageView(stomperImage);
+        stomperImageView.setFitWidth(150);
+        stomperImageView.setFitHeight(150);
+        stomperImageView.setTranslateX(50);
+        stomperImageView.setTranslateY(350);
     
-        Button buyButton2 = new Button("BUY");
-        buyButton2.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        buyButton2.setPrefSize(80, 30);
-        buyButton2.setTranslateX(210);
-        buyButton2.setTranslateY(350);
+        Button buyStomperButton = new Button("BUY");
+        buyStomperButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        buyStomperButton.setPrefSize(80, 30);
+        buyStomperButton.setTranslateX(210);
+        buyStomperButton.setTranslateY(350);
+        buyStomperButton.setOnAction(e -> {
+            this.controller.buy(Items.STOMPER);
+        });
     
-        Button equipButton2 = new Button("EQUIP");
-        equipButton2.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        equipButton2.setPrefSize(80, 30);
-        equipButton2.setTranslateX(300);
-        equipButton2.setTranslateY(350);
+        Button equipStomperButton = new Button("EQUIP");
+        equipStomperButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipStomperButton.setPrefSize(80, 30);
+        equipStomperButton.setTranslateX(300);
+        equipStomperButton.setTranslateY(350);
+        equipStomperButton.setOnAction(e -> {
+            this.controller.equip(Items.STOMPER);
+        });
     
-        Image image3 = new Image(getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
-        ImageView imageView3 = new ImageView(image3);
-        imageView3.setFitWidth(150);
-        imageView3.setFitHeight(150);
-        imageView3.setTranslateX(50);
-        imageView3.setTranslateY(550);
+        Image shieldImage = new Image(getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
+        ImageView shieldImageView = new ImageView(shieldImage);
+        shieldImageView.setFitWidth(150);
+        shieldImageView.setFitHeight(150);
+        shieldImageView.setTranslateX(50);
+        shieldImageView.setTranslateY(550);
     
-        Button buyButton3 = new Button("BUY");
-        buyButton3.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        buyButton3.setPrefSize(80, 30);
-        buyButton3.setTranslateX(210);
-        buyButton3.setTranslateY(550);
+        Button buyShieldButton = new Button("BUY");
+        buyShieldButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        buyShieldButton.setPrefSize(80, 30);
+        buyShieldButton.setTranslateX(210);
+        buyShieldButton.setTranslateY(550);
+        buyShieldButton.setOnAction(e -> {
+            this.controller.buy(Items.SHIELD);
+        });
     
-        Button equipButton3 = new Button("EQUIP");
-        equipButton3.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        equipButton3.setPrefSize(80, 30);
-        equipButton3.setTranslateX(300);
-        equipButton3.setTranslateY(550);
+        Button equipShield = new Button("EQUIP");
+        equipShield.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipShield.setPrefSize(80, 30);
+        equipShield.setTranslateX(300);
+        equipShield.setTranslateY(550);
+        equipShield.setOnAction(e -> {
+            this.controller.equip(Items.SHIELD);
+        });
     
     
         Text moneyText = new Text("Money: $100");
@@ -144,6 +163,6 @@ public class ShopView {
         descriptionText3.setTranslateX(450);
         descriptionText3.setTranslateY(580);
 
-        root.getChildren().addAll(backgroundImageView, backButton, imageView1, buyButton1, equipButton1, imageView2, buyButton2, equipButton2, imageView3, buyButton3, equipButton3, moneyText, descriptionText1, descriptionText2, descriptionText3);
+        root.getChildren().addAll(backgroundImageView, backButton, cuddlesImageView, buyMrCuddlesButton, equipCuddlesButton, stomperImageView, buyStomperButton, equipStomperButton, shieldImageView, buyShieldButton, equipShield, moneyText, descriptionText1, descriptionText2, descriptionText3);
     }
 }

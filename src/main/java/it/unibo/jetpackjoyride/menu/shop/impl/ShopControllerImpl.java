@@ -34,7 +34,11 @@ public final class ShopControllerImpl implements ShopController {
      */
     public ShopControllerImpl(Stage primaryStage, GameMenu gameMenu) {
         this.gameMenu = gameMenu;
+
         this.gameStatsHandler= new GameStatsHandler();
+
+        this.equipped = Optional.ofNullable(this.gameStatsHandler.getGameStatsModel().getEquipped());
+
         this.primaryStage = primaryStage;
         
         this.view = new ShopView(this);
@@ -61,7 +65,7 @@ public final class ShopControllerImpl implements ShopController {
         this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
         this.view.update();
         }
-       System.out.println(this.gameStatsHandler.getGameStatsModel().getTotCoins());
+       System.out.println(this.gameStatsHandler.getGameStatsModel().getEquipped());
     }
 
     @Override
@@ -83,6 +87,9 @@ public final class ShopControllerImpl implements ShopController {
          String filename = "gameStats.ser"; 
 
         try {
+            if(this.equipped.isPresent()){
+                this.gameStatsHandler.getGameStatsModel().setEquipped(this.equipped.get());
+            }
             GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {

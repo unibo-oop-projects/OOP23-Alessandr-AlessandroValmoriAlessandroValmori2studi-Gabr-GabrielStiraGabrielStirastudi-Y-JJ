@@ -14,6 +14,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
+import java.util.Optional;
+
 /**
  * The view class for the shop menu.
  */
@@ -26,6 +28,8 @@ public class ShopView {
     private ShopController controller;
     private Text moneyText;
     private Text displayEquipped;
+
+    
 
     /**
      * Constructor for ShopView.
@@ -69,7 +73,7 @@ public class ShopView {
         });
 
         Button equipCuddlesButton = new Button("EQUIP");
-        equipCuddlesButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipCuddlesButton.setStyle("-fx-background-color: #0010e8; -fx-text-fill: white; -fx-font-size: 16;");
         equipCuddlesButton.setPrefSize(80, 30);
         equipCuddlesButton.setTranslateX(300);
         equipCuddlesButton.setTranslateY(150);
@@ -94,13 +98,20 @@ public class ShopView {
         });
     
         Button equipStomperButton = new Button("EQUIP");
-        equipStomperButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipStomperButton.setStyle("-fx-background-color: #0010e8; -fx-text-fill: white; -fx-font-size: 16;");
         equipStomperButton.setPrefSize(80, 30);
         equipStomperButton.setTranslateX(300);
         equipStomperButton.setTranslateY(350);
         equipStomperButton.setOnAction(e -> {
             this.controller.equip(Items.STOMPER);
         });
+
+        Text stomperNum = new Text("22");
+        stomperNum.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
+        stomperNum.setFill(Color.WHITE);
+        stomperNum.setTranslateX(400);
+        stomperNum.setTranslateY(350);
+
     
         Image shieldImage = new Image(getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
         ImageView shieldImageView = new ImageView(shieldImage);
@@ -119,7 +130,7 @@ public class ShopView {
         });
     
         Button equipShield = new Button("EQUIP");
-        equipShield.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        equipShield.setStyle("-fx-background-color: #0010e8; -fx-text-fill: white; -fx-font-size: 16;");
         equipShield.setPrefSize(80, 30);
         equipShield.setTranslateX(300);
         equipShield.setTranslateY(550);
@@ -178,7 +189,8 @@ public class ShopView {
             descriptionText1, 
             descriptionText2, 
             descriptionText3, 
-            displayEquipped
+            displayEquipped,
+            stomperNum
         );
         this.update();
     }

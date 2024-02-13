@@ -25,6 +25,7 @@ public class ShopView {
     private double height;
     private ShopController controller;
     private Text moneyText;
+    private Text displayEquipped;
 
     /**
      * Constructor for ShopView.
@@ -127,12 +128,21 @@ public class ShopView {
         });
     
     
-        moneyText = new Text("Money: $" + this.controller.retrieveBalance());
+        moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         moneyText.setFill(Color.WHITE);
         moneyText.setTranslateY(30);
         moneyText.setTextAlignment(TextAlignment.RIGHT);
         moneyText.setWrappingWidth(gameInfo.getScreenWidth() - 30);
+
+        displayEquipped = new Text();
+        displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+        displayEquipped.setFill(Color.WHITE);
+        displayEquipped.setTranslateY(200);
+        displayEquipped.setTextAlignment(TextAlignment.RIGHT);
+        displayEquipped.setWrappingWidth(gameInfo.getScreenWidth() - 30);
+
+        
 
         Text descriptionText1 = new Text("Mr Snuggles\nToo cool not to buy");
         descriptionText1.setFont(Font.font("Arial", FontWeight.NORMAL, 18));
@@ -152,8 +162,25 @@ public class ShopView {
         descriptionText3.setTranslateX(450);
         descriptionText3.setTranslateY(580);
 
-        root.getChildren().addAll(backgroundImageView, backButton, cuddlesImageView, buyMrCuddlesButton, equipCuddlesButton, stomperImageView, buyStomperButton, equipStomperButton, shieldImageView, buyShieldButton, equipShield, moneyText, descriptionText1, descriptionText2, descriptionText3);
-
+        root.getChildren().addAll(
+            backgroundImageView, 
+            backButton, 
+            cuddlesImageView, 
+            buyMrCuddlesButton, 
+            equipCuddlesButton, 
+            stomperImageView, 
+            buyStomperButton, 
+            equipStomperButton, 
+            shieldImageView, 
+            buyShieldButton, 
+            equipShield, 
+            moneyText, 
+            descriptionText1, 
+            descriptionText2, 
+            descriptionText3, 
+            displayEquipped
+        );
+        this.update();
     }
 
     /**
@@ -166,6 +193,7 @@ public class ShopView {
 
     public void update(){
         this.moneyText.setText("Money: $" + String.valueOf(this.controller.retrieveBalance()));
+        this.displayEquipped.setText(this.controller.getEquipped().isEmpty() ? "Nothing" : this.controller.getEquipped().get().toString());
     }
 
     

@@ -34,14 +34,14 @@ public final class GameLoop {
     private PlayerMover playerMover;
     private PowerUpHandler powerUpHandler;
 
-    private final int fps = 70;
+    private static final int fps = 70;
     private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
 
     private Pane root;
     private Group obstacleGroup;
     private Group powerUpGroup;
 
-    private InputHandler inputH = new InputHandler();
+    private final InputHandler inputH = new InputHandler();
 
     public GameLoop() {
         initializeScene();
@@ -85,9 +85,9 @@ public final class GameLoop {
     private void setupTimer() {
         timer = new AnimationTimer() {
 
-            private long lastUpdate = 0;
-            private long lastStatsupdate = 0;
-            private final long statsUpdateInterval = 1000000000L;
+            long lastUpdate = 0;
+            long lastStatsupdate = 0;
+            private static final long statsUpdateInterval = 1_000_000_000L;
 
             @Override
             public void handle(final long now) {
@@ -118,7 +118,7 @@ public final class GameLoop {
     public void endLoop(){
         entityHandler.over();
 
-         String filename = "gameStats.ser"; 
+         final String filename = "gameStats.ser"; 
 
         try {
             gameStatsHandler.getGameStatsModel().updateDate();
@@ -156,13 +156,13 @@ public final class GameLoop {
     private void updateScreenSize() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
 
-            double newWidth = newValue.doubleValue();
+            final double newWidth = newValue.doubleValue();
             gameInfo.updateInfo(newWidth, gameInfo.getScreenHeight());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
 
-            double newHeight = newValue.doubleValue();
+            final double newHeight = newValue.doubleValue();
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newHeight);
         });
     }

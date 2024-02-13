@@ -18,33 +18,28 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public final class BarryImpl implements Barry {
 
-    private final double GRAVITYFORCE = 0.6; // gravity
-    private final double JUMPFORCE = 1.2; // jetpack propulsion
+    private static final double GRAVITYFORCE = 0.6; // gravity
+    private static final double JUMPFORCE = 1.2; // jetpack propulsion
 
     private double speed; // can be negative or positive, negative goes up, positive down
     // its standard value is 0, when Barry is walking
 
-    private double X_POSITION; // fixed x position
+    private double x_position; // fixed x position
     private double position; // variable y position
 
-    private double height;
-    private double width;
+    private final double height;
+    private final double width;
 
     private double lowBound;
     private double upBound;
 
     private BarryStatus status; // walking, falling ...
 
-    private PlayerHitbox hitbox;
+    private final PlayerHitbox hitbox;
 
-    private GameInfo gameInfo;
+    private final GameInfo gameInfo;
 
     private boolean hasShield = true;
-
-    /* FUTURE */
-    private int coins;
-    private int distance;
-    /* ------- */
 
     /**
      * Constructs a new instance of BarryImpl.
@@ -58,7 +53,7 @@ public final class BarryImpl implements Barry {
         this.height = gameInfo.getScreenHeight();
         this.lowBound = gameInfo.getScreenHeight() - gameInfo.getScreenHeight() / 8;
         this.upBound = gameInfo.getScreenHeight() / 8;
-        this.X_POSITION = gameInfo.getDefaultWidth() / 6;
+        this.x_position = gameInfo.getDefaultWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
         this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);
@@ -119,6 +114,7 @@ public final class BarryImpl implements Barry {
      *
      * @param jumping true if Barry is jumping, false if not
      */
+    @Override
     public void move(final boolean jumping) {
         if (jumping) {
             this.propel();
@@ -128,8 +124,8 @@ public final class BarryImpl implements Barry {
 
         this.hitbox.updateHitbox(getPosition(), 0.0);
 
-        double height = GameInfo.getInstance().getScreenHeight();
-        double width = GameInfo.getInstance().getScreenWidth();
+        final double height = GameInfo.getInstance().getScreenHeight();
+        final double width = GameInfo.getInstance().getScreenWidth();
 
         if (height != this.height || width != this.width) {
             this.updateScreen(width, height);
@@ -153,7 +149,7 @@ public final class BarryImpl implements Barry {
      */
     @Override
     public Pair<Double, Double> getPosition() {
-        return new Pair<>(this.X_POSITION, this.position);
+        return new Pair<>(this.x_position, this.position);
     }
 
     /**
@@ -169,7 +165,7 @@ public final class BarryImpl implements Barry {
     private void updateScreen(final double width, final double height) {
         this.lowBound = height - height / 8;
         this.upBound = height / 8;
-        this.X_POSITION = width / 6;
+        this.x_position = width / 6;
 
     }
 

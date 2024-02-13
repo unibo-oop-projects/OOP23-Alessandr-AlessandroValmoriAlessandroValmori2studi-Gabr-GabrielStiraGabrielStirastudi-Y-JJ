@@ -53,7 +53,7 @@ public final class PowerUpHandler {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<PowerUp> stomperModel = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER,
+        /*List<PowerUp> stomperModel = entityGenerator.generatePowerUp(PowerUpType.LILSTOMPER,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)),
@@ -69,7 +69,7 @@ public final class PowerUpHandler {
 
         PowerUpController stomperPowerup = new PowerUpController(stomperModel.get(0), stomperView);
 
-        listOfControllers.add(stomperPowerup);
+        listOfControllers.add(stomperPowerup);*/
 
         List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
                 new MovementImpl(new Pair<>(400.0, 150.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),

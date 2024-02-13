@@ -29,14 +29,16 @@ public final class GameMenu {
     private Pane root;
     private Image menuImage;
     private ImageView menuImageView;
+    private GameLoop gameLoop;
+    
 
     private ShopControllerImpl shopController;
 
-    private GameLoop gameLoop;
+    
     private GameInfo gameInfo;
 
-    public GameMenu(final Stage primaryStage, final GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
+    public GameMenu(final Stage primaryStage) {
+        this.gameLoop = new GameLoop();
         gameInfo = GameInfo.getInstance();
         mainStage = primaryStage;
         initializeGameMenu();
@@ -77,14 +79,14 @@ public final class GameMenu {
     }
 
     private void addButtons() {
-        Button startButton = createButton("Start Game", 0, e -> {
+        final Button startButton = createButton("Start Game", 0, e -> {
             mainStage.setScene(gameLoop.getScene());
             setGameStagePosition();
             gameLoop.starLoop();
             
 
         });
-        Button shopButton = createButton("Shop", 1, e -> {
+        final Button shopButton = createButton("Shop", 1, e -> {
             mainStage.setScene(shopController.getScene());
             setGameStagePosition();
         });
@@ -92,7 +94,7 @@ public final class GameMenu {
     }
 
     private Button createButton(final String name, final int index, final EventHandler<ActionEvent> action) {
-        Button button = new Button(name);
+        final Button button = new Button(name);
         button.setOnAction(action);
         button.setTranslateX(BUTTON_POS_X);
         button.setTranslateY(BUTTON_POS_Y + (BUTTON_SPACE * index));
@@ -100,14 +102,14 @@ public final class GameMenu {
     }
 
     private void setGameStagePosition() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double sw = screenSize.getWidth();
-        double sh = screenSize.getHeight();
-        double mapw = gameInfo.getScreenWidth();
-        double maph = gameInfo.getScreenHeight();
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final double sw = screenSize.getWidth();
+        final double sh = screenSize.getHeight();
+        final double mapw = gameInfo.getScreenWidth();
+        final double maph = gameInfo.getScreenHeight();
 
-        double stageX = (sw - mapw) / (PORTION / 2);
-        double stageY = (sh - maph) / PORTION;
+        final double stageX = (sw - mapw) / (PORTION / 2);
+        final double stageY = (sh - maph) / PORTION;
 
         mainStage.setX(stageX);
         mainStage.setY(stageY);

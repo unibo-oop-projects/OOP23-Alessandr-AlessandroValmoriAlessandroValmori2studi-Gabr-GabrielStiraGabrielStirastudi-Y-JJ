@@ -28,24 +28,44 @@ public final class ObstacleView {
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
-                width = screenSizeX / 8;
-                height = screenSizeY / 16;
-
                 switch (obstacle.getObstacleStatus()) {
-                    case ACTIVE:
+                    case CHARGING:
+                        width = screenSizeX / 16;
+                        height = screenSizeY / 12;
                         animationLenght = 4;
-                        animationFrame = ((animationCounter[1]) / animationLenght % 7);
+                        animationFrame = ((animationCounter[0]) / animationLenght % 3);
+                        if(animationCounter[0] > 90) {
+                            animationFrame = 3 + ((animationCounter[0]) / animationLenght % 2);
+                            width+=15;
+                            height+=15;
+                        }
+                        if(animationCounter[0] == 100) {
+                            width = screenSizeX / 16;
+                            height = screenSizeY / 12;
+                            animationCounter[0] = 90;
+                        }
+                        animationCounter[0]++;
+                        break;
+                    case ACTIVE:
+                        width = screenSizeX / 8;
+                        height = screenSizeY / 16;
+                        animationLenght = 4;
+                        animationFrame = 5 + ((animationCounter[1]) / animationLenght % 7);
                         animationCounter[1]++;
                         break;
                     case DEACTIVATED:
+                        width = screenSizeX / 8;
+                        height = screenSizeY / 16;
                         animationLenght = 7;
-                        animationFrame = 7 + ((animationCounter[2]) / animationLenght % 8);
+                        animationFrame = 12 + ((animationCounter[2]) / animationLenght % 8);
                         width = screenSizeX / 8;
                         height = screenSizeY / 5;
                         animationCounter[2]++;
                         break;
                     default:
                         animationFrame = 0;
+                        width = 0.0;
+                        height = 0.0;
                         break;
                 }
 
@@ -57,7 +77,7 @@ public final class ObstacleView {
                 switch (obstacle.getObstacleStatus()) {
                     case ACTIVE:
                         animationLenght = 6;
-                        animationFrame = ((animationCounter[1]) / animationLenght % 4);
+                        animationFrame = (animationCounter[1]) / animationLenght % 4;
                         animationCounter[1]++;
                         break;
                     case DEACTIVATED:
@@ -69,6 +89,8 @@ public final class ObstacleView {
                         break;
                     default:
                         animationFrame = 0;
+                        width = 0.0;
+                        height = 0.0;
                         break;
                 }
                 break;
@@ -79,7 +101,7 @@ public final class ObstacleView {
 
                 switch (obstacle.getObstacleStatus()) {
                     case CHARGING:
-                        animationFrame = ((animationCounter[0]) / animationLenght % 12);
+                        animationFrame = (animationCounter[0]) / animationLenght % 12;
                         animationCounter[0]++;
                         break;
                     case ACTIVE:
@@ -92,6 +114,8 @@ public final class ObstacleView {
                         break;
                     default:
                         animationFrame = 0;
+                        width = 0.0;
+                        height = 0.0;
                         break;
                 }
                 break;

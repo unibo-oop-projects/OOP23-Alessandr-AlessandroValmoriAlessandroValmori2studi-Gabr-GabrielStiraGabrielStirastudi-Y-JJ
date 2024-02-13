@@ -31,11 +31,11 @@ public final class ObstacleSpawner {
     }
 
     private void initialize() {
-        this.images = new Image[51]; // 0-14 MISSILE | 15-34 ZAPPER | 35-50 LASER
+        this.images = new Image[56]; // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
         int index = 0;
 
-        // MISSILE 15 total
-        for (int i = 0; i < 15; i++) {
+        // MISSILE 20 total
+        for (int i = 0; i < 20; i++) {
             String imagePath = getClass().getClassLoader()
                     .getResource("sprites/entities/obstacles/missile/missile_" + (i + 1) + ".png").toExternalForm();
             images[index] = new Image(imagePath);
@@ -62,7 +62,32 @@ public final class ObstacleSpawner {
     public List<ObstacleController> generateChunk() {
         // At the moment the only implementation of the generation of obstacle is a
         // random generation; will be changed in some days
-        return randomChunk();
+        //return randomChunk();
+        return missileChunk();
+    }
+
+    private List<ObstacleController> missileChunk() {
+        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+
+        List<ObstacleController> obstacleControllers = new ArrayList<>();
+        Random random = new Random();
+        int numberOfObstacles = 3;
+
+        for (int i = 0; i < numberOfObstacles; i++) {
+            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, random.nextDouble() * screenSizeY),
+                            new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
+            Hitbox hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+            Image[] actualImages = loadImages(0, 19);
+                
+            Obstacle model = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement, hitbox);
+
+            ObstacleView view = new ObstacleView(actualImages);
+
+            ObstacleController obstacle = new ObstacleController(model, view);
+            obstacleControllers.add(obstacle);
+        }
+        return obstacleControllers;
     }
 
     private List<ObstacleController> randomChunk() {
@@ -80,7 +105,6 @@ public final class ObstacleSpawner {
             Movement movement;
             Hitbox hitbox;
             ObstacleType obstacleType;
-            ObstacleStatus startingStatus;
             Image[] actualImages;
 
             switch (typeOfObstacle) {
@@ -96,8 +120,7 @@ public final class ObstacleSpawner {
                                     MovementChangers.BOUNCING, MovementChangers.SPEEDY));
                     hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
-                    startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(0, 14);
+                    actualImages = loadImages(0, 19);
                     break;
                 case 1:
                     // ZAPPER
@@ -108,8 +131,7 @@ public final class ObstacleSpawner {
                             List.of());
                     hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
-                    startingStatus = ObstacleStatus.ACTIVE;
-                    actualImages = loadImages(15, 34);
+                    actualImages = loadImages(20, 39);
                     break;
                 case 2:
                     // LASER
@@ -118,15 +140,13 @@ public final class ObstacleSpawner {
                             List.of(MovementChangers.STATIC));
                     hitbox = new LaserHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
-                    startingStatus = ObstacleStatus.CHARGING;
-                    actualImages = loadImages(35, 50);
+                    actualImages = loadImages(40, 55);
                     break;
                 default:
                     throw new IllegalStateException();
             }
 
             Obstacle model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
-            model.changeObstacleStatus(startingStatus);
 
             ObstacleView view = new ObstacleView(actualImages);
 

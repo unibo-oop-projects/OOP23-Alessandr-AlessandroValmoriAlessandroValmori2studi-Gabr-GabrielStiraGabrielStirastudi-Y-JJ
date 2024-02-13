@@ -14,11 +14,11 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  */
 public final class BarryView {
 
-    private ImageView imageView;
-    private ImageView shieldImageView;
+    private final ImageView imageView;
+    private final ImageView shieldImageView;
     private List<Image> images;
     private int animationFrame;
-    private GameInfo infoResolution;
+    private final GameInfo infoResolution;
     private BarryStatus oldStatus;
 
     /**
@@ -44,8 +44,8 @@ public final class BarryView {
      */
 
     public void update(final Barry barry) {
-        double width = infoResolution.getScreenWidth() / 8;
-        double height = infoResolution.getScreenHeight() / 10;
+        final double width = infoResolution.getScreenWidth() / 8;
+        final double height = infoResolution.getScreenHeight() / 10;
 
         imageView.setX(barry.getPosition().get1() - width / 2);
         imageView.setY(barry.getPosition().get2() - height / 2);

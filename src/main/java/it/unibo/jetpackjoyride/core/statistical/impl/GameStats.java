@@ -5,7 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Optional;
+
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public class GameStats implements GameStatsModel {
@@ -15,6 +18,7 @@ public class GameStats implements GameStatsModel {
     private int bestDistance;
     private int totCoins;
     private int currentDistance;
+    private Items equipped= null;
     
     public GameStats(){
         this.bestDistance = 0;
@@ -74,6 +78,16 @@ public class GameStats implements GameStatsModel {
     @Override
     public int getcurrentDistance() {
         return this.currentDistance;
+    }
+
+    @Override
+    public void setEquipped(Items item) {
+        this.equipped= item;
+    }
+
+    @Override
+    public Items getEquipped() {
+        return this.equipped;
     }
 
    

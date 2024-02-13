@@ -35,5 +35,9 @@ public interface Hitbox {
 
   Pair<Double, Double> getHitboxPosition();
 
+  Pair<Double, Double> getHitboxDimensions();
+
   Set<Pair<Double, Double>> getHitboxVertex();
+
+  
 }

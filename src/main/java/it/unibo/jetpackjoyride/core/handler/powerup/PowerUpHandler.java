@@ -72,7 +72,7 @@ public final class PowerUpHandler {
         listOfControllers.add(stomperPowerup);*/
 
         List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
-                new MovementImpl(new Pair<>(400.0, 150.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
+                new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),
                 null);
         Image[] actualImage = new Image[6];

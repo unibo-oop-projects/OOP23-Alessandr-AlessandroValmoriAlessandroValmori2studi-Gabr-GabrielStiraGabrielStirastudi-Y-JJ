@@ -1,14 +1,14 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
 import javafx.scene.Scene;
-import java.util.Optional;;
+import java.util.Optional;
 
 public interface ShopController {
 
     enum Items{
         MRCUDDLES(20), SHIELD(20), STOMPER(20);
 
-        private int cost;
+        private final int cost;
 
         Items(int cost){
             this.cost = cost;

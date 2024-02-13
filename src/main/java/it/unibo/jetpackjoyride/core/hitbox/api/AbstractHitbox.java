@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.core.hitbox.api;
 
-import java.awt.geom.AffineTransform;
-
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.Polygon;
 import java.awt.geom.*;
@@ -11,16 +10,21 @@ import java.util.*;
 public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double, Double>> hitbox;
     private boolean hitboxStatus = false;
+    private Pair<Double, Double> screenLastSize;
+    private Pair<Double, Double> hitboxDimensions;
 
     public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
             final Double startingAngle) {
-        createHitbox(hitboxStartingPos, hitboxDimensions, startingAngle);
+                this.screenLastSize = new Pair<>(GameInfo.getInstance().getScreenWidth(),
+                GameInfo.getInstance().getScreenHeight());
+                this.hitboxDimensions = hitboxDimensions;
+        createHitbox(hitboxStartingPos, startingAngle);
     }
 
-    public void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
-            final Double startingAngle) {
-        final Double width = hitboxDimensions.get1();
-        final Double height = hitboxDimensions.get2();
+    public void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Double startingAngle) {
+        final Double width = this.hitboxDimensions.get1();
+        final Double height = this.hitboxDimensions.get2();
+
         final Double initialX = hitboxStartingPos.get1() - width / 2;
         final Double initialY = hitboxStartingPos.get2() - height / 2;
 
@@ -44,6 +48,10 @@ public abstract class AbstractHitbox implements Hitbox {
 
     public boolean isHitboxOn() {
         return this.hitboxStatus;
+    }
+
+    public Pair<Double,Double> getHitboxDimensions() {
+        return this.hitboxDimensions;
     }
 
     private Pair<Double, Double> computeCenter() {
@@ -70,6 +78,18 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     public void updateHitbox(Pair<Double, Double> newPosition, Double angle) {
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
+        if(!this.screenLastSize.equals(currentScreenSize)) {
+            final Double xChange = currentScreenSize.get1() / this.screenLastSize.get1();
+            final Double yChange = currentScreenSize.get2() / this.screenLastSize.get2();
+            this.screenLastSize = currentScreenSize;
+            this.hitboxDimensions = new Pair<>(this.hitboxDimensions.get1()*xChange, this.hitboxDimensions.get2()*yChange);
+            this.createHitbox(newPosition, angle);
+            return;
+        }
+
         final Double newX = newPosition.get1();
         final Double newY = newPosition.get2();
 

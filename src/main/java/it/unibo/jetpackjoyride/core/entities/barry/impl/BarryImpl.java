@@ -127,6 +127,8 @@ public final class BarryImpl implements Barry {
         final double height = GameInfo.getInstance().getScreenHeight();
         final double width = GameInfo.getInstance().getScreenWidth();
 
+    
+
         if (height != this.height || width != this.width) {
             this.updateScreen(width, height);
         }

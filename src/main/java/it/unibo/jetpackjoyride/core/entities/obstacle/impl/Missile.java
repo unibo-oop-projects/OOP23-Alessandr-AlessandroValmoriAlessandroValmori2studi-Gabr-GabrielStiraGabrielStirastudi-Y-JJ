@@ -7,8 +7,6 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.ACTIVE;
-
 import java.util.*;
 
 public final class Missile extends AbstractObstacle {
@@ -49,6 +47,7 @@ public final class Missile extends AbstractObstacle {
         if (this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
                 this.movement.setAcceleration(new Pair<>(0.0, 0.0));
+                this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED, 0.0));
                 this.movement.setMovementChangers(List.of());
             }
             this.lifetimeAfterDeactivation--;

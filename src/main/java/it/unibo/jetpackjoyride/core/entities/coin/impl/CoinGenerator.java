@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-import it.unibo.jetpackjoyride.core.entities.coin.api.CoinCotroller;
+import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
+import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.CoinsHitbox;
@@ -21,27 +23,24 @@ import javafx.util.Duration;
 
 public final class CoinGenerator {
 
-    private Canvas canvas;
+    private static final int MAX_REUSABLE_COINS = 100; 
+
+    private final Canvas canvas;
     private final List<Coin> coinList = new ArrayList<>();
     private final List<Coin> reusableCoin = new ArrayList<>();
-    private CoinShape coinShape;
-    private GameInfo gameInfo;
+    private final CoinShapeFactory coinShapeFactory;
+    private final GameInfo gameInfo;
+    private final Hitbox playeHitbox;
+    private final GameStatsModel gameStatsModel;
 
-    private double mapHeight;
-    private double mapWidth;
-    private Hitbox playeHitbox;
-    private GameStatsModel gameStatsModel;
-
-    private boolean screenChange;
-
+    private final Random random = new Random();
 
     public CoinGenerator(Hitbox playeHitbox, GameStatsModel gameStatsModel){
         this.gameInfo = GameInfo.getInstance();
         this.playeHitbox = playeHitbox;
         this.gameStatsModel = gameStatsModel;
         this.canvas = new Canvas(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        screenChange = false;
-        coinShape = new CoinShape(gameInfo);
+        this.coinShapeFactory = new CoinShapeFactoryImpl(gameInfo);
     }
 
     public void startGenerate() {
@@ -51,9 +50,10 @@ public final class CoinGenerator {
     }
 
     private void generateCoin() {
-        List<Pair<Double, Double>> shapes = coinShape.regularShapes();
-
-        for (Pair<Double, Double> position : shapes) {
+        int randomNum = random.nextInt(10);
+        List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes(randomNum);
+        if(!shapes.isEmpty()){
+             for (Pair<Double, Double> position : shapes) {
             Coin coin;
             if (!reusableCoin.isEmpty()) {
                 coin = reusableCoin.remove(0);
@@ -61,20 +61,19 @@ public final class CoinGenerator {
             } else {
                 CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position, 0.0), 30, 30);
                 CoinView view = new CoinViewImpl(model);
-                coin = new Coin(model, view, canvas.getGraphicsContext2D());
+                coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
             }
             coinList.add(coin);
             coin.setVisible(true);
         }
-
+        }
     }
 
     public void renderCoin() {
-        if (screenChange == true) {
-            canvas.setHeight(mapHeight);
-            canvas.setWidth(mapWidth);
-            canvas.getGraphicsContext2D().clearRect(0, 0, mapWidth, mapHeight);
-            screenChange = false;
+        if (isScreenSizeChange()) {
+            canvas.setHeight(gameInfo.getScreenHeight());
+            canvas.setWidth(gameInfo.getScreenWidth());
+            canvas.getGraphicsContext2D().clearRect(0, 0, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         }
         for (Coin coin : coinList) {
             coin.render();
@@ -85,6 +84,12 @@ public final class CoinGenerator {
 
         updateNewPos();
         checkCollision();
+
+       
+        while (reusableCoin.size() > MAX_REUSABLE_COINS) {
+            reusableCoin.remove(reusableCoin.size()-1);
+        }
+
         Iterator<Coin> iterator = coinList.iterator();
         while (iterator.hasNext()) {
             Coin coin = iterator.next();
@@ -104,29 +109,19 @@ public final class CoinGenerator {
 
     private void updateNewPos() {
         if (isScreenSizeChange()) {
-            double newWidth = gameInfo.getScreenWidth();
-            double newHeight = gameInfo.getScreenHeight();
-            double ratioX = newWidth / mapWidth;
-            double ratioY = newHeight / mapHeight;
+            double ratioX = gameInfo.getScreenWidth() / canvas.getWidth();
+            double ratioY = gameInfo.getScreenHeight() / canvas.getHeight();
 
             for (Coin coin : coinList) {
                 var oldPosition = coin.getPosition();
-                double newX = oldPosition.get1() * ratioX;
-                double newY = oldPosition.get2() * ratioY;
-                coin.setPosition(new Pair<>(newX, newY));
+                coin.setPosition(new Pair<>(oldPosition.get1() * ratioX, oldPosition.get2() * ratioY));
             }
-            mapWidth = newWidth;
-            mapHeight = newHeight;
-
         }
 
     }
 
     private boolean isScreenSizeChange() {
-        double newWidth = gameInfo.getScreenWidth();
-        double newHeight = gameInfo.getScreenHeight();
-        screenChange = true;
-        return newWidth != mapWidth || newHeight != mapHeight;
+        return canvas.getWidth() != gameInfo.getScreenWidth() || canvas.getHeight() != gameInfo.getScreenHeight();
     }
 
     private void checkCollision(){

@@ -13,18 +13,28 @@ public class CoinModelImpl implements CoinModel {
     private int moveSpeed;
     private double coinHeight;
     private double coinWidth;
+    private boolean isCollected;
     
     public CoinModelImpl(Pair<Double,Double> position, CoinsHitbox hitbox,double coinHeight, double coinWidth){
             this.position = position;
             this.coinHitbox = hitbox;
             this.coinHeight = coinHeight;
             this.coinWidth = coinWidth;
+            this.isCollected = false;
             moveSpeed = GameInfo.moveSpeed.get();
     }
 
     public void updateCoinModel(){
         this.position = new Pair<Double,Double>(position.get1()-moveSpeed, position.get2());
         coinHitbox.updateHitbox(position, 0.0);
+    }
+
+    public boolean isCollected(){
+        return this.isCollected;
+    }
+
+    public void setCollectedState(boolean isCollected){
+        this.isCollected = isCollected;
     }
   
     @Override

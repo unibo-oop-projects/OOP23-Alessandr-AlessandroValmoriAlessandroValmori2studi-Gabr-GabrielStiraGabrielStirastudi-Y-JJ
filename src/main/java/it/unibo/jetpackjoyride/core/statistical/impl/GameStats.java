@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Optional;
-
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;

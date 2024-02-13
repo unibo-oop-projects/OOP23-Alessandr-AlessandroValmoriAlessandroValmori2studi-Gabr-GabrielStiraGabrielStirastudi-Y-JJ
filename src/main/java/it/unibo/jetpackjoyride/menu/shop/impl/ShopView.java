@@ -56,7 +56,7 @@ public class ShopView {
         cuddlesImageView.setFitWidth(150);
         cuddlesImageView.setFitHeight(150);
         cuddlesImageView.setTranslateX(50);
-        cuddlesImageView.setTranslateY(150);
+        cuddlesImageView.setTranslateY(100);
     
         Button buyMrCuddlesButton = new Button("BUY");
         buyMrCuddlesButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
@@ -81,7 +81,7 @@ public class ShopView {
         stomperImageView.setFitWidth(150);
         stomperImageView.setFitHeight(150);
         stomperImageView.setTranslateX(50);
-        stomperImageView.setTranslateY(350);
+        stomperImageView.setTranslateY(300);
     
         Button buyStomperButton = new Button("BUY");
         buyStomperButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
@@ -106,7 +106,7 @@ public class ShopView {
         shieldImageView.setFitWidth(150);
         shieldImageView.setFitHeight(150);
         shieldImageView.setTranslateX(50);
-        shieldImageView.setTranslateY(550);
+        shieldImageView.setTranslateY(500);
     
         Button buyShieldButton = new Button("BUY");
         buyShieldButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");

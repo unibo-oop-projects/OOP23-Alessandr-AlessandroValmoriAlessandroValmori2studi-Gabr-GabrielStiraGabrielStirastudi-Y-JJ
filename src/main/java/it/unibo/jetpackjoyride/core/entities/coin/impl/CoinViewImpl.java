@@ -26,14 +26,17 @@ public class CoinViewImpl implements CoinView {
    }
 
    public void renderCoin(GraphicsContext gc) {
+      double moveSpeed = GameInfo.moveSpeed.get();
       if (isOnScreen) {
-         double moveSpeed = GameInfo.moveSpeed.get();
          gc.clearRect(model.getPosition().get1() + moveSpeed, model.getPosition().get2(), model.getWidth(),
                model.getHeight());
          gc.drawImage(coinFrames[currentCoinframe],
                model.getPosition().get1(),
                model.getPosition().get2(), model.getWidth(), model.getHeight());
          updateFrame();
+      }else{
+         gc.clearRect(model.getPosition().get1()+moveSpeed, model.getPosition().get2(), model.getWidth(),
+               model.getHeight());
       }
    }
 

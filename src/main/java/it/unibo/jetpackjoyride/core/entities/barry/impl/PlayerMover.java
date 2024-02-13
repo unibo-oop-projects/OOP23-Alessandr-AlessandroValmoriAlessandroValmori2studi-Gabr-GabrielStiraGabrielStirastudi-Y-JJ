@@ -22,7 +22,7 @@ public class PlayerMover {
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
-    private final int REPETITION = 7;
+    private static final int numCopies = 7;
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
         {
@@ -49,14 +49,14 @@ public class PlayerMover {
      * Builds the status map containing lists of images for each BarryStatus.
      */
     private void buildMap() {
-        for (var entry : framesPerAnimation.entrySet()) {
-            List<Image> images = new ArrayList<>();
+        for (final var entry : framesPerAnimation.entrySet()) {
+            final List<Image> images = new ArrayList<>();
             for (int i = 0; i < entry.getValue(); i++) {
-                String imagePath = getClass().getClassLoader()
+                final String imagePath = getClass().getClassLoader()
                         .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
                         .toExternalForm();
 
-                images.addAll(Collections.nCopies(REPETITION, new Image(imagePath)));
+                images.addAll(Collections.nCopies(numCopies, new Image(imagePath)));
             }
             this.statusMap.put(entry.getKey(), new ArrayList<>(images));
         }
@@ -94,10 +94,8 @@ public class PlayerMover {
             root.getChildren().add((Node) this.view.getImageView());
 
         }
-        if (this.model.hasShield()) {
-            if (!root.getChildren().contains((Node) this.view.getShieldImageView())) {
-                root.getChildren().add((Node) this.view.getShieldImageView());
-            }
+        if (this.model.hasShield() && !root.getChildren().contains((Node) this.view.getShieldImageView())) {
+            root.getChildren().add((Node) this.view.getShieldImageView());
         }
     }
 

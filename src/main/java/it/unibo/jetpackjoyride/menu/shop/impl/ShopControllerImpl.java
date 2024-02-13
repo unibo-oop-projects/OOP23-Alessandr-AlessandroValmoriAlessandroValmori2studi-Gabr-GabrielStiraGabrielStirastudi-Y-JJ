@@ -20,19 +20,19 @@ import javafx.stage.Stage;
  */
 public final class ShopControllerImpl implements ShopController {
     
-    private ShopView view;
-    private Stage primaryStage;
-    private GameStatsHandler gameStatsHandler;
+    private final ShopView view;
+    private final Stage primaryStage;
+    private final GameStatsHandler gameStatsHandler;
 
-    private GameMenu gameMenu;
+    private final GameMenu gameMenu;
 
-    private Optional<Items> equipped = Optional.empty();
+    private Optional<Items> equipped;
 
     /**
      * Constructs a new ShopController.
      * Initializes the model and view components.
      */
-    public ShopControllerImpl(Stage primaryStage, GameMenu gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
         this.gameMenu = gameMenu;
 
         this.gameStatsHandler= new GameStatsHandler();
@@ -54,7 +54,7 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     @Override
-    public void buy(Items item) {
+    public void buy(final Items item) {
 
         var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
 
@@ -69,7 +69,7 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     @Override
-    public void equip(Items item) {
+    public void equip(final Items item) {
         this.equipped = Optional.of(item);
         this.view.update();
     }
@@ -84,7 +84,7 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void backToMenu() {
         
-         String filename = "gameStats.ser"; 
+         final String filename = "gameStats.ser"; 
 
         try {
             if(this.equipped.isPresent()){

@@ -13,7 +13,7 @@ public interface CoinModel {
 
     double getHeight();
 
-    public double getWidth();
+    double getWidth();
 
     Hitbox geHitbox();
 }

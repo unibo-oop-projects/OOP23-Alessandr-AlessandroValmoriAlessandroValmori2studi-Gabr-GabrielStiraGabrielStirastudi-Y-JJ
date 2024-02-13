@@ -79,13 +79,13 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
 
             // Deactivate all obstacles on screen if one hit the player (give the player a
             // brief moment to focus again)
-            if (obstacleHitPlayer) {
+            /*if (obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
                 while (iterator.hasNext()) {
                     var controller = iterator.next();
                     controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
                 }
-            }
+            }*/
             return obstacleHitPlayer;
         }
     }

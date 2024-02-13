@@ -67,7 +67,10 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void equip(Items item) {
         this.equipped = Optional.of(item);
+        this.view.update();
     }
+
+    
 
     @Override
     public int retrieveBalance() {
@@ -86,6 +89,11 @@ public final class ShopControllerImpl implements ShopController {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
         primaryStage.setScene(gameMenu.getScene());
+    }
+
+    @Override
+    public Optional<Items> getEquipped() {
+        return this.equipped;
     }
 
     

@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
 import javafx.scene.Scene;
+import java.util.Optional;;
 
 public interface ShopController {
 
@@ -27,5 +28,7 @@ public interface ShopController {
     void equip(Items item);
 
     int retrieveBalance();
+
+    Optional<Items> getEquipped();
 
 }

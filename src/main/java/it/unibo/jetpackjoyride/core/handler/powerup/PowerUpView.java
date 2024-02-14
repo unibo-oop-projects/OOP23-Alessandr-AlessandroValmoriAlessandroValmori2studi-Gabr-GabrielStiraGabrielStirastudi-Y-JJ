@@ -147,7 +147,22 @@ public final class PowerUpView {
                         animationFrame = 0;
                         break;
                 }
+                break;
 
+            case DUKEFISHRON:
+                width = screenSizeX / 4;
+                height = screenSizeY / 3;
+                switch (powerUp.getPerformingAction()) {
+                    case ASCENDING:
+                        animationLenght = 6;
+                        animationFrame = ((animationCounter[0]) / animationLenght % 6);
+                        animationCounter[0]++;
+                        break;
+                    default:
+                        animationFrame = 0;
+                        break;
+
+                }
                 break;
                 
             default:

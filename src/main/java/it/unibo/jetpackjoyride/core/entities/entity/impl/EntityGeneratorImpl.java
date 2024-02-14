@@ -10,6 +10,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
@@ -41,6 +42,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 return List.of(new ProfitBird(powerUpMovement, powerUpHitbox)); //Canon powerup existing in the original game
             case MRCUDDLES:
                 return new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle(); //Canon powerup existing in the original game
+            case DUKEFISHRON:
+                return List.of(new DukeFishron(powerUpMovement, powerUpHitbox)); //Non canon powerup. An easter egg for Terraria players ;)
             default:
                 return null;
         }

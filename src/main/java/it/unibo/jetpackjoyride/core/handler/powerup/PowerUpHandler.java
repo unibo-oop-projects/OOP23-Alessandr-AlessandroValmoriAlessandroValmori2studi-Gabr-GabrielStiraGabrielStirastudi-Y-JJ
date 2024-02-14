@@ -115,8 +115,8 @@ public final class PowerUpHandler {
                         List.of(MovementChangers.BOUNCING)),
                 null);
 
-        Image[] dukeActualImage = new Image[6];
-        for (int i = 0; i < 6; i++) {
+        Image[] dukeActualImage = new Image[12];
+        for (int i = 0; i < 12; i++) {
             dukeActualImage[i] = new Image(getClass().getClassLoader()
                     .getResource("sprites/entities/powerups/dukefishron/dukefishron_" + (i + 1) + ".png")
                     .toExternalForm());

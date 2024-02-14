@@ -158,6 +158,11 @@ public final class PowerUpView {
                         animationFrame = ((animationCounter[0]) / animationLenght % 6);
                         animationCounter[0]++;
                         break;
+                    case DESCENDING:
+                        animationLenght = 6;
+                        animationFrame = 6 + ((animationCounter[0]) / animationLenght % 6);
+                        animationCounter[0]++;
+                        break;
                     default:
                         animationFrame = 0;
                         break;

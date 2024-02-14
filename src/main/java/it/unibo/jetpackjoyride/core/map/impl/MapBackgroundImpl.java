@@ -101,8 +101,8 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
             return backImageView;
         } catch (FileNotFoundException e) {
             System.err.println("Error message :" + e.getMessage());
+            return new ImageView();
         }
-        return null;
     }
 
     private void setImageViewSize(ImageView bImageView, double width, double height) {

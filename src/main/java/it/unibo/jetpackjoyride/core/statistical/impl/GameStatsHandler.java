@@ -15,7 +15,7 @@ public class GameStatsHandler implements GameStatsController {
 
     public GameStatsHandler( ) {      
            try {
-            this.model = GameStats.readFromFile("gameStats.ser"); 
+            this.model = GameStats.readFromFile("gameStats.data"); 
             System.out.println("Game stats loaded successfully.");
             System.out.println(this.model.getTotCoins());
         } catch (IOException | ClassNotFoundException e) {

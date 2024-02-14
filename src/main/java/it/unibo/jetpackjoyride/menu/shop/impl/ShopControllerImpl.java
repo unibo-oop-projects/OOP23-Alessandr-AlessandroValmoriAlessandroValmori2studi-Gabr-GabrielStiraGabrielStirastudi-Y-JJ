@@ -84,7 +84,7 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void backToMenu() {
         
-         final String filename = "gameStats.ser"; 
+         final String filename = "gameStats.data"; 
 
         try {
             if(this.equipped.isPresent()){

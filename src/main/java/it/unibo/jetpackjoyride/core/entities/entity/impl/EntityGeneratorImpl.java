@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
@@ -36,8 +37,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
         switch (powerUpType) {
             case LILSTOMPER:
                 return List.of(new LilStomper(powerUpMovement, powerUpHitbox)); //Canon powerup existing in the original game
-            case BADASHOG:
-                return null; //Canon powerup existing in the original game
+            case PROFITBIRD:
+                return List.of(new ProfitBird(powerUpMovement, powerUpHitbox)); //Canon powerup existing in the original game
             case MRCUDDLES:
                 return new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle(); //Canon powerup existing in the original game
             default:

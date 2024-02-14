@@ -20,6 +20,7 @@ public final class MrCuddles extends AbstractPowerUp {
         for (int i = 0; i < indexOfBody + 1; i++) {
             this.lastFrames.add(false);
         }
+        
         if (indexOfBody == 0) {
             this.powerUpStatus = PowerUpStatus.ACTIVE;
         } else {
@@ -51,10 +52,6 @@ public final class MrCuddles extends AbstractPowerUp {
                 break;
             default:
                 break;
-        }
-
-        if(this.lastFrames.size() == 1) {
-            System.out.println("acc" + this.movement.getAcceleration());
         }
     }
 }

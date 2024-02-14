@@ -88,15 +88,9 @@ public final class GameMenu {
         });
         final Button shopButton = createButton("Shop", 1, e -> {
             mainStage.setScene(shopController.getScene());
-            mainStage.setOnCloseRequest(event -> {
-                System.exit(0);
-            });
             setGameStagePosition();
         });
-        final Button exitButton = createButton("Exit", 2, e -> {
-            Platform.exit();
-        });
-        root.getChildren().addAll(startButton, shopButton, exitButton);
+        root.getChildren().addAll(startButton, shopButton);
     }
 
     private Button createButton(final String name, final int index, final EventHandler<ActionEvent> action) {

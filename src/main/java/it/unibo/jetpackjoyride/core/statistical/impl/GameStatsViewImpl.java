@@ -22,11 +22,11 @@ public class GameStatsViewImpl implements GameStatsView{
         scorePane = creatImageView(SCORE_IMAGE1_PATH);
         scorePane.setX(0);
         scorePane.setY(0);
-        scorePane.setFitWidth(180);
+        scorePane.setFitWidth(160);
         scorePane.setFitHeight(72);
         coinAndDistanceText.setX(25);
-        coinAndDistanceText.setY(22);
-        coinAndDistanceText.setFill(Color.WHITE);
+        coinAndDistanceText.setY(23);
+        coinAndDistanceText.setFill(Color.SILVER);
         coinAndDistanceText.setFont(Font.font("Serif", 15)); 
        
     }

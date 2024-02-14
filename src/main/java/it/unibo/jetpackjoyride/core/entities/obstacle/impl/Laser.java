@@ -1,7 +1,5 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus.DEACTIVATED;
-
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -12,8 +10,9 @@ public final class Laser extends AbstractObstacle {
         this.obstacleStatus = ObstacleStatus.CHARGING;
     }
 
+    @Override
     public void updateStatus() {
-        if (this.obstacleStatus.equals(DEACTIVATED) && this.lifetime < 250) {
+        if (this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED) && this.lifetime < 250) {
             this.lifetime = 250;
         }
 

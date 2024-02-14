@@ -16,18 +16,22 @@ public abstract class AbstractEntity implements Entity {
         this.lifetime = 0;
     }
 
+    @Override
     public Movement getEntityMovement() {
         return this.movement;
     }
 
+    @Override
     public EntityType getEntityType() {
         return this.entityType;
     }
 
+    @Override
     public Hitbox getHitbox() {
         return this.hitbox;
     }
 
+    @Override
     public int getLifetime() {
         return this.lifetime;
     }

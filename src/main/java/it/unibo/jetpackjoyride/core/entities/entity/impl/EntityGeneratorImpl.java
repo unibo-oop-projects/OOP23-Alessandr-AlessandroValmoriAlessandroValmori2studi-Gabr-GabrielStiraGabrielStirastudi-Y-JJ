@@ -27,10 +27,12 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case ZAPPER:
                 return new Zapper(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
             case LASER:
-                return new Laser(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
+                return new Laser(obstacleMovement, obstacleHitbox);
             default:
-                return null;
+                break;
+  
         }
+        throw new IllegalArgumentException("EntityGenerator could not generate the obstacle");
     }
 
     @Override
@@ -45,7 +47,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case DUKEFISHRON:
                 return List.of(new DukeFishron(powerUpMovement, powerUpHitbox)); //Non canon powerup. An easter egg for Terraria players ;)
             default:
-                return null;
+                break;
         }
+        throw new IllegalArgumentException("EntityGenerator could not generate the powerup");
     }
 }

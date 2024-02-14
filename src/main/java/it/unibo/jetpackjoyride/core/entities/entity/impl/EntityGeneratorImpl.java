@@ -20,14 +20,14 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 public class EntityGeneratorImpl implements EntityGenerator {
 
     @Override
-    public Obstacle generateObstacle(ObstacleType obstacleType, Movement obstacleMovement, Hitbox obstacleHitbox) {
+    public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement, final Hitbox obstacleHitbox) {
         switch (obstacleType) {
             case MISSILE:
                 return new Missile(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
             case ZAPPER:
                 return new Zapper(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
             case LASER:
-                return new Laser(obstacleMovement, obstacleHitbox);
+                return new Laser(obstacleMovement, obstacleHitbox); //Canon obstacle existing in the original game
             default:
                 break;
   
@@ -36,7 +36,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
     }
 
     @Override
-    public List<PowerUp> generatePowerUp(PowerUpType powerUpType, Movement powerUpMovement, Hitbox powerUpHitbox) {
+    public List<PowerUp> generatePowerUp(final PowerUpType powerUpType, final Movement powerUpMovement, final Hitbox powerUpHitbox) {
         switch (powerUpType) {
             case LILSTOMPER:
                 return List.of(new LilStomper(powerUpMovement, powerUpHitbox)); //Canon powerup existing in the original game

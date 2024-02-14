@@ -9,7 +9,7 @@ public abstract class AbstractEntity implements Entity {
     public Hitbox hitbox;
     public int lifetime;
 
-    public AbstractEntity(EntityType entityType, Movement movement, Hitbox hitbox) {
+    public AbstractEntity(final EntityType entityType, final Movement movement, final Hitbox hitbox) {
         this.entityType = entityType;
         this.movement = movement;
         this.hitbox = hitbox;

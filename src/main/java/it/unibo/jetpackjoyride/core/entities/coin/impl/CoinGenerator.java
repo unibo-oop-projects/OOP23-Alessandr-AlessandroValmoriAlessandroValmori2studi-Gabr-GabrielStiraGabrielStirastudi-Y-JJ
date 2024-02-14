@@ -26,6 +26,7 @@ public final class CoinGenerator {
     private static final int MAX_REUSABLE_COINS = 100; 
 
     private final Canvas canvas;
+    private final Timeline timeline;
     private final List<Coin> coinList = new ArrayList<>();
     private final List<Coin> reusableCoin = new ArrayList<>();
     private final CoinShapeFactory coinShapeFactory;
@@ -41,12 +42,16 @@ public final class CoinGenerator {
         this.gameStatsModel = gameStatsModel;
         this.canvas = new Canvas(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         this.coinShapeFactory = new CoinShapeFactoryImpl(gameInfo);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generateCoin()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     public void startGenerate() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generateCoin()));
-        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+
+    public void stopGenerate(){
+        timeline.stop();
     }
 
     private void generateCoin() {

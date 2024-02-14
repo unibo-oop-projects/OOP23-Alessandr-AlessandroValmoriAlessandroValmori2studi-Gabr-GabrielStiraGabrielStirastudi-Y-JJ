@@ -79,7 +79,7 @@ public final class GameLoop {
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
-        root.getChildren().add(gameStatsHandler.getText());
+        root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
     }
 
     private void setupTimer() {

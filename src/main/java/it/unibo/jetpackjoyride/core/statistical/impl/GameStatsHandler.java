@@ -5,6 +5,7 @@ import java.io.IOException;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class GameStatsHandler implements GameStatsController {
@@ -36,6 +37,10 @@ public class GameStatsHandler implements GameStatsController {
     public Text getText(){
         return view.getText();
     } 
+
+    public ImageView getImageView(){
+        return view.getImageView();
+    }
 
     public GameStatsModel getGameStatsModel(){
         return this.model;

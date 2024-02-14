@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.statistical.api;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public interface GameStatsController {
@@ -8,6 +9,8 @@ public interface GameStatsController {
      void updateView();
 
      Text getText();
+
+     ImageView getImageView();
 
      GameStatsModel getGameStatsModel();
 }

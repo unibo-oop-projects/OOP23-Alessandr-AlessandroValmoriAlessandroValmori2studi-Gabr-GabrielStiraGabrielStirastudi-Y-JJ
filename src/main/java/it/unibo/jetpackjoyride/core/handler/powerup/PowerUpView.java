@@ -87,8 +87,8 @@ public final class PowerUpView {
 
                 break;
             case MRCUDDLES:
-                width = 600;
-                height = 400;
+                width = screenSizeX / 2;
+                height = screenSizeY / 2;
                 if (powerUp.getPowerUpStatus().equals(PowerUpStatus.ACTIVE)) {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:

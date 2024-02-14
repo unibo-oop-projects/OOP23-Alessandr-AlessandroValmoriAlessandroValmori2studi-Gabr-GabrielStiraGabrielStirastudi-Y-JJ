@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.movement;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
@@ -75,8 +76,15 @@ public final class MovementImpl implements Movement {
     }
 
     @Override
+    public void setRotation(Pair<Double, Double> newRotationInfo) {
+        this.rotation = newRotationInfo;
+    }
+
+    @Override
     public void setMovementChangers(List<MovementChangers> listOfChangers) {
-        final GameInfo infoResolution = GameInfo.getInstance();
+        GameInfo infoResolution = GameInfo.getInstance();
+        final Double screenY = infoResolution.getScreenHeight();
+
         this.listOfChangers = listOfChangers;
 
         Double speedModifier = 1.0;
@@ -88,19 +96,15 @@ public final class MovementImpl implements Movement {
                 speedModifier*=SLOWMODIFIER;
             }
         }
-        this.speed = new Pair<>(this.speed.get1() * speedModifier * infoResolution.getScreenWidth()/infoResolution.getDefaultWidth(), 
-                                this.speed.get2() * speedModifier * infoResolution.getScreenHeight()/infoResolution.getDefaultHeight());
+
+        this.speed = new Pair<>(this.speed.get1() * speedModifier,this.speed.get2() * speedModifier );
 
         final Double accelerationModifier = (this.listOfChangers.contains(MovementChangers.GRAVITY) ? GRAVITYMODIFIER
                 : this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY) ? INVERSEGRAVITYMODIFIER : 0.0);
-        this.acceleration = new Pair<>(this.acceleration.get1(), accelerationModifier);
-    }
 
-    @Override
-    public void setRotation(Pair<Double, Double> newRotationInfo) {
-        this.rotation = newRotationInfo;
+        this.acceleration = new Pair<>(this.acceleration.get1(), accelerationModifier * screenY/infoResolution.getDefaultHeight());
     }
-
+    
     @Override
     public void update() {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();

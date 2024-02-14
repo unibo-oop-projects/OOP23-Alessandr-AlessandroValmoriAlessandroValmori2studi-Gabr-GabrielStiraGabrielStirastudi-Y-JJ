@@ -72,10 +72,10 @@ public final class ObstacleSpawner {
 
         List<ObstacleController> obstacleControllers = new ArrayList<>();
         Random random = new Random();
-        int numberOfObstacles = 3;
+        int numberOfObstacles = 1;
 
         for (int i = 0; i < numberOfObstacles; i++) {
-            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, random.nextDouble() * screenSizeY),
+            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6) ),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
             Hitbox hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
             Image[] actualImages = loadImages(0, 19);

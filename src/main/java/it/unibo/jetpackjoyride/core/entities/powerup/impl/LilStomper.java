@@ -51,8 +51,7 @@ public final class LilStomper extends AbstractPowerUp {
                 }
                 break;
             case DESCENDING:
-                if (isSpaceBarPressed && (this.movement.getSpeed().get2() > (DESCENDINGBASESPEED) * screenSizeY
-                        / infoResolution.getDefaultHeight())) {
+                if (isSpaceBarPressed && this.movement.getSpeed().get2() > (DESCENDINGBASESPEED) * screenSizeY / infoResolution.getDefaultHeight()) {
                     this.performingAction = PerformingAction.GLIDING;
                 }
 

@@ -18,19 +18,22 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
         this.obstacleStatus = INACTIVE;
     }
 
+    @Override
     public ObstacleType getObstacleType() {
         return this.obstacleType;
     }
 
+    @Override
     public ObstacleStatus getObstacleStatus() {
         return this.obstacleStatus;
     }
 
-    public void changeObstacleStatus(ObstacleStatus newObstacleStatus) {
+    @Override
+    public void changeObstacleStatus(final ObstacleStatus newObstacleStatus) {
         this.obstacleStatus = newObstacleStatus;
     }
 
-
+    @Override
     public void update() {
         this.lifetime++;
         this.movement.update();

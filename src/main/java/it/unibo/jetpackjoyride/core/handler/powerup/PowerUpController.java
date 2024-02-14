@@ -5,8 +5,8 @@ import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
 public final class PowerUpController {
-    private PowerUp model;
-    private PowerUpView view;
+    private final PowerUp model;
+    private final PowerUpView view;
 
     public PowerUpController(final PowerUp model, final PowerUpView view) {
         this.model = model;

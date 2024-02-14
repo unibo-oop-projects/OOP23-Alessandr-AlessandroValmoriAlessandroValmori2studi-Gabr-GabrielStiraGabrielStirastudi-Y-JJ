@@ -11,10 +11,12 @@ import javafx.scene.Node;
 
 public final class ObstacleHandlerImpl implements ObstacleHandler {
 
+    private static final Integer TIMEBETWEENCHUNKS = 3000;
+
     private ObstacleSpawner obstacleSpawner;
     private List<ObstacleController> listOfControllers;
     private Thread chunkMaker;
-    private boolean isRunning = false;
+    private boolean isRunning;
 
     public void initialize() {
         this.isRunning = true;
@@ -33,13 +35,14 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
             }
 
             try {
-                Thread.sleep(3000);
+                Thread.sleep(TIMEBETWEENCHUNKS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    @Override
     public void over() {
         isRunning = false;
     }
@@ -52,10 +55,10 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
     @Override
     public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
-            var iterator = listOfControllers.iterator();
+            final var iterator = listOfControllers.iterator();
             boolean obstacleHitPlayer = false;
             while (iterator.hasNext()) {
-                var controller = iterator.next();
+                final var controller = iterator.next();
 
                 controller.update();
 
@@ -63,8 +66,6 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
                         && controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.ACTIVE)) {
                     obstacleHitPlayer = true;
                     controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
-                    System.out.println("Obstacle " + controller.getObstacleModel().getHitbox().getHitboxPosition()
-                            + " hit the player " + playerHitbox.getHitboxPosition());
                 }
 
                 if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
@@ -91,12 +92,12 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
     }
 
     private boolean collisionChecker(final Hitbox hitbox, final Hitbox playerHitbox) {
-        for (var vertex : playerHitbox.getHitboxVertex()) {
+        for (final var vertex : playerHitbox.getHitboxVertex()) {
             if (hitbox.isTouching(vertex) || hitbox.isTouching(playerHitbox.getHitboxPosition())) {
                 return true;
             }
         }
-        for (var vertex : hitbox.getHitboxVertex()) {
+        for (final var vertex : hitbox.getHitboxVertex()) {
             if (playerHitbox.isTouching(vertex) || playerHitbox.isTouching(hitbox.getHitboxPosition())) {
                 return true;
             }

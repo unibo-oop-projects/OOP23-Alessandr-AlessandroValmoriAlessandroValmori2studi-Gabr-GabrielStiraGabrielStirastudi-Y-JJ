@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.powerup.impl;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PerformingAction;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -59,13 +57,11 @@ public class ProfitBird extends AbstractPowerUp{
             
         }
 
-        if(!this.intervalBewteenJumps) {
-            if(!isSpaceBarPressed) {
-                this.intervalBewteenJumps = true;
-            }
+        if(!this.intervalBewteenJumps && !isSpaceBarPressed) {
+            this.intervalBewteenJumps = true;
         }
 
-        Double rotationAngle = this.movement.getSpeed().get2();
+        final Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
 
         this.movement.update();

@@ -10,7 +10,7 @@ import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public final class MrCuddles extends AbstractPowerUp {
-    private List<Boolean> lastFrames;
+    private final List<Boolean> lastFrames;
 
     public MrCuddles(final Movement movement, final Hitbox hitbox, final Integer indexOfBody) {
         super(PowerUpType.MRCUDDLES, movement, hitbox);
@@ -33,7 +33,7 @@ public final class MrCuddles extends AbstractPowerUp {
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 
-        Double rotationAngle = this.movement.getSpeed().get2();
+        final Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
         this.movement.update();
 

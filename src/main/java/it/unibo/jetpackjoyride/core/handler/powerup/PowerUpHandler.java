@@ -71,7 +71,7 @@ public final class PowerUpHandler {
 
         listOfControllers.add(stomperPowerup);*/
 
-        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
+        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
                 new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),
                 null);
@@ -89,7 +89,7 @@ public final class PowerUpHandler {
 
         }
 
-        listOfControllers.addAll(powerup);*/
+        listOfControllers.addAll(powerup);
 
         /*List<PowerUp> birdModel = entityGenerator.generatePowerUp(PowerUpType.PROFITBIRD,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
@@ -109,7 +109,7 @@ public final class PowerUpHandler {
 
         listOfControllers.add(birdPowerup);*/
 
-        List<PowerUp> dukeModel = entityGenerator.generatePowerUp(PowerUpType.DUKEFISHRON,
+        /*List<PowerUp> dukeModel = entityGenerator.generatePowerUp(PowerUpType.DUKEFISHRON,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),
                         new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         List.of(MovementChangers.BOUNCING)),
@@ -125,7 +125,7 @@ public final class PowerUpHandler {
 
         PowerUpController dukePowerup = new PowerUpController(dukeModel.get(0), dukeView);
 
-        listOfControllers.add(dukePowerup);
+        listOfControllers.add(dukePowerup);*/
 
     }
 }

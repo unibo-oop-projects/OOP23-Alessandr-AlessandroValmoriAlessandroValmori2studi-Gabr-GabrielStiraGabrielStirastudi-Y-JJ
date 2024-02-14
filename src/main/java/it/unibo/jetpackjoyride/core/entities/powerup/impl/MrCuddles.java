@@ -52,5 +52,9 @@ public final class MrCuddles extends AbstractPowerUp {
             default:
                 break;
         }
+
+        if(this.lastFrames.size() == 1) {
+            System.out.println("acc" + this.movement.getAcceleration());
+        }
     }
 }

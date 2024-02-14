@@ -23,15 +23,16 @@ public final class Missile extends AbstractObstacle {
 
     @Override
     protected void updateStatus() {
-        final Double screenX = GameInfo.getInstance().getScreenWidth();
-        final Double screenY = GameInfo.getInstance().getScreenHeight();
+        final GameInfo infoResolution = GameInfo.getInstance();
+        final Double screenX = infoResolution.getScreenWidth();
+        final Double screenY = infoResolution.getScreenHeight();
         
         if(this.obstacleStatus.equals(ObstacleStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
                 this.obstacleStatus = ObstacleStatus.ACTIVE;
                 this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1() + screenX/16,this.movement.getCurrentPosition().get2()));
-                this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED, 0.0));
+                this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED*screenX/infoResolution.getDefaultWidth(), 0.0));
                 this.movement.setMovementChangers(List.of(MovementChangers.SPEEDY, MovementChangers.SPEEDY, MovementChangers.SPEEDY));
             }
         }

@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 public class CoinsHitbox extends AbstractHitbox {
 
 
-    private final static Pair<Double,Double> CoinDimensions = new Pair<>(80.0,80.0);
+    private final static Pair<Double,Double> CoinDimensions = new Pair<>(70.0,70.0);
     public CoinsHitbox(Pair<Double, Double> hitboxStartingPos, Double startingAngle) {
         super(hitboxStartingPos, CoinDimensions, startingAngle);
     }

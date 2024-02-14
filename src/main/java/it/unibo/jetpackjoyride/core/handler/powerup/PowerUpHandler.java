@@ -91,7 +91,7 @@ public final class PowerUpHandler {
 
         listOfControllers.addAll(powerup);*/
 
-        List<PowerUp> birdModel = entityGenerator.generatePowerUp(PowerUpType.PROFITBIRD,
+        /*List<PowerUp> birdModel = entityGenerator.generatePowerUp(PowerUpType.PROFITBIRD,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)),
@@ -107,7 +107,25 @@ public final class PowerUpHandler {
 
         PowerUpController birdPowerup = new PowerUpController(birdModel.get(0), birdView);
 
-        listOfControllers.add(birdPowerup);
+        listOfControllers.add(birdPowerup);*/
+
+        List<PowerUp> dukeModel = entityGenerator.generatePowerUp(PowerUpType.DUKEFISHRON,
+                new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),
+                        new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
+                        List.of(MovementChangers.BOUNCING)),
+                null);
+
+        Image[] dukeActualImage = new Image[6];
+        for (int i = 0; i < 6; i++) {
+            dukeActualImage[i] = new Image(getClass().getClassLoader()
+                    .getResource("sprites/entities/powerups/dukefishron/dukefishron_" + (i + 1) + ".png")
+                    .toExternalForm());
+        }
+        PowerUpView dukeView = new PowerUpView(dukeActualImage);
+
+        PowerUpController dukePowerup = new PowerUpController(dukeModel.get(0), dukeView);
+
+        listOfControllers.add(dukePowerup);
 
     }
 }

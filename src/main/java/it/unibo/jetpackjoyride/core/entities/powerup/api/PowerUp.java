@@ -4,7 +4,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 
 public interface PowerUp extends Entity {
     enum PowerUpType {
-        MRCUDDLES, BADASHOG, LILSTOMPER,
+        MRCUDDLES, LILSTOMPER, PROFITBIRD
     }
 
     enum PowerUpStatus {

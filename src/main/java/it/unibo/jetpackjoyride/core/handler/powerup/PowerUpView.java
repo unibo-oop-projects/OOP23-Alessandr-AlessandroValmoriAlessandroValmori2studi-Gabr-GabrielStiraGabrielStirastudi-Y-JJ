@@ -113,6 +113,43 @@ public final class PowerUpView {
                     animationFrame = 5;
                 }
                 break;
+
+            case PROFITBIRD:
+                width = screenSizeX / 7;
+                height = screenSizeY / 6;
+                switch (powerUp.getPerformingAction()) {
+                    case WALKING:
+                        animationLenght = 7;
+                        animationFrame = ((animationCounter[0]) / animationLenght % 3);
+                        animationCounter[0]++;
+                        break;
+
+                    case JUMPING:
+                        animationLenght = 6;
+                        animationFrame = 3;
+                        animationCounter[1] = 0;
+                        break;
+
+                    case ASCENDING:
+                        animationLenght = 1;
+                        if(animationCounter[1] < animationLenght * 9 ) {
+                            animationCounter[1]++;
+                        } 
+                        animationFrame = 3 + ((animationCounter[1]) / animationLenght % 9);
+                        break;
+
+                    case DESCENDING:
+                        animationLenght = 6;
+                        animationFrame = 3;
+                        break;
+
+                    default:
+                        animationFrame = 0;
+                        break;
+                }
+
+                break;
+                
             default:
                 width = 0;
                 height = 0;

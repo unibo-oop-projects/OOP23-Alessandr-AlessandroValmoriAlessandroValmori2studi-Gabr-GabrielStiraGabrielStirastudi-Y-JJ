@@ -71,7 +71,7 @@ public final class PowerUpHandler {
 
         listOfControllers.add(stomperPowerup);*/
 
-        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
+        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
                 new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),
                 null);
@@ -89,7 +89,25 @@ public final class PowerUpHandler {
 
         }
 
-        listOfControllers.addAll(powerup);
+        listOfControllers.addAll(powerup);*/
+
+        List<PowerUp> birdModel = entityGenerator.generatePowerUp(PowerUpType.PROFITBIRD,
+                new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
+                        new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
+                        List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)),
+                null);
+
+        Image[] birdActualImage = new Image[12];
+        for (int i = 0; i < 12; i++) {
+            birdActualImage[i] = new Image(getClass().getClassLoader()
+                    .getResource("sprites/entities/powerups/profitbird/profitbird_" + (i + 1) + ".png")
+                    .toExternalForm());
+        }
+        PowerUpView birdView = new PowerUpView(birdActualImage);
+
+        PowerUpController birdPowerup = new PowerUpController(birdModel.get(0), birdView);
+
+        listOfControllers.add(birdPowerup);
 
     }
 }

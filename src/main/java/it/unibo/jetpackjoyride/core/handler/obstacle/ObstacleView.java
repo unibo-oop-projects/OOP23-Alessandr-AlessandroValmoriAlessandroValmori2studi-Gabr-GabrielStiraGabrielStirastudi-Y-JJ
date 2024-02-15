@@ -28,7 +28,7 @@ public final class ObstacleView {
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
-                switch (obstacle.getObstacleStatus()) {
+                switch (obstacle.getEntityStatus()) {
                     case CHARGING:
                         width = screenSizeX / 16;
                         height = screenSizeY / 12;
@@ -74,7 +74,7 @@ public final class ObstacleView {
                 width = screenSizeX / 6;
                 height = screenSizeY / 8;
 
-                switch (obstacle.getObstacleStatus()) {
+                switch (obstacle.getEntityStatus()) {
                     case ACTIVE:
                         animationLenght = 6;
                         animationFrame = (animationCounter[1]) / animationLenght % 4;
@@ -99,7 +99,7 @@ public final class ObstacleView {
                 height = screenSizeY / 24;
                 animationLenght = 8;
 
-                switch (obstacle.getObstacleStatus()) {
+                switch (obstacle.getEntityStatus()) {
                     case CHARGING:
                         animationFrame = (animationCounter[0]) / animationLenght % 12;
                         animationCounter[0]++;

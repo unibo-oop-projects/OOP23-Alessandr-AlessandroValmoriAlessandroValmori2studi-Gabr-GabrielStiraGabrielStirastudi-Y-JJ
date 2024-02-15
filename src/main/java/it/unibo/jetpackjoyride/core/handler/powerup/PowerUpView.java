@@ -2,7 +2,7 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -89,7 +89,7 @@ public final class PowerUpView {
             case MRCUDDLES:
                 width = screenSizeX / 2;
                 height = screenSizeY / 2;
-                if (powerUp.getPowerUpStatus().equals(PowerUpStatus.ACTIVE)) {
+                if (powerUp.getEntityStatus().equals(EntityStatus.ACTIVE)) {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:
                             animationLenght = 5;

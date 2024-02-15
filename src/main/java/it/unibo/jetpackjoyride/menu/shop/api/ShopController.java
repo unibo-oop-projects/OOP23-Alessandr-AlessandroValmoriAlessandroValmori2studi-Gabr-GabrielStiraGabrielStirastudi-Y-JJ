@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface ShopController {
 
     enum Items{
-        MRCUDDLES(20), SHIELD(20), STOMPER(20);
+        MRCUDDLES(20), SHIELD(20), STOMPER(20), PROFITBIRD(20);
 
         private final int cost;
 

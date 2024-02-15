@@ -16,6 +16,10 @@ public interface Barry {
         WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
     }
 
+    enum BarryLifeStatus{
+        ALIVE, DEAD
+    }
+
     /**
      * Gets the current position of Barry as a Pair of X and Y coordinates.
      *

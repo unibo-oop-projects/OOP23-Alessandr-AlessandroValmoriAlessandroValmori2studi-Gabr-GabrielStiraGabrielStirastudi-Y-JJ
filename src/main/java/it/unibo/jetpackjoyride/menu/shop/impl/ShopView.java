@@ -24,30 +24,29 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
  * The view class for the shop menu.
  */
 public class ShopView {
-
-    
+    // Constants related to image positioning
     private final int imageXPos = 50;
     private final int imageSize = 110;
     private final int imageDistance = 30;
+
+    // Constants related to button positioning
     private final int buyButtonXPosition = 210;
-
-    
-
-
     private final int buttonWidth = 80;
     private final int buttonHeight = 30;
-
     private final int buyButtonYDisplacement = imageSize / 2;
+
+    // Constants related to text and font
     private final int fontSize = 18;
-    private final int shieldNumPosX= buyButtonXPosition + 2*buttonWidth + 2*imageDistance;
+    private final int shieldNumPosX = buyButtonXPosition + 2 * buttonWidth + 2 * imageDistance;
+    private final int textPosX = shieldNumPosX + imageDistance;
 
-    private final int textPosX = shieldNumPosX +imageDistance;
-
+    // Constants related to image positioning on the Y-axis
     private final int cuddleImageYPos = 100;
     private final int stomperImageYPos = cuddleImageYPos + imageSize + imageDistance;
     private final int profitBirdImageYPos = stomperImageYPos + imageSize + imageDistance;
     private final int shieldImageYPos = profitBirdImageYPos + imageSize + imageDistance;
 
+    // Other constants
     private final Scene shopScene;
     private final Pane root;
     private final GameInfo gameInfo;
@@ -141,7 +140,7 @@ public class ShopView {
         shieldNum.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         shieldNum.setFill(Color.WHITE);
         shieldNum.setTranslateX(shieldNumPosX);
-        shieldNum.setTranslateY(shieldImageYPos+ buyButtonYDisplacement);
+        shieldNum.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
 
         final Image shieldImage = new Image(
                 getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
@@ -149,13 +148,13 @@ public class ShopView {
         shieldImageView.setFitWidth(imageSize);
         shieldImageView.setFitHeight(imageSize);
         shieldImageView.setTranslateX(imageXPos);
-        shieldImageView.setTranslateY(shieldImageYPos );
+        shieldImageView.setTranslateY(shieldImageYPos);
 
         final Button buyShieldButton = new Button("BUY");
         buyShieldButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
         buyShieldButton.setPrefSize(buttonWidth, buttonHeight);
         buyShieldButton.setTranslateX(buyButtonXPosition);
-        buyShieldButton.setTranslateY(shieldImageYPos +buyButtonYDisplacement);
+        buyShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
         buyShieldButton.setOnAction(e -> {
             this.controller.buy(Items.SHIELD);
         });
@@ -164,7 +163,7 @@ public class ShopView {
         equipShield.setStyle("-fx-background-color: #0010e8; -fx-text-fill: white; -fx-font-size: 16;");
         equipShield.setPrefSize(buttonWidth, buttonHeight);
         equipShield.setTranslateX(buyButtonXPosition + buttonWidth + imageDistance);
-        equipShield.setTranslateY(shieldImageYPos+ buyButtonYDisplacement);
+        equipShield.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
         equipShield.setOnAction(e -> {
             this.controller.equip(Items.SHIELD);
         });
@@ -193,19 +192,19 @@ public class ShopView {
         descriptionText2.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText2.setFill(Color.WHITE);
         descriptionText2.setTranslateX(textPosX);
-        descriptionText2.setTranslateY(stomperImageYPos + imageSize/2);
+        descriptionText2.setTranslateY(stomperImageYPos + imageSize / 2);
 
         final Text descriptionText3 = new Text("Profit Bird\n Flappy bird -like vehicle");
         descriptionText3.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText3.setFill(Color.WHITE);
         descriptionText3.setTranslateX(textPosX);
-        descriptionText3.setTranslateY(profitBirdImageYPos+ imageSize/2);
+        descriptionText3.setTranslateY(profitBirdImageYPos + imageSize / 2);
 
         final Text descriptionText4 = new Text("Shield (Consumable\n A shield that can be equipped");
         descriptionText4.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText4.setFill(Color.WHITE);
         descriptionText4.setTranslateX(textPosX);
-        descriptionText4.setTranslateY(shieldImageYPos + imageSize/2);
+        descriptionText4.setTranslateY(shieldImageYPos + imageSize / 2);
 
         root.getChildren().addAll(
                 backgroundImageView,

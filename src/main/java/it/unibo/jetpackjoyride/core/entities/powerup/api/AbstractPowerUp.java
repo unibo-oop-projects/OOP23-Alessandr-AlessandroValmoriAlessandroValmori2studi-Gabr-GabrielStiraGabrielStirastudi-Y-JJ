@@ -9,23 +9,17 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp {
 
     public final PowerUpType powerUpType;
-    public PowerUpStatus powerUpStatus;
     public PerformingAction performingAction;
 
     public AbstractPowerUp(final PowerUpType powerUpType, final Movement movement, final Hitbox hitbox) {
         super(POWERUP, movement, hitbox);
         this.powerUpType = powerUpType;
-        this.powerUpStatus = PowerUpStatus.CHARGING;
+        this.entityStatus = EntityStatus.CHARGING;
     }
 
     @Override
     public PowerUpType getPowerUpType() {
         return this.powerUpType;
-    }
-
-    @Override
-    public PowerUpStatus getPowerUpStatus() {
-        return this.powerUpStatus;
     }
 
     @Override

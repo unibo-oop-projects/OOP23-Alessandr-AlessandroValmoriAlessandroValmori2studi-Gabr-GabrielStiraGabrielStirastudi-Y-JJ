@@ -18,7 +18,7 @@ public final class Missile extends AbstractObstacle {
     public Missile(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, movement, hitbox);
         this.lifetimeAfterDeactivation = DELAYBEFOREDESTRUCTION + DELAYBEFOREACTIVATING;
-        this.obstacleStatus = ObstacleStatus.CHARGING;
+        this.entityStatus = EntityStatus.CHARGING;
     }
 
     @Override
@@ -27,10 +27,10 @@ public final class Missile extends AbstractObstacle {
         final Double screenX = infoResolution.getScreenWidth();
         final Double screenY = infoResolution.getScreenHeight();
         
-        if(this.obstacleStatus.equals(ObstacleStatus.CHARGING)) {
+        if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
-                this.obstacleStatus = ObstacleStatus.ACTIVE;
+                this.entityStatus = EntityStatus.ACTIVE;
                 this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1() + screenX/16,this.movement.getCurrentPosition().get2()));
                 this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED*screenX/infoResolution.getDefaultWidth(), 0.0));
                 this.movement.setMovementChangers(List.of(MovementChangers.SPEEDY, MovementChangers.SPEEDY, MovementChangers.SPEEDY));
@@ -45,9 +45,10 @@ public final class Missile extends AbstractObstacle {
                      this.movement.getCurrentPosition().get2() < screenY / 8)
                 ||
             this.lifetimeAfterDeactivation < 0) {
-            this.obstacleStatus = ObstacleStatus.INACTIVE;
+            this.entityStatus = EntityStatus.INACTIVE;
         }
-        if (this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED)) {
+        
+        if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
                 this.movement.setAcceleration(new Pair<>(0.0, 0.0));
                 this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED, 0.0));

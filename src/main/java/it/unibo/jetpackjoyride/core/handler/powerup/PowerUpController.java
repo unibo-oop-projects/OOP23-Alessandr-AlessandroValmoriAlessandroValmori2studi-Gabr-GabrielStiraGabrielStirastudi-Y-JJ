@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
-import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
 public final class PowerUpController {
@@ -13,7 +12,7 @@ public final class PowerUpController {
         this.view = view;
     }
 
-    public void update(final boolean isSpaceBarPressed, final Group powerUpGroup) {
+    public void update(final boolean isSpaceBarPressed) {
         this.model.update(isSpaceBarPressed);
         this.view.updateView(model);
     }

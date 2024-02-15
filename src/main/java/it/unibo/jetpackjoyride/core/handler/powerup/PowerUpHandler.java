@@ -31,7 +31,7 @@ public final class PowerUpHandler {
         while (iterator.hasNext()) {
             var controller = iterator.next();
 
-            controller.update(isSpaceBarPressed, powerUpGroup);
+            controller.update(isSpaceBarPressed);
 
             if (!powerUpGroup.getChildren().contains((Node) controller.getImageView())) {
                 powerUpGroup.getChildren().add((Node) controller.getImageView());

@@ -4,8 +4,8 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import javafx.scene.image.ImageView;
 
 public final class ObstacleController {
-    private Obstacle model;
-    private ObstacleView view;
+    private final Obstacle model;
+    private final ObstacleView view;
 
     public ObstacleController(final Obstacle model, final ObstacleView view) {
         this.model = model;

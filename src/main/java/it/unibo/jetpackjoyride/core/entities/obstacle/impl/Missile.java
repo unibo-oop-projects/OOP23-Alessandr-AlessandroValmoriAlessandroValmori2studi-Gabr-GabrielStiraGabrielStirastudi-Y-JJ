@@ -22,7 +22,7 @@ public final class Missile extends AbstractObstacle {
     }
 
     @Override
-    protected void updateStatus() {
+    protected void updateStatus(final boolean isSpaceBarPressed) {
         final GameInfo infoResolution = GameInfo.getInstance();
         final Double screenX = infoResolution.getScreenWidth();
         final Double screenY = infoResolution.getScreenHeight();

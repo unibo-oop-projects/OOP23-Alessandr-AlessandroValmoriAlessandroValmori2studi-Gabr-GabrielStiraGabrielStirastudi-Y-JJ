@@ -59,8 +59,6 @@ public final class ObstacleSpawner {
     }
 
     public List<ObstacleController> generateChunk() {
-        // At the moment the only implementation of the generation of obstacle is a
-        // random generation; will be changed in some days
         //return randomChunk();
         return missileChunk();
     }

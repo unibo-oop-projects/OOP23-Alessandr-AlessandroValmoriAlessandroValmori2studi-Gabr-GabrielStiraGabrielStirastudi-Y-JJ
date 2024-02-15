@@ -20,7 +20,7 @@ public class DukeFishron extends AbstractPowerUp{
     }
 
     @Override
-    public void update(final boolean isSpaceBarPressed) {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         switch (this.performingAction) {
             case ASCENDING:
             case DESCENDING:
@@ -53,6 +53,5 @@ public class DukeFishron extends AbstractPowerUp{
         final Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
 
-        this.movement.update();
     }
 }

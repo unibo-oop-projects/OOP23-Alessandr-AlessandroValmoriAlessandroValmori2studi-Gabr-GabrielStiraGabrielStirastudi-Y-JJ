@@ -8,7 +8,7 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public final class ObstacleHandlerImpl implements ObstacleHandler {
+public final class ObstacleHandlerImpl implements Runnable {
 
     private static final Integer TIMEBETWEENCHUNKS = 3000;
 
@@ -41,17 +41,14 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
         }
     }
 
-    @Override
     public void over() {
         isRunning = false;
     }
 
-    @Override
     public void start() {
         this.chunkMaker.start();
     }
 
-    @Override
     public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
             final var iterator = listOfControllers.iterator();
@@ -104,7 +101,6 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
         return false;
     }
 
-    @Override
     public List<ObstacleController> getControllers() {
         return this.listOfControllers;
     }

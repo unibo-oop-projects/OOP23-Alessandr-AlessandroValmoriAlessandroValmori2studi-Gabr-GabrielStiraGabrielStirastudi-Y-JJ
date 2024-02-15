@@ -44,7 +44,24 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
-    public int getLifetime() {
+    public Integer getLifetime() {
         return this.lifetime;
     }
+
+    @Override
+    public void update(final boolean isSpaceBarPressed) {
+        this.lifetime++; //Increases the lifetime of the entity, which is, the number of time the entity has been updated
+
+        this.updateStatus(isSpaceBarPressed); //Updates the status of the entity and the modifiers to its movement, view, etc...
+
+        this.movement.update(); //Updates the movement of the entity (position, speed, rotation, etc...)
+
+        if (this.entityStatus.equals(EntityStatus.ACTIVE)) { //Updates the hitbox of the entity if the entity is ACTIVE
+            this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
+        }//(Could have done it even without the if statement, but updating the hitbox when the entity is not active is useless)
+
+        
+    }
+
+    protected abstract void updateStatus(final boolean isSpaceBarPressed);
 }

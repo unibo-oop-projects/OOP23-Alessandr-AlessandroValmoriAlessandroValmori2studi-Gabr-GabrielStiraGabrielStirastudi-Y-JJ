@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.movement;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 

@@ -12,9 +12,13 @@ public class VehiclePickUp extends AbstractPickUp {
     }
 
 	@Override
-	protected void updateStatus() {
+	protected void updateStatus(boolean isSpaceBarPressed) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'updateStatus'");
 	}
+
+
+
+
     
 }

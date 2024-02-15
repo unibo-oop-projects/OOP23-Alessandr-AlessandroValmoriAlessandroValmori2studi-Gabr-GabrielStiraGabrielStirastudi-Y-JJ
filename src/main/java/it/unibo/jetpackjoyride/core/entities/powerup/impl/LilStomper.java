@@ -22,7 +22,7 @@ public final class LilStomper extends AbstractPowerUp {
     }
 
     @Override
-    public void update(final boolean isSpaceBarPressed) {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         final GameInfo infoResolution = GameInfo.getInstance();
         final Double screenSizeY = infoResolution.getScreenHeight();
 

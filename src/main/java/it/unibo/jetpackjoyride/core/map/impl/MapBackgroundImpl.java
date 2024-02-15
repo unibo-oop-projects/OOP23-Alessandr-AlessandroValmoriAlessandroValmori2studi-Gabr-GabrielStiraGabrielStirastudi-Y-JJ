@@ -14,7 +14,7 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
     private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
     private final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
 
-    private int moveSpeed;
+    private double moveSpeed;
 
     private ImageView bgImageView1, bgImageView2;
     private double bgImageX1, bgImageX2;
@@ -35,14 +35,15 @@ public class MapBackgroundImpl extends Pane implements MapBackground {
 
     public void updateBackgroundModel() {
 
+        moveSpeed = GameInfo.moveSpeed.get();
         bgImageX1 -= moveSpeed;
         bgImageX2 -= moveSpeed;
 
         if (isOutofMap(bgImageX1)) {
-            bgImageX1 = bgImageX2 + mapWidth;
+            bgImageX1 = bgImageX2 + mapWidth-1;
         }
         if (isOutofMap(bgImageX2)) {
-            bgImageX2 = bgImageX1 + mapWidth;
+            bgImageX2 = bgImageX1 + mapWidth-1;
         }
         updateSize();
 

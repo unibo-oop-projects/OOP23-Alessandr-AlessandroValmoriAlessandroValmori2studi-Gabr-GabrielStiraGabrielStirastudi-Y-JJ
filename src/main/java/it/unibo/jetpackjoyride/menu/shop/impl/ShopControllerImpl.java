@@ -4,10 +4,11 @@ import java.io.IOException;
 
 import java.util.Optional;
 
-
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameMenu;
+import it.unibo.jetpackjoyride.menu.GameOverMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
 import javafx.scene.Scene;
@@ -22,9 +23,9 @@ public final class ShopControllerImpl implements ShopController {
     
     private final ShopView view;
     private final Stage primaryStage;
-    private final GameStatsHandler gameStatsHandler;
+    private final GameStatsController gameStatsHandler;
 
-    private final GameMenu gameMenu;
+    private final GameOverMenu gameMenu;
 
     private Optional<Items> equipped;
 
@@ -32,10 +33,10 @@ public final class ShopControllerImpl implements ShopController {
      * Constructs a new ShopController.
      * Initializes the model and view components.
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameOverMenu gameMenu) {
         this.gameMenu = gameMenu;
 
-        this.gameStatsHandler= new GameStatsHandler();
+        this.gameStatsHandler= gameMenu.getGameStatsHandler();
 
         this.equipped = Optional.ofNullable(this.gameStatsHandler.getGameStatsModel().getEquipped());
 

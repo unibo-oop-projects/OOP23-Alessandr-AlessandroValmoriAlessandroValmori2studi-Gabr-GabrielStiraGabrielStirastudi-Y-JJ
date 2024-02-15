@@ -25,7 +25,7 @@ public class CoinModelImpl implements CoinModel {
     }
 
     public void updateCoinModel(){
-        this.position = new Pair<Double,Double>(position.get1()-moveSpeed, position.get2());
+        this.position = new Pair<Double,Double>(position.get1()-GameInfo.moveSpeed.get(), position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
 

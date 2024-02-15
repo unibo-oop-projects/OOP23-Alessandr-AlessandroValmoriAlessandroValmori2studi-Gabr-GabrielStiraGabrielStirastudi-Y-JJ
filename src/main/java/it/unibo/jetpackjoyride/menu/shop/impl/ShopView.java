@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import it.unibo.jetpackjoyride.menu.buttonCommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -27,18 +28,22 @@ public class ShopView {
     // Constants related to image positioning
     private final int imageXPos = 50;
     private final int imageSize = 110;
+    private final int imageSizeHalf = imageSize/2;
     private final int imageDistance = 30;
 
     // Constants related to button positioning
     private final int buyButtonXPosition = 210;
     private final int buttonWidth = 80;
-    private final int buttonHeight = 30;
-    private final int buyButtonYDisplacement = imageSize / 2;
+    private final int buttonHeight = 80;
+    private final int buyButtonYDisplacement = (imageSize-buttonHeight)/2;
 
     // Constants related to text and font
     private final int fontSize = 18;
     private final int shieldNumPosX = buyButtonXPosition + 2 * buttonWidth + 2 * imageDistance;
     private final int textPosX = shieldNumPosX + imageDistance;
+    private final String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
+    private final String equipShieldStyle = "-fx-background-color: #0000ff; -fx-text-fill: white; -fx-font-size: 16;";
+
 
     // Constants related to image positioning on the Y-axis
     private final int cuddleImageYPos = 100;
@@ -76,15 +81,11 @@ public class ShopView {
         backgroundImageView.setFitWidth(gameInfo.getScreenWidth());
         backgroundImageView.setFitHeight(gameInfo.getScreenHeight());
 
-        final Button backButton = new Button("BACK");
-        backButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
-        backButton.setPrefSize(buttonWidth, buttonHeight);
+        final Button backButton = ButtonFactory.createButton("menu", e -> this.controller.backToMenu(),buttonWidth*2 ,30*2 );
+        ;
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
-        backButton.setOnAction(e -> {
-            this.controller.backToMenu();
-        });
-
+        
         final Image cuddlesImage = new Image(
                 getClass().getClassLoader().getResource("shop/cuddleart.png").toExternalForm());
         final ImageView cuddlesImageView = new ImageView(cuddlesImage);
@@ -93,11 +94,11 @@ public class ShopView {
         cuddlesImageView.setTranslateX(imageXPos);
         cuddlesImageView.setTranslateY(cuddleImageYPos);
 
-        final Button buyMrCuddlesButton = new Button("BUY");
-        buyMrCuddlesButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        final Button buyMrCuddlesButton = new Button(String.valueOf(Items.MRCUDDLES.getItemCost()));
+        buyMrCuddlesButton.setStyle(buttonStyle);
         buyMrCuddlesButton.setPrefSize(buttonWidth, buttonHeight);
         buyMrCuddlesButton.setTranslateX(buyButtonXPosition);
-        buyMrCuddlesButton.setTranslateY(cuddleImageYPos + buyButtonYDisplacement);
+        buyMrCuddlesButton.setTranslateY(cuddleImageYPos  + buyButtonYDisplacement);
         buyMrCuddlesButton.setOnAction(e -> {
             this.controller.buy(Items.MRCUDDLES);
         });
@@ -110,11 +111,11 @@ public class ShopView {
         stomperImageView.setTranslateX(imageXPos);
         stomperImageView.setTranslateY(stomperImageYPos);
 
-        final Button buyStomperButton = new Button("BUY");
-        buyStomperButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        final Button buyStomperButton = new Button(String.valueOf(Items.STOMPER.getItemCost()));
+        buyStomperButton.setStyle(buttonStyle);
         buyStomperButton.setPrefSize(buttonWidth, buttonHeight);
         buyStomperButton.setTranslateX(buyButtonXPosition);
-        buyStomperButton.setTranslateY(stomperImageYPos + buyButtonYDisplacement);
+        buyStomperButton.setTranslateY(stomperImageYPos   + buyButtonYDisplacement);
         buyStomperButton.setOnAction(e -> {
             this.controller.buy(Items.STOMPER);
         });
@@ -127,8 +128,8 @@ public class ShopView {
         profitBirdImageView.setTranslateX(imageXPos);
         profitBirdImageView.setTranslateY(profitBirdImageYPos);
 
-        final Button buyProfitBirdButton = new Button("BUY");
-        buyProfitBirdButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        final Button buyProfitBirdButton = new Button(String.valueOf(Items.PROFITBIRD.getItemCost()));
+        buyProfitBirdButton.setStyle(buttonStyle);
         buyProfitBirdButton.setPrefSize(buttonWidth, buttonHeight);
         buyProfitBirdButton.setTranslateX(buyButtonXPosition);
         buyProfitBirdButton.setTranslateY(profitBirdImageYPos + buyButtonYDisplacement);
@@ -137,10 +138,12 @@ public class ShopView {
         });
 
         shieldNum = new Text("22");
-        shieldNum.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
-        shieldNum.setFill(Color.WHITE);
+        shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
+        shieldNum.setFill(Color.GREEN);
         shieldNum.setTranslateX(shieldNumPosX);
         shieldNum.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
+
+        
 
         final Image shieldImage = new Image(
                 getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
@@ -150,8 +153,8 @@ public class ShopView {
         shieldImageView.setTranslateX(imageXPos);
         shieldImageView.setTranslateY(shieldImageYPos);
 
-        final Button buyShieldButton = new Button("BUY");
-        buyShieldButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16;");
+        final Button buyShieldButton = new Button(String.valueOf(Items.SHIELD.getItemCost()));
+        buyShieldButton.setStyle(buttonStyle);
         buyShieldButton.setPrefSize(buttonWidth, buttonHeight);
         buyShieldButton.setTranslateX(buyButtonXPosition);
         buyShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
@@ -160,18 +163,18 @@ public class ShopView {
         });
 
         final Button equipShield = new Button("EQUIP");
-        equipShield.setStyle("-fx-background-color: #0010e8; -fx-text-fill: white; -fx-font-size: 16;");
+        equipShield.setStyle(equipShieldStyle);
         equipShield.setPrefSize(buttonWidth, buttonHeight);
         equipShield.setTranslateX(buyButtonXPosition + buttonWidth + imageDistance);
-        equipShield.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
+        equipShield.setTranslateY(shieldImageYPos  + buyButtonYDisplacement);
         equipShield.setOnAction(e -> {
             this.controller.equip(Items.SHIELD);
         });
 
         moneyText = new Text();
-        moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         moneyText.setFill(Color.WHITE);
-        moneyText.setTranslateY(buttonHeight);
+        moneyText.setTranslateY(buttonHeight*2);
         moneyText.setTextAlignment(TextAlignment.RIGHT);
         moneyText.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
 
@@ -186,25 +189,25 @@ public class ShopView {
         descriptionText1.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText1.setFill(Color.WHITE);
         descriptionText1.setTranslateX(textPosX);
-        descriptionText1.setTranslateY(cuddleImageYPos + imageSize / 2);
+        descriptionText1.setTranslateY(cuddleImageYPos + imageSizeHalf);
 
         final Text descriptionText2 = new Text("Lil Stomper\n Clumsy but robust vehicle");
         descriptionText2.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText2.setFill(Color.WHITE);
         descriptionText2.setTranslateX(textPosX);
-        descriptionText2.setTranslateY(stomperImageYPos + imageSize / 2);
+        descriptionText2.setTranslateY(stomperImageYPos + imageSizeHalf);
 
         final Text descriptionText3 = new Text("Profit Bird\n Flappy bird -like vehicle");
         descriptionText3.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText3.setFill(Color.WHITE);
         descriptionText3.setTranslateX(textPosX);
-        descriptionText3.setTranslateY(profitBirdImageYPos + imageSize / 2);
+        descriptionText3.setTranslateY(profitBirdImageYPos + imageSizeHalf);
 
         final Text descriptionText4 = new Text("Shield (Consumable\n A shield that can be equipped");
         descriptionText4.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText4.setFill(Color.WHITE);
         descriptionText4.setTranslateX(textPosX);
-        descriptionText4.setTranslateY(shieldImageYPos + imageSize / 2);
+        descriptionText4.setTranslateY(shieldImageYPos + imageSizeHalf);
 
         root.getChildren().addAll(
                 backgroundImageView,
@@ -226,7 +229,7 @@ public class ShopView {
                 descriptionText2,
                 descriptionText3,
                 descriptionText4,
-                displayEquipped,
+                //displayEquipped,
                 shieldNum);
         this.update();
     }

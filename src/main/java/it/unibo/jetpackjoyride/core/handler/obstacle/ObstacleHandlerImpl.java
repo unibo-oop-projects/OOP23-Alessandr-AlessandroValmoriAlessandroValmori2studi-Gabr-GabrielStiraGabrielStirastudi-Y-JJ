@@ -1,10 +1,9 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
-import static it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleStatus;
-
 import java.util.List;
 import java.util.ArrayList;
 
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -63,16 +62,16 @@ public final class ObstacleHandlerImpl implements ObstacleHandler {
                 controller.update();
 
                 if (collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox)
-                        && controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.ACTIVE)) {
+                        && controller.getObstacleModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                     obstacleHitPlayer = true;
-                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
+                    controller.getObstacleModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
 
                 if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
                     obstacleGroup.getChildren().add((Node) controller.getImageView());
                 }
 
-                if (controller.getObstacleModel().getObstacleStatus().equals(ObstacleStatus.INACTIVE)) {
+                if (controller.getObstacleModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
                     obstacleGroup.getChildren().remove((Node) controller.getImageView());
                     iterator.remove();
                 }

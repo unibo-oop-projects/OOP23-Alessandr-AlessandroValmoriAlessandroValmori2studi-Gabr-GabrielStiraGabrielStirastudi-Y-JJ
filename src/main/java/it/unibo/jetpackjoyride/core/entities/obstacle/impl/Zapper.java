@@ -8,14 +8,14 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 public final class Zapper extends AbstractObstacle {
     public Zapper(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.ZAPPER, movement, hitbox);
-        this.obstacleStatus = ObstacleStatus.ACTIVE;
+        this.entityStatus = EntityStatus.ACTIVE;
     }
 
     @Override
     protected void updateStatus() {
         final Double outOfBoundsX = GameInfo.getInstance().getScreenWidth();
         if (this.movement.getCurrentPosition().get1() < -outOfBoundsX / 8) {
-            this.obstacleStatus = ObstacleStatus.INACTIVE;
+            this.entityStatus = EntityStatus.INACTIVE;
         }
     }
 }

@@ -7,24 +7,24 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 public final class Laser extends AbstractObstacle {
     public Laser(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.LASER, movement, hitbox);
-        this.obstacleStatus = ObstacleStatus.CHARGING;
+        this.entityStatus = EntityStatus.CHARGING;
     }
 
     @Override
     public void updateStatus() {
-        if (this.obstacleStatus.equals(ObstacleStatus.DEACTIVATED) && this.lifetime < 250) {
+        if (this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetime < 250) {
             this.lifetime = 250;
         }
 
         switch (this.lifetime) {
             case 100:
-                this.obstacleStatus = ObstacleStatus.ACTIVE;
+                this.entityStatus = EntityStatus.ACTIVE;
                 break;
             case 250:
-                this.obstacleStatus = ObstacleStatus.DEACTIVATED;
+                this.entityStatus = EntityStatus.DEACTIVATED;
                 break;
             case 330:
-                this.obstacleStatus = ObstacleStatus.INACTIVE;
+                this.entityStatus = EntityStatus.INACTIVE;
             default:
                 break;
         }

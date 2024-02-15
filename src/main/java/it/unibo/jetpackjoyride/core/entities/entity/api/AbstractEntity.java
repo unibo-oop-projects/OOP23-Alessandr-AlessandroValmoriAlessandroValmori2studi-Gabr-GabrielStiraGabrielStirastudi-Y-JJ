@@ -4,11 +4,11 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public abstract class AbstractEntity implements Entity {
-    public final EntityType entityType;
-    public EntityStatus entityStatus;
-    public Movement movement;
-    public Hitbox hitbox;
-    public int lifetime;
+    protected final EntityType entityType;
+    protected EntityStatus entityStatus;
+    protected Movement movement;
+    protected Hitbox hitbox;
+    protected Integer lifetime;
 
     public AbstractEntity(final EntityType entityType, final Movement movement, final Hitbox hitbox) {
         this.entityStatus = EntityStatus.INACTIVE;

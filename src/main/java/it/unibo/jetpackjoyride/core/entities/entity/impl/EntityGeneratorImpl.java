@@ -8,6 +8,9 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
@@ -50,5 +53,16 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 break;
         }
         throw new IllegalArgumentException("EntityGenerator could not generate the powerup");
+    }
+
+    @Override
+    public PickUp generatePickUp(PickUpType pickUpType, Movement pickUpMovement, Hitbox pickUpHitbox) {
+        switch (pickUpType) {
+            case VEHICLE:
+                return new VehiclePickUp(pickUpMovement, pickUpHitbox); //Canon pickup existing in the original game
+            default:
+                break;
+        }
+        throw new IllegalArgumentException("EntityGenerator could not generate the pickup");
     }
 }

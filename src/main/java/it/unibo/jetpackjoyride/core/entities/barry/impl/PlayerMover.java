@@ -116,4 +116,6 @@ public class PlayerMover {
     public PlayerHitbox getHitbox() {
         return this.model.getHitbox();
     }
+
+    public void hit(){}
 }

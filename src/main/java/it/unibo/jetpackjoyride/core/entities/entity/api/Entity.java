@@ -16,11 +16,22 @@ public interface Entity {
         OBSTACLE, POWERUP, PICKUP
     }
 
+    enum EntityStatus {
+        CHARGING, // The entity has no collision, but will have in a moment
+        ACTIVE, // The entity has a collision
+        DEACTIVATED, // The entity has no more a collision but can't be removed
+        INACTIVE // The entity has no collision and can be removed
+    }
+
     EntityType getEntityType();
+
+    EntityStatus getEntityStatus();
 
     Movement getEntityMovement();
 
     Hitbox getHitbox();
 
     int getLifetime();
+
+    void setEntityStatus(EntityStatus entityStatus);
 }

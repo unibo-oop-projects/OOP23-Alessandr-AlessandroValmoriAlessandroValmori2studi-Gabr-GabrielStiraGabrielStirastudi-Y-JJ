@@ -12,13 +12,11 @@ public final class CoinImpl implements Coin {
     private final CoinModel model;
     private final CoinView view;
     private final GraphicsContext gc;
-    private boolean isCollected;
 
     public CoinImpl(CoinModel model, CoinView view, GraphicsContext gc) {
         this.model = model;
         this.view = view;
         this.gc = gc;
-        isCollected = false;
     }
     
     public void update() {

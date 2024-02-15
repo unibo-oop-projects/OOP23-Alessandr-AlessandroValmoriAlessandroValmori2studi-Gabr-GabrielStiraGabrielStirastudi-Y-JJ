@@ -22,9 +22,9 @@ public final class MrCuddles extends AbstractPowerUp {
         }
         
         if (indexOfBody == 0) {
-            this.powerUpStatus = PowerUpStatus.ACTIVE;
+            this.entityStatus = EntityStatus.ACTIVE;
         } else {
-            this.powerUpStatus = PowerUpStatus.DEACTIVATED;
+            this.entityStatus = EntityStatus.DEACTIVATED;
         }
     }
 

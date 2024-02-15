@@ -6,9 +6,9 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpStatus;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -37,11 +37,11 @@ public final class PowerUpHandler {
                 powerUpGroup.getChildren().add((Node) controller.getImageView());
             }
 
-            if (controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
+            if (controller.getPowerUpModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
                 powerUpGroup.getChildren().remove((Node) controller.getImageView());
             }
 
-            if (controller.getPowerUpModel().getPowerUpStatus().equals(PowerUpStatus.DESTROYED)) {
+            if (controller.getPowerUpModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
                 powerUpGroup.getChildren().remove((Node) controller.getImageView());
                 iterator.remove();
             }
@@ -71,7 +71,7 @@ public final class PowerUpHandler {
 
         listOfControllers.add(stomperPowerup);*/
 
-        List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
+        /*List<PowerUp> model = entityGenerator.generatePowerUp(PowerUpType.MRCUDDLES,
                 new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)),
                 null);
@@ -89,7 +89,7 @@ public final class PowerUpHandler {
 
         }
 
-        listOfControllers.addAll(powerup);
+        listOfControllers.addAll(powerup);*/
 
         /*List<PowerUp> birdModel = entityGenerator.generatePowerUp(PowerUpType.PROFITBIRD,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),
@@ -109,7 +109,7 @@ public final class PowerUpHandler {
 
         listOfControllers.add(birdPowerup);*/
 
-        /*List<PowerUp> dukeModel = entityGenerator.generatePowerUp(PowerUpType.DUKEFISHRON,
+        List<PowerUp> dukeModel = entityGenerator.generatePowerUp(PowerUpType.DUKEFISHRON,
                 new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),
                         new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                         List.of(MovementChangers.BOUNCING)),
@@ -125,7 +125,7 @@ public final class PowerUpHandler {
 
         PowerUpController dukePowerup = new PowerUpController(dukeModel.get(0), dukeView);
 
-        listOfControllers.add(dukePowerup);*/
+        listOfControllers.add(dukePowerup);
 
     }
 }

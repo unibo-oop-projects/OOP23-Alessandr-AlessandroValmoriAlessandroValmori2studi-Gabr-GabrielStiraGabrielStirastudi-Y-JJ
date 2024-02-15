@@ -13,6 +13,7 @@ import javafx.util.Duration;
 public class MapBackgroundModelImpl implements MapBackgroundModel {
 
     private final static int MAX_SPEED = 10;
+    private final static int OFFSET = 1;
 
      private double bgImageX1, bgImageX2;
      private final GameInfo gameInfo;
@@ -45,10 +46,10 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
         bgImageX2 -= GameInfo.moveSpeed.get();;
 
         if (isOutofMap(bgImageX1)) {
-            bgImageX1 = bgImageX2 + mapWidth-1;
+            bgImageX1 = bgImageX2 + mapWidth-OFFSET;
         }
         if (isOutofMap(bgImageX2)) {
-            bgImageX2 = bgImageX1 + mapWidth-1;
+            bgImageX2 = bgImageX1 + mapWidth-OFFSET;
         }
         updateSize();
 

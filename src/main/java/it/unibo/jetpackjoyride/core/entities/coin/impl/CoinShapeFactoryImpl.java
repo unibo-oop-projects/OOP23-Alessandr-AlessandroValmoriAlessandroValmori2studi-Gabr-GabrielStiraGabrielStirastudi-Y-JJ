@@ -30,9 +30,9 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     }
 
     @Override
-    public List<Pair<Double, Double>> regularShapes(int randomNum) {
+    public List<Pair<Double, Double>> regularShapes() {
             updateDimension();
-
+            int randomNum = random.nextInt(8);
            switch (randomNum) {
             case 0:
                 return generateShape("straightLine");

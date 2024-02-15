@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.utilities;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+
 
 public final class GameInfo {
     private static final double DEFAULTX = 1280;
@@ -30,6 +33,16 @@ public final class GameInfo {
         this.screenWidth = DEFAULTX;
         this.screenHeight = DEFAULTY;
         this.screenRatio = this.screenWidth / this.screenHeight;
+    }
+
+    public static void updateBackgroundSize(Scene scene, ImageView backgroundImageView) {
+        scene.widthProperty().addListener((obs, oldVal, newVal) -> {
+            backgroundImageView.setFitWidth(newVal.doubleValue());
+        });
+
+        scene.heightProperty().addListener((obs, oldVal, newVal) -> {
+            backgroundImageView.setFitHeight(newVal.doubleValue());
+        });
     }
 
     public void updateInfo(double screenWidth, double screenHeight) {

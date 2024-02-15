@@ -13,13 +13,17 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameOverMenu;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public final class GameLoop {
 
@@ -27,10 +31,10 @@ public final class GameLoop {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
+    private WritableImage writableImage;
 
     private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
-    private GameOverMenu gameOverMenu;
 
     private ObstacleHandlerImpl entityHandler;
     private PlayerMover playerMover;
@@ -39,13 +43,15 @@ public final class GameLoop {
     private static final int fps = 70;
     private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
 
+    private Stage stage;
     private Pane root;
     private Group obstacleGroup;
     private Group powerUpGroup;
 
     private final InputHandler inputH = new InputHandler();
 
-    public GameLoop() {
+    public GameLoop(Stage stage) {
+        this.stage = stage;
         initializeScene();
         initializeGameElements();
 
@@ -76,14 +82,11 @@ public final class GameLoop {
 
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
-        gameOverMenu = new GameOverMenu(this);
-        gameOverMenu.setVisible(false);
         root.getChildren().add((Node)map);
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
-        root.getChildren().add(gameOverMenu.getVBox());
     }
 
     private void setupTimer() {
@@ -106,6 +109,7 @@ public final class GameLoop {
                 }
 
                 if(now - lastStatsupdate > statsUpdateInterval){
+                    //stopLoop();
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }
@@ -114,23 +118,25 @@ public final class GameLoop {
         };
     }
 
-    public void starLoop(){
+    public void startLoop(){
+        // palyerMover.setLifeStatus(true);
         coinGenerator.startGenerate();
         timer.start();
     }
 
+    public void stopLoop(){
+         writableImage = new WritableImage((int)this.gameScene.getWidth(), (int)this.gameScene.getHeight());
+         this.gameScene.snapshot(writableImage);
+         GameOverMenu gameOverMenu = 
+         new GameOverMenu(this.stage, writableImage, this,gameStatsHandler);
+         endLoop();
+    }
+
     public void endLoop(){
         entityHandler.over();
-
-         final String filename = "gameStats.data"; 
-
-        try {
-            gameStatsHandler.getGameStatsModel().updateDate();
-            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
-            System.out.println("Game stats saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
-        }
+        coinGenerator.stopGenerate();
+        saveGame();
+        timer.stop();
     }
     
     
@@ -139,11 +145,9 @@ public final class GameLoop {
     }
 
     private void updateModel(){ 
-        
-        
+             
         updateScreenSize();
         playerMover.move(inputH.isSpacePressed());
-
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
         
@@ -169,5 +173,17 @@ public final class GameLoop {
             final double newHeight = newValue.doubleValue();
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newHeight);
         });
+    }
+
+    private void saveGame(){
+        final String filename = "gameStats.data"; 
+
+        try {
+            gameStatsHandler.getGameStatsModel().updateDate();
+            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save game stats: " + e.getMessage());
+        }
     }
 }

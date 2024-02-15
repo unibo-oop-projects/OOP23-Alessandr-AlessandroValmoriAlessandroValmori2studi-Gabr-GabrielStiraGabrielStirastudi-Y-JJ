@@ -27,4 +27,8 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
         return this.performingAction;
     }
 
+    @Override
+    public void update(final boolean isSpaceBarPressed) {
+        super.update(isSpaceBarPressed);
+    }
 }

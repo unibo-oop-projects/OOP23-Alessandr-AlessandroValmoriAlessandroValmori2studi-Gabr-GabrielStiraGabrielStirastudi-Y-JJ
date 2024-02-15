@@ -22,13 +22,7 @@ public abstract class AbstractPickUp extends AbstractEntity implements PickUp {
     }
 
     @Override
-    public void update() {
-        this.movement.update();
-        if (this.entityStatus.equals(EntityStatus.ACTIVE)) {
-            this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
-        }
-        this.updateStatus();
+    public void update(final boolean isSpaceBarPressed) {
+        super.update(isSpaceBarPressed);
     }
-
-    protected abstract void updateStatus();
 }

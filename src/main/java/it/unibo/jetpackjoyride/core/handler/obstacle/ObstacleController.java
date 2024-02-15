@@ -13,7 +13,7 @@ public final class ObstacleController {
     }
 
     public void update() {
-        this.model.update();
+        this.model.update(true);
         this.view.updateView(model);
     }
 

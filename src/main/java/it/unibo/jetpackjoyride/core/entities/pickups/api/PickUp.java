@@ -8,6 +8,4 @@ public interface PickUp extends Entity {
     }
 
     PickUpType getPickUpType();
-
-    void update();
 }

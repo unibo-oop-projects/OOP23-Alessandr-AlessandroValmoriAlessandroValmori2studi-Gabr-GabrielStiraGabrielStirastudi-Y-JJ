@@ -68,6 +68,7 @@ public abstract class AbstractHitbox implements Hitbox {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         final Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
+
         if(!this.screenLastSize.equals(currentScreenSize)) {
             final Double xChange = currentScreenSize.get1() / this.screenLastSize.get1();
             final Double yChange = currentScreenSize.get2() / this.screenLastSize.get2();
@@ -88,7 +89,6 @@ public abstract class AbstractHitbox implements Hitbox {
             newHitbox.add(
                     new Pair<>(newPoint.get1() + (newX - center.get1()), newPoint.get2() + (newY - center.get2())));
         }
-        ;
 
         this.hitbox = newHitbox;
     }

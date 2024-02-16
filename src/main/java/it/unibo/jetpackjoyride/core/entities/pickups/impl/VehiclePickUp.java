@@ -11,15 +11,21 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class VehiclePickUp extends AbstractPickUp {
 
+	public enum VehicleSpawn {
+		MRCUDDLE, LILSTOMPER, PROFITBIRD, DUKEFISHRON
+	}
+
 	private static final Integer ANIMATIONDURATION = 150;
     private Integer animationTimer;
 	private Integer switchWave;
+	private final VehicleSpawn vehicleSpawn;
 
-    public VehiclePickUp(Movement movement, Hitbox hitbox) {
+    public VehiclePickUp(VehicleSpawn vehicleSpawn, Movement movement, Hitbox hitbox) {
         super(PickUpType.VEHICLE, movement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
 		this.animationTimer = 0;
 		this.switchWave = 0;
+		this.vehicleSpawn = vehicleSpawn;
     }
 
 	@Override
@@ -44,7 +50,10 @@ public class VehiclePickUp extends AbstractPickUp {
 			this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), -this.movement.getAcceleration().get2()));
 			this.switchWave = -40;
 		}
+	}
 
+	public VehicleSpawn getVehicleSpawn() {
+		return this.vehicleSpawn;
 	}
 
 }

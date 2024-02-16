@@ -77,7 +77,7 @@ public final class ObstacleHandler implements Runnable {
             }
 
             // Deactivate all obstacles on screen if one hit the player (give the player a
-            // brief moment to focus again)
+            // brief moment of grace time)
             /*if (obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
                 while (iterator.hasNext()) {

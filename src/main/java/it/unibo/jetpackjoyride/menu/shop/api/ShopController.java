@@ -11,7 +11,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 public interface ShopController {
 
     enum Items{
-        MRCUDDLES(20, Optional.of(PowerUpType.LILSTOMPER)), 
+        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES)), 
         SHIELD(20, Optional.empty()), 
         STOMPER(20, Optional.of(PowerUpType.LILSTOMPER)), 
         PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD));

@@ -63,7 +63,9 @@ public class EntityHandler {
             PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
-                    this.spawnPowerUp(this.powerUpSpawnerHelper(this.unlockedPowerUps));
+                    if(!this.spawnPowerUp(this.powerUpSpawnerHelper(this.unlockedPowerUps))) {
+                        this.isUsingPowerUp = false;
+                    }
                     break;
                 default:
                     break;
@@ -81,23 +83,25 @@ public class EntityHandler {
 
         final Random random = new Random(unlockedItems.size());
         Integer i=0;
-        for(var PowerUpType : unlockedItems) {
+        for(var powerUpType : unlockedItems) {
             if(i.equals(random.nextInt())) {
-
+                return powerUpType.getCorresponding();
             }
         }
 
-        return Optional.of(PowerUpType.LILSTOMPER);
+        return Optional.empty();
     }
 
     public void spawnPickUp(final PickUpType pickUpType) {
         this.pickUpHandler.spawnPickUp(pickUpType);
     }
 
-    public void spawnPowerUp(final Optional<PowerUpType> powerUpType) {
+    public boolean spawnPowerUp(final Optional<PowerUpType> powerUpType) {
         if(powerUpType.isPresent()) {
             this.powerUpHandler.spawnPowerUp(powerUpType.get());
+            return true;
         }
+        return false;
     }
 
     public void stop() {

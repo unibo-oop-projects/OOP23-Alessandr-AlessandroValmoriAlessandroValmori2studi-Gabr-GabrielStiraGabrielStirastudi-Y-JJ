@@ -15,7 +15,7 @@ public class VehiclePickUp extends AbstractPickUp {
 		MRCUDDLE, LILSTOMPER, PROFITBIRD, DUKEFISHRON
 	}
 
-	private static final Integer ANIMATIONDURATION = 150;
+	private static final Integer ANIMATIONDURATION = 100;
     private Integer animationTimer;
 	private Integer switchWave;
 	private final VehicleSpawn vehicleSpawn;

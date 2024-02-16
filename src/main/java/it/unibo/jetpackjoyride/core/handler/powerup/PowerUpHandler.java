@@ -5,7 +5,6 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
-import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -43,5 +42,13 @@ public final class PowerUpHandler {
     public void spawnPowerUp(final PowerUpType powerUpType) {
         List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUp(powerUpType);
         listOfControllers.addAll(powerup);
+    }
+
+    public List<GenericController<PowerUp, PowerUpView>> getAllPowerUps() {
+        return this.listOfControllers;
+    }
+
+    public void destroyAllPowerUps() {
+        this.listOfControllers.forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.INACTIVE));
     }
 }

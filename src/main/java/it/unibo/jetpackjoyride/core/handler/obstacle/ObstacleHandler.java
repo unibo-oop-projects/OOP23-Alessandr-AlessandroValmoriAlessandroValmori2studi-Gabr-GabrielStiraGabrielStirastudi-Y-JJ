@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import java.util.List;
 import java.util.ArrayList;
 
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -12,7 +13,7 @@ import javafx.scene.Node;
 
 public final class ObstacleHandler implements Runnable {
 
-    private static final Integer TIMEBETWEENCHUNKS = 3000;
+    private static final Integer TIMEBETWEENCHUNKS = 1000;
 
     private ObstacleSpawner obstacleSpawner;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
@@ -53,7 +54,7 @@ public final class ObstacleHandler implements Runnable {
 
     public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
-            final var iterator = listOfControllers.iterator();
+            var iterator = listOfControllers.iterator();
             boolean obstacleHitPlayer = false;
             while (iterator.hasNext()) {
                 final var controller = iterator.next();
@@ -78,13 +79,13 @@ public final class ObstacleHandler implements Runnable {
 
             // Deactivate all obstacles on screen if one hit the player (give the player a
             // brief moment of grace time)
-            /*if (obstacleHitPlayer) {
+            if (obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
                 while (iterator.hasNext()) {
                     var controller = iterator.next();
-                    controller.getObstacleModel().changeObstacleStatus(ObstacleStatus.DEACTIVATED);
+                    controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
-            }*/
+            }
             return obstacleHitPlayer;
         }
     }
@@ -101,6 +102,10 @@ public final class ObstacleHandler implements Runnable {
             }
         }
         return false;
+    }
+
+    public void deactivateAllObstacles() {
+        this.listOfControllers.forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED));
     }
 
 }

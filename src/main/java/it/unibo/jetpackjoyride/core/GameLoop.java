@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 
 import java.io.IOException;
 
@@ -106,9 +107,21 @@ public final class GameLoop {
 
                     updateModel();
                     updateView();
+
+                    /* TEMPORARY do not code thinking this is finished*/
                     obstacleHandler.update(obstacleGroup, playerMover.getHitbox());
-                    pickUpHandler.update(obstacleGroup, playerMover.getHitbox());
+                    if(pickUpHandler.update(obstacleGroup, playerMover.getHitbox())) {
+                        powerUpHandler.spawnPowerUp(PowerUpType.LILSTOMPER);
+                    }
                     powerUpHandler.update(powerUpGroup, inputH.isSpacePressed());
+                    /* TEMPORARY do not code thinking this is finished*/
+                    //The idea is to make one big class EntityHandler to handle all smaller handlers such as
+                    //powerUphandler, pickUpHandler, obstacleHAndler, etc...
+                    //This class will update all handlers and organize the events such as | pickUp took -> powerUpSpawn |
+                    //I NEED TO KNOW IF YOU WANT IT TO RETURN SOMETHING IN PARTICULAR (maybe something like an Event of 
+                    //an Event enum with all cases (PowerUpSpawned, PowerUpDestroyed, ObstacleHit... so to organize better
+                    //with other elements of the game like barry or the speed of the game, etc...))
+
                     lastUpdate = now;
                 }
 

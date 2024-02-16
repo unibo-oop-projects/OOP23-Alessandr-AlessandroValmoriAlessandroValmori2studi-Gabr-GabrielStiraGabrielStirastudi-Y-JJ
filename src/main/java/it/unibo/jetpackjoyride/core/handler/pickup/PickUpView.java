@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.core.handler.pickup;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;

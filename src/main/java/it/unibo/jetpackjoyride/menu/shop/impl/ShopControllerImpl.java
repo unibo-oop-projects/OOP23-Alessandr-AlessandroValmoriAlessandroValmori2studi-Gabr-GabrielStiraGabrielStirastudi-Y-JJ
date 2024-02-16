@@ -110,6 +110,7 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void toggleEquipUnequipShield() {
         this.isShieldEquipped = !this.isShieldEquipped;
+        this.view.update();
     }
 
     @Override

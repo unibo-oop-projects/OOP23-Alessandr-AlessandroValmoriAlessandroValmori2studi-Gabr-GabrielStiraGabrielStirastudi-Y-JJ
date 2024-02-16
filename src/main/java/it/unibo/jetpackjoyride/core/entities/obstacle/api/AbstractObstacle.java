@@ -22,14 +22,7 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     }
 
     @Override
-    public void update() {
-        this.lifetime++;
-        this.movement.update();
-        if (this.entityStatus.equals(EntityStatus.ACTIVE)) {
-            this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
-        }
-        this.updateStatus();
+    public void update(final boolean isSpaceBarPressed) {
+        super.update(isSpaceBarPressed);
     }
-
-    protected abstract void updateStatus();
 }

@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.movement;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
@@ -11,8 +10,8 @@ public final class MovementImpl implements Movement {
 
     private static final Double SPEEDYMODIFIER = 1.5;
     private static final Double SLOWMODIFIER = 0.7;
-    private static final Double GRAVITYMODIFIER = 0.5;
-    private static final Double INVERSEGRAVITYMODIFIER = -0.5;
+    private static final Double GRAVITYMODIFIER = 0.1;
+    private static final Double INVERSEGRAVITYMODIFIER = -0.1;
 
     private Pair<Double, Double> position;
     private Pair<Double, Double> acceleration;

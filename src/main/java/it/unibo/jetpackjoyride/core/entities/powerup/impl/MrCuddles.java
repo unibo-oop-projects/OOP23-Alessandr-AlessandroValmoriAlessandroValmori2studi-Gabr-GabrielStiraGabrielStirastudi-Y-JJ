@@ -29,7 +29,7 @@ public final class MrCuddles extends AbstractPowerUp {
     }
 
     @Override
-    public void update(final boolean isSpaceBarPressed) {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 

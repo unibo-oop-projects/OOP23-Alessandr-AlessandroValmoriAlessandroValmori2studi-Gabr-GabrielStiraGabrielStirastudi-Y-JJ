@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
-import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -113,7 +113,7 @@ public class PlayerMover {
      * 
      * @return The hitbox of the player character.
      */
-    public PlayerHitbox getHitbox() {
+    public HitboxImpl getHitbox() {
         return this.model.getHitbox();
     }
 

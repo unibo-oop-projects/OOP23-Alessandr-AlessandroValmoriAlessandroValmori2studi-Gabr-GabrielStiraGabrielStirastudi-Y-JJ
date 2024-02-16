@@ -8,6 +8,4 @@ public interface Obstacle extends Entity {
     }
 
     ObstacleType getObstacleType();
-
-    void update();
 }

@@ -12,7 +12,7 @@ public final class Zapper extends AbstractObstacle {
     }
 
     @Override
-    protected void updateStatus() {
+    protected void updateStatus(final boolean isSpaceBarPressed) {
         final Double outOfBoundsX = GameInfo.getInstance().getScreenWidth();
         if (this.movement.getCurrentPosition().get1() < -outOfBoundsX / 8) {
             this.entityStatus = EntityStatus.INACTIVE;

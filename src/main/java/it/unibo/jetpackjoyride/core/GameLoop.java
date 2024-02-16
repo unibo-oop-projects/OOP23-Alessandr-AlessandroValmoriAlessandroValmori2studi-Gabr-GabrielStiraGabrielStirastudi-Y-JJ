@@ -67,7 +67,7 @@ public final class GameLoop {
         gameStatsHandler = new GameStatsHandler();
 
         entityHandler = new EntityHandler();
-        entityHandler.initialize();
+        entityHandler.initialize(gameStatsHandler.getGameStatsModel().getUnlocked());
 
         playerMover = new PlayerMover();
        
@@ -132,6 +132,7 @@ public final class GameLoop {
     }
 
     public void startLoop(){
+        //stopLoop();
         coinGenerator.startGenerate();
         entityHandler.start();
         timer.start();

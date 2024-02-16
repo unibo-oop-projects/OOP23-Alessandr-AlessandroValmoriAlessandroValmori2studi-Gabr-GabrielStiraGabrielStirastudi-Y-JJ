@@ -10,7 +10,8 @@ import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
-import it.unibo.jetpackjoyride.menu.GameOverMenu;
+import it.unibo.jetpackjoyride.menu.menus.OverMenu;
+import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
@@ -27,10 +28,10 @@ public final class GameLoop {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    private WritableImage writableImage;
 
     private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
+    private PauseMenu pauseMenu;
 
     private PlayerMover playerMover;
     private EntityHandler entityHandler;
@@ -47,8 +48,7 @@ public final class GameLoop {
     public GameLoop(Stage stage) {
         this.stage = stage;
         initializeScene();
-        initializeGameElements();
-
+        this.initializeGameElements();
     }
 
     private void initializeScene() {
@@ -59,12 +59,11 @@ public final class GameLoop {
 
         gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
         gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
-        setupTimer();
-    }
 
-    private void initializeGameElements() {
+        setupTimer();
 
         map = new MapBackgroundImpl();
+        pauseMenu = new PauseMenu(this.stage, this);
         gameStatsHandler = new GameStatsHandler();
 
         entityHandler = new EntityHandler();
@@ -73,11 +72,16 @@ public final class GameLoop {
         playerMover = new PlayerMover();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
+    }
+
+    private void initializeGameElements() {
 
         root.getChildren().add(map.getPane());
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)entityGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
+        root.getChildren().add(pauseMenu.getPauseButton());
+        root.getChildren().add(pauseMenu.getVBox());
     }
 
     private void setupTimer() {
@@ -87,6 +91,7 @@ public final class GameLoop {
             long lastStatsupdate = 0;
             private static final long statsUpdateInterval = 1_000_000_000L;
 
+            @SuppressWarnings("unused")
             @Override
             public void handle(final long now) {
 
@@ -96,13 +101,28 @@ public final class GameLoop {
                     updateView();
 
                     /* TEMPORARY do not code thinking this is finished*/
-                    Event eventHappening;
-                    eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
+                    /* TEMPORARY do not code thinking this is finished*/
+                    //The idea is to make one big class EntityHandler to handle all smaller handlers such as
+                    //powerUphandler, pickUpHandler, obstacleHAndler, etc...
+                    //This class will update all handlers and organize the events such as | pickUp took -> powerUpSpawn |
+                    //I NEED TO KNOW IF YOU WANT IT TO RETURN SOMETHING IN PARTICULAR (maybe something like an Event of 
+                    //an Event enum with all cases (PowerUpSpawned, PowerUpDestroyed, ObstacleHit... so to organize better
+                    //with other elements of the game like barry or the speed of the game, etc...))
+                   
+                     /* TEMPORARY*/
+                    if(false){
+                        showGameOverMenu();
+                        endLoop();  
+                    }else{
+                        Event eventHappening;
+                        eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
+                        System.out.println(eventHappening);
+                    }
+                   
                     lastUpdate = now;
                 }
 
                 if(now - lastStatsupdate > statsUpdateInterval){
-                    //stopLoop();
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }
@@ -114,23 +134,32 @@ public final class GameLoop {
     public void startLoop(){
         //stopLoop();
         coinGenerator.startGenerate();
+        entityHandler.start();
         timer.start();
     }
 
-    public void stopLoop(){
-         writableImage = new WritableImage((int)this.gameScene.getWidth(), (int)this.gameScene.getHeight());
-         this.gameScene.snapshot(writableImage);
-         GameOverMenu gameOverMenu = 
-         new GameOverMenu(this.stage, writableImage, this,gameStatsHandler);
-         this.stage.setScene(gameOverMenu.getScene());
-         endLoop();
+    public void stopLoop(){   
+        coinGenerator.stopGenerate();
+        entityHandler.stop();
+        timer.stop();
     }
 
     public void endLoop(){
-        entityHandler.stop();
-        coinGenerator.stopGenerate();
-        saveGame();
+        this.stopLoop();
         timer.stop();
+        saveGame();
+    }
+
+    public void resetLoop(){
+        saveGame();
+        if(!root.getChildren().isEmpty()){
+            root.getChildren().clear();
+            entityGroup.getChildren().clear();
+            coinGenerator.clean();
+            map.reset();
+            entityHandler.reset();
+        }
+        initializeGameElements();
     }
     
     
@@ -160,6 +189,7 @@ public final class GameLoop {
 
             final double newWidth = newValue.doubleValue();
             gameInfo.updateInfo(newWidth, gameInfo.getScreenHeight());
+            pauseMenu.getPauseButton().setLayoutX(newWidth-pauseMenu.getPauseButton().getWidth());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
@@ -179,5 +209,10 @@ public final class GameLoop {
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
+    }
+
+    public void showGameOverMenu(){
+        OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
+        overMenu.show();
     }
 }

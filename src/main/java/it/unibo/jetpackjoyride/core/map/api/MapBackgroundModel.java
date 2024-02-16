@@ -11,4 +11,6 @@ public interface MapBackgroundModel {
     List<Double> getPosX();
 
     Pair<Double,Double> getSize();
+
+    void reset();
 }

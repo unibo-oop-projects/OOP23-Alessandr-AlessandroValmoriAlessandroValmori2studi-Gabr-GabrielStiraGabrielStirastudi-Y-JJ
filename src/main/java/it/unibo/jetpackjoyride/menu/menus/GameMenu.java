@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu;
+package it.unibo.jetpackjoyride.menu.menus;
 
 
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-public abstract class BaseMenu {
+public abstract class GameMenu {
     private static final int PORTION = 4;
 
     private ChangeListener<Number> widthListener;
@@ -25,11 +25,10 @@ public abstract class BaseMenu {
     protected ImageView menuImageView;     
     protected GameInfo gameInfo = GameInfo.getInstance();
 
-    public BaseMenu(final Stage primaryStage) {
+    public GameMenu(final Stage primaryStage) {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-         setGameStagePosition();
          stageCloseAction();
     }
 
@@ -53,7 +52,7 @@ public abstract class BaseMenu {
         this.root.getChildren().add(buttons);
     }
 
-    protected void setMenuImage(Image menuImage){
+    public void setMenuImage(Image menuImage){
         if(menuImageView != null){
             this.root.getChildren().remove(menuImageView);
         }
@@ -76,7 +75,7 @@ public abstract class BaseMenu {
         });
     }
 
-    private void setGameStagePosition() {
+    protected void setGameStagePosition() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final double sw = screenSize.getWidth();
         final double sh = screenSize.getHeight();

@@ -4,10 +4,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.ObjectOutputStream;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import java.util.Collections;
 
 public class GameStats implements GameStatsModel {
 
@@ -16,12 +19,17 @@ public class GameStats implements GameStatsModel {
     private int bestDistance;
     private int totCoins;
     private int currentDistance;
-    private Items equipped= null;
+    private Set<Items> unlockedSet = new HashSet<>();
+    private boolean isShieldEquipped;
+    private int numOfShields;
     
     public GameStats(){
+        this.numOfShields=0;
+        this.isShieldEquipped= false;
         this.bestDistance = 0;
         this.currentDistance = 0;
-        this.totCoins = 0;
+        this.totCoins = 50;
+        
     }
 
     public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
@@ -79,14 +87,39 @@ public class GameStats implements GameStatsModel {
     }
 
     @Override
-    public void setEquipped(Items item) {
-        this.equipped= item;
+    public Set<Items> getUnlocked() {
+        return this.unlockedSet;
     }
 
     @Override
-    public Items getEquipped() {
-        return this.equipped;
+    public void unlock(Set<Items> items) {
+        this.unlockedSet.addAll(items);
     }
+
+    
+
+    @Override
+    public void addShields(int num) {
+        this.numOfShields += num;
+    }
+
+    @Override
+    public int getNumOfShields() {
+        return this.numOfShields;
+    }
+
+    @Override
+    public boolean isShieldEquipped() {
+        return this.isShieldEquipped;
+    }
+
+    @Override
+    public void setShield(boolean isShieldEquipped) {
+        this.isShieldEquipped = isShieldEquipped;
+    }
+
+    
+    
 
    
 }

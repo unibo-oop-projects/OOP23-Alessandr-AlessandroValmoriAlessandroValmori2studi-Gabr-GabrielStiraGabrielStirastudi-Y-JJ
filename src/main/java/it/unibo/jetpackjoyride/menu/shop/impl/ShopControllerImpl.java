@@ -2,7 +2,8 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
 
-import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
@@ -11,6 +12,7 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.Collections;
 
 
 /**
@@ -25,7 +27,9 @@ public final class ShopControllerImpl implements ShopController {
 
     private final GameOverMenu gameMenu;
 
-    private Optional<Items> equipped;
+    private int numOfShields;
+    private boolean isShieldEquipped;
+    private Set<Items> unlockedItems;
 
     /**
      * Constructs a new ShopController.
@@ -36,7 +40,11 @@ public final class ShopControllerImpl implements ShopController {
 
         this.gameStatsHandler= gameMenu.getGameStatsHandler();
 
-        this.equipped = Optional.ofNullable(this.gameStatsHandler.getGameStatsModel().getEquipped());
+        this.isShieldEquipped= this.gameStatsHandler.getGameStatsModel().isShieldEquipped();
+
+        this.numOfShields = this.gameStatsHandler.getGameStatsModel().getNumOfShields();
+
+        this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
 
         this.primaryStage = primaryStage;
         
@@ -61,16 +69,18 @@ public final class ShopControllerImpl implements ShopController {
             System.out.println("Not enough funds :(\n");
         }
         else{
+
         this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+        if(item.equals(Items.SHIELD)){
+            this.numOfShields++;
+        }
+        else{
+            this.unlockedItems.add(item);
+            System.out.println(this.unlockedItems);
+        }
         this.view.update();
         }
-       System.out.println(this.gameStatsHandler.getGameStatsModel().getEquipped());
-    }
-
-    @Override
-    public void equip(final Items item) {
-        this.equipped = Optional.of(item);
-        this.view.update();
+     
     }
 
     
@@ -86,9 +96,9 @@ public final class ShopControllerImpl implements ShopController {
          final String filename = "gameStats.data"; 
 
         try {
-            if(this.equipped.isPresent()){
-                this.gameStatsHandler.getGameStatsModel().setEquipped(this.equipped.get());
-            }
+            this.gameStatsHandler.getGameStatsModel().addShields(this.numOfShields);
+            this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
+            this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
             GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
@@ -98,9 +108,28 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     @Override
-    public Optional<Items> getEquipped() {
-        return this.equipped;
+    public void toggleEquipUnequipShield() {
+        this.isShieldEquipped = !this.isShieldEquipped;
     }
+
+    @Override
+    public boolean isShieldEquipped() {
+        return this.isShieldEquipped;
+    }
+
+    @Override
+    public int getNumOfShields() {
+       return this.numOfShields;
+    }
+
+    @Override
+    public Set<Items> getUnlocked() {
+        return this.unlockedItems;
+    }
+
+    
+
+   
 
     
 

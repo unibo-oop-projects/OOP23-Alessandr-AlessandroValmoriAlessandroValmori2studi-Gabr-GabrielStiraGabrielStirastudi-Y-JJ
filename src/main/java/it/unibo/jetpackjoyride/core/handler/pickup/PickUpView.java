@@ -33,11 +33,27 @@ public class PickUpView implements GenericView{
 
         switch (pickUp.getPickUpType()) {
             case VEHICLE:
-                width = screenSizeX / 8;
-                height = screenSizeY / 4;
-                animationLenght = 4;
-                animationFrame = animationCounter / animationLenght % 8;
-                animationCounter++;
+                switch (pickUp.getEntityStatus()) {
+                    case ACTIVE:
+                        width = screenSizeX / 15;
+                        height = screenSizeY / 9;
+                        animationLenght = 4;
+                        animationFrame = animationCounter / animationLenght % 8;
+                        animationCounter++;
+                        break;
+                    case DEACTIVATED:
+                        width = screenSizeX;
+                        height = screenSizeY / 3;
+                        animationLenght = 4;
+                        animationFrame = 8 + animationCounter / animationLenght % 3;
+                        animationCounter++;
+                        break;
+                    default:
+                        width = 0.0;
+                        height = 0.0;
+                        break;
+                }
+                
                 break;
             default:
                 width = 0.0;

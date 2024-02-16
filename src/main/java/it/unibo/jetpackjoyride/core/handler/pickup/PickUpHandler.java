@@ -10,13 +10,9 @@ import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementImpl;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
+
 
 public class PickUpHandler {
     private List<GenericController<PickUp,PickUpView>> listOfControllers;
@@ -25,10 +21,10 @@ public class PickUpHandler {
     public PickUpHandler() {
         this.listOfControllers = new ArrayList<>();
         entityGenerator = new EntityGeneratorImpl();
-        this.init();
+        this.spawnPickUp(PickUpType.VEHICLE);
     }
 
-    public boolean update(final Group powerUpGroup, final Hitbox playerHitbox) {
+    public boolean update(final Group pickUpGroup, final Hitbox playerHitbox) {
         final var iterator = listOfControllers.iterator();
         boolean pickUpPickedUp = false;
         while (iterator.hasNext()) {
@@ -42,12 +38,12 @@ public class PickUpHandler {
                     controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
 
-            if (!powerUpGroup.getChildren().contains((Node) controller.getImageView())) {
-                powerUpGroup.getChildren().add((Node) controller.getImageView());
+            if (!pickUpGroup.getChildren().contains((Node) controller.getImageView())) {
+                pickUpGroup.getChildren().add((Node) controller.getImageView());
             }
 
             if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
-                powerUpGroup.getChildren().remove((Node) controller.getImageView());
+                pickUpGroup.getChildren().remove((Node) controller.getImageView());
                 iterator.remove();
             }
         }
@@ -68,25 +64,9 @@ public class PickUpHandler {
         return false;
     }
 
-    private void init() {
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
-
-        Movement movement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(0.0, -10.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of());
-
-        PickUp pickUpModel = entityGenerator.generatePickUp(PickUpType.VEHICLE, movement, null);
-        Image[] pickUpActualImage = new Image[8];
-        for (int i = 0; i < 8; i++) {
-            pickUpActualImage[i] = new Image(getClass().getClassLoader()
-                    .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
-                    .toExternalForm());
-        }
-        PickUpView pickUpView = new PickUpView(pickUpActualImage);
-
-        GenericController<PickUp, PickUpView> vehiclePickUp = new GenericController<PickUp,PickUpView>(pickUpModel, pickUpView);
-
-        listOfControllers.add(vehiclePickUp);
+    private void spawnPickUp(final PickUpType pickUpType) {
+        List<GenericController<PickUp, PickUpView>> pickUp = entityGenerator.generatePickUp(pickUpType);
+        listOfControllers.addAll(pickUp);
     }
-
 
 }

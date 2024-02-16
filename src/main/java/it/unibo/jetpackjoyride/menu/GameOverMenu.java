@@ -1,12 +1,8 @@
 package it.unibo.jetpackjoyride.menu;
 
-import java.io.FileNotFoundException;
-import java.net.URL;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.buttonCommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttonCommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttonCommand.impl.StartCommand;
@@ -35,7 +31,6 @@ public class GameOverMenu extends BaseMenu{
         this.gameStatsHandler = gameStatsHandler;
         shopController = new ShopControllerImpl(primaryStage, this);
         initializeGameMenu();
-        this.stage.setScene(scene);
     }
 
     @Override
@@ -46,7 +41,7 @@ public class GameOverMenu extends BaseMenu{
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(20);
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
-        Command restartCommand = new StartCommand(gameLoop, stage);
+        Command restartCommand = new StartCommand(gameLoop, stage,this);
         Button restartButton = ButtonFactory.createButton("PlayAgain",e->restartCommand.execute(),220,120);
         Command openShopCommand = new openShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);

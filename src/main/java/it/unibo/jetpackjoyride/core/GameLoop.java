@@ -14,8 +14,6 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.GameOverMenu;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
@@ -75,7 +73,7 @@ public final class GameLoop {
 
     private void initializeGameElements() {
 
-        map = new MapBackgroundImpl(gameInfo);
+        map = new MapBackgroundImpl();
         gameStatsHandler = new GameStatsHandler();
 
         obstacleHandler = new ObstacleHandler();
@@ -86,7 +84,7 @@ public final class GameLoop {
         pickUpHandler = new PickUpHandler();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
-        root.getChildren().add((Node)map);
+        root.getChildren().add(map.getPane());
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
@@ -125,6 +123,7 @@ public final class GameLoop {
     }
 
     public void startLoop(){
+        //temporary
         // palyerMover.setLifeStatus(true);
         coinGenerator.startGenerate();
         timer.start();
@@ -135,6 +134,7 @@ public final class GameLoop {
          this.gameScene.snapshot(writableImage);
          GameOverMenu gameOverMenu = 
          new GameOverMenu(this.stage, writableImage, this,gameStatsHandler);
+         this.stage.setScene(gameOverMenu.getScene());
          endLoop();
     }
 

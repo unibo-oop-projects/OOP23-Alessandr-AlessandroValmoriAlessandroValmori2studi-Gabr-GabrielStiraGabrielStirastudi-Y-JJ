@@ -24,6 +24,10 @@ import javafx.util.Duration;
 public final class CoinGenerator {
 
     private static final int MAX_REUSABLE_COINS = 100; 
+    private static final double PROBABILITY_BASE = 0.3;
+    private static final double PROBABILITY_RATE = 0.15;
+    private static final int COIN_WIDTH = 30;
+    private static final int COIN_HEIGHT = 30;
 
     private final Canvas canvas;
     private final Timeline timeline;
@@ -33,6 +37,7 @@ public final class CoinGenerator {
     private final GameInfo gameInfo;
     private final Hitbox playeHitbox;
     private final GameStatsModel gameStatsModel;
+    private final int initialSpeed = GameInfo.moveSpeed.get();
 
     private final Random random = new Random();
 
@@ -55,16 +60,15 @@ public final class CoinGenerator {
     }
 
     private void generateCoin() {
-        int randomNum = random.nextInt(10);
-        List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes(randomNum);
-        if(!shapes.isEmpty()){
+        if(generateOrNot()){
+            List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
              for (Pair<Double, Double> position : shapes) {
             Coin coin;
             if (!reusableCoin.isEmpty()) {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
             } else {
-                CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position, 0.0), 30, 30);
+                CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position, 0.0), COIN_WIDTH, COIN_HEIGHT);
                 CoinView view = new CoinViewImpl(model);
                 coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
             }
@@ -72,6 +76,12 @@ public final class CoinGenerator {
             coin.setVisible(true);
         }
         }
+    }
+
+    private boolean generateOrNot(){
+        double probabilityInfluenBySpeed = PROBABILITY_BASE + (GameInfo.moveSpeed.get()-initialSpeed) * PROBABILITY_RATE;
+        System.out.println(probabilityInfluenBySpeed);
+        return random.nextDouble() < probabilityInfluenBySpeed;
     }
 
     public void renderCoin() {

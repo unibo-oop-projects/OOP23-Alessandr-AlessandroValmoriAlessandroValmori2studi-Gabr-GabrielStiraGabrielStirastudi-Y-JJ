@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu.menus;
 
 
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -24,12 +25,13 @@ public abstract class GameMenu {
     protected StackPane root;
     protected ImageView menuImageView;     
     protected GameInfo gameInfo = GameInfo.getInstance();
+    private GameStatsController gameStatsController;
 
-    public GameMenu(final Stage primaryStage) {
+    public GameMenu(final Stage primaryStage,final GameStatsController gameStatsController) {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-         stageCloseAction();
+         this.gameStatsController = gameStatsController;
     }
 
     public Scene getScene() {
@@ -45,6 +47,10 @@ public abstract class GameMenu {
         }
     }
 
+    public GameStatsController getGameStatsHandler(){
+        return this.gameStatsController;
+    }
+
     protected void initializeGameMenu() {
     }
 
@@ -52,7 +58,7 @@ public abstract class GameMenu {
         this.root.getChildren().add(buttons);
     }
 
-    public void setMenuImage(Image menuImage){
+    protected void setMenuImage(Image menuImage){
         if(menuImageView != null){
             this.root.getChildren().remove(menuImageView);
         }
@@ -63,17 +69,17 @@ public abstract class GameMenu {
         root.getChildren().add(0, menuImageView);
     }
 
-    protected void extendCloseAction(){
-
-    }
-
-    private void stageCloseAction(){
+    protected void stageCloseAction(){
         stage.setOnCloseRequest(event -> {
-            extendCloseAction();
-            Platform.exit(); 
-            System.exit(0);
+            defaultCloseAction();
         });
     }
+
+    protected void defaultCloseAction(){
+        Platform.exit(); 
+        System.exit(0);
+    }
+       
 
     protected void setGameStagePosition() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

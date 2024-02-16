@@ -5,7 +5,6 @@ import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
-import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
@@ -20,20 +19,18 @@ public class OverMenu extends GameMenu{
 
     private  VBox buttonsVBox;
     private final GameLoop gameLoop;
-    private final GameStatsController gameStatsHandler;
     private final ShopController shopController;
      private WritableImage writableImage;
 
     public OverMenu(final Stage primaryStage,
                         final GameLoop gameLoop,
                         final GameStatsController gameStatsHandler) {
-        super(primaryStage);
+        super(primaryStage,gameStatsHandler);
         this.gameLoop = gameLoop;
         writableImage = 
         new WritableImage((int)this.gameLoop.getScene().getWidth(), (int)this.gameLoop.getScene().getHeight());
         this.gameLoop.getScene().snapshot(writableImage);
         setMenuImage(writableImage);
-        this.gameStatsHandler = gameStatsHandler;
         shopController = new ShopControllerImpl(primaryStage, this);
         initializeGameMenu();
     }
@@ -54,10 +51,6 @@ public class OverMenu extends GameMenu{
 
         buttonsVBox.getChildren().addAll(restartButton,shopButton);
         addButtons(buttonsVBox);
-    }
-
-    public GameStatsController getGameStatsHandler(){
-        return this.gameStatsHandler;
     }
 
     public void show(){

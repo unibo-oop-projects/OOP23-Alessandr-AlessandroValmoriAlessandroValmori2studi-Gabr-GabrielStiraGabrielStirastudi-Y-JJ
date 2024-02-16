@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.menu.buttoncommand.impl;
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.stage.Stage;
 
 public class StartCommand implements Command {

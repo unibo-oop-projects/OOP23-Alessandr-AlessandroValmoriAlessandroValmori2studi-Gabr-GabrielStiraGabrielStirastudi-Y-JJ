@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core.handler.pickup;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.image.Image;
@@ -32,6 +33,7 @@ public class PickUpView implements GenericView{
 
         switch (pickUp.getPickUpType()) {
             case VEHICLE:
+                VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUp;
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
                         width = screenSizeX / 15;
@@ -44,7 +46,24 @@ public class PickUpView implements GenericView{
                         width = screenSizeX;
                         height = screenSizeY / 3;
                         animationLenght = 4;
-                        animationFrame = 8 + animationCounter / animationLenght % 3;
+                        switch (vehiclePickUp.getVehicleSpawn()) {
+                            case LILSTOMPER:
+                                animationFrame = 8 + animationCounter / animationLenght % 3;
+                                break;
+                            case MRCUDDLE:
+                                animationFrame = 11 + animationCounter / animationLenght % 3;
+                                break;
+                            case PROFITBIRD:
+                                animationFrame = 14 + animationCounter / animationLenght % 3;
+                                break;
+                            case DUKEFISHRON:
+                                animationFrame = 17 + animationCounter / animationLenght % 3;
+                                break;
+                        
+                            default:
+                                break;
+                        }
+
                         animationCounter++;
                         break;
                     default:

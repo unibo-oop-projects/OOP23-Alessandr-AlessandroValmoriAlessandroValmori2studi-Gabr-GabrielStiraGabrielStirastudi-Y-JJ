@@ -8,7 +8,9 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
+import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,7 +23,6 @@ public class PickUpHandler {
     public PickUpHandler() {
         this.listOfControllers = new ArrayList<>();
         entityGenerator = new EntityGeneratorImpl();
-        this.spawnPickUp(PickUpType.VEHICLE);
     }
 
     public boolean update(final Group pickUpGroup, final Hitbox playerHitbox) {
@@ -64,9 +65,13 @@ public class PickUpHandler {
         return false;
     }
 
-    private void spawnPickUp(final PickUpType pickUpType) {
+    public void spawnPickUp(final PickUpType pickUpType) {
         List<GenericController<PickUp, PickUpView>> pickUp = entityGenerator.generatePickUp(pickUpType);
         listOfControllers.addAll(pickUp);
+    }
+
+    public List<GenericController<PickUp, PickUpView>> getAllPickUps() {
+        return this.listOfControllers;
     }
 
 }

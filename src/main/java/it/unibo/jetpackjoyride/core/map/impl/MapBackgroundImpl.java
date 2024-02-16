@@ -58,6 +58,7 @@ public class MapBackgroundImpl implements MapBackground {
         if(GameInfo.moveSpeed.get() != DEFAULT_SPEED){
             gameInfo.setMoveSpeed(DEFAULT_SPEED);
         }
+        model.reset();
         timeline.playFromStart();
         
     }

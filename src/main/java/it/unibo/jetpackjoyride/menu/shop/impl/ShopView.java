@@ -101,6 +101,7 @@ public class ShopView {
         buyMrCuddlesButton.setTranslateY(cuddleImageYPos  + buyButtonYDisplacement);
         buyMrCuddlesButton.setOnAction(e -> {
             this.controller.buy(Items.MRCUDDLES);
+            System.out.println("cuddle");
         });
 
         final Image stomperImage = new Image(
@@ -137,7 +138,7 @@ public class ShopView {
             this.controller.buy(Items.PROFITBIRD);
         });
 
-        shieldNum = new Text("22");
+        shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
         shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
         shieldNum.setFill(Color.GREEN);
         shieldNum.setTranslateX(shieldNumPosX);
@@ -168,7 +169,7 @@ public class ShopView {
         equipShield.setTranslateX(buyButtonXPosition + buttonWidth + imageDistance);
         equipShield.setTranslateY(shieldImageYPos  + buyButtonYDisplacement);
         equipShield.setOnAction(e -> {
-            this.controller.equip(Items.SHIELD);
+            this.controller.toggleEquipUnequipShield();
         });
 
         moneyText = new Text();
@@ -245,8 +246,15 @@ public class ShopView {
 
     public void update() {
         this.moneyText.setText("Money: $" + this.controller.retrieveBalance());
+        this.shieldNum.setText(String.valueOf(this.controller.getNumOfShields()));
+        if(this.controller.getNumOfShields() == 0){
+            this.shieldNum.setFill(Color.RED);
+        }
+        else{
+            this.shieldNum.setFill(Color.GREEN);
+        }
         this.displayEquipped.setText(
-                this.controller.getEquipped().isEmpty() ? "Nothing" : this.controller.getEquipped().get().toString());
+                this.controller.isShieldEquipped() ? "SHIELD EQUIPPED" : " ");
     }
 
 }

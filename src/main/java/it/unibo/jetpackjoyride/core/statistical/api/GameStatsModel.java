@@ -3,6 +3,7 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 
 import java.io.Serializable;
+import java.util.Set;
 
 
 public interface GameStatsModel extends Serializable {
@@ -20,9 +21,19 @@ public interface GameStatsModel extends Serializable {
     
      void updateDate();
 
-     void setEquipped(Items item);
+     Set<Items> getUnlocked();
 
-     Items getEquipped();
+     void unlock(Set<Items> items);
+
+     void setShield(boolean isShieldEquipped);
+
+     void addShields(int num);
+
+     int getNumOfShields();
+
+     boolean isShieldEquipped();
+
+
 
 
           

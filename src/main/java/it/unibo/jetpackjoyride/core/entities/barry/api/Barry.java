@@ -55,4 +55,8 @@ public interface Barry {
      * @return True if Barry has a shield, false otherwise.
      */
     boolean hasShield();
+
+    boolean isAlive();
+
+    void setLifeStatus( BarryLifeStatus status);
 }

@@ -55,6 +55,11 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
         return new Pair<>(this.mapWidth, this.mapHeight);
     }
 
+    public void reset(){
+        this.bgImageX1 = 0;
+        this.bgImageX2 = mapWidth;
+    }
+
     private void updateSize() {
         double newWidth = gameInfo.getScreenWidth();
         double newHeight = gameInfo.getScreenHeight();

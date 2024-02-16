@@ -59,6 +59,11 @@ public final class CoinGenerator {
         timeline.stop();
     }
 
+    public void clean(){
+        this.coinList.clear();
+        this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
     private void generateCoin() {
         if(generateOrNot()){
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
@@ -68,7 +73,8 @@ public final class CoinGenerator {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
             } else {
-                CoinModel model = new CoinModelImpl(position, new HitboxImpl(position, new Pair<>(70.0,70.0), 0.0), COIN_WIDTH, COIN_HEIGHT);
+                CoinModel model = new CoinModelImpl(position, 
+                new HitboxImpl(position, new Pair<>(70.0,70.0), 0.0), COIN_WIDTH, COIN_HEIGHT);
                 CoinView view = new CoinViewImpl(model);
                 coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
             }

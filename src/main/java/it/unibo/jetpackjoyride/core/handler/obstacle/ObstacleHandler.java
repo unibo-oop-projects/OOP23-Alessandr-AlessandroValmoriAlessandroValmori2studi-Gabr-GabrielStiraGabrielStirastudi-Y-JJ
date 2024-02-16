@@ -8,49 +8,39 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.util.Duration;
 
-public final class ObstacleHandler implements Runnable {
+public final class ObstacleHandler {
 
-    private static final Integer TIMEBETWEENCHUNKS = 1000;
 
     private ObstacleSpawner obstacleSpawner;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
-    private Thread chunkMaker;
-    private boolean isRunning;
+    private Timeline timeline;
 
     public void initialize() {
-        this.isRunning = true;
+    
         this.listOfControllers = new ArrayList<>();
         this.obstacleSpawner = new ObstacleSpawner();
-
-        this.chunkMaker = new Thread(this);
-        this.start();
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> generate()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    @Override
-    public void run() {
-        while (isRunning) {
-            synchronized (this.listOfControllers) {
-                this.listOfControllers.addAll(obstacleSpawner.generateChunk());
-            }
-
-            try {
-                Thread.sleep(TIMEBETWEENCHUNKS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    private void generate(){
+        this.listOfControllers.addAll(obstacleSpawner.generateChunk());
     }
 
     public void over() {
-        isRunning = false;
+       timeline.stop();
     }
 
     public void start() {
-        this.chunkMaker.start();
+       timeline.play();
     }
+
 
     public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
@@ -107,5 +97,4 @@ public final class ObstacleHandler implements Runnable {
     public void deactivateAllObstacles() {
         this.listOfControllers.forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED));
     }
-
 }

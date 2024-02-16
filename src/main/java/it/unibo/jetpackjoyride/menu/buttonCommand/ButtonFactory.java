@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu.buttonCommand;
+package it.unibo.jetpackjoyride.menu.buttoncommand;
 
 import java.util.Optional;
 

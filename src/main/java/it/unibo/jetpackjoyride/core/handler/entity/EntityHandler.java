@@ -107,4 +107,13 @@ public class EntityHandler {
     public void stop() {
         this.obstacleHandler.over();
     }
+
+    public void start(){
+        this.obstacleHandler.start();
+    }
+
+    public void reset(){
+        this.obstacleHandler.deactivateAllObstacles();
+    }
+
 }

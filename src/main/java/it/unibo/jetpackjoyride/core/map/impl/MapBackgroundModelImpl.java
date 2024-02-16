@@ -5,21 +5,19 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import javafx.animation.Animation.Status;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
+
+
+
 
 public class MapBackgroundModelImpl implements MapBackgroundModel {
 
-    private final static int MAX_SPEED = 10;
+   
     private final static int OFFSET = 1;
 
      private double bgImageX1, bgImageX2;
      private final GameInfo gameInfo;
      private double mapWidth;
      private double mapHeight;
-     private Timeline timeline;
     
      public MapBackgroundModelImpl() {
 
@@ -28,20 +26,12 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
         mapWidth = gameInfo.getScreenWidth();
         bgImageX1 = 0;
         bgImageX2 = this.mapWidth;
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
-            if(GameInfo.moveSpeed.get() == MAX_SPEED){
-                timeline.stop();
-            }else{
-                gameInfo.setMoveSpeed(GameInfo.moveSpeed.incrementAndGet());
-            }       
-        }));
+      
     }
 
     @Override
     public void updateBackgroundModel() {
-        if(!timeline.statusProperty().get().equals(Status.RUNNING)){
-            timeline.play();
-        }
+        
         bgImageX1 -= GameInfo.moveSpeed.get();
         bgImageX2 -= GameInfo.moveSpeed.get();;
 

@@ -14,7 +14,8 @@ import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
-import it.unibo.jetpackjoyride.menu.GameOverMenu;
+import it.unibo.jetpackjoyride.menu.menus.OverMenu;
+import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
@@ -31,10 +32,10 @@ public final class GameLoop {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    private WritableImage writableImage;
 
     private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
+    private PauseMenu pauseMenu;
 
     private PlayerMover playerMover;
     private ObstacleHandler obstacleHandler;
@@ -55,8 +56,7 @@ public final class GameLoop {
     public GameLoop(Stage stage) {
         this.stage = stage;
         initializeScene();
-        initializeGameElements();
-
+        this.initializeGameElements();
     }
 
     private void initializeScene() {
@@ -69,12 +69,11 @@ public final class GameLoop {
 
         gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
         gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
-        setupTimer();
-    }
 
-    private void initializeGameElements() {
+        setupTimer();
 
         map = new MapBackgroundImpl();
+        pauseMenu = new PauseMenu(this.stage, this);
         gameStatsHandler = new GameStatsHandler();
 
         obstacleHandler = new ObstacleHandler();
@@ -85,12 +84,18 @@ public final class GameLoop {
         pickUpHandler = new PickUpHandler();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
+    }
+
+    private void initializeGameElements() {
+
         root.getChildren().add(map.getPane());
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
         root.getChildren().add((Node)pickUpGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
+        root.getChildren().add(pauseMenu.getPauseButton());
+        root.getChildren().add(pauseMenu.getVBox());
     }
 
     private void setupTimer() {
@@ -121,12 +126,16 @@ public final class GameLoop {
                     //I NEED TO KNOW IF YOU WANT IT TO RETURN SOMETHING IN PARTICULAR (maybe something like an Event of 
                     //an Event enum with all cases (PowerUpSpawned, PowerUpDestroyed, ObstacleHit... so to organize better
                     //with other elements of the game like barry or the speed of the game, etc...))
-
+                   
+                     /* TEMPORARY*/
+                    if(true){
+                        showGameOverMenu();
+                        endLoop();  
+                    }
                     lastUpdate = now;
                 }
 
                 if(now - lastStatsupdate > statsUpdateInterval){
-                    //stopLoop();
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }
@@ -139,23 +148,33 @@ public final class GameLoop {
         //temporary
         // palyerMover.setLifeStatus(true);
         coinGenerator.startGenerate();
+        obstacleHandler.start();
         timer.start();
     }
 
-    public void stopLoop(){
-         writableImage = new WritableImage((int)this.gameScene.getWidth(), (int)this.gameScene.getHeight());
-         this.gameScene.snapshot(writableImage);
-         GameOverMenu gameOverMenu = 
-         new GameOverMenu(this.stage, writableImage, this,gameStatsHandler);
-         this.stage.setScene(gameOverMenu.getScene());
-         endLoop();
+    public void stopLoop(){   
+        obstacleHandler.over();
+        coinGenerator.stopGenerate();
+        timer.stop();
     }
 
     public void endLoop(){
-        obstacleHandler.over();
-        coinGenerator.stopGenerate();
-        saveGame();
+        this.stopLoop();
         timer.stop();
+        saveGame();
+    }
+
+    public void resetLoop(){
+        saveGame();
+        if(!root.getChildren().isEmpty()){
+            root.getChildren().clear();
+            obstacleGroup.getChildren().clear();
+            powerUpGroup.getChildren().clear();
+            pickUpGroup.getChildren().clear();
+            coinGenerator.clean();
+            map.reset();
+        }
+        initializeGameElements();
     }
     
     
@@ -185,6 +204,7 @@ public final class GameLoop {
 
             final double newWidth = newValue.doubleValue();
             gameInfo.updateInfo(newWidth, gameInfo.getScreenHeight());
+            pauseMenu.getPauseButton().setLayoutX(newWidth-pauseMenu.getPauseButton().getWidth());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
@@ -204,5 +224,10 @@ public final class GameLoop {
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
+    }
+
+    private void showGameOverMenu(){
+        OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
+        overMenu.show();
     }
 }

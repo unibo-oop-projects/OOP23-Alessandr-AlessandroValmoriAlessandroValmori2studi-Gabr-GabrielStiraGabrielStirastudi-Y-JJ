@@ -1,6 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
-import it.unibo.jetpackjoyride.menu.buttonCommand.ButtonFactory;
+import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;

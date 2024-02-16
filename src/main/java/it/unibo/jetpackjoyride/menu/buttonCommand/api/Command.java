@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu.buttonCommand.api;
+package it.unibo.jetpackjoyride.menu.buttoncommand.api;
 
 public interface Command {
     void execute();

@@ -4,7 +4,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import javafx.scene.image.ImageView;
 
 public interface GenericView {
-    void updateView(final Entity entity);
+    <T extends Entity> void updateView(final T entity);
 
     ImageView getImageView();
 }

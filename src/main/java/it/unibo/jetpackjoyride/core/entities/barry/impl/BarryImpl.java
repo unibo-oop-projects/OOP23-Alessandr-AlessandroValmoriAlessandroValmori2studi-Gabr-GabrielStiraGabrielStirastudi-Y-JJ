@@ -57,7 +57,6 @@ public final class BarryImpl implements Barry {
         this.position = lowBound;
         this.speed = 0;
         this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);
-        this.hitbox.setHitboxOn();
     }
 
     /**

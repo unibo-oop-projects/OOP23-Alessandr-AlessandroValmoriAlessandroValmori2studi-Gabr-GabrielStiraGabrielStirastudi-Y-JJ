@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public final class ObstacleHandlerImpl implements Runnable {
+public final class ObstacleHandler implements Runnable {
 
     private static final Integer TIMEBETWEENCHUNKS = 3000;
 
     private ObstacleSpawner obstacleSpawner;
-    private List<ObstacleController> listOfControllers;
+    private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
     private Thread chunkMaker;
     private boolean isRunning;
 
@@ -56,19 +58,19 @@ public final class ObstacleHandlerImpl implements Runnable {
             while (iterator.hasNext()) {
                 final var controller = iterator.next();
 
-                controller.update();
+                controller.update(true);
 
-                if (collisionChecker(controller.getObstacleModel().getHitbox(), playerHitbox)
-                        && controller.getObstacleModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
+                        && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                     obstacleHitPlayer = true;
-                    controller.getObstacleModel().setEntityStatus(EntityStatus.DEACTIVATED);
+                    controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
 
                 if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
                     obstacleGroup.getChildren().add((Node) controller.getImageView());
                 }
 
-                if (controller.getObstacleModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
+                if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
                     obstacleGroup.getChildren().remove((Node) controller.getImageView());
                     iterator.remove();
                 }
@@ -101,7 +103,4 @@ public final class ObstacleHandlerImpl implements Runnable {
         return false;
     }
 
-    public List<ObstacleController> getControllers() {
-        return this.listOfControllers;
-    }
 }

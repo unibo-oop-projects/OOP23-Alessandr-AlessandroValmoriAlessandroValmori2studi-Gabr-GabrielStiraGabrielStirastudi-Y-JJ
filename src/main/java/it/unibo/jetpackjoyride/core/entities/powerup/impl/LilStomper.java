@@ -7,11 +7,11 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public final class LilStomper extends AbstractPowerUp {
-    private static final Double BASEJUMPHEIGHTSPEED = 11.0;
-    private static final Double TICKJUMPHEITGHSPEED = 1.2;
+    private static final Double BASEJUMPHEIGHTSPEED = 5.0;
+    private static final Double TICKJUMPHEITGHSPEED = 0.5;
     private static final Integer MAXTICKSFORJUMP = 10;
     private static final Integer RECOVERTICKSAFTERLANDING = 20;
-    private static final Double DESCENDINGBASESPEED = 4.0;
+    private static final Double DESCENDINGBASESPEED = 2.0;
 
     private Integer loadJump;
 

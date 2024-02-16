@@ -23,12 +23,6 @@ public interface Hitbox {
    * even if it is actually a polygon.
    */
 
-  void setHitboxOn();
-
-  void setHitboxOff();
-
-  boolean isHitboxOn();
-
   boolean isTouching(Pair<Double, Double> pos);
 
   void updateHitbox(Pair<Double, Double> newPosition, Double angle);

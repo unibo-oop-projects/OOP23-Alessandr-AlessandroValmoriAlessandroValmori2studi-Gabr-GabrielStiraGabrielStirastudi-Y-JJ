@@ -9,7 +9,6 @@ import java.util.*;
 
 public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double, Double>> hitbox;
-    private boolean hitboxStatus = false;
     private Pair<Double, Double> screenLastSize;
     private Pair<Double, Double> hitboxDimensions;
 
@@ -36,18 +35,6 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
 
         updateHitbox(hitboxStartingPos, startingAngle);
-    }
-
-    public void setHitboxOn() {
-        this.hitboxStatus = true;
-    }
-
-    public void setHitboxOff() {
-        this.hitboxStatus = false;
-    }
-
-    public boolean isHitboxOn() {
-        return this.hitboxStatus;
     }
 
     public Pair<Double,Double> getHitboxDimensions() {

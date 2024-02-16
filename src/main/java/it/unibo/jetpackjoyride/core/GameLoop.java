@@ -5,7 +5,8 @@ import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import java.io.IOException;
 
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
-import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandlerImpl;
+import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
+import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
@@ -36,9 +37,10 @@ public final class GameLoop {
     private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
 
-    private ObstacleHandlerImpl entityHandler;
     private PlayerMover playerMover;
+    private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
+    private PickUpHandler pickUpHandler;
 
     private static final int fps = 70;
     private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
@@ -47,6 +49,7 @@ public final class GameLoop {
     private Pane root;
     private Group obstacleGroup;
     private Group powerUpGroup;
+    private Group pickUpGroup;
 
     private final InputHandler inputH = new InputHandler();
 
@@ -62,6 +65,7 @@ public final class GameLoop {
         gameInfo = GameInfo.getInstance();
         obstacleGroup = new Group();
         powerUpGroup = new Group();
+        pickUpGroup = new Group();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
@@ -74,18 +78,19 @@ public final class GameLoop {
         map = new MapBackgroundImpl(gameInfo);
         gameStatsHandler = new GameStatsHandler();
 
-        entityHandler = new ObstacleHandlerImpl();
-        entityHandler.initialize();
+        obstacleHandler = new ObstacleHandler();
+        obstacleHandler.initialize();
 
         playerMover = new PlayerMover();
         powerUpHandler = new PowerUpHandler();
-
+        pickUpHandler = new PickUpHandler();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
         root.getChildren().add((Node)map);
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)obstacleGroup);
         root.getChildren().add((Node)powerUpGroup);
+        root.getChildren().add((Node)pickUpGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
     }
 
@@ -103,8 +108,9 @@ public final class GameLoop {
 
                     updateModel();
                     updateView();
-                    entityHandler.update(obstacleGroup, playerMover.getHitbox());
-                    powerUpHandler.update(inputH.isSpacePressed(), powerUpGroup);
+                    obstacleHandler.update(obstacleGroup, playerMover.getHitbox());
+                    //pickUpHandler.update(obstacleGroup, playerMover.getHitbox());
+                    powerUpHandler.update(powerUpGroup, inputH.isSpacePressed());
                     lastUpdate = now;
                 }
 
@@ -133,7 +139,7 @@ public final class GameLoop {
     }
 
     public void endLoop(){
-        entityHandler.over();
+        obstacleHandler.over();
         coinGenerator.stopGenerate();
         saveGame();
         timer.stop();

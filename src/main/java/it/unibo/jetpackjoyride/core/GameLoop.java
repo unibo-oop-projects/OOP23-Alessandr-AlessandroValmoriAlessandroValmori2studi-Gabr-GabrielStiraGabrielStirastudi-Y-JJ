@@ -68,7 +68,7 @@ public final class GameLoop {
         gameStatsHandler = new GameStatsHandler();
 
         entityHandler = new EntityHandler();
-        entityHandler.initialize();
+        entityHandler.initialize(gameStatsHandler.getGameStatsModel().getUnlocked());
 
         playerMover = new PlayerMover();
        
@@ -98,7 +98,6 @@ public final class GameLoop {
                     /* TEMPORARY do not code thinking this is finished*/
                     Event eventHappening;
                     eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
-                    System.out.println(eventHappening);
                     lastUpdate = now;
                 }
 

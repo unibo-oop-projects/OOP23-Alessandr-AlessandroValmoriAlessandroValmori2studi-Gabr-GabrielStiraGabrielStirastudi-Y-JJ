@@ -10,6 +10,7 @@ package it.unibo.jetpackjoyride.core.entities.barry.impl;
 import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -190,7 +191,9 @@ public final class BarryImpl implements Barry {
 
     @Override
     public void kill(ObstacleType type) {
-        
+        this.status = type.equals(ObstacleType.ZAPPER) ? BarryStatus.ZAPPED : 
+        type.equals(ObstacleType.LASER) ? BarryStatus.LASERED : 
+        type.equals(ObstacleType.MISSILE) ? BarryStatus.BURNED : BarryStatus.UNDEFINED;
     }
 
     @Override

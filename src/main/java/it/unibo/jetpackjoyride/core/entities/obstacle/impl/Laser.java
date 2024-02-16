@@ -11,7 +11,7 @@ public final class Laser extends AbstractObstacle {
     }
 
     @Override
-    public void updateStatus() {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         if (this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetime < 250) {
             this.lifetime = 250;
         }
@@ -29,5 +29,4 @@ public final class Laser extends AbstractObstacle {
                 break;
         }
     }
-
 }

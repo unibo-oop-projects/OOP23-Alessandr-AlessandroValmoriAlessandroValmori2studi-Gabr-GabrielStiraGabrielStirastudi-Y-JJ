@@ -8,10 +8,9 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.LaserHitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.ZapperHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
@@ -58,42 +57,40 @@ public final class ObstacleSpawner {
         }
     }
 
-    public List<ObstacleController> generateChunk() {
-        // At the moment the only implementation of the generation of obstacle is a
-        // random generation; will be changed in some days
+    public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         //return randomChunk();
         return missileChunk();
     }
 
-    private List<ObstacleController> missileChunk() {
+    private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<ObstacleController> obstacleControllers = new ArrayList<>();
+        List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = 1;
 
         for (int i = 0; i < numberOfObstacles; i++) {
             Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6) ),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
-            Hitbox hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+            Hitbox hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0), movement.getRotation().get1());
             Image[] actualImages = loadImages(0, 19);
                 
             Obstacle model = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement, hitbox);
 
             ObstacleView view = new ObstacleView(actualImages);
 
-            ObstacleController obstacle = new ObstacleController(model, view);
+            GenericController<Obstacle,ObstacleView> obstacle = new GenericController<Obstacle,ObstacleView>(model, view);
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;
     }
 
-    private List<ObstacleController> randomChunk() {
+    private List<GenericController<Obstacle,ObstacleView>> randomChunk() {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<ObstacleController> obstacleControllers = new ArrayList<>();
+        List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = random.nextInt(4) + 1;
 
@@ -117,7 +114,7 @@ public final class ObstacleSpawner {
                                                     : typeOfMovement == 2 ? MovementChangers.HOMING
                                                             : MovementChangers.SPEEDY,
                                     MovementChangers.BOUNCING, MovementChangers.SPEEDY));
-                    hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     actualImages = loadImages(0, 19);
                     break;
@@ -128,7 +125,7 @@ public final class ObstacleSpawner {
                             new Pair<>(random.nextDouble() * 180,
                                     random.nextInt(2) == 0 ? 0.0 : random.nextDouble() * 5),
                             List.of());
-                    hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(200.0, 50.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     actualImages = loadImages(20, 39);
                     break;
@@ -137,7 +134,7 @@ public final class ObstacleSpawner {
                     movement = new MovementImpl(new Pair<>(screenSizeX / 2, random.nextDouble() * screenSizeY),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                             List.of(MovementChangers.STATIC));
-                    hitbox = new LaserHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(1150.0, 32.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     actualImages = loadImages(40, 55);
                     break;
@@ -149,7 +146,7 @@ public final class ObstacleSpawner {
 
             ObstacleView view = new ObstacleView(actualImages);
 
-            ObstacleController obstacle = new ObstacleController(model, view);
+            GenericController<Obstacle,ObstacleView> obstacle = new GenericController<Obstacle,ObstacleView>(model, view);
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;

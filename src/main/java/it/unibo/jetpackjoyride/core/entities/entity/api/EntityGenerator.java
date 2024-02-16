@@ -10,12 +10,15 @@ import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
+import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
+import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 
 public interface EntityGenerator {
     Obstacle generateObstacle(ObstacleType obstacleType, Movement obstacleMovement, Hitbox obstacleHitbox);
 
-    List<PowerUp> generatePowerUp(PowerUpType powerUpType, Movement powerUpMovement, Hitbox powerUpHitbox);
+    List<GenericController<PowerUp, PowerUpView>> generatePowerUp(PowerUpType powerUpType);
 
-    PickUp generatePickUp(PickUpType pickUpType, Movement pickUpMovement, Hitbox pickUpHitbox);
+    List<GenericController<PickUp, PickUpView>> generatePickUp(PickUpType pickUpType);
 }

@@ -2,19 +2,19 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.CoinsHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class CoinModelImpl implements CoinModel {
 
     private Pair<Double,Double> position;
-    private CoinsHitbox coinHitbox;
+    private HitboxImpl coinHitbox;
     private double coinHeight;
     private double coinWidth;
     private boolean isCollected;
     
-    public CoinModelImpl(Pair<Double,Double> position, CoinsHitbox hitbox,double coinHeight, double coinWidth){
+    public CoinModelImpl(Pair<Double,Double> position, HitboxImpl hitbox,double coinHeight, double coinWidth){
             this.position = position;
             this.coinHitbox = hitbox;
             this.coinHeight = coinHeight;

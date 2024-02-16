@@ -2,12 +2,14 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public final class PowerUpView {
+public final class PowerUpView implements GenericView {
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
@@ -24,9 +26,10 @@ public final class PowerUpView {
         this.animationLenght = 1;
     }
 
-    public void updateView(final PowerUp powerUp) {
-        double width;
-        double height;
+    public void updateView(final Entity entity) {
+        PowerUp powerUp = (PowerUp)entity;
+        Double width;
+        Double height;
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         animationFrame = 0;
@@ -171,8 +174,8 @@ public final class PowerUpView {
                 break;
                 
             default:
-                width = 0;
-                height = 0;
+                width = 0.0;
+                height = 0.0;
                 break;
         }
 

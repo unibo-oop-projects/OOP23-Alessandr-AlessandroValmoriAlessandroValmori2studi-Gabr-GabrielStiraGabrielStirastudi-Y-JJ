@@ -7,8 +7,10 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class ProfitBird extends AbstractPowerUp{
-
+    
+    private final static Double BASEJUMPSPEED = 5.0;
     private Boolean intervalBewteenJumps;
+
     public ProfitBird(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.PROFITBIRD, movement, hitbox);
         this.intervalBewteenJumps = true;
@@ -16,7 +18,7 @@ public class ProfitBird extends AbstractPowerUp{
     }
 
     @Override
-    public void update(final boolean isSpaceBarPressed) {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         final GameInfo infoResolution = GameInfo.getInstance();
         final Double screenSizeY = infoResolution.getScreenHeight();
 
@@ -28,7 +30,7 @@ public class ProfitBird extends AbstractPowerUp{
                 }
                 break;
             case JUMPING:
-                this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -10.0));
+                this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
                 this.performingAction = PerformingAction.ASCENDING;
                 break;
             case ASCENDING:
@@ -37,14 +39,14 @@ public class ProfitBird extends AbstractPowerUp{
                 }
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
                     this.performingAction = PerformingAction.JUMPING;
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -10.0));
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
                     this.intervalBewteenJumps = false;
                 }
                 break;
             case DESCENDING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
                     this.performingAction = PerformingAction.JUMPING;
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -10.0));
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
                     this.intervalBewteenJumps = false;
                 }
                 if(this.movement.getCurrentPosition().get2() >= screenSizeY - screenSizeY/8) {

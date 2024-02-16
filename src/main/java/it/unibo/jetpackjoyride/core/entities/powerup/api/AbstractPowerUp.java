@@ -14,7 +14,7 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     public AbstractPowerUp(final PowerUpType powerUpType, final Movement movement, final Hitbox hitbox) {
         super(POWERUP, movement, hitbox);
         this.powerUpType = powerUpType;
-        this.entityStatus = EntityStatus.CHARGING;
+        this.entityStatus = EntityStatus.ACTIVE;
     }
 
     @Override
@@ -27,4 +27,8 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
         return this.performingAction;
     }
 
+    @Override
+    public void update(final boolean isSpaceBarPressed) {
+        super.update(isSpaceBarPressed);
+    }
 }

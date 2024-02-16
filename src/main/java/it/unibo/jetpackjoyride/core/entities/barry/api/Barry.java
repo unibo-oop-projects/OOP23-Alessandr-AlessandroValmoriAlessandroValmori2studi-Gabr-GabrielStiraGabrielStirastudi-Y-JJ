@@ -1,6 +1,6 @@
 package it.unibo.jetpackjoyride.core.entities.barry.api;
 
-import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 /**
@@ -47,7 +47,7 @@ public interface Barry {
      *
      * @return The hitbox of Barry.
      */
-    PlayerHitbox getHitbox();
+    HitboxImpl getHitbox();
 
     /**
      * Checks if Barry has a shield.

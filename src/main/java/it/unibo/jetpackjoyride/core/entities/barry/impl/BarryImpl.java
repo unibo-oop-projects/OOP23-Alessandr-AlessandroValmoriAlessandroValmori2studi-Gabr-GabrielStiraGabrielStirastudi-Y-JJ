@@ -8,7 +8,7 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-import it.unibo.jetpackjoyride.core.hitbox.impl.PlayerHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
@@ -35,7 +35,7 @@ public final class BarryImpl implements Barry {
 
     private BarryStatus status; // walking, falling ...
 
-    private final PlayerHitbox hitbox;
+    private final HitboxImpl hitbox;
 
     private final GameInfo gameInfo;
 
@@ -56,8 +56,7 @@ public final class BarryImpl implements Barry {
         this.x_position = gameInfo.getDefaultWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
-        this.hitbox = new PlayerHitbox(this.getPosition(), 0.0);
-        this.hitbox.setHitboxOn();
+        this.hitbox = new HitboxImpl(this.getPosition(), new Pair<>(120.0, 60.0), 0.0);
     }
 
     /**
@@ -160,7 +159,7 @@ public final class BarryImpl implements Barry {
      * @return the hitbox of Barry
      */
     @Override
-    public PlayerHitbox getHitbox() {
+    public HitboxImpl getHitbox() {
         return this.hitbox;
     }
 

@@ -125,6 +125,9 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public Set<Items> getUnlocked() {
+        if (this.unlockedItems == null) {
+            this.unlockedItems = new HashSet<>();
+        }
         return this.unlockedItems;
     }
 

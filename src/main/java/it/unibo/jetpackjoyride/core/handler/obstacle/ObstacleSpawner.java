@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.LaserHitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
@@ -58,16 +59,16 @@ public final class ObstacleSpawner {
         }
     }
 
-    public List<ObstacleController> generateChunk() {
+    public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         //return randomChunk();
         return missileChunk();
     }
 
-    private List<ObstacleController> missileChunk() {
+    private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<ObstacleController> obstacleControllers = new ArrayList<>();
+        List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = 1;
 
@@ -81,17 +82,17 @@ public final class ObstacleSpawner {
 
             ObstacleView view = new ObstacleView(actualImages);
 
-            ObstacleController obstacle = new ObstacleController(model, view);
+            GenericController<Obstacle,ObstacleView> obstacle = new GenericController<Obstacle,ObstacleView>(model, view);
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;
     }
 
-    private List<ObstacleController> randomChunk() {
+    private List<GenericController<Obstacle,ObstacleView>> randomChunk() {
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<ObstacleController> obstacleControllers = new ArrayList<>();
+        List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         Random random = new Random();
         int numberOfObstacles = random.nextInt(4) + 1;
 
@@ -147,7 +148,7 @@ public final class ObstacleSpawner {
 
             ObstacleView view = new ObstacleView(actualImages);
 
-            ObstacleController obstacle = new ObstacleController(model, view);
+            GenericController<Obstacle,ObstacleView> obstacle = new GenericController<Obstacle,ObstacleView>(model, view);
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;

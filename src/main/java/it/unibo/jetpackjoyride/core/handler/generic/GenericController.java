@@ -1,9 +1,9 @@
 package it.unibo.jetpackjoyride.core.handler.generic;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import javafx.scene.image.ImageView;
 
-public class GenericController<T extends AbstractEntity,V extends GenericView> {
+public class GenericController<T extends Entity,V extends GenericView> {
     private final T model;
     private final V view;
 
@@ -21,7 +21,7 @@ public class GenericController<T extends AbstractEntity,V extends GenericView> {
         return this.view.getImageView();
     }
 
-    public T getObstacleModel() {
+    public T getEntityModel() {
         return this.model;
     }
 }

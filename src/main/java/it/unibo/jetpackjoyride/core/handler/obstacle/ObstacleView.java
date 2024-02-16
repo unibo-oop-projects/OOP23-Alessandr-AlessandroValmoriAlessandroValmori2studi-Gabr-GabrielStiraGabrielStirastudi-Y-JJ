@@ -2,10 +2,12 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public final class ObstacleView {
+public final class ObstacleView implements GenericView{
     private ImageView imageView;
     private Image[] images;
     private int animationFrame;
@@ -20,7 +22,8 @@ public final class ObstacleView {
         this.animationLenght = 1;
     }
 
-    public void updateView(final Obstacle obstacle) {
+    public void updateView(final Entity entity) {
+        Obstacle obstacle = (Obstacle)entity;
         Double width;
         Double height;
         Double screenSizeX = GameInfo.getInstance().getScreenWidth();
@@ -138,4 +141,5 @@ public final class ObstacleView {
     public ImageView getImageView() {
         return imageView;
     }
+
 }

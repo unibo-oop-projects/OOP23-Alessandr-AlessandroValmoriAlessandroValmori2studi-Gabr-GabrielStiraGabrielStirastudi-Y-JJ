@@ -7,7 +7,10 @@
  */
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
+import java.util.Optional;
+
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -40,7 +43,9 @@ public final class BarryImpl implements Barry {
 
     private final GameInfo gameInfo;
 
-    private boolean hasShield = true;
+    private boolean hasShield = false;
+
+    private Optional<ObstacleType> causeOfDeath = Optional.empty();
 
     /**
      * Constructs a new instance of BarryImpl.
@@ -177,18 +182,24 @@ public final class BarryImpl implements Barry {
         return hasShield;
     }
 
-    @Override
-    public void setLifeStatus(BarryLifeStatus status) {
-        if(status.equals(BarryLifeStatus.ALIVE) || status.equals(BarryLifeStatus.DEAD)){
-            throw new IllegalArgumentException();
-        }
-        else{
-            this.lifeStatus = status;
-        }
-    }
-
+    
     @Override
     public boolean isAlive() {
         return this.lifeStatus.equals(BarryLifeStatus.ALIVE);
+    }
+
+    @Override
+    public void kill(ObstacleType type) {
+        
+    }
+
+    @Override
+    public void removeShield() {
+        this.hasShield=false;
+    }
+
+    @Override
+    public void setShieldOn() {
+        this.hasShield=true;
     }
 }

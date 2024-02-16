@@ -2,6 +2,8 @@ package it.unibo.jetpackjoyride.core.entities.barry.api;
 
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.Pair;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 
 /**
  * The Barry interface defines the behavior of the player character, Barry, in the Jetpack Joyride game.
@@ -58,5 +60,9 @@ public interface Barry {
 
     boolean isAlive();
 
-    void setLifeStatus( BarryLifeStatus status);
+    void removeShield();
+
+    void setShieldOn();
+
+    void kill (ObstacleType type);
 }

@@ -101,7 +101,7 @@ public final class GameLoop {
                 }
 
                 if(now - lastStatsupdate > statsUpdateInterval){
-                    //stopLoop();
+                    stopLoop();
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }
@@ -111,8 +111,6 @@ public final class GameLoop {
     }
 
     public void startLoop(){
-        //temporary
-        // palyerMover.setLifeStatus(true);
         coinGenerator.startGenerate();
         timer.start();
     }

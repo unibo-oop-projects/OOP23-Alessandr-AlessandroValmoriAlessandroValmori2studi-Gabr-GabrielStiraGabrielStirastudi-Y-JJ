@@ -56,5 +56,7 @@ public interface Barry {
      */
     boolean hasShield();
 
+    boolean isAlive();
+
     void setLifeStatus( BarryLifeStatus status);
 }

@@ -1,7 +1,8 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
 import javafx.scene.Scene;
-import java.util.Optional;
+import java.util.Set;
+
 
 public interface ShopController {
 
@@ -25,10 +26,16 @@ public interface ShopController {
 
     void buy(Items item);
 
-    void equip(Items item);
+    void toggleEquipUnequipShield();
 
     int retrieveBalance();
 
-    Optional<Items> getEquipped();
+    int getNumOfShields();
+
+    boolean isShieldEquipped();
+
+    Set<Items> getUnlocked();
+
+    
 
 }

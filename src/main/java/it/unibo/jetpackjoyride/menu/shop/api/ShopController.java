@@ -2,21 +2,34 @@ package it.unibo.jetpackjoyride.menu.shop.api;
 
 import javafx.scene.Scene;
 import java.util.Set;
+import java.util.Optional;
+
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 
 
 public interface ShopController {
 
     enum Items{
-        MRCUDDLES(20), SHIELD(20), STOMPER(20), PROFITBIRD(20);
+        MRCUDDLES(20, Optional.of(PowerUpType.LILSTOMPER)), 
+        SHIELD(20, Optional.empty()), 
+        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER)), 
+        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD));
 
         private final int cost;
+        private final Optional<PowerUpType> powerup;
 
-        Items(int cost){
+        Items(int cost, Optional<PowerUpType> powerup){
             this.cost = cost;
+            this.powerup = powerup;
         }
 
         public int getItemCost(){
             return this.cost;
+        }
+
+        public Optional<PowerUpType> getCorresponding(){
+            return this.powerup;
         }
     }
 

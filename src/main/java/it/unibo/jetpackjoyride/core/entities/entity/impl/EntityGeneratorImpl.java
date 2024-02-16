@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp.VehicleSpawn;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
@@ -148,7 +149,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
             case VEHICLE:
                 pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
                 pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());
-                pickUpModel.add(new VehiclePickUp(pickUpMovement, pickUpHitbox));
+                pickUpModel.add(new VehiclePickUp(VehicleSpawn.LILSTOMPER, pickUpMovement, pickUpHitbox));
 
                 images = new Image[11];
                 for (int i = 0; i < 11; i++) {

@@ -19,7 +19,7 @@ public final class PowerUpHandler {
     public PowerUpHandler() {
         this.listOfControllers = new ArrayList<>();
         entityGenerator = new EntityGeneratorImpl();
-        this.spawnPowerUp(PowerUpType.PROFITBIRD);
+        this.spawnPowerUp(PowerUpType.DUKEFISHRON);
     }
 
     public void update(final Group powerUpGroup, final boolean isSpaceBarPressed) {

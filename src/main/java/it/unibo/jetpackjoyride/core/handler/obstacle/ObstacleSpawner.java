@@ -10,9 +10,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.LaserHitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.MissileHitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.ZapperHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
@@ -75,7 +73,7 @@ public final class ObstacleSpawner {
         for (int i = 0; i < numberOfObstacles; i++) {
             Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6) ),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
-            Hitbox hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+            Hitbox hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0), movement.getRotation().get1());
             Image[] actualImages = loadImages(0, 19);
                 
             Obstacle model = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement, hitbox);
@@ -116,7 +114,7 @@ public final class ObstacleSpawner {
                                                     : typeOfMovement == 2 ? MovementChangers.HOMING
                                                             : MovementChangers.SPEEDY,
                                     MovementChangers.BOUNCING, MovementChangers.SPEEDY));
-                    hitbox = new MissileHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.MISSILE;
                     actualImages = loadImages(0, 19);
                     break;
@@ -127,7 +125,7 @@ public final class ObstacleSpawner {
                             new Pair<>(random.nextDouble() * 180,
                                     random.nextInt(2) == 0 ? 0.0 : random.nextDouble() * 5),
                             List.of());
-                    hitbox = new ZapperHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(200.0, 50.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.ZAPPER;
                     actualImages = loadImages(20, 39);
                     break;
@@ -136,7 +134,7 @@ public final class ObstacleSpawner {
                     movement = new MovementImpl(new Pair<>(screenSizeX / 2, random.nextDouble() * screenSizeY),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),
                             List.of(MovementChangers.STATIC));
-                    hitbox = new LaserHitbox(movement.getCurrentPosition(), movement.getRotation().get1());
+                    hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(1150.0, 32.0), movement.getRotation().get1());
                     obstacleType = ObstacleType.LASER;
                     actualImages = loadImages(40, 55);
                     break;

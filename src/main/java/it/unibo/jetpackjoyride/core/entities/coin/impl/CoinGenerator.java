@@ -12,7 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.CoinsHitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -68,7 +68,7 @@ public final class CoinGenerator {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
             } else {
-                CoinModel model = new CoinModelImpl(position, new CoinsHitbox(position, 0.0), COIN_WIDTH, COIN_HEIGHT);
+                CoinModel model = new CoinModelImpl(position, new HitboxImpl(position, new Pair<>(70.0,70.0), 0.0), COIN_WIDTH, COIN_HEIGHT);
                 CoinView view = new CoinViewImpl(model);
                 coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
             }

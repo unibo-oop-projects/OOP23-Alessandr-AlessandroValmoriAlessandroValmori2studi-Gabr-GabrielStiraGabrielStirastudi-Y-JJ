@@ -112,6 +112,7 @@ public final class GameLoop {
     }
 
     public void startLoop(){
+        //stopLoop();
         coinGenerator.startGenerate();
         timer.start();
     }

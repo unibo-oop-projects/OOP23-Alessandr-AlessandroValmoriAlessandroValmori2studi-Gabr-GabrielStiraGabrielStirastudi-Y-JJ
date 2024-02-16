@@ -103,7 +103,7 @@ public final class GameLoop {
                 }
 
                 if(now - lastStatsupdate > statsUpdateInterval){
-                    stopLoop();
+                    //stopLoop();
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }

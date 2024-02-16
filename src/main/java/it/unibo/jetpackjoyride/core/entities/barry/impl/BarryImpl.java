@@ -33,7 +33,8 @@ public final class BarryImpl implements Barry {
     private double lowBound;
     private double upBound;
 
-    private BarryStatus status; // walking, falling ...
+    private BarryStatus status; // walking, falling ..
+    private BarryLifeStatus lifeStatus; // dead or alive
 
     private final HitboxImpl hitbox;
 
@@ -47,6 +48,7 @@ public final class BarryImpl implements Barry {
      * hitbox, and game information.
      */
     public BarryImpl() {
+        this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();
         this.width = gameInfo.getDefaultWidth();
@@ -173,5 +175,20 @@ public final class BarryImpl implements Barry {
     @Override
     public boolean hasShield() {
         return hasShield;
+    }
+
+    @Override
+    public void setLifeStatus(BarryLifeStatus status) {
+        if(status.equals(BarryLifeStatus.ALIVE) || status.equals(BarryLifeStatus.DEAD)){
+            throw new IllegalArgumentException();
+        }
+        else{
+            this.lifeStatus = status;
+        }
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.lifeStatus.equals(BarryLifeStatus.ALIVE);
     }
 }

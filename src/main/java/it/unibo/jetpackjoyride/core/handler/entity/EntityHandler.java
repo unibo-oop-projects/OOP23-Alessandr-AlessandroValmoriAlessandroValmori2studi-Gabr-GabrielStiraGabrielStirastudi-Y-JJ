@@ -7,12 +7,17 @@ import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
+
+import java.util.*;
 import javafx.scene.Group;
 
 public class EntityHandler {
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
+
+    private Set<Items> unlockedPowerUps;
 
     private Event eventHappening;
     private boolean isUsingPowerUp;
@@ -23,10 +28,12 @@ public class EntityHandler {
     }
 
 
-    public void initialize() {
+    public void initialize(final Set<Items> unlockedPowerUps) {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
+
+        this.unlockedPowerUps = unlockedPowerUps;
 
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
@@ -40,8 +47,12 @@ public class EntityHandler {
             this.spawnPickUp(PickUpType.VEHICLE);
         }
 
-        if(this.obstacleHandler.update(entityGroup, playerHitbox)) {
+        if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerHitbox)) {
             this.eventHappening = isUsingPowerUp ? Event.POWERUPHIT : Event.BARRYHIT;
+            if(this.isUsingPowerUp) {
+                this.powerUpHandler.destroyAllPowerUps();
+                this.isUsingPowerUp = false;
+            }
         }
 
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
@@ -52,7 +63,9 @@ public class EntityHandler {
             PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
-                    this.spawnPowerUp(PowerUpType.LILSTOMPER);
+                    if(!this.spawnPowerUp(this.powerUpSpawnerHelper(this.unlockedPowerUps))) {
+                        this.isUsingPowerUp = false;
+                    }
                     break;
                 default:
                     break;
@@ -63,12 +76,32 @@ public class EntityHandler {
         return this.eventHappening;
     }
 
+    private Optional<PowerUpType> powerUpSpawnerHelper(final Set<Items> unlockedItems) {
+        if(unlockedItems.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final Random random = new Random(unlockedItems.size());
+        Integer i=0;
+        for(var powerUpType : unlockedItems) {
+            if(i.equals(random.nextInt())) {
+                return powerUpType.getCorresponding();
+            }
+        }
+
+        return Optional.empty();
+    }
+
     public void spawnPickUp(final PickUpType pickUpType) {
         this.pickUpHandler.spawnPickUp(pickUpType);
     }
 
-    public void spawnPowerUp(final PowerUpType powerUpType) {
-        this.powerUpHandler.spawnPowerUp(powerUpType);
+    public boolean spawnPowerUp(final Optional<PowerUpType> powerUpType) {
+        if(powerUpType.isPresent()) {
+            this.powerUpHandler.spawnPowerUp(powerUpType.get());
+            return true;
+        }
+        return false;
     }
 
     public void stop() {

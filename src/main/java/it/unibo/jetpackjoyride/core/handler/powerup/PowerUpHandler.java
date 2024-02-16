@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -19,7 +20,6 @@ public final class PowerUpHandler {
     public PowerUpHandler() {
         this.listOfControllers = new ArrayList<>();
         entityGenerator = new EntityGeneratorImpl();
-        this.spawnPowerUp(PowerUpType.DUKEFISHRON);
     }
 
     public void update(final Group powerUpGroup, final boolean isSpaceBarPressed) {
@@ -40,7 +40,7 @@ public final class PowerUpHandler {
         }
     }
 
-    private void spawnPowerUp(final PowerUpType powerUpType) {
+    public void spawnPowerUp(final PowerUpType powerUpType) {
         List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUp(powerUpType);
         listOfControllers.addAll(powerup);
     }

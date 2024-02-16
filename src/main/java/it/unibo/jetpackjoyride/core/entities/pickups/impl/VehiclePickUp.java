@@ -10,6 +10,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class VehiclePickUp extends AbstractPickUp {
+
 	private static final Integer ANIMATIONDURATION = 150;
     private Integer animationTimer;
 	private Integer switchWave;

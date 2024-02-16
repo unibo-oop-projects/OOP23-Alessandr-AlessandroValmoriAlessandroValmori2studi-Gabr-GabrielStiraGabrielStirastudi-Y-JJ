@@ -44,7 +44,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.numOfShields = this.gameStatsHandler.getGameStatsModel().getNumOfShields();
 
-        //this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
+        this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
 
         this.primaryStage = primaryStage;
         
@@ -125,9 +125,7 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public Set<Items> getUnlocked() {
-        if (this.unlockedItems == null) {
-            this.unlockedItems = new HashSet<>();
-        }
+
         return this.unlockedItems;
     }
 

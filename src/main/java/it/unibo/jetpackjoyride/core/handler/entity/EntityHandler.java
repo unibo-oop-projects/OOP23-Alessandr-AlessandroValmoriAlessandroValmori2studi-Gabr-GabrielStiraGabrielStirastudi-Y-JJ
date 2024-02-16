@@ -58,13 +58,9 @@ public class EntityHandler {
                     break;
             }
         }
-        
+
         this.counter++;
         return this.eventHappening;
-    }
-
-    private void entitity() {
-
     }
 
     public void spawnPickUp(final PickUpType pickUpType) {

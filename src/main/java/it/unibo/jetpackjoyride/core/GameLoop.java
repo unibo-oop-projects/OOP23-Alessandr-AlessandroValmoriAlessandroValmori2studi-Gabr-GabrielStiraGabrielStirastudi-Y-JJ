@@ -107,7 +107,7 @@ public final class GameLoop {
                     updateModel();
                     updateView();
                     obstacleHandler.update(obstacleGroup, playerMover.getHitbox());
-                    //pickUpHandler.update(obstacleGroup, playerMover.getHitbox());
+                    pickUpHandler.update(obstacleGroup, playerMover.getHitbox());
                     powerUpHandler.update(powerUpGroup, inputH.isSpacePressed());
                     lastUpdate = now;
                 }

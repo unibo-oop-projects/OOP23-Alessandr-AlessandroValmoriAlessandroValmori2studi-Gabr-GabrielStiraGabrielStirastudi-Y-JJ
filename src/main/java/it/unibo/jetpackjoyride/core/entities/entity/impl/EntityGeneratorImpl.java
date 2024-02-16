@@ -19,6 +19,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
+import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
@@ -133,10 +134,34 @@ public class EntityGeneratorImpl implements EntityGenerator {
     }
 
     @Override
-    public PickUp generatePickUp(PickUpType pickUpType, Movement pickUpMovement, Hitbox pickUpHitbox) {
+    public List<GenericController<PickUp, PickUpView>> generatePickUp(PickUpType pickUpType) {
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        Movement pickUpMovement;
+        Hitbox pickUpHitbox;
+        PickUpView pickUpView;
+        List<PickUp> pickUpModel = new ArrayList<>();
+        List<GenericController<PickUp, PickUpView>> pickUp = new ArrayList<>();
+        Image[] images;
+
         switch (pickUpType) {
             case VEHICLE:
-                return new VehiclePickUp(pickUpMovement, pickUpHitbox); //Canon pickup existing in the original game
+                pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
+                pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());
+                pickUpModel.add(new VehiclePickUp(pickUpMovement, pickUpHitbox));
+
+                images = new Image[11];
+                for (int i = 0; i < 11; i++) {
+                    images[i] = new Image(getClass().getClassLoader()
+                    .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
+                    .toExternalForm());
+                }
+                pickUpView = new PickUpView(images);
+
+                pickUp.add(new GenericController<PickUp,PickUpView>(pickUpModel.get(0), pickUpView));
+
+
+                return pickUp; //Canon pickup existing in the original game
             default:
                 break;
         }

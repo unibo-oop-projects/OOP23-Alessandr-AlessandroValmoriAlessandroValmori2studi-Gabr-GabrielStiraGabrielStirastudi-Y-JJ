@@ -4,6 +4,7 @@ import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import java.io.IOException;
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.Event;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -72,7 +73,7 @@ public final class GameLoop {
         playerMover = new PlayerMover();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
-        
+
         root.getChildren().add(map.getPane());
         root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)entityGroup);
@@ -95,8 +96,9 @@ public final class GameLoop {
                     updateView();
 
                     /* TEMPORARY do not code thinking this is finished*/
-                    entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
-
+                    Event eventHappening;
+                    eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
+                    System.out.println(eventHappening);
                     lastUpdate = now;
                 }
 

@@ -37,6 +37,10 @@ public final class Missile extends AbstractObstacle {
             }
         }
 
+        if(this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAYBEFOREDESTRUCTION) {
+            this.setEntityStatus(EntityStatus.INACTIVE);
+        }
+
         if (this.movement.getCurrentPosition().get1() < -screenX / 8
                 || 
                 !this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 

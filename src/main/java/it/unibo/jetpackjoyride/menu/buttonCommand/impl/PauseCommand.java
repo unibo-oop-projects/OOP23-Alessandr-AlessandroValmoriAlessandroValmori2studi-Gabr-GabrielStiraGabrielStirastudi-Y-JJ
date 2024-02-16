@@ -28,12 +28,12 @@ public class PauseCommand implements Command {
     @Override
     public void execute() {
         this.gameLoop.stopLoop();
+        
         if(true){
             gameLoop.showGameOverMenu();
         }else{
             menu.setVisbile(true);
         }
-   
     }
  
 }

@@ -21,6 +21,7 @@ public class PauseMenu extends GameMenu {
         super(primaryStage);
         this.gameLoop = gameLoop;
         initializeGameMenu();
+        
     }
 
     @Override

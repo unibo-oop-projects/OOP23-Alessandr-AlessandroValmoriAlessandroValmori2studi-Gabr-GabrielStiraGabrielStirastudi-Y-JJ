@@ -32,7 +32,8 @@ public final class StartMenu extends GameMenu{
         buttonsRoot.setAlignment(Pos.CENTER);
 
         Command startCommand = new StartCommand(this.gameLoop, stage,this);
-        Button startButton = ButtonFactory.createButton("PlayGame",e->startCommand.execute(),150,50);
+        Button startButton = ButtonFactory.createButton("PlayGame",
+        e->{startCommand.execute();setGameStagePosition();},150,50);
 
         buttonsRoot.getChildren().addAll(startButton);
 

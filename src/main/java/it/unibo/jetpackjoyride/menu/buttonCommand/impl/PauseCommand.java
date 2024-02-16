@@ -24,17 +24,16 @@ public class PauseCommand implements Command {
         this.menu = menu;
 
     }
+    @SuppressWarnings("unused")
     @Override
     public void execute() {
         this.gameLoop.stopLoop();
-        menu.setVisbile(true);
+        if(true){
+            gameLoop.showGameOverMenu();
+        }else{
+            menu.setVisbile(true);
+        }
+   
     }
-
-    private void setLastFrame(){
-        writableImage = 
-        new WritableImage((int)this.gameLoop.getScene().getWidth(), (int)this.gameLoop.getScene().getHeight());
-        this.gameLoop.getScene().snapshot(writableImage);
-      
-    }
-    
+ 
 }

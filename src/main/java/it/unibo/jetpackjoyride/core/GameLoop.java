@@ -1,14 +1,10 @@
 package it.unibo.jetpackjoyride.core;
 
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-
 import java.io.IOException;
-
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
-import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
-import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
-import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.Event;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -38,18 +34,14 @@ public final class GameLoop {
     private PauseMenu pauseMenu;
 
     private PlayerMover playerMover;
-    private ObstacleHandler obstacleHandler;
-    private PowerUpHandler powerUpHandler;
-    private PickUpHandler pickUpHandler;
+    private EntityHandler entityHandler;
 
     private static final int fps = 70;
     private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
 
     private Stage stage;
     private Pane root;
-    private Group obstacleGroup;
-    private Group powerUpGroup;
-    private Group pickUpGroup;
+    private Group entityGroup;
 
     private final InputHandler inputH = new InputHandler();
 
@@ -62,9 +54,7 @@ public final class GameLoop {
     private void initializeScene() {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
-        obstacleGroup = new Group();
-        powerUpGroup = new Group();
-        pickUpGroup = new Group();
+        entityGroup = new Group();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
@@ -76,12 +66,10 @@ public final class GameLoop {
         pauseMenu = new PauseMenu(this.stage, this);
         gameStatsHandler = new GameStatsHandler();
 
-        obstacleHandler = new ObstacleHandler();
-        obstacleHandler.initialize();
+        entityHandler = new EntityHandler();
+        entityHandler.initialize();
 
         playerMover = new PlayerMover();
-        powerUpHandler = new PowerUpHandler();
-        pickUpHandler = new PickUpHandler();
        
         coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
     }
@@ -90,9 +78,7 @@ public final class GameLoop {
 
         root.getChildren().add(map.getPane());
         root.getChildren().add(coinGenerator.getCanvas());  
-        root.getChildren().add((Node)obstacleGroup);
-        root.getChildren().add((Node)powerUpGroup);
-        root.getChildren().add((Node)pickUpGroup);
+        root.getChildren().add((Node)entityGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
         root.getChildren().add(pauseMenu.getPauseButton());
         root.getChildren().add(pauseMenu.getVBox());
@@ -105,6 +91,7 @@ public final class GameLoop {
             long lastStatsupdate = 0;
             private static final long statsUpdateInterval = 1_000_000_000L;
 
+            @SuppressWarnings("unused")
             @Override
             public void handle(final long now) {
 
@@ -114,11 +101,6 @@ public final class GameLoop {
                     updateView();
 
                     /* TEMPORARY do not code thinking this is finished*/
-                    obstacleHandler.update(obstacleGroup, playerMover.getHitbox());
-                    if(pickUpHandler.update(obstacleGroup, playerMover.getHitbox())) {
-                        powerUpHandler.spawnPowerUp(PowerUpType.LILSTOMPER);
-                    }
-                    powerUpHandler.update(powerUpGroup, inputH.isSpacePressed());
                     /* TEMPORARY do not code thinking this is finished*/
                     //The idea is to make one big class EntityHandler to handle all smaller handlers such as
                     //powerUphandler, pickUpHandler, obstacleHAndler, etc...
@@ -128,10 +110,15 @@ public final class GameLoop {
                     //with other elements of the game like barry or the speed of the game, etc...))
                    
                      /* TEMPORARY*/
-                    if(true){
+                    if(false){
                         showGameOverMenu();
                         endLoop();  
+                    }else{
+                        Event eventHappening;
+                        eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
+                        System.out.println(eventHappening);
                     }
+                   
                     lastUpdate = now;
                 }
 
@@ -145,16 +132,14 @@ public final class GameLoop {
     }
 
     public void startLoop(){
-        //temporary
-        // palyerMover.setLifeStatus(true);
         coinGenerator.startGenerate();
-        obstacleHandler.start();
+        entityHandler.start();
         timer.start();
     }
 
     public void stopLoop(){   
-        obstacleHandler.over();
         coinGenerator.stopGenerate();
+        entityHandler.stop();
         timer.stop();
     }
 
@@ -168,11 +153,10 @@ public final class GameLoop {
         saveGame();
         if(!root.getChildren().isEmpty()){
             root.getChildren().clear();
-            obstacleGroup.getChildren().clear();
-            powerUpGroup.getChildren().clear();
-            pickUpGroup.getChildren().clear();
+            entityGroup.getChildren().clear();
             coinGenerator.clean();
             map.reset();
+            entityHandler.reset();
         }
         initializeGameElements();
     }
@@ -226,7 +210,7 @@ public final class GameLoop {
         }
     }
 
-    private void showGameOverMenu(){
+    public void showGameOverMenu(){
         OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
         overMenu.show();
     }

@@ -10,7 +10,6 @@ public class CoinModelImpl implements CoinModel {
 
     private Pair<Double,Double> position;
     private CoinsHitbox coinHitbox;
-    private int moveSpeed;
     private double coinHeight;
     private double coinWidth;
     private boolean isCollected;
@@ -21,7 +20,6 @@ public class CoinModelImpl implements CoinModel {
             this.coinHeight = coinHeight;
             this.coinWidth = coinWidth;
             this.isCollected = false;
-            moveSpeed = GameInfo.moveSpeed.get();
     }
 
     public void updateCoinModel(){

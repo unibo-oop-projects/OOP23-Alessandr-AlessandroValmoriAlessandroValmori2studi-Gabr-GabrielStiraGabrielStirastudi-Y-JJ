@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public interface CoinShapeFactory {
 
-    List<Pair<Double, Double>> regularShapes(int randomNum);
+    List<Pair<Double, Double>> regularShapes();
 
     List<Pair<Double, Double>> straightLine(int numOfCoins,double width, double height);
 

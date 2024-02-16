@@ -30,7 +30,7 @@ public final class GameMenu extends BaseMenu{
         VBox buttonsRoot = new VBox(20);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Command startCommand = new StartCommand(this.gameLoop, stage);
+        Command startCommand = new StartCommand(this.gameLoop, stage,this);
         Button startButton = ButtonFactory.createButton("PlayGame",e->startCommand.execute(),150,50);
 
         buttonsRoot.getChildren().addAll(startButton);

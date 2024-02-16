@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.menu;
 
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -14,6 +15,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 public abstract class BaseMenu {
     private static final int PORTION = 4;
+
+    private ChangeListener<Number> widthListener;
+    private ChangeListener<Number> heightListener;
     
     protected Scene scene;
     protected Stage stage;
@@ -33,6 +37,15 @@ public abstract class BaseMenu {
         return this.scene;
     }
 
+    public void removeListener(){
+        if(scene != null && widthListener != null){
+            scene.widthProperty().removeListener(widthListener);
+        }
+        if(scene != null && heightListener != null){
+            scene.heightProperty().removeListener(heightListener);
+        }
+    }
+
     protected void initializeGameMenu() {
     }
 
@@ -47,7 +60,7 @@ public abstract class BaseMenu {
         menuImageView = new ImageView(menuImage);
         menuImageView.setFitWidth(gameInfo.getScreenWidth());
         menuImageView.setFitHeight(gameInfo.getScreenHeight());
-        GameInfo.updateBackgroundSize(scene, menuImageView);
+        addSizeListener();
         root.getChildren().add(0, menuImageView);
     }
 
@@ -75,5 +88,18 @@ public abstract class BaseMenu {
 
         this.stage.setX(stageX);
         this.stage.setY(stageY);
+    }
+
+    private void addSizeListener(){
+        widthListener = (obs,oldvalue,newVal) ->{
+            double ratioX = newVal.doubleValue()/oldvalue.doubleValue();
+            menuImageView.setFitWidth(menuImageView.getFitWidth()*ratioX);
+        };
+        scene.widthProperty().addListener(widthListener);
+        heightListener = (obs,oldvalue,newVal) ->{
+            double ratioY = newVal.doubleValue()/oldvalue.doubleValue();
+            menuImageView.setFitHeight(menuImageView.getFitHeight()*ratioY);
+        };
+        scene.heightProperty().addListener(heightListener);
     }
 }

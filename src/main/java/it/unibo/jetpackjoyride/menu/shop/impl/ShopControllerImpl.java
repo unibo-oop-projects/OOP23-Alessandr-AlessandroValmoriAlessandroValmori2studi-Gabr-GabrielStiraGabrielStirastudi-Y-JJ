@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
-import it.unibo.jetpackjoyride.menu.GameMenu;
 import it.unibo.jetpackjoyride.menu.GameOverMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 

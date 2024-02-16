@@ -38,7 +38,7 @@ public class ShopView {
     private final int buyButtonYDisplacement = (imageSize-buttonHeight)/2;
 
     // Constants related to text and font
-    private final int fontSize = 18;
+    private final int fontSize = 20;
     private final int shieldNumPosX = buyButtonXPosition + 2 * buttonWidth + 2 * imageDistance;
     private final int textPosX = shieldNumPosX + imageDistance;
     private final String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
@@ -170,6 +170,7 @@ public class ShopView {
         equipShield.setTranslateY(shieldImageYPos  + buyButtonYDisplacement);
         equipShield.setOnAction(e -> {
             this.controller.toggleEquipUnequipShield();
+            System.out.println("pressed equip");
         });
 
         moneyText = new Text();
@@ -180,7 +181,7 @@ public class ShopView {
         moneyText.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
 
         displayEquipped = new Text();
-        displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, buttonHeight));
+        displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
         displayEquipped.setFill(Color.WHITE);
         displayEquipped.setTranslateY(200);
         displayEquipped.setTextAlignment(TextAlignment.RIGHT);
@@ -230,7 +231,7 @@ public class ShopView {
                 descriptionText2,
                 descriptionText3,
                 descriptionText4,
-                //displayEquipped,
+                displayEquipped,
                 shieldNum);
         this.update();
     }
@@ -255,6 +256,7 @@ public class ShopView {
         }
         this.displayEquipped.setText(
                 this.controller.isShieldEquipped() ? "SHIELD EQUIPPED" : " ");
+        
     }
 
 }

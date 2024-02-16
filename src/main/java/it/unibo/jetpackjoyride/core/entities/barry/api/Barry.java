@@ -15,7 +15,7 @@ public interface Barry {
      * Enum representing various statuses of Barry.
      */
     enum BarryStatus {
-        WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
+        WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED, UNDEFINED
     }
 
     enum BarryLifeStatus{

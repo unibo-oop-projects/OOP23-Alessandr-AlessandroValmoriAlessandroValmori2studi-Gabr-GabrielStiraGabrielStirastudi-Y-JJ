@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
@@ -12,30 +14,68 @@ public class EntityHandler {
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
 
+    private Event eventHappening;
+    private boolean isUsingPowerUp;
+    private Integer counter;
+
     public enum Event {
-        OBSTACLEHIT, NONE
+        BARRYHIT, POWERUPHIT, NONE, POWERUPSPAWNED, PICKUPPICKEDUP
     }
 
 
     public void initialize() {
-        obstacleHandler = new ObstacleHandler();
-        powerUpHandler = new PowerUpHandler();
-        pickUpHandler = new PickUpHandler();
+        this.obstacleHandler = new ObstacleHandler();
+        this.powerUpHandler = new PowerUpHandler();
+        this.pickUpHandler = new PickUpHandler();
 
-        obstacleHandler.initialize();
+        this.obstacleHandler.initialize();
+        this.isUsingPowerUp = false;
+        this.counter = 0;
     }
 
     public Event update(final Group entityGroup, final Hitbox playerHitbox, final boolean isSpaceBarPressed) {
+        this.eventHappening = Event.NONE;
 
-        obstacleHandler.update(entityGroup, playerHitbox);
-        if(pickUpHandler.update(entityGroup, playerHitbox)) {
-            powerUpHandler.spawnPowerUp(PowerUpType.LILSTOMPER);
+        if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
+            this.spawnPickUp(PickUpType.VEHICLE);
         }
-        powerUpHandler.update(entityGroup, isSpaceBarPressed);
-        return Event.NONE;
+
+        if(this.obstacleHandler.update(entityGroup, playerHitbox)) {
+            this.eventHappening = isUsingPowerUp ? Event.POWERUPHIT : Event.BARRYHIT;
+        }
+
+        this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
+
+        if(this.pickUpHandler.update(entityGroup, playerHitbox)) {
+            this.isUsingPowerUp = true;
+            this.eventHappening = Event.PICKUPPICKEDUP;
+            PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+            switch (pickUpPickedUp.getPickUpType()) {
+                case VEHICLE:
+                    this.spawnPowerUp(PowerUpType.LILSTOMPER);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        this.counter++;
+        return this.eventHappening;
+    }
+
+    private void entitity() {
+
+    }
+
+    public void spawnPickUp(final PickUpType pickUpType) {
+        this.pickUpHandler.spawnPickUp(pickUpType);
+    }
+
+    public void spawnPowerUp(final PowerUpType powerUpType) {
+        this.powerUpHandler.spawnPowerUp(powerUpType);
     }
 
     public void stop() {
-        obstacleHandler.over();
+        this.obstacleHandler.over();
     }
 }

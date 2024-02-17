@@ -14,8 +14,7 @@ import javafx.scene.Node;
 import javafx.util.Duration;
 
 public final class ObstacleHandler {
-
-
+    
     private ObstacleSpawner obstacleSpawner;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
     private Timeline timeline;

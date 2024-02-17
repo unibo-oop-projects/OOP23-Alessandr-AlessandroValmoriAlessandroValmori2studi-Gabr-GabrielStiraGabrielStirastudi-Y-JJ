@@ -21,9 +21,9 @@ public final class MovementImpl implements Movement {
 
     private Pair<Double, Double> screenLastSize;
 
-    public MovementImpl(Pair<Double, Double> startingPosition, Pair<Double, Double> startingSpeed,
-            Pair<Double, Double> startingAcceleration, Pair<Double, Double> rotationInfo,
-            List<MovementChangers> listOfChangers) {
+    public MovementImpl(final Pair<Double, Double> startingPosition, final Pair<Double, Double> startingSpeed,
+            final Pair<Double, Double> startingAcceleration, final Pair<Double, Double> rotationInfo,
+            final List<MovementChangers> listOfChangers) {
         this.position = startingPosition;
         this.speed = startingSpeed;
         this.acceleration = startingAcceleration;
@@ -60,34 +60,34 @@ public final class MovementImpl implements Movement {
     }
 
     @Override
-    public void setCurrentPosition(Pair<Double, Double> currPos) {
+    public void setCurrentPosition(final Pair<Double, Double> currPos) {
         this.position = currPos;
     }
 
     @Override
-    public void setSpeed(Pair<Double, Double> newSpeed) {
+    public void setSpeed(final Pair<Double, Double> newSpeed) {
         this.speed = newSpeed;
     }
 
     @Override
-    public void setAcceleration(Pair<Double, Double> newAcceleration) {
+    public void setAcceleration(final Pair<Double, Double> newAcceleration) {
         this.acceleration = newAcceleration;
     }
 
     @Override
-    public void setRotation(Pair<Double, Double> newRotationInfo) {
+    public void setRotation(final Pair<Double, Double> newRotationInfo) {
         this.rotation = newRotationInfo;
     }
 
     @Override
-    public void setMovementChangers(List<MovementChangers> listOfChangers) {
-        GameInfo infoResolution = GameInfo.getInstance();
+    public void setMovementChangers(final List<MovementChangers> listOfChangers) {
+        final GameInfo infoResolution = GameInfo.getInstance();
         final Double screenY = infoResolution.getScreenHeight();
 
         this.listOfChangers = listOfChangers;
 
         Double speedModifier = 1.0;
-        for(var changer : this.listOfChangers) {
+        for(final var changer : this.listOfChangers) {
             if(changer.equals(MovementChangers.SPEEDY)) {
                 speedModifier*=SPEEDYMODIFIER;
             }
@@ -98,8 +98,8 @@ public final class MovementImpl implements Movement {
 
         this.speed = new Pair<>(this.speed.get1() * speedModifier,this.speed.get2() * speedModifier );
 
-        final Double accelerationModifier = (this.listOfChangers.contains(MovementChangers.GRAVITY) ? GRAVITYMODIFIER
-                : this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY) ? INVERSEGRAVITYMODIFIER : 0.0);
+        final Double accelerationModifier = this.listOfChangers.contains(MovementChangers.GRAVITY) ? GRAVITYMODIFIER
+                : this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY) ? INVERSEGRAVITYMODIFIER : 0.0;
 
         this.acceleration = new Pair<>(this.acceleration.get1(), accelerationModifier * screenY/infoResolution.getDefaultHeight());
     }
@@ -110,7 +110,7 @@ public final class MovementImpl implements Movement {
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
         this.checkForScreen(screenSizeX, screenSizeY);
-        this.applyModifiers(screenSizeX, screenSizeY);
+        this.applyModifiers(screenSizeY);
 
         /* V = U + A */
         this.speed = new Pair<>(this.speed.get1() + this.acceleration.get1(), this.speed.get2() + this.acceleration.get2());
@@ -119,8 +119,8 @@ public final class MovementImpl implements Movement {
         this.rotation = new Pair<>(this.rotation.get1() + this.rotation.get2(), this.rotation.get2());
     }
 
-    private void checkForScreen(Double screenSizeX, Double screenSizeY) {
-        Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
+    private void checkForScreen(final Double screenSizeX, final Double screenSizeY) {
+        final Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
 
         if (!this.screenLastSize.equals(currentScreenSize)) {
             final Double xChange = currentScreenSize.get1() / this.screenLastSize.get1();
@@ -134,7 +134,7 @@ public final class MovementImpl implements Movement {
         }
     }
 
-    private void applyModifiers(Double sizeX, Double sizeY) {
+    private void applyModifiers(Double sizeY) {
         final Double mapBoundUp = sizeY / 8;
         final Double mapBoundDown = sizeY - sizeY / 8;
 

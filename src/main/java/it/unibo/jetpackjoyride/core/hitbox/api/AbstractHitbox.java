@@ -92,17 +92,31 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox = newHitbox;
     }
 
-    @Override
-    public boolean isTouching(final Pair<Double, Double> pos) {
+    private boolean isTouchingHelper(final Hitbox firstHitbox, final Hitbox secondHitbox) {
         final Polygon allPoints = new Polygon();
+        boolean isTouching = false;
 
-        for (final var vertex : this.hitbox) {
+        for (final var vertex : firstHitbox.getHitboxVertex()) {
             allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue());
         }
 
-        return allPoints.contains(pos.get1(), pos.get2());
+        for(final var otherVertex : secondHitbox.getHitboxVertex()) {
+            if(allPoints.contains(otherVertex.get1(), otherVertex.get2())) {
+                isTouching = true;
+            }
+        }
+
+        if(allPoints.contains(secondHitbox.getHitboxPosition().get1(), secondHitbox.getHitboxPosition().get2())) {
+            isTouching = true;
+        }
+
+        return isTouching;
     }
 
+    @Override
+    public boolean isTouching(final Hitbox otherHitbox) {
+        return this.isTouchingHelper(this, otherHitbox) || this.isTouchingHelper(otherHitbox, this);
+    }
     @Override
     public Pair<Double, Double> getHitboxPosition() {
         return computeCenter();

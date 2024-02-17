@@ -69,7 +69,8 @@ public class EntityHandler {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
-                playerHandler.activate();
+                this.playerHandler.activate();
+                this.coinHandler.setPlayerHitbox(this.playerHandler.getHitbox());
             }
             else{
                 this.playerHandler.hit(obstacleHit.get());
@@ -77,6 +78,10 @@ public class EntityHandler {
         }
 
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
+
+        if(this.powerUpHandler.getAllPowerUps().size()>0) {
+            System.out.println(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox().getHitboxVertex());
+        }
 
         if(this.pickUpHandler.update(entityGroup, playerHandler.getHitbox())) {
             playerHandler.deactivate();
@@ -88,6 +93,7 @@ public class EntityHandler {
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
+                    this.coinHandler.setPlayerHitbox(pickUpPickedUp.getHitbox());
                     break;
                 default:
                     break;

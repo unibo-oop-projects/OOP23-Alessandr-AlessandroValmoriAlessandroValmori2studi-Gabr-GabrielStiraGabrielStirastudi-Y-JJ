@@ -48,6 +48,7 @@ public final class GameLoop {
         this.gameStatsHandler = gameStatsController;
         initializeScene();
         this.initializeGameElements();
+        setListenerForGameInfo();
     }
 
     private void initializeScene() {
@@ -165,8 +166,7 @@ public final class GameLoop {
     }
 
     private void updateModel(){ 
-             
-        updateScreenSize();
+    
         playerMover.move(inputH.isSpacePressed());
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
@@ -181,7 +181,7 @@ public final class GameLoop {
         gameStatsHandler.updateView();
     }
 
-    private void updateScreenSize() {
+    private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
 
             final double newWidth = newValue.doubleValue();

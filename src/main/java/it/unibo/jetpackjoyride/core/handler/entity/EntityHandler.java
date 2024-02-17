@@ -50,11 +50,14 @@ public class EntityHandler {
         if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
-
-        if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerController.getHitbox()).isPresent()) {
+        var obs = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerController.getHitbox());
+        if(obs.isPresent()) {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
+            }
+            else{
+                this.playerController.hit(obs.get());
             }
         }
 

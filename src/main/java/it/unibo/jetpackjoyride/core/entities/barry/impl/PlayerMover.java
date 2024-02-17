@@ -102,6 +102,11 @@ public class PlayerMover {
         }
         if (this.model.hasShield() && !root.getChildren().contains((Node) this.view.getShieldImageView())) {
             root.getChildren().add((Node) this.view.getShieldImageView());
+            System.out.println("has shield");
+        }
+        else if(!this.model.hasShield() && root.getChildren().contains((Node) this.view.getShieldImageView())) {
+            root.getChildren().remove((Node) this.view.getShieldImageView());
+            System.out.println("doesnt have shield");
         }
     }
 
@@ -117,11 +122,13 @@ public class PlayerMover {
 
     public void hit(ObstacleType type){
         if(this.model.hasShield()){
-            this.model.removeShield();
+           this.model.removeShield();
+            System.out.println("SHILDED barry hit by" + type.toString());
         }
         else{
-            this.model.setLifeStatus(BarryLifeStatus.DEAD);
-            this.model.kill(type);
+            //this.model.setLifeStatus(BarryLifeStatus.DEAD);
+            //this.model.kill(type);
+            System.out.println("barry hit by" + type.toString());
         }
     }
     public void setBarryShield(){

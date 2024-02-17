@@ -17,10 +17,10 @@ public abstract class AbstractHitbox implements Hitbox {
                 this.screenLastSize = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                 GameInfo.getInstance().getScreenHeight());
                 this.hitboxDimensions = hitboxDimensions;
-        createHitbox(hitboxStartingPos, startingAngle);
+        this.createHitbox(hitboxStartingPos, startingAngle);
     }
 
-    public void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Double startingAngle) {
+    private void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Double startingAngle) {
         final Double width = this.hitboxDimensions.get1();
         final Double height = this.hitboxDimensions.get2();
 

@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import java.util.List;
 import java.util.ArrayList;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -72,7 +71,7 @@ public final class ObstacleHandler {
             if (obstacleHitPlayer) {
                 iterator = listOfControllers.iterator();
                 while (iterator.hasNext()) {
-                    var controller = iterator.next();
+                    final var controller = iterator.next();
                     controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
             }

@@ -21,8 +21,4 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
         return this.obstacleType;
     }
 
-    @Override
-    public void update(final boolean isSpaceBarPressed) {
-        super.update(isSpaceBarPressed);
-    }
 }

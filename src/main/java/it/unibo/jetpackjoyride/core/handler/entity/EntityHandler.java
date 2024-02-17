@@ -21,7 +21,6 @@ public class EntityHandler {
 
     private Set<Items> unlockedPowerUps;
 
-    private Event eventHappening;
     private boolean isUsingPowerUp;
     private Integer counter;
 
@@ -43,14 +42,14 @@ public class EntityHandler {
     }
 
     public Event update(final Group entityGroup, final Hitbox playerHitbox, final boolean isSpaceBarPressed) {
-        this.eventHappening = Event.NONE;
+        Event eventHappening = Event.NONE;
 
         if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
         if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerHitbox)) {
-            this.eventHappening = isUsingPowerUp ? Event.POWERUPHIT : Event.BARRYHIT;
+            eventHappening = isUsingPowerUp ? Event.POWERUPHIT : Event.BARRYHIT;
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
@@ -60,12 +59,12 @@ public class EntityHandler {
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
         if(this.pickUpHandler.update(entityGroup, playerHitbox)) {
-            this.eventHappening = Event.PICKUPPICKEDUP;
-            PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+            eventHappening = Event.PICKUPPICKEDUP;
+            final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
 
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
-                    VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUpPickedUp;
+                    final VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUpPickedUp;
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
@@ -76,7 +75,7 @@ public class EntityHandler {
         }
 
         this.counter++;
-        return this.eventHappening;
+        return eventHappening;
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {
@@ -84,7 +83,7 @@ public class EntityHandler {
             return;
         }
 
-        List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).collect(Collectors.toList());
+        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).collect(Collectors.toList());
         final Integer random = new Random().nextInt(listOfPossibleSpawns.size());
 
         this.pickUpHandler.spawnVehiclePickUp(listOfPossibleSpawns.get(random));

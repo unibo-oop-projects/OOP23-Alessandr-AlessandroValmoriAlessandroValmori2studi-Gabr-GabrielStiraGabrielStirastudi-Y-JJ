@@ -15,8 +15,8 @@ import javafx.scene.Node;
 
 
 public class PickUpHandler {
-    private List<GenericController<PickUp,PickUpView>> listOfControllers;
-    private EntityGenerator entityGenerator;
+    private final List<GenericController<PickUp,PickUpView>> listOfControllers;
+    private final EntityGenerator entityGenerator;
 
     public PickUpHandler() {
         this.listOfControllers = new ArrayList<>();
@@ -27,7 +27,7 @@ public class PickUpHandler {
         final var iterator = listOfControllers.iterator();
         boolean pickUpPickedUp = false;
         while (iterator.hasNext()) {
-            var controller = iterator.next();
+            final var controller = iterator.next();
 
             controller.update(false);
 
@@ -64,7 +64,7 @@ public class PickUpHandler {
     }
 
     public void spawnVehiclePickUp(final PowerUpType vehicleSpawn) {
-        GenericController<PickUp, PickUpView> pickUp = entityGenerator.generateVehiclePickUp(vehicleSpawn);
+        final GenericController<PickUp, PickUpView> pickUp = entityGenerator.generateVehiclePickUp(vehicleSpawn);
         listOfControllers.add(pickUp);
     }
 

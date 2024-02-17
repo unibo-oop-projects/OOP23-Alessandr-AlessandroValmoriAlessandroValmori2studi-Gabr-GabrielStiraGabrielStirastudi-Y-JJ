@@ -35,6 +35,6 @@ public interface Entity {
 
     void setEntityStatus(EntityStatus entityStatus);
 
-    void update(final boolean isSpaceBarPressed);
+    void update(boolean isSpaceBarPressed);
 
 }

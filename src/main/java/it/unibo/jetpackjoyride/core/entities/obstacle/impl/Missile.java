@@ -13,7 +13,7 @@ public final class Missile extends AbstractObstacle {
     private static final Integer DELAYBEFOREDESTRUCTION = 50;
     private static final Integer DELAYBEFOREACTIVATING = 150;
     private static final Double MAPMOVEMENTSPEED = -5.0;
-    private int lifetimeAfterDeactivation;
+    private Integer lifetimeAfterDeactivation;
 
     public Missile(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, movement, hitbox);
@@ -29,7 +29,7 @@ public final class Missile extends AbstractObstacle {
         
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
-            if(this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
+            if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.entityStatus = EntityStatus.ACTIVE;
                 this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1() + screenX/16,this.movement.getCurrentPosition().get2()));
                 this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED*screenX/infoResolution.getDefaultWidth(), 0.0));
@@ -53,7 +53,7 @@ public final class Missile extends AbstractObstacle {
         }
         
         if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
-            if (this.lifetimeAfterDeactivation == DELAYBEFOREDESTRUCTION) {
+            if (this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.movement.setAcceleration(new Pair<>(0.0, 0.0));
                 this.movement.setSpeed(new Pair<>(MAPMOVEMENTSPEED, 0.0));
                 this.movement.setMovementChangers(List.of());

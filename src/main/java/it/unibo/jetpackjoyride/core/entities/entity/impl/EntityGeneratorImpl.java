@@ -54,8 +54,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
         Movement powerUpMovement;
         Hitbox powerUpHitbox;
         PowerUpView powerUpView;
-        List<PowerUp> powerUpModel = new ArrayList<>();
-        List<GenericController<PowerUp, PowerUpView>> powerUp = new ArrayList<>();
+        final List<PowerUp> powerUpModel = new ArrayList<>();
+        final List<GenericController<PowerUp, PowerUpView>> powerUp = new ArrayList<>();
         Image[] images;
         
         switch (powerUpType) {
@@ -64,13 +64,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3), powerUpMovement.getRotation().get1());
                 powerUpModel.add(new LilStomper(powerUpMovement, powerUpHitbox));
 
-                images = new Image[24];
-                for (int i = 0; i < 24; i++) {
-                    images[i] = new Image(getClass().getClassLoader()
-                    .getResource("sprites/entities/powerups/lilstomper/lilstomper_" + (i + 1) + ".png")
-                    .toExternalForm());
-                }
-        
+                images = imageLoader(24, "sprites/entities/powerups/lilstomper/lilstomper_");
+
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
@@ -81,15 +76,11 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10), powerUpMovement.getRotation().get1());
                 powerUpModel.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
 
-                images = new Image[6];
-                for (int i = 0; i < 6; i++) {
-                    images[i] = new Image(getClass().getClassLoader()
-                            .getResource("sprites/entities/powerups/mrcuddles/mrcuddles_" + (i + 1) + ".png").toExternalForm());
-                }
+                images = imageLoader(6, "sprites/entities/powerups/mrcuddles/mrcuddles_");
 
-                for (int i = 0; i < powerUpModel.size(); i++) {
-                        powerUpView = new PowerUpView(images);
-                        powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(i), powerUpView));
+                for (var powerUpInstance : powerUpModel) {
+                    powerUpView = new PowerUpView(images);
+                    powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpInstance, powerUpView));
                 }
                 break;
 
@@ -98,12 +89,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 7, screenSizeY / 6), powerUpMovement.getRotation().get1());
                 powerUpModel.add(new ProfitBird(powerUpMovement, powerUpHitbox));
 
-                images = new Image[12];
-                for (int i = 0; i < 12; i++) {
-                    images[i] = new Image(getClass().getClassLoader()
-                    .getResource("sprites/entities/powerups/profitbird/profitbird_" + (i + 1) + ".png")
-                    .toExternalForm());
-                }
+                images = imageLoader(12, "sprites/entities/powerups/profitbird/profitbird_");
+
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
@@ -114,12 +101,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3), powerUpMovement.getRotation().get1());
                 powerUpModel.add(new DukeFishron(powerUpMovement, powerUpHitbox));
 
-                images = new Image[12];
-                for (int i = 0; i < 12; i++) {
-                    images[i] = new Image(getClass().getClassLoader()
-                    .getResource("sprites/entities/powerups/dukefishron/dukefishron_" + (i + 1) + ".png")
-                    .toExternalForm());
-                }
+                images = imageLoader(12, "sprites/entities/powerups/dukefishron/dukefishron_");
+
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
@@ -132,22 +115,28 @@ public class EntityGeneratorImpl implements EntityGenerator {
     }
 
     @Override
-    public GenericController<PickUp, PickUpView> generateVehiclePickUp(PowerUpType spawnedVehicle) {
+    public GenericController<PickUp, PickUpView> generateVehiclePickUp(final PowerUpType spawnedVehicle) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        Movement pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));;
-        Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());;
-        PickUp pickUpModel = new VehiclePickUp(spawnedVehicle, pickUpMovement, pickUpHitbox);
+        final Movement pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
+        final Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());
+        final PickUp pickUpModel = new VehiclePickUp(spawnedVehicle, pickUpMovement, pickUpHitbox);
         
-        Image[] images = new Image[21];
-        for (int i = 0; i < 21; i++) {
-            images[i] = new Image(getClass().getClassLoader()
-            .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
-            .toExternalForm());
-        }
+        final Image[] images = imageLoader(21, "sprites/entities/pickups/vehiclepickup/vehiclepickup_");
+
         PickUpView pickUpView = new PickUpView(images);
         
         return new GenericController<PickUp,PickUpView>(pickUpModel, pickUpView);
     }
+
+    private Image[] imageLoader(final Integer numberOfImages, final String pathName) {
+        Image[] images = new Image[numberOfImages];
+        for (int i = 0; i < numberOfImages; i++) {
+            images[i] = new Image(getClass().getClassLoader()
+            .getResource(pathName + (i + 1) + ".png")
+            .toExternalForm());
+        }
+        return images;
+    } 
 }

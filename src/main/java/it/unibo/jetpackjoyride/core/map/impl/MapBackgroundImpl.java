@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 public class MapBackgroundImpl implements MapBackground {
 
-    private final static int MAX_SPEED = 10;
+    private final static int MAX_SPEED = 20;
     private final static int DEFAULT_SPEED = 5;
 
     private MapBackgroundModel model;
@@ -26,7 +26,7 @@ public class MapBackgroundImpl implements MapBackground {
         model = new MapBackgroundModelImpl();
         view = new MapBackgroungViewImpl(this);
         gameInfo = GameInfo.getInstance();
-          this.timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
+          this.timeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> {
             if(GameInfo.moveSpeed.get() == MAX_SPEED){
                 timeline.stop();
             }else{

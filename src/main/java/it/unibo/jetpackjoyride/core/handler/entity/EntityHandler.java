@@ -39,7 +39,7 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        this.playerHandler = new PlayerMover();
+        this.playerHandler = new PlayerMover(gameStatsHandler);
         this.coinHandler = new CoinGenerator(playerHandler.getHitbox(),gameStatsHandler.getGameStatsModel());
 
         this.unlockedPowerUps = gameStatsHandler.getGameStatsModel().getUnlocked();

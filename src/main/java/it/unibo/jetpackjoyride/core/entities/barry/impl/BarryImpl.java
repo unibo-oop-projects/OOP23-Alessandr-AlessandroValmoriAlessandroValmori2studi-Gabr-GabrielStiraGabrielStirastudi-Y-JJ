@@ -46,13 +46,12 @@ public final class BarryImpl implements Barry {
 
     private final GameInfo gameInfo;
 
-    private  GameStatsController gameStatsController ;
 
     private boolean hasShield;
 
     private boolean isActive;
 
-    private Optional<ObstacleType> causeOfDeath = Optional.empty();
+   
 
     /**
      * Constructs a new instance of BarryImpl.
@@ -61,9 +60,9 @@ public final class BarryImpl implements Barry {
      */
     public BarryImpl() {
 
-        this.gameStatsController = new GameStatsHandler();
+        
         this.isActive=true;
-        this.hasShield = this.gameStatsController.getGameStatsModel().isShieldEquipped();
+        
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();

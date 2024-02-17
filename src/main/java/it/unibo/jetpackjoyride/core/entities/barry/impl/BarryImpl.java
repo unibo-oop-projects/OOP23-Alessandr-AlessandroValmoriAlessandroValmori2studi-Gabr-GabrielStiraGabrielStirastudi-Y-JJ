@@ -50,6 +50,8 @@ public final class BarryImpl implements Barry {
 
     private boolean hasShield;
 
+    private boolean isActive;
+
     private Optional<ObstacleType> causeOfDeath = Optional.empty();
 
     /**
@@ -58,7 +60,9 @@ public final class BarryImpl implements Barry {
      * hitbox, and game information.
      */
     public BarryImpl() {
+
         this.gameStatsController = new GameStatsHandler();
+        this.isActive=true;
         this.hasShield = this.gameStatsController.getGameStatsModel().isShieldEquipped();
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
@@ -216,4 +220,16 @@ public final class BarryImpl implements Barry {
     public void setLifeStatus(BarryLifeStatus lifeStatus) {
         this.lifeStatus = lifeStatus;
     }
+
+    @Override
+    public void setActiveValue(boolean value) {
+        this.isActive=value;
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.isActive;
+    }
+
+    
 }

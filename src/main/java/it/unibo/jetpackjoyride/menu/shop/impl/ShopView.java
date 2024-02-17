@@ -162,7 +162,7 @@ public class ShopView {
         equipShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
         equipShieldButton.setOnAction(e -> {
             this.controller.toggleEquipUnequipShield();
-            System.out.println("pressed equip");
+            
         });
 
         moneyText = new Text();

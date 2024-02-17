@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
@@ -29,6 +30,7 @@ public class PlayerMover {
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    private GameStatsController gameStatsHandler;
     private static final int numCopies = 7;
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
@@ -45,8 +47,9 @@ public class PlayerMover {
     /**
      * Constructs a new PlayerMover instance.
      */
-    public PlayerMover() {
+    public PlayerMover(GameStatsController gameStatsHandler) {
         this.model = new BarryImpl();
+        this.gameStatsHandler= gameStatsHandler;
         this.buildMap();
 
         this.view = new BarryView(this.getSpritesForStatus());
@@ -86,6 +89,9 @@ public class PlayerMover {
     public void move(final boolean pressed) {
         if(this.model.isAlive()){
         this.model.move(pressed);
+        if(this.gameStatsHandler.getGameStatsModel().isShieldEquipped()){
+            this.model.setShieldOn();
+        }
         }
 
     }

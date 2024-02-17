@@ -31,7 +31,7 @@ public class PickUpHandler {
 
             controller.update(false);
 
-            if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
+            if (controller.getEntityModel().getHitbox().isTouching(playerHitbox)
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                             pickUpPickedUp = true;
                     controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
@@ -47,20 +47,6 @@ public class PickUpHandler {
             }
         }
         return pickUpPickedUp;
-    }
-
-    private boolean collisionChecker(final Hitbox hitbox, final Hitbox playerHitbox) {
-        for (final var vertex : playerHitbox.getHitboxVertex()) {
-            if (hitbox.isTouching(vertex) || hitbox.isTouching(playerHitbox.getHitboxPosition())) {
-                return true;
-            }
-        }
-        for (final var vertex : hitbox.getHitboxVertex()) {
-            if (playerHitbox.isTouching(vertex) || playerHitbox.isTouching(hitbox.getHitboxPosition())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void spawnVehiclePickUp(final PowerUpType vehicleSpawn) {

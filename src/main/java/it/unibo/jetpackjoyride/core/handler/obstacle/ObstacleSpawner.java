@@ -53,8 +53,8 @@ public final class ObstacleSpawner {
 
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
-        return randomChunk();
-        //return missileChunk();
+        //return randomChunk();
+        return missileChunk();
     }
 
     private List<GenericController<Obstacle,ObstacleView>> missileChunk() {

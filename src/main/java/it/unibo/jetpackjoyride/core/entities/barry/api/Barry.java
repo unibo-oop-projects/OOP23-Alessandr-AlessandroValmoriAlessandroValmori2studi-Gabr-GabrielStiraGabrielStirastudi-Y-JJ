@@ -69,6 +69,8 @@ public interface Barry {
 
     void setLifeStatus(BarryLifeStatus lifeStatus);
 
+    
+
     void setActiveValue(boolean value);
 
     boolean isActive();

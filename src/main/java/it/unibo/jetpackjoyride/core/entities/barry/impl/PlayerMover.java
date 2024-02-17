@@ -84,8 +84,9 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-
+        if(this.model.isAlive()){
         this.model.move(pressed);
+        }
 
     }
 

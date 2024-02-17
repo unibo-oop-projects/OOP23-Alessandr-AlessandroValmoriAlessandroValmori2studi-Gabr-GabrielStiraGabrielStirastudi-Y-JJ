@@ -12,15 +12,14 @@ public abstract class AbstractHitbox implements Hitbox {
     private Pair<Double, Double> screenLastSize;
     private Pair<Double, Double> hitboxDimensions;
 
-    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
-            final Double startingAngle) {
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions) {
                 this.screenLastSize = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                 GameInfo.getInstance().getScreenHeight());
                 this.hitboxDimensions = hitboxDimensions;
-        this.createHitbox(hitboxStartingPos, startingAngle);
+        this.createHitbox(hitboxStartingPos);
     }
 
-    private void createHitbox(final Pair<Double, Double> hitboxStartingPos, final Double startingAngle) {
+    private void createHitbox(final Pair<Double, Double> hitboxStartingPos) {
         final Double width = this.hitboxDimensions.get1();
         final Double height = this.hitboxDimensions.get2();
 
@@ -33,8 +32,6 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY));
         this.hitbox.add(new Pair<>(initialX, initialY + height));
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
-
-        updateHitbox(hitboxStartingPos, startingAngle);
     }
 
     public Pair<Double,Double> getHitboxDimensions() {
@@ -42,21 +39,21 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     private Pair<Double, Double> computeCenter() {
-        Double maxX = this.hitbox.stream().mapToDouble(p -> p.get1()).max().getAsDouble();
-        Double minX = this.hitbox.stream().mapToDouble(p -> p.get1()).min().getAsDouble();
-        Double maxY = this.hitbox.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
-        Double minY = this.hitbox.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
+        final Double maxX = this.hitbox.stream().mapToDouble(p -> p.get1()).max().getAsDouble();
+        final Double minX = this.hitbox.stream().mapToDouble(p -> p.get1()).min().getAsDouble();
+        final Double maxY = this.hitbox.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
+        final Double minY = this.hitbox.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
 
         return new Pair<>(maxX - (maxX - minX) / 2, maxY - (maxY - minY) / 2);
     }
 
     private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor,
             final Double angle) {
-        AffineTransform rotationTransform = new AffineTransform();
+        final AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 
-        Point2D oldPoint = new Point2D.Double();
-        Point2D newPoint = new Point2D.Double();
+        final Point2D oldPoint = new Point2D.Double();
+        final Point2D newPoint = new Point2D.Double();
 
         oldPoint.setLocation(Double.valueOf(toCompute.get1()), Double.valueOf(toCompute.get2()));
 
@@ -64,6 +61,7 @@ public abstract class AbstractHitbox implements Hitbox {
         return new Pair<>(newPoint.getX(), newPoint.getY());
     }
 
+    @Override
     public void updateHitbox(Pair<Double, Double> newPosition, Double angle) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
@@ -74,7 +72,7 @@ public abstract class AbstractHitbox implements Hitbox {
             final Double yChange = currentScreenSize.get2() / this.screenLastSize.get2();
             this.screenLastSize = currentScreenSize;
             this.hitboxDimensions = new Pair<>(this.hitboxDimensions.get1()*xChange, this.hitboxDimensions.get2()*yChange);
-            this.createHitbox(newPosition, angle);
+            this.createHitbox(newPosition);
             return;
         }
 
@@ -83,9 +81,9 @@ public abstract class AbstractHitbox implements Hitbox {
 
         Set<Pair<Double, Double>> newHitbox = new HashSet<>();
 
-        for (var elem : this.hitbox) {
-            Pair<Double, Double> center = computeCenter();
-            Pair<Double, Double> newPoint = computeNewPoint(elem, center, angle);
+        for (final var elem : this.hitbox) {
+            final Pair<Double, Double> center = computeCenter();
+            final Pair<Double, Double> newPoint = computeNewPoint(elem, center, angle);
             newHitbox.add(
                     new Pair<>(newPoint.get1() + (newX - center.get1()), newPoint.get2() + (newY - center.get2())));
         }
@@ -93,10 +91,10 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox = newHitbox;
     }
 
-    public boolean isTouching(Pair<Double, Double> pos) {
-        Polygon allPoints = new Polygon();
+    public boolean isTouching(final Pair<Double, Double> pos) {
+        final Polygon allPoints = new Polygon();
 
-        for (var vertex : this.hitbox) {
+        for (final var vertex : this.hitbox) {
             allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue());
         }
 

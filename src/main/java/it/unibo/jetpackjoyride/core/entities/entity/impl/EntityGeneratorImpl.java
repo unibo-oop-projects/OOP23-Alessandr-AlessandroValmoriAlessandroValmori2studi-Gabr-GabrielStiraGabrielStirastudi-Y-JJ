@@ -61,7 +61,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
         switch (powerUpType) {
             case LILSTOMPER: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3), powerUpMovement.getRotation().get1());
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 8, screenSizeY / 5));
                 powerUpModel.add(new LilStomper(powerUpMovement, powerUpHitbox));
 
                 images = imageLoader(24, "sprites/entities/powerups/lilstomper/lilstomper_");
@@ -73,12 +73,12 @@ public class EntityGeneratorImpl implements EntityGenerator {
 
             case MRCUDDLES: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10), powerUpMovement.getRotation().get1());
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
                 powerUpModel.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
 
                 images = imageLoader(6, "sprites/entities/powerups/mrcuddles/mrcuddles_");
 
-                for (var powerUpInstance : powerUpModel) {
+                for (final var powerUpInstance : powerUpModel) {
                     powerUpView = new PowerUpView(images);
                     powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpInstance, powerUpView));
                 }
@@ -86,7 +86,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
 
             case PROFITBIRD: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 7, screenSizeY / 6), powerUpMovement.getRotation().get1());
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
                 powerUpModel.add(new ProfitBird(powerUpMovement, powerUpHitbox));
 
                 images = imageLoader(12, "sprites/entities/powerups/profitbird/profitbird_");
@@ -98,7 +98,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 break;
             case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.BOUNCING));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3), powerUpMovement.getRotation().get1());
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3));
                 powerUpModel.add(new DukeFishron(powerUpMovement, powerUpHitbox));
 
                 images = imageLoader(12, "sprites/entities/powerups/dukefishron/dukefishron_");
@@ -120,12 +120,12 @@ public class EntityGeneratorImpl implements EntityGenerator {
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
         final Movement pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
-        final Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());
+        final Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9));
         final PickUp pickUpModel = new VehiclePickUp(spawnedVehicle, pickUpMovement, pickUpHitbox);
         
         final Image[] images = imageLoader(21, "sprites/entities/pickups/vehiclepickup/vehiclepickup_");
 
-        PickUpView pickUpView = new PickUpView(images);
+        final PickUpView pickUpView = new PickUpView(images);
         
         return new GenericController<PickUp,PickUpView>(pickUpModel, pickUpView);
     }

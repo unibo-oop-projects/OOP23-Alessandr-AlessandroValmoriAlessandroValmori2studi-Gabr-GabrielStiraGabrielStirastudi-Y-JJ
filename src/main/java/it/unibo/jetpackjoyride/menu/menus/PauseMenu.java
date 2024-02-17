@@ -31,7 +31,7 @@ public class PauseMenu extends GameMenu {
         buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(20);
-        buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+        buttonsVBox.setStyle("-fx-background-color: rgb(0, 0, 0);");
         Command continueCommand = new StartCommand(gameLoop, stage,this);
         Button restartButton = ButtonFactory.createButton("back",
         e->{continueCommand.execute();this.buttonsVBox.setVisible(false);},220,120);

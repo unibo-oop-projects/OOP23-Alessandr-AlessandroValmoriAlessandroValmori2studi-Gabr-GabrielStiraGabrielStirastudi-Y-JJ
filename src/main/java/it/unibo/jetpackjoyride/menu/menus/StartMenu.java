@@ -28,9 +28,10 @@ public final class StartMenu extends GameMenu{
         setMenuImage(menuImage);
         shopController = new ShopControllerImpl(primaryStage, this);
         initializeGameMenu();
+        primaryStage.setMinHeight(gameInfo.getDefaultHeight());
+        primaryStage.setMinWidth(gameInfo.getDefaultWidth());
         setGameStagePosition();
         stageCloseAction();
-
     }
 
     @Override

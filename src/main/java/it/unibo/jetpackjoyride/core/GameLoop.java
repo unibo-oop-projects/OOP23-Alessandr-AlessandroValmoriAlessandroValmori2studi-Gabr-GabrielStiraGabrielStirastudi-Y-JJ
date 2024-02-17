@@ -1,10 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
-import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import java.io.IOException;
-import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
-import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.Event;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -27,11 +24,10 @@ public final class GameLoop {
     private AnimationTimer timer;
     private MapBackground map;
 
-    private CoinGenerator coinGenerator;
     private GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
 
-    private PlayerMover playerMover;
+
     private EntityHandler entityHandler;
 
     private static final int fps = 70;
@@ -66,17 +62,13 @@ public final class GameLoop {
         pauseMenu = new PauseMenu(this.stage, this);
         
         entityHandler = new EntityHandler();
-        entityHandler.initialize(gameStatsHandler.getGameStatsModel().getUnlocked());
+        entityHandler.initialize(gameStatsHandler);
 
-        playerMover = new PlayerMover();
-       
-        coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
     }
 
     private void initializeGameElements() {
 
         root.getChildren().add(map.getPane());
-        root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)entityGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
         root.getChildren().add(pauseMenu.getPauseButton());
@@ -100,23 +92,11 @@ public final class GameLoop {
                     updateModel();
                     updateView();
 
-                    /* TEMPORARY do not code thinking this is finished*/
-                    /* TEMPORARY do not code thinking this is finished*/
-                    //The idea is to make one big class EntityHandler to handle all smaller handlers such as
-                    //powerUphandler, pickUpHandler, obstacleHAndler, etc...
-                    //This class will update all handlers and organize the events such as | pickUp took -> powerUpSpawn |
-                    //I NEED TO KNOW IF YOU WANT IT TO RETURN SOMETHING IN PARTICULAR (maybe something like an Event of 
-                    //an Event enum with all cases (PowerUpSpawned, PowerUpDestroyed, ObstacleHit... so to organize better
-                    //with other elements of the game like barry or the speed of the game, etc...))
-                   
-                     /* TEMPORARY*/
                     if(false){
                         showGameOverMenu();
                         endLoop();  
                     }else{
-                        Event eventHappening;
-                        eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
-                        //System.out.println(eventHappening);
+                        entityHandler.update(entityGroup, inputH.isSpacePressed());
                     }
                    
                     lastUpdate = now;
@@ -132,13 +112,11 @@ public final class GameLoop {
     }
 
     public void startLoop(){
-        coinGenerator.startGenerate();
         entityHandler.start();
         timer.start();
     }
 
     public void stopLoop(){   
-        coinGenerator.stopGenerate();
         entityHandler.stop();
         timer.stop();
     }
@@ -154,7 +132,6 @@ public final class GameLoop {
         if(!root.getChildren().isEmpty()){
             root.getChildren().clear();
             entityGroup.getChildren().clear();
-            coinGenerator.clean();
             map.reset();
             entityHandler.reset();
         }
@@ -167,16 +144,10 @@ public final class GameLoop {
     }
 
     private void updateModel(){ 
-    
-        playerMover.move(inputH.isSpacePressed());
-        coinGenerator.updatPosition();
-        
+       
     }
 
     private void updateView() {
-
-        coinGenerator.renderCoin();
-        playerMover.updateView(root);
         gameStatsHandler.updateView();
     }
 

@@ -8,14 +8,14 @@ import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class ObstacleView implements GenericView{
-    private ImageView imageView;
-    private Image[] images;
+    private final ImageView imageView;
+    private final Image[] images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
     public ObstacleView(final Image[] images) {
-        this.images = images;
+        this.images = images.clone();
         this.imageView = new ImageView();
         this.animationFrame = 0;
         this.animationCounter = new int[3]; // 0 counter for charging, 1 counter for active, 2 counter for deactivated

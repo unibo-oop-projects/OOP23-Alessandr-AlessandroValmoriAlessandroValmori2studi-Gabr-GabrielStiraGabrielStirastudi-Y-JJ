@@ -9,6 +9,7 @@ import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryLifeStatus;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -83,7 +84,7 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-        
+
         this.model.move(pressed);
 
     }
@@ -94,23 +95,30 @@ public class PlayerMover {
      * @param root The root pane to which the player character's view will be added.
      */
     public void updateView(final Group root) {
+
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
-        if (!root.getChildren().contains((Node) this.view.getImageView())) {
-            root.getChildren().add((Node) this.view.getImageView());
 
+        Node imageView = (Node) this.view.getImageView();
+        Node shieldImageView = (Node) this.view.getShieldImageView();
+
+        if (this.model.isActive()) {
+            if (!root.getChildren().contains(imageView)) {
+                root.getChildren().add(imageView);
+            }
+            if (this.model.hasShield() && !root.getChildren().contains(shieldImageView)) {
+                root.getChildren().add(shieldImageView);
+                System.out.println("has shield");
+            } else if (!this.model.hasShield() && root.getChildren().contains(shieldImageView)) {
+                root.getChildren().remove(shieldImageView);
+                System.out.println("doesnt have shield");
+            }
+        } else {
+            root.getChildren().removeAll(imageView, shieldImageView);
         }
-        if (this.model.hasShield() && !root.getChildren().contains((Node) this.view.getShieldImageView())) {
-            root.getChildren().add((Node) this.view.getShieldImageView());
-            System.out.println("has shield");
-        }
-        else if(!this.model.hasShield() && root.getChildren().contains((Node) this.view.getShieldImageView())) {
-            root.getChildren().remove((Node) this.view.getShieldImageView());
-            System.out.println("doesnt have shield");
-        }
+
     }
 
-    
     /**
      * Retrieves the hitbox of the player character.
      * 
@@ -120,26 +128,26 @@ public class PlayerMover {
         return this.model.getHitbox();
     }
 
-    public void hit(ObstacleType type){
-        if(this.model.hasShield()){
-           this.model.removeShield();
-            System.out.println("SHILDED barry hit by" + type.toString());
-        }
-        else{
-            //this.model.setLifeStatus(BarryLifeStatus.DEAD);
-            //this.model.kill(type);
-            System.out.println("barry hit by" + type.toString());
+    public void hit(ObstacleType type) {
+        if (this.model.hasShield()) {
+            this.model.removeShield();
+
+        } else {
+            this.model.setLifeStatus(BarryLifeStatus.DEAD);
+            this.model.kill(type);
+
         }
     }
-    public void setBarryShield(){
+
+    public void setBarryShield() {
         this.model.setShieldOn();
     }
 
-    public void activate(){
-        this.model.setLifeStatus(BarryLifeStatus.ALIVE);
+    public void activate() {
+        this.model.setActiveValue(true);
     }
 
-    public void deactivate(){
-        this.model.setLifeStatus(BarryLifeStatus.INACTIVE);
+    public void deactivate() {
+        this.model.setActiveValue(false);
     }
 }

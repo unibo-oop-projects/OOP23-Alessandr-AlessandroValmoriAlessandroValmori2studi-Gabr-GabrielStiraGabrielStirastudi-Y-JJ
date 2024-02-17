@@ -69,6 +69,7 @@ public class EntityHandler {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
+                playerHandler.activate();
             }
             else{
                 this.playerHandler.hit(obstacleHit.get());
@@ -78,6 +79,7 @@ public class EntityHandler {
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
         if(this.pickUpHandler.update(entityGroup, playerHandler.getHitbox())) {
+            playerHandler.deactivate();
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
 
             switch (pickUpPickedUp.getPickUpType()) {

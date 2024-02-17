@@ -86,7 +86,8 @@ public class ShopView {
         for (var entry : buttonMap.entrySet()) {
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(buttonStyle);
-            entry.getKey().setPrefSize(buttonWidth, buttonHeight);
+            entry.getKey().setPrefWidth(buttonWidth);
+            entry.getKey().setPrefHeight(buttonHeight);
             entry.getKey().setOnAction(e -> {
                 this.controller.buy(entry.getValue());
             });
@@ -255,6 +256,7 @@ public class ShopView {
                        imageView.setFitWidth(buttonWidth);
                        imageView.setFitHeight(buttonHeight);
                        imageView.setPreserveRatio(false);
+                       entry.getKey().setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
                         entry.getKey().setGraphic(imageView);
                     }
                 }

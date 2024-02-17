@@ -34,6 +34,7 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
     }
 
+    @Override
     public Pair<Double,Double> getHitboxDimensions() {
         return this.hitboxDimensions;
     }
@@ -62,7 +63,7 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     @Override
-    public void updateHitbox(Pair<Double, Double> newPosition, Double angle) {
+    public void updateHitbox(final Pair<Double, Double> newPosition, final Double angle) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         final Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
@@ -79,7 +80,7 @@ public abstract class AbstractHitbox implements Hitbox {
         final Double newX = newPosition.get1();
         final Double newY = newPosition.get2();
 
-        Set<Pair<Double, Double>> newHitbox = new HashSet<>();
+        final Set<Pair<Double, Double>> newHitbox = new HashSet<>();
 
         for (final var elem : this.hitbox) {
             final Pair<Double, Double> center = computeCenter();
@@ -91,6 +92,7 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox = newHitbox;
     }
 
+    @Override
     public boolean isTouching(final Pair<Double, Double> pos) {
         final Polygon allPoints = new Polygon();
 
@@ -101,10 +103,12 @@ public abstract class AbstractHitbox implements Hitbox {
         return allPoints.contains(pos.get1(), pos.get2());
     }
 
+    @Override
     public Pair<Double, Double> getHitboxPosition() {
         return computeCenter();
     }
 
+    @Override
     public Set<Pair<Double, Double>> getHitboxVertex() {
         return this.hitbox;
     }

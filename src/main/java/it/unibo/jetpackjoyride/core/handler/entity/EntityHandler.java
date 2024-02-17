@@ -62,10 +62,14 @@ public class EntityHandler {
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
-        if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerHandler.getHitbox()).isPresent()) {
+        var obstacleHit = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerHandler.getHitbox());
+        if(obstacleHit.isPresent()) {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
+            }
+            else{
+                this.playerHandler.hit(obstacleHit.get());
             }
         }
 

@@ -15,11 +15,11 @@ public interface Barry {
      * Enum representing various statuses of Barry.
      */
     enum BarryStatus {
-        WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED
+        WALKING, PROPELLING, FALLING, HEAD_DRAGGING, BURNED, ZAPPED, LASERED, UNDEFINED
     }
 
     enum BarryLifeStatus{
-        ALIVE, DEAD
+        ALIVE, DEAD, INACTIVE
     }
 
     /**
@@ -65,4 +65,6 @@ public interface Barry {
     void setShieldOn();
 
     void kill (ObstacleType type);
+
+    void setLifeStatus(BarryLifeStatus lifeStatus);
 }

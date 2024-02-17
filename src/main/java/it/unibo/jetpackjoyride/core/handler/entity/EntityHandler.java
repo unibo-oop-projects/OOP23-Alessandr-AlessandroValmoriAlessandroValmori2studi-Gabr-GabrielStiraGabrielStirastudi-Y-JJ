@@ -41,15 +41,13 @@ public class EntityHandler {
         this.counter = 0;
     }
 
-    public Event update(final Group entityGroup, final PlayerMover playerController, final boolean isSpaceBarPressed) {
-        Event eventHappening = Event.NONE;
+    public void update(final Group entityGroup, final PlayerMover playerController, final boolean isSpaceBarPressed) {
 
         if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
-        if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerController.getHitbox())) {
-            eventHappening = isUsingPowerUp ? Event.POWERUPHIT : Event.BARRYHIT;
+        if(this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerController.getHitbox()).isPresent()) {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
@@ -59,7 +57,6 @@ public class EntityHandler {
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
         if(this.pickUpHandler.update(entityGroup, playerController.getHitbox())) {
-            eventHappening = Event.PICKUPPICKEDUP;
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
 
             switch (pickUpPickedUp.getPickUpType()) {
@@ -75,7 +72,6 @@ public class EntityHandler {
         }
 
         this.counter++;
-        return eventHappening;
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {

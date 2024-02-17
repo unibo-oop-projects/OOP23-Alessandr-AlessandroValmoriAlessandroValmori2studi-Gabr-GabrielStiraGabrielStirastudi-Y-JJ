@@ -113,9 +113,7 @@ public final class GameLoop {
                         showGameOverMenu();
                         endLoop();  
                     }else{
-                        Event eventHappening;
-                        eventHappening = entityHandler.update(entityGroup, playerMover, inputH.isSpacePressed());
-                        //System.out.println(eventHappening);
+                        entityHandler.update(entityGroup, playerMover, inputH.isSpacePressed());
                     }
                    
                     lastUpdate = now;

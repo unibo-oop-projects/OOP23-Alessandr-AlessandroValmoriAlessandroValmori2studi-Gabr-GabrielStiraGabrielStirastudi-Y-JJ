@@ -71,12 +71,17 @@ public final class ShopControllerImpl implements ShopController {
         }
         else{
 
-        this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+        
         if(item.equals(Items.SHIELD)){
             this.numOfShields++;
+            this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
         }
         else{
-            this.unlockedItems.add(item);
+
+            if(!this.unlockedItems.contains(item)){
+                this.unlockedItems.add(item);
+                this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+            }
             System.out.println(this.unlockedItems);
         }
         this.view.update();

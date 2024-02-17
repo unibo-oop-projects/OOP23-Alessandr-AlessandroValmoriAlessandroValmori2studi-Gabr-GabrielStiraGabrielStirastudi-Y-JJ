@@ -12,6 +12,8 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
@@ -26,9 +28,13 @@ import javafx.scene.layout.Pane;
  * logic.
  */
 public class PlayerMover {
+
+    private Pair<Double, Double> lastScreenDims;
+
     private Barry model;
     private BarryView view;
     private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    private GameStatsController gameStatsHandler;
     private static final int numCopies = 7;
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
@@ -45,8 +51,10 @@ public class PlayerMover {
     /**
      * Constructs a new PlayerMover instance.
      */
-    public PlayerMover() {
+    public PlayerMover(GameStatsController gameStatsHandler) {
+        this.lastScreenDims= new Pair<>(GameInfo.getInstance().getScreenWidth(),  GameInfo.getInstance().getScreenHeight());
         this.model = new BarryImpl();
+        this.gameStatsHandler= gameStatsHandler;
         this.buildMap();
 
         this.view = new BarryView(this.getSpritesForStatus());
@@ -84,8 +92,17 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-
+        if(this.model.isAlive()){
+            var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),  GameInfo.getInstance().getScreenHeight());
+            if(!currendScreenDims.equals(this.lastScreenDims)){
+                this.model.updateLimits(currendScreenDims.get1() / lastScreenDims.get1(), currendScreenDims.get2() / lastScreenDims.get2());
+                this.lastScreenDims= currendScreenDims;
+            }
         this.model.move(pressed);
+        if(this.gameStatsHandler.getGameStatsModel().isShieldEquipped()){
+            this.model.setShieldOn();
+        }
+        }
 
     }
 

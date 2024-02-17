@@ -19,7 +19,6 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 
 public final class ObstacleSpawner {
-    private static final Double MAPMOVEMENTSPEED = -5.0;
     private final EntityGenerator entityGenerator;
     private Image[] images;
 
@@ -83,8 +82,9 @@ public final class ObstacleSpawner {
     }
 
     private List<GenericController<Obstacle,ObstacleView>> randomChunk() {
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double gameMovingSpeed = Double.valueOf(GameInfo.moveSpeed.get());
 
         List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         Random random = new Random();
@@ -117,7 +117,7 @@ public final class ObstacleSpawner {
                 case 1:
                     // ZAPPER
                     movement = new MovementImpl(new Pair<>(screenSizeX, random.nextDouble() * screenSizeY),
-                            new Pair<>(MAPMOVEMENTSPEED, 0.0), new Pair<>(0.0, 0.0),
+                            new Pair<>(-gameMovingSpeed, 0.0), new Pair<>(0.0, 0.0),
                             new Pair<>(random.nextDouble() * 180,
                                     random.nextInt(2) == 0 ? 0.0 : random.nextDouble() * 5),
                             List.of());

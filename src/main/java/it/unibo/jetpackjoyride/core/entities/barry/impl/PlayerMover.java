@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -117,5 +119,15 @@ public class PlayerMover {
         return this.model.getHitbox();
     }
 
-    public void hit(){}
+    public void hit(ObstacleType type){
+        if(this.model.hasShield()){
+            this.model.removeShield();
+        }
+        else{
+            this.model.kill(type);
+        }
+    }
+    public void setBarryShield(){
+        this.model.setShieldOn();
+    }
 }

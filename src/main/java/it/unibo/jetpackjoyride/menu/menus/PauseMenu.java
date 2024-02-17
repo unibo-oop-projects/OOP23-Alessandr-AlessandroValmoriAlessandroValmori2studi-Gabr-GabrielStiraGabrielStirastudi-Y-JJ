@@ -18,7 +18,7 @@ public class PauseMenu extends GameMenu {
 
 
     public PauseMenu(final Stage primaryStage,final GameLoop gameLoop) {
-        super(primaryStage);
+        super(primaryStage,null);
         this.gameLoop = gameLoop;
         initializeGameMenu();
         
@@ -36,7 +36,7 @@ public class PauseMenu extends GameMenu {
         Button restartButton = ButtonFactory.createButton("back",
         e->{continueCommand.execute();this.buttonsVBox.setVisible(false);},220,120);
         
-        Command pauseCommand = new PauseCommand(gameLoop, stage,this);
+        Command pauseCommand = new PauseCommand(gameLoop,this);
         pauseButton = ButtonFactory.createButton("Pause",e->pauseCommand.execute(),50,50);
         pauseButton.setLayoutX(gameInfo.getScreenWidth()-70);
         pauseButton.setLayoutY(0);

@@ -18,39 +18,27 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
     private GameInfo gameInfo;
     private Random random;
-    private Map<String,List<Pair<Double, Double>>> cachedShapes;
+    private Map<String,List<Pair<Double, Double>>> cachedRegularShapes;
 
     public CoinShapeFactoryImpl(final GameInfo gameInfo) {
         this.gameInfo = gameInfo;
         random = new Random();
         minY = gameInfo.getScreenHeight() * 0.1;
         maxY = gameInfo.getScreenHeight() * 0.9; 
-        this.cachedShapes = new HashMap<>();
+        this.cachedRegularShapes = new HashMap<>();
         loadInitialShapes();
     }
 
     @Override
     public List<Pair<Double, Double>> regularShapes() {
-            updateDimension();
-            int randomNum = random.nextInt(8);
-           switch (randomNum) {
-            case 0:
-                return generateShape("straightLine");
-            case 1:
-                return generateShape("multiStraightLine");
-            case 2:
-                return generateShape("steppedUp");
-            case 3:
-                return generateShape("steppedDown");
-            case 4:
-                return generateShape("prismatic");
-            default:
-                return new ArrayList<>();
-        }   
+        updateDimension();
+        List<String> keys = new ArrayList<>(cachedRegularShapes.keySet());
+        String randomKey = keys.get(random.nextInt(keys.size()));
+        return randomYwithoutOutofmap(cachedRegularShapes.get(randomKey));
     }
 
-    @Override
-    public  List<Pair<Double, Double>> straightLine(int numOfCoins, double startX, double startY) {
+    
+    private  List<Pair<Double, Double>> straightLine(int numOfCoins, double startX, double startY) {
                 List<Pair<Double, Double>> outlist = new ArrayList<>();
                 for (int i = 0; i < numOfCoins; i++) {
                     outlist.add(new Pair<Double, Double>(startX+(i*SPACE), startY));
@@ -58,9 +46,7 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
                 return outlist;
             }
     
-
-    @Override
-    public  List<Pair<Double, Double>> multiStraightLine(int numOfCoins, double startX, double startY,int n) {  
+    private  List<Pair<Double, Double>> multiStraightLine(int numOfCoins, double startX, double startY,int n) {  
                 List<Pair<Double, Double>> outlist = 
                 new ArrayList<>(straightLine(numOfCoins,startX,startY));
                 for(int i = 1 ; i< n ; i++){
@@ -69,8 +55,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
                 return outlist;
             }         
       
-    @Override
-    public  List<Pair<Double, Double>> stepped(int numOfCoins,int steps,double startX, double startY,boolean up) {
+    
+    private  List<Pair<Double, Double>> stepped(int numOfCoins,int steps,double startX, double startY,boolean up) {
                 double posY = startY;
                 double posX = startX;
                 List<Pair<Double, Double>> outlist = 
@@ -83,8 +69,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
                 return outlist;
             }        
 
-    @Override
-    public  List<Pair<Double, Double>> prismatic(int numOfCoins,int n) {
+    
+    private  List<Pair<Double, Double>> prismatic(int numOfCoins,int n) {
                 double posX = gameInfo.getScreenWidth();
                 double posY = minY + random.nextDouble() * (maxY-minY);
                 List<Pair<Double, Double>> outlist = 
@@ -104,21 +90,13 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     private void loadInitialShapes(){
         double posX = gameInfo.getScreenWidth();
         double initialY = 0;
-        cachedShapes.put("straightLine", straightLine(10, posX, initialY));
-        cachedShapes.put("multiStraightLine", multiStraightLine(8, posX, initialY, 2));
-        cachedShapes.put("steppedUp", stepped(3, 4, posX, initialY, true));
-        cachedShapes.put("steppedDown", stepped(3, 4, posX, initialY, false));
-        cachedShapes.put("prismatic", prismatic(6, 3));
+        cachedRegularShapes.put("straightLine", straightLine(10, posX, initialY));
+        cachedRegularShapes.put("multiStraightLine", multiStraightLine(8, posX, initialY, 2));
+        cachedRegularShapes.put("steppedUp", stepped(3, 4, posX, initialY, true));
+        cachedRegularShapes.put("steppedDown", stepped(3, 4, posX, initialY, false));
+        cachedRegularShapes.put("prismatic", prismatic(6, 3));
     }
 
-    private List<Pair<Double,Double>>  generateShape(String shapeName){
-        List<Pair<Double,Double>> tempList = cachedShapes.get(shapeName);
-        if(tempList == null){
-            throw new IllegalArgumentException(shapeName + "Not found");
-        }
-
-        return randomYwithoutOutofmap(new ArrayList<>(tempList));
-    }
 
     private List<Pair<Double,Double>> randomYwithoutOutofmap(List<Pair<Double,Double>> cachedShape){
         double minY1 = Double.MAX_VALUE;

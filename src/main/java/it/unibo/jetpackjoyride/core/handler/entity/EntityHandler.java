@@ -18,6 +18,7 @@ public class EntityHandler {
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
+    private PlayerMover playerController;
 
     private Set<Items> unlockedPowerUps;
 
@@ -33,6 +34,7 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
+        this.playerController = new PlayerMover();
 
         this.unlockedPowerUps = unlockedPowerUps;
 
@@ -41,7 +43,9 @@ public class EntityHandler {
         this.counter = 0;
     }
 
-    public void update(final Group entityGroup, final PlayerMover playerController, final boolean isSpaceBarPressed) {
+    public void update(final Group entityGroup, final boolean isSpaceBarPressed) {
+        playerController.move(isSpaceBarPressed);
+        playerController.updateView(entityGroup);
 
         if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
             this.spawnVehiclePickUp(this.unlockedPowerUps);

@@ -10,7 +10,6 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javafx.scene.Group;
@@ -61,13 +60,15 @@ public class EntityHandler {
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
         if(this.pickUpHandler.update(entityGroup, playerHitbox)) {
-            this.isUsingPowerUp = true;
             this.eventHappening = Event.PICKUPPICKEDUP;
             PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
                     VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUpPickedUp;
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
+                    this.isUsingPowerUp = true;
+                    this.obstacleHandler.deactivateAllObstacles();
                     break;
                 default:
                     break;
@@ -79,7 +80,7 @@ public class EntityHandler {
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {
-        if(unlockedPowerUps.isEmpty() || unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
+        if(unlockedPowerUps.isEmpty() || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
             return;
         }
 

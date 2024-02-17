@@ -25,7 +25,7 @@ public final class ObstacleHandler {
     
         this.listOfControllers = new ArrayList<>();
         this.obstacleSpawner = new ObstacleSpawner();
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> generate()));
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 

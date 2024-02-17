@@ -78,7 +78,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
 
             case MRCUDDLES: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 2, screenSizeY / 2), powerUpMovement.getRotation().get1());
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10), powerUpMovement.getRotation().get1());
                 powerUpModel.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
 
                 images = new Image[6];
@@ -140,8 +140,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
         Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());;
         PickUp pickUpModel = new VehiclePickUp(spawnedVehicle, pickUpMovement, pickUpHitbox);
         
-        Image[] images = new Image[17];
-        for (int i = 0; i < 17; i++) {
+        Image[] images = new Image[21];
+        for (int i = 0; i < 21; i++) {
             images[i] = new Image(getClass().getClassLoader()
             .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
             .toExternalForm());

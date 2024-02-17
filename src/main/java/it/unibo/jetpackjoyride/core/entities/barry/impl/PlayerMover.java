@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryLifeStatus;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -80,7 +83,7 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-
+        
         this.model.move(pressed);
 
     }
@@ -102,15 +105,7 @@ public class PlayerMover {
         }
     }
 
-    /**
-     * Retrieves the model of the player character.
-     * 
-     * @return The model of the player character.
-     */
-    public Barry getBarryModel() {
-        return this.model;
-    }
-
+    
     /**
      * Retrieves the hitbox of the player character.
      * 
@@ -125,10 +120,19 @@ public class PlayerMover {
             this.model.removeShield();
         }
         else{
+            this.model.setLifeStatus(BarryLifeStatus.DEAD);
             this.model.kill(type);
         }
     }
     public void setBarryShield(){
         this.model.setShieldOn();
+    }
+
+    public void activate(){
+        this.model.setLifeStatus(BarryLifeStatus.ALIVE);
+    }
+
+    public void deactivate(){
+        this.model.setLifeStatus(BarryLifeStatus.INACTIVE);
     }
 }

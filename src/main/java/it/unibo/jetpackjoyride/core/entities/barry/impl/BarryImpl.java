@@ -8,13 +8,15 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import java.util.Optional;
-
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
+
 
 /**
  * BarryImpl class implements the Barry interface and provides the functionality
@@ -44,7 +46,9 @@ public final class BarryImpl implements Barry {
 
     private final GameInfo gameInfo;
 
-    private boolean hasShield = false;
+    private  GameStatsController gameStatsController ;
+
+    private boolean hasShield;
 
     private Optional<ObstacleType> causeOfDeath = Optional.empty();
 
@@ -54,6 +58,8 @@ public final class BarryImpl implements Barry {
      * hitbox, and game information.
      */
     public BarryImpl() {
+        this.gameStatsController = new GameStatsHandler();
+        this.hasShield = this.gameStatsController.getGameStatsModel().isShieldEquipped();
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
         gameInfo = GameInfo.getInstance();
@@ -204,5 +210,10 @@ public final class BarryImpl implements Barry {
     @Override
     public void setShieldOn() {
         this.hasShield=true;
+    }
+
+    @Override
+    public void setLifeStatus(BarryLifeStatus lifeStatus) {
+        this.lifeStatus = lifeStatus;
     }
 }

@@ -31,7 +31,7 @@ public class GameStats implements GameStatsModel {
         this.isShieldEquipped= false;
         this.bestDistance = 0;
         this.currentDistance = 0;
-        this.totCoins = 50;
+        this.totCoins = 1000;
         
     }
 

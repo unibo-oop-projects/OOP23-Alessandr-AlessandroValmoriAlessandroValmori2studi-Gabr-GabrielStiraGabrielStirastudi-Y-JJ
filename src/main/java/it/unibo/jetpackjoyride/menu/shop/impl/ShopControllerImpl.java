@@ -66,21 +66,34 @@ public final class ShopControllerImpl implements ShopController {
 
         var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
 
-        if(item.getItemCost() > available){
-            System.out.println("Not enough funds :(\n");
-        }
-        else{
-
-        this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+        
+        
         if(item.equals(Items.SHIELD)){
+            if(item.getItemCost() > available){
+                System.out.println("Not enough funds :(\n");
+            }
+            else{
             this.numOfShields++;
+            this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+            }
         }
         else{
-            this.unlockedItems.add(item);
-            System.out.println(this.unlockedItems);
+            
+
+            if(!this.unlockedItems.contains(item)){
+                if(item.getItemCost() > available){
+                    System.out.println("Not enough funds :(\n");
+                }
+                else{
+                this.unlockedItems.add(item);
+                this.gameStatsHandler.getGameStatsModel().updateCoins(- item.getItemCost());
+                }
+            }
+          
         }
+        
         this.view.update();
-        }
+        
      
     }
 
@@ -111,6 +124,12 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void toggleEquipUnequipShield() {
         this.isShieldEquipped = !this.isShieldEquipped;
+        if(this.isShieldEquipped){
+        System.out.println("Shop: shield is equipped");
+        }
+        else{
+            System.out.println("Shop: shield is NOT equipped");
+        }
         this.view.update();
     }
 

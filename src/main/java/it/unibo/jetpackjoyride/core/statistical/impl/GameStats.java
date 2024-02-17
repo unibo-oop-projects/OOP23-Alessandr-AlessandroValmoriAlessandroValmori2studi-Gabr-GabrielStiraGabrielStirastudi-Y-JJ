@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Set;
+
+import javax.sound.midi.Soundbank;
+
 import java.util.HashSet;
 import java.io.ObjectOutputStream;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
@@ -100,7 +103,8 @@ public class GameStats implements GameStatsModel {
 
     @Override
     public void addShields(int num) {
-        this.numOfShields += num;
+        System.out.println("CALLED");
+        this.numOfShields = num;
     }
 
     @Override

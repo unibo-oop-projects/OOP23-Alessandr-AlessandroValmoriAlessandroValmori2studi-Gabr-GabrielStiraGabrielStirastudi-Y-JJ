@@ -35,11 +35,11 @@ public final class CoinGenerator {
     private final List<Coin> reusableCoin = new ArrayList<>();
     private final CoinShapeFactory coinShapeFactory;
     private final GameInfo gameInfo;
-    private final Hitbox playeHitbox;
     private final GameStatsModel gameStatsModel;
     private final int initialSpeed = GameInfo.moveSpeed.get();
-
     private final Random random = new Random();
+
+    private Hitbox playeHitbox;
 
     public CoinGenerator(Hitbox playeHitbox, GameStatsModel gameStatsModel){
         this.gameInfo = GameInfo.getInstance();
@@ -64,6 +64,10 @@ public final class CoinGenerator {
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
+    public void setPlayerHitbox(Hitbox playerHitbox){
+         this.playeHitbox = playerHitbox;
+    }
+
     private void generateCoin() {
         if(generateOrNot()){
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
@@ -73,8 +77,7 @@ public final class CoinGenerator {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
             } else {
-                CoinModel model = new CoinModelImpl(position, 
-                new HitboxImpl(position, new Pair<>(70.0,70.0), 0.0), COIN_WIDTH, COIN_HEIGHT);
+                CoinModel model = new CoinModelImpl(position, new HitboxImpl(position, new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))), COIN_WIDTH, COIN_HEIGHT);
                 CoinView view = new CoinViewImpl(model);
                 coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
             }
@@ -153,7 +156,7 @@ public final class CoinGenerator {
 
         for (Coin coin : sortedList) {
               for (var vertex : playeHitbox.getHitboxVertex()) {
-                    if(coin.geHitbox().isTouching(vertex)){
+                    if(coin.geHitbox().isTouching(vertex) || coin.geHitbox().isTouching(playeHitbox.getHitboxPosition())){
                         coin.setVisible(false);
                         if(!coin.isCollected()){
                             gameStatsModel.updateCoins(1);

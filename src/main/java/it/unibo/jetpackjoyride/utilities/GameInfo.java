@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.utilities;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -8,6 +9,8 @@ public final class GameInfo {
     private static final double DEFAULTY = 720;
     private double screenHeight;
     private double screenWidth;
+
+    private Optional<Double> currentPlayableYPos = Optional.empty();
 
     public static AtomicInteger moveSpeed = new AtomicInteger(5);
 
@@ -30,6 +33,8 @@ public final class GameInfo {
         this.screenHeight = screenHeight;
         this.screenRatio = this.screenWidth / this.screenHeight;
     }
+    
+  
 
     public double getScreenWidth() {
         return screenWidth;
@@ -53,5 +58,13 @@ public final class GameInfo {
 
     public void setMoveSpeed(int newSpeed) {
         GameInfo.moveSpeed.set(newSpeed);
+    }
+
+    public void setCurrentYPos(double y){
+        this.currentPlayableYPos = Optional.of(y);
+    }
+
+    public Optional<Double> getCurrentYPos(){
+        return this.currentPlayableYPos;
     }
 }

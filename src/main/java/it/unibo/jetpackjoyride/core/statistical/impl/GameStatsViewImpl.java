@@ -22,7 +22,7 @@ public class GameStatsViewImpl implements GameStatsView{
         scorePane = creatImageView(SCORE_IMAGE1_PATH);
         scorePane.setX(0);
         scorePane.setY(0);
-        scorePane.setFitWidth(160);
+        scorePane.setFitWidth(180);
         scorePane.setFitHeight(72);
         coinAndDistanceText.setX(25);
         coinAndDistanceText.setY(23);

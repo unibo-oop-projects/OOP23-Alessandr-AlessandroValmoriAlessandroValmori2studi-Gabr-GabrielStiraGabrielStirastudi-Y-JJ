@@ -1,10 +1,8 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.animation.KeyFrame;
@@ -12,10 +10,10 @@ import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.util.Duration;
+import java.util.*;
 
 public final class ObstacleHandler {
-
-
+    
     private ObstacleSpawner obstacleSpawner;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
     private Timeline timeline;
@@ -41,10 +39,10 @@ public final class ObstacleHandler {
     }
 
 
-    public boolean update(final Group obstacleGroup, final Hitbox playerHitbox) {
+    public Optional<ObstacleType> update(final Group obstacleGroup, final Hitbox playerHitbox) {
         synchronized (this.listOfControllers) {
             var iterator = listOfControllers.iterator();
-            boolean obstacleHitPlayer = false;
+            Optional<ObstacleType> obstacleHitPlayer = Optional.empty();
             while (iterator.hasNext()) {
                 final var controller = iterator.next();
 
@@ -52,7 +50,8 @@ public final class ObstacleHandler {
 
                 if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
-                    obstacleHitPlayer = true;
+                    Obstacle obstacleHit = (Obstacle)controller.getEntityModel();
+                    obstacleHitPlayer = Optional.of(obstacleHit.getObstacleType());
                     controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
 
@@ -68,7 +67,7 @@ public final class ObstacleHandler {
 
             // Deactivate all obstacles on screen if one hit the player (give the player a
             // brief moment of grace time)
-            if (obstacleHitPlayer) {
+            if (obstacleHitPlayer.isPresent()) {
                 iterator = listOfControllers.iterator();
                 while (iterator.hasNext()) {
                     final var controller = iterator.next();

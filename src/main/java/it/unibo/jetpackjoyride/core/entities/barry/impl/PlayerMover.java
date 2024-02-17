@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryLifeStatus;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -80,7 +83,7 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-
+        
         this.model.move(pressed);
 
     }
@@ -99,18 +102,15 @@ public class PlayerMover {
         }
         if (this.model.hasShield() && !root.getChildren().contains((Node) this.view.getShieldImageView())) {
             root.getChildren().add((Node) this.view.getShieldImageView());
+            System.out.println("has shield");
+        }
+        else if(!this.model.hasShield() && root.getChildren().contains((Node) this.view.getShieldImageView())) {
+            root.getChildren().remove((Node) this.view.getShieldImageView());
+            System.out.println("doesnt have shield");
         }
     }
 
-    /**
-     * Retrieves the model of the player character.
-     * 
-     * @return The model of the player character.
-     */
-    public Barry getBarryModel() {
-        return this.model;
-    }
-
+    
     /**
      * Retrieves the hitbox of the player character.
      * 
@@ -122,13 +122,24 @@ public class PlayerMover {
 
     public void hit(ObstacleType type){
         if(this.model.hasShield()){
-            this.model.removeShield();
+           this.model.removeShield();
+            System.out.println("SHILDED barry hit by" + type.toString());
         }
         else{
-            this.model.kill(type);
+            //this.model.setLifeStatus(BarryLifeStatus.DEAD);
+            //this.model.kill(type);
+            System.out.println("barry hit by" + type.toString());
         }
     }
     public void setBarryShield(){
         this.model.setShieldOn();
+    }
+
+    public void activate(){
+        this.model.setLifeStatus(BarryLifeStatus.ALIVE);
+    }
+
+    public void deactivate(){
+        this.model.setLifeStatus(BarryLifeStatus.INACTIVE);
     }
 }

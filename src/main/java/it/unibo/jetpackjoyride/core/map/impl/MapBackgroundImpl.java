@@ -4,6 +4,7 @@ import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,7 +24,7 @@ public class MapBackgroundImpl implements MapBackground {
 
     public MapBackgroundImpl(){
         model = new MapBackgroundModelImpl();
-        view = new MapBackgroungViewImpl();
+        view = new MapBackgroungViewImpl(this);
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
             if(GameInfo.moveSpeed.get() == MAX_SPEED){
@@ -35,17 +36,9 @@ public class MapBackgroundImpl implements MapBackground {
     }
 
     @Override
-    public void updateBackgroundView() {
-        this.view.updateBackgroundView(model.getPosX().get(0), model.getPosX().get(1)
-        ,model.getSize().get1(), model.getSize().get2());
-    }
-
-    @Override
-    public void updateBackgroundModel() { 
-        if(!timeline.statusProperty().get().equals(Status.RUNNING)){
-            timeline.play();
-        }
-        this.model.updateBackgroundModel();
+    public void updateBackground() {
+        updateBackgroundModel();
+        updateBackgroundView();
     }
 
     @Override
@@ -63,4 +56,27 @@ public class MapBackgroundImpl implements MapBackground {
         
     }
 
+    @Override
+    public Pair<Double, Double> getPosX() {
+         return this.model.getPosX();
+    }
+
+    @Override
+    public Pair<Double, Double> getSize() {
+         return this.model.getSize();
+    }
+
+    private void updateBackgroundView() {
+        this.view.updateBackgroundView();
+    }
+
+ 
+    private void updateBackgroundModel() { 
+        if(!timeline.statusProperty().get().equals(Status.RUNNING)){
+            timeline.play();
+        }
+        this.model.updateBackgroundModel();
+    }
+
+  
 }

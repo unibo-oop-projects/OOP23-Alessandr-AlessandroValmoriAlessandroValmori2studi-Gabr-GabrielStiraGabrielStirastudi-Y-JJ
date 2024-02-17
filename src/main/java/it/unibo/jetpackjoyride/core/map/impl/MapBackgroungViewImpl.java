@@ -3,8 +3,9 @@ package it.unibo.jetpackjoyride.core.map.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
+import it.unibo.jetpackjoyride.core.map.api.MapBackground;
+import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -14,23 +15,24 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
     private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
     private final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
 
-    private GameInfo gameInfo;
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
+    private MapBackground controller;
 
-    public MapBackgroungViewImpl(){
-        gameInfo = GameInfo.getInstance();
+    public MapBackgroungViewImpl(MapBackground controller){
         this.root = new Pane();
+        this.controller = controller;
         loadBackgroungImage();
     }
 
-    public void updateBackgroundView(double x1,double x2 ,double mapWidth,double mapHeight) {
-        if(bgImageView1.getFitWidth() != mapWidth || bgImageView1.getFitHeight() != mapHeight){
-            setImageViewSize(bgImageView1, mapWidth, mapHeight);
-            setImageViewSize(bgImageView2, mapWidth, mapHeight);
+    public void updateBackgroundView() {
+        if(bgImageView1.getFitWidth() != controller.getSize().get1() 
+        || bgImageView1.getFitHeight() != controller.getSize().get2()){
+            setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
+            setImageViewSize(bgImageView2, controller.getSize().get1(), controller.getSize().get2());
         }
-        bgImageView1.setX(x1);
-        bgImageView2.setX(x2);
+        bgImageView1.setX(controller.getPosX().get1());
+        bgImageView2.setX(controller.getPosX().get2());
     }
 
     public Pane getPane(){
@@ -42,8 +44,8 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
         bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
 
-        setImageViewSize(bgImageView1, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        setImageViewSize(bgImageView2, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+        setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
+        setImageViewSize(bgImageView2,controller.getSize().get1(), controller.getSize().get2());
 
         this.root.getChildren().addAll(bgImageView1, bgImageView2);
     }
@@ -69,5 +71,6 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         bImageView.setFitWidth(width);
         bImageView.setFitHeight(height);
     }
-    
+
+   
 }

@@ -20,9 +20,4 @@ public abstract class AbstractPickUp extends AbstractEntity implements PickUp {
     public PickUpType getPickUpType() {
         return this.pickUpType;
     }
-
-    @Override
-    public void update(final boolean isSpaceBarPressed) {
-        super.update(isSpaceBarPressed);
-    }
 }

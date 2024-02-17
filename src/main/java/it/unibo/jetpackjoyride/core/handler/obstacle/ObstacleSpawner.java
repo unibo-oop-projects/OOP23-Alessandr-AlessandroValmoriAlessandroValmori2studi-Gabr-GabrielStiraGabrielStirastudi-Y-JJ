@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 
 public final class ObstacleSpawner {
     private static final Double MAPMOVEMENTSPEED = -5.0;
-    private EntityGenerator entityGenerator;
+    private final EntityGenerator entityGenerator;
     private Image[] images;
 
     public ObstacleSpawner() {
@@ -30,32 +30,28 @@ public final class ObstacleSpawner {
 
     private void initialize() {
         this.images = new Image[56]; // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
-        int index = 0;
 
         // MISSILE 20 total
-        for (int i = 0; i < 20; i++) {
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/obstacles/missile/missile_" + (i + 1) + ".png").toExternalForm();
-            images[index] = new Image(imagePath);
-            index++;
-        }
+        this.imageLoader(images, "sprites/entities/obstacles/missile/missile_", 0, 20);
 
         // ZAPPER 20 total
-        for (int i = 0; i < 20; i++) {
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/obstacles/zapper/zapper_" + (i + 1) + ".png").toExternalForm();
-            images[index] = new Image(imagePath);
-            index++;
-        }
+        this.imageLoader(images, "sprites/entities/obstacles/zapper/zapper_", 20, 20);
 
         // LASER 16 total
-        for (int i = 0; i < 16; i++) {
-            String imagePath = getClass().getClassLoader()
-                    .getResource("sprites/entities/obstacles/laser/laser_" + (i + 1) + ".png").toExternalForm();
+        this.imageLoader(images, "sprites/entities/obstacles/laser/laser_", 40, 16);
+    }
+
+    private void imageLoader(Image[] images, final String pathName, final Integer startingFrom, final Integer numberOfImages) {
+        int index = startingFrom;
+        for (int i = 0; i < numberOfImages; i++) {
+            final String imagePath = getClass().getClassLoader()
+                    .getResource(pathName + (i + 1) + ".png").toExternalForm();
             images[index] = new Image(imagePath);
             index++;
         }
     }
+
+
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         return randomChunk();

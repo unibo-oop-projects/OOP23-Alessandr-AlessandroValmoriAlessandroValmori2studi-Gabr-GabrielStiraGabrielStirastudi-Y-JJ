@@ -17,7 +17,7 @@ public class PickUpView implements GenericView{
     private int animationCounter;
 
     public PickUpView(final Image[] images) {
-        this.images = images;
+        this.images = images.clone();
         this.imageView = new ImageView();
         this.animationFrame = 0;
         this.animationLenght = 1;
@@ -25,15 +25,15 @@ public class PickUpView implements GenericView{
 
 	@Override
 	public void updateView(final Entity entity) {
-        PickUp pickUp = (PickUp)entity;
+        final PickUp pickUp = (PickUp)entity;
         Double width;
         Double height;
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
         switch (pickUp.getPickUpType()) {
             case VEHICLE:
-                VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUp;
+                final VehiclePickUp vehiclePickUp = (VehiclePickUp)pickUp;
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
                         width = screenSizeX / 15;

@@ -25,7 +25,7 @@ public final class MrCuddlesGenerator {
                             powerUpMovement.getCurrentPosition().get2()),
                     powerUpMovement.getSpeed(), powerUpMovement.getAcceleration(), powerUpMovement.getRotation(),
                     powerUpMovement.getMovementChangers());
-            PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);
+            final PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);
             this.mrCuddles.add(mrCuddlesBody);
         }
     }

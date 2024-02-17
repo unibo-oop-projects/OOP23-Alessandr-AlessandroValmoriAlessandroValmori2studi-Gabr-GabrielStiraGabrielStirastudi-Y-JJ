@@ -17,7 +17,7 @@ public class VehiclePickUp extends AbstractPickUp {
 	private Integer switchWave;
 	private final PowerUpType vehicleSpawn;
 
-    public VehiclePickUp(PowerUpType vehicleSpawn, Movement movement, Hitbox hitbox) {
+    public VehiclePickUp(final PowerUpType vehicleSpawn, final Movement movement, final Hitbox hitbox) {
         super(PickUpType.VEHICLE, movement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
 		this.animationTimer = 0;
@@ -26,7 +26,7 @@ public class VehiclePickUp extends AbstractPickUp {
     }
 
 	@Override
-	protected void updateStatus(boolean isSpaceBarPressed) {
+	protected void updateStatus(final boolean isSpaceBarPressed) {
 		final Double screenX = GameInfo.getInstance().getScreenWidth();
 		final Double screenY = GameInfo.getInstance().getScreenHeight();
         if (this.movement.getCurrentPosition().get1() < -screenX / 8) {
@@ -35,7 +35,7 @@ public class VehiclePickUp extends AbstractPickUp {
 
 		if(this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
 			this.animationTimer++;
-			Movement newMovement = new MovementImpl(new Pair<>(screenX/2, screenY/2), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0) , new Pair<>(0.0,0.0), List.of());
+			final Movement newMovement = new MovementImpl(new Pair<>(screenX/2, screenY/2), new Pair<>(0.0,0.0), new Pair<>(0.0,0.0) , new Pair<>(0.0,0.0), List.of());
 			this.movement = newMovement;
 		}
 		if(this.animationTimer.equals(ANIMATIONDURATION)) {

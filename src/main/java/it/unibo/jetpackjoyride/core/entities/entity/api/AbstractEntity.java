@@ -59,9 +59,7 @@ public abstract class AbstractEntity implements Entity {
         if (this.entityStatus.equals(EntityStatus.ACTIVE)) { //Updates the hitbox of the entity if the entity is ACTIVE
             this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get2());
         }//(Could have done it even without the if statement, but updating the hitbox when the entity is not active is useless)
-
-        
     }
 
-    protected abstract void updateStatus(final boolean isSpaceBarPressed);
+    protected abstract void updateStatus(boolean isSpaceBarPressed);
 }

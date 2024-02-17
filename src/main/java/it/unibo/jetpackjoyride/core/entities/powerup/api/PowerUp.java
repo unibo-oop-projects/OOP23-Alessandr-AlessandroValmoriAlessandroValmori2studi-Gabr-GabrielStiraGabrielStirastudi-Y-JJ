@@ -15,5 +15,6 @@ public interface PowerUp extends Entity {
 
     PerformingAction getPerformingAction();
 
+    @Override
     void update(boolean isSpaceBarPressed);
 }

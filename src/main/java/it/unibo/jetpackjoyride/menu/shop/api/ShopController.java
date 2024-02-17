@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import java.util.Set;
 import java.util.Optional;
 
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 
 

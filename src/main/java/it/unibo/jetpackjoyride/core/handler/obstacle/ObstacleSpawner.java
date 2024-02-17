@@ -58,8 +58,8 @@ public final class ObstacleSpawner {
     }
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
-        //return randomChunk();
-        return missileChunk();
+        return randomChunk();
+        //return missileChunk();
     }
 
     private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
@@ -71,7 +71,7 @@ public final class ObstacleSpawner {
         int numberOfObstacles = 1;
 
         for (int i = 0; i < numberOfObstacles; i++) {
-            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6) ),
+            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6)),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
             Hitbox hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0), movement.getRotation().get1());
             Image[] actualImages = loadImages(0, 19);
@@ -107,8 +107,8 @@ public final class ObstacleSpawner {
                 case 0:
                     // MISSILE
 
-                    movement = new MovementImpl(new Pair<>(screenSizeX, random.nextDouble() * screenSizeY),
-                            new Pair<>(MAPMOVEMENTSPEED, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of(
+                    movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6)),
+                            new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of(
                                     typeOfMovement == 0 ? MovementChangers.GRAVITY
                                             : typeOfMovement == 1 ? MovementChangers.SLOW
                                                     : typeOfMovement == 2 ? MovementChangers.HOMING

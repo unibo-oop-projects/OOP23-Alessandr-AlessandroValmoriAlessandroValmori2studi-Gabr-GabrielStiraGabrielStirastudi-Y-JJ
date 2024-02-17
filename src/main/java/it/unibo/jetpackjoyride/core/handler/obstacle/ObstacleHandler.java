@@ -49,7 +49,7 @@ public final class ObstacleHandler {
             while (iterator.hasNext()) {
                 final var controller = iterator.next();
 
-                controller.update(true);
+                controller.update(false);
 
                 if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {

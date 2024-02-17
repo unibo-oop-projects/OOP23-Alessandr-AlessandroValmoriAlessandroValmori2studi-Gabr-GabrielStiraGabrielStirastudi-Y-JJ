@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.pickups.impl;
 import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.pickups.api.AbstractPickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
@@ -11,16 +12,12 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class VehiclePickUp extends AbstractPickUp {
 
-	public enum VehicleSpawn {
-		MRCUDDLE, LILSTOMPER, PROFITBIRD, DUKEFISHRON
-	}
-
 	private static final Integer ANIMATIONDURATION = 100;
     private Integer animationTimer;
 	private Integer switchWave;
-	private final VehicleSpawn vehicleSpawn;
+	private final PowerUpType vehicleSpawn;
 
-    public VehiclePickUp(VehicleSpawn vehicleSpawn, Movement movement, Hitbox hitbox) {
+    public VehiclePickUp(PowerUpType vehicleSpawn, Movement movement, Hitbox hitbox) {
         super(PickUpType.VEHICLE, movement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
 		this.animationTimer = 0;
@@ -52,8 +49,7 @@ public class VehiclePickUp extends AbstractPickUp {
 		}
 	}
 
-	public VehicleSpawn getVehicleSpawn() {
+	public PowerUpType getVehicleSpawn() {
 		return this.vehicleSpawn;
 	}
-
 }

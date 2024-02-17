@@ -7,10 +7,8 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
-import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
-import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -31,7 +29,7 @@ public class PickUpHandler {
         while (iterator.hasNext()) {
             var controller = iterator.next();
 
-            controller.update(true);
+            controller.update(false);
 
             if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
@@ -65,9 +63,9 @@ public class PickUpHandler {
         return false;
     }
 
-    public void spawnPickUp(final PickUpType pickUpType) {
-        List<GenericController<PickUp, PickUpView>> pickUp = entityGenerator.generatePickUp(pickUpType);
-        listOfControllers.addAll(pickUp);
+    public void spawnVehiclePickUp(final PowerUpType vehicleSpawn) {
+        GenericController<PickUp, PickUpView> pickUp = entityGenerator.generateVehiclePickUp(vehicleSpawn);
+        listOfControllers.add(pickUp);
     }
 
     public List<GenericController<PickUp, PickUpView>> getAllPickUps() {

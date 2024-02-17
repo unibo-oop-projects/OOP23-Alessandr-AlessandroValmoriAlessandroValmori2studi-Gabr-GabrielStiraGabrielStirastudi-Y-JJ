@@ -7,7 +7,6 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
-import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -20,5 +19,5 @@ public interface EntityGenerator {
 
     List<GenericController<PowerUp, PowerUpView>> generatePowerUp(PowerUpType powerUpType);
 
-    List<GenericController<PickUp, PickUpView>> generatePickUp(PickUpType pickUpType);
+    GenericController<PickUp, PickUpView> generateVehiclePickUp(PowerUpType spawnedVehicle);
 }

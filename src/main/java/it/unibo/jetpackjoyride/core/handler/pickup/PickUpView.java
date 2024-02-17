@@ -50,7 +50,7 @@ public class PickUpView implements GenericView{
                             case LILSTOMPER:
                                 animationFrame = 8 + animationCounter / animationLenght % 3;
                                 break;
-                            case MRCUDDLE:
+                            case MRCUDDLES:
                                 animationFrame = 11 + animationCounter / animationLenght % 3;
                                 break;
                             case PROFITBIRD:

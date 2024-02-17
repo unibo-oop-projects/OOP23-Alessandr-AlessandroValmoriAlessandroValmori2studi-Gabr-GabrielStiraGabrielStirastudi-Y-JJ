@@ -10,9 +10,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.*;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
-import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
-import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp.VehicleSpawn;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
@@ -76,8 +74,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
-            
-                return powerUp; 
+                break;
 
             case MRCUDDLES: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
@@ -94,7 +91,7 @@ public class EntityGeneratorImpl implements EntityGenerator {
                         powerUpView = new PowerUpView(images);
                         powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(i), powerUpView));
                 }
-                return powerUp; 
+                break;
 
             case PROFITBIRD: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
@@ -110,9 +107,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
-                
-                return powerUp; 
 
+                break;
             case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.BOUNCING));
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 4, screenSizeY / 3), powerUpMovement.getRotation().get1());
@@ -127,45 +123,31 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpView = new PowerUpView(images);
 
                 powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
-                return powerUp; 
-            default:
                 break;
+
+            default:
+            throw new IllegalArgumentException("EntityGenerator could not generate the powerup");
         }
-        throw new IllegalArgumentException("EntityGenerator could not generate the powerup");
+        return powerUp;
     }
 
     @Override
-    public List<GenericController<PickUp, PickUpView>> generatePickUp(PickUpType pickUpType) {
+    public GenericController<PickUp, PickUpView> generateVehiclePickUp(PowerUpType spawnedVehicle) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
-        Movement pickUpMovement;
-        Hitbox pickUpHitbox;
-        PickUpView pickUpView;
-        List<PickUp> pickUpModel = new ArrayList<>();
-        List<GenericController<PickUp, PickUpView>> pickUp = new ArrayList<>();
-        Image[] images;
 
-        switch (pickUpType) {
-            case VEHICLE:
-                pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
-                pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());
-                pickUpModel.add(new VehiclePickUp(VehicleSpawn.LILSTOMPER, pickUpMovement, pickUpHitbox));
-
-                images = new Image[11];
-                for (int i = 0; i < 11; i++) {
-                    images[i] = new Image(getClass().getClassLoader()
-                    .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
-                    .toExternalForm());
-                }
-                pickUpView = new PickUpView(images);
-
-                pickUp.add(new GenericController<PickUp,PickUpView>(pickUpModel.get(0), pickUpView));
-
-
-                return pickUp; //Canon pickup existing in the original game
-            default:
-                break;
+        Movement pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));;
+        Hitbox pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9), pickUpMovement.getRotation().get1());;
+        PickUp pickUpModel = new VehiclePickUp(spawnedVehicle, pickUpMovement, pickUpHitbox);
+        
+        Image[] images = new Image[17];
+        for (int i = 0; i < 17; i++) {
+            images[i] = new Image(getClass().getClassLoader()
+            .getResource("sprites/entities/pickups/vehiclepickup/vehiclepickup_" + (i + 1) + ".png")
+            .toExternalForm());
         }
-        throw new IllegalArgumentException("EntityGenerator could not generate the pickup");
+        PickUpView pickUpView = new PickUpView(images);
+        
+        return new GenericController<PickUp,PickUpView>(pickUpModel, pickUpView);
     }
 }

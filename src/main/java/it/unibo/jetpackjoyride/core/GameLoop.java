@@ -116,7 +116,7 @@ public final class GameLoop {
                     }else{
                         Event eventHappening;
                         eventHappening = entityHandler.update(entityGroup, playerMover.getHitbox(), inputH.isSpacePressed());
-                        System.out.println(eventHappening);
+                        //System.out.println(eventHappening);
                     }
                    
                     lastUpdate = now;

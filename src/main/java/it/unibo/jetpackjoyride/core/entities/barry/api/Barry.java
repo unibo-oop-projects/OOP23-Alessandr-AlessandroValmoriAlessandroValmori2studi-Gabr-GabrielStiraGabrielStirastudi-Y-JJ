@@ -19,8 +19,9 @@ public interface Barry {
     }
 
     enum BarryLifeStatus{
-        ALIVE, DEAD, INACTIVE
+        ALIVE, DEAD
     }
+
 
     /**
      * Gets the current position of Barry as a Pair of X and Y coordinates.
@@ -67,4 +68,8 @@ public interface Barry {
     void kill (ObstacleType type);
 
     void setLifeStatus(BarryLifeStatus lifeStatus);
+
+    void setActiveValue(boolean value);
+
+    boolean isActive();
 }

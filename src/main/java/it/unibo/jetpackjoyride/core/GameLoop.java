@@ -9,7 +9,6 @@ import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.menus.OverMenu;
 import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -18,7 +17,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -45,10 +43,12 @@ public final class GameLoop {
 
     private final InputHandler inputH = new InputHandler();
 
-    public GameLoop(Stage stage) {
+    public GameLoop(Stage stage, final GameStatsController gameStatsController) {
         this.stage = stage;
+        this.gameStatsHandler = gameStatsController;
         initializeScene();
         this.initializeGameElements();
+        setListenerForGameInfo();
     }
 
     private void initializeScene() {
@@ -64,8 +64,7 @@ public final class GameLoop {
 
         map = new MapBackgroundImpl();
         pauseMenu = new PauseMenu(this.stage, this);
-        gameStatsHandler = new GameStatsHandler();
-
+        
         entityHandler = new EntityHandler();
         entityHandler.initialize(gameStatsHandler.getGameStatsModel().getUnlocked());
 
@@ -132,7 +131,6 @@ public final class GameLoop {
     }
 
     public void startLoop(){
-        //stopLoop();
         coinGenerator.startGenerate();
         entityHandler.start();
         timer.start();
@@ -145,9 +143,9 @@ public final class GameLoop {
     }
 
     public void endLoop(){
+        saveGame();
         this.stopLoop();
         timer.stop();
-        saveGame();
     }
 
     public void resetLoop(){
@@ -168,8 +166,7 @@ public final class GameLoop {
     }
 
     private void updateModel(){ 
-             
-        updateScreenSize();
+    
         playerMover.move(inputH.isSpacePressed());
         map.updateBackgroundModel();
         coinGenerator.updatPosition();
@@ -184,7 +181,7 @@ public final class GameLoop {
         gameStatsHandler.updateView();
     }
 
-    private void updateScreenSize() {
+    private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
 
             final double newWidth = newValue.doubleValue();
@@ -203,8 +200,8 @@ public final class GameLoop {
         final String filename = "gameStats.data"; 
 
         try {
-            gameStatsHandler.getGameStatsModel().updateDate();
-            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename); 
+            this.gameStatsHandler.getGameStatsModel().updateDate();
+            GameStats.writeToFile(this.gameStatsHandler.getGameStatsModel(), filename); 
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());

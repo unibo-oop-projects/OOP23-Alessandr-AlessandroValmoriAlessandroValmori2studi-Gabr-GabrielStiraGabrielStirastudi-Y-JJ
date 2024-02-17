@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
+import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.menus.OverMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
@@ -25,7 +26,7 @@ public final class ShopControllerImpl implements ShopController {
     private final Stage primaryStage;
     private final GameStatsController gameStatsHandler;
 
-    private final OverMenu gameMenu;
+    private final GameMenu gameMenu;
 
     private int numOfShields;
     private boolean isShieldEquipped;
@@ -35,7 +36,7 @@ public final class ShopControllerImpl implements ShopController {
      * Constructs a new ShopController.
      * Initializes the model and view components.
      */
-    public ShopControllerImpl(final Stage primaryStage, final OverMenu gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
         this.gameMenu = gameMenu;
 
         this.gameStatsHandler= gameMenu.getGameStatsHandler();
@@ -44,7 +45,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.numOfShields = this.gameStatsHandler.getGameStatsModel().getNumOfShields();
 
-        //this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
+        this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
 
         this.primaryStage = primaryStage;
         
@@ -125,17 +126,7 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public Set<Items> getUnlocked() {
-        if (this.unlockedItems == null) {
-            this.unlockedItems = new HashSet<>();
-        }
+
         return this.unlockedItems;
     }
-
-    
-
-   
-
-    
-
-    
 }

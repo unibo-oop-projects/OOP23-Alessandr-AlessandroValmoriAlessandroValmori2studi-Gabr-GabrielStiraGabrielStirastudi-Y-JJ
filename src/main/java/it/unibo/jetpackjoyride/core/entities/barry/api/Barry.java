@@ -19,7 +19,7 @@ public interface Barry {
     }
 
     enum BarryLifeStatus{
-        ALIVE, DEAD
+        ALIVE, DEAD, INACTIVE
     }
 
     /**
@@ -65,4 +65,6 @@ public interface Barry {
     void setShieldOn();
 
     void kill (ObstacleType type);
+
+    void setLifeStatus(BarryLifeStatus lifeStatus);
 }

@@ -4,7 +4,6 @@ import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import java.io.IOException;
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
-import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.Event;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -31,7 +30,7 @@ public final class GameLoop {
     private GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
 
-    private PlayerMover playerMover;
+
     private EntityHandler entityHandler;
 
     private static final int fps = 70;
@@ -68,15 +67,15 @@ public final class GameLoop {
         entityHandler = new EntityHandler();
         entityHandler.initialize(gameStatsHandler.getGameStatsModel().getUnlocked());
 
-        playerMover = new PlayerMover();
+        
        
-        coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
+        //coinGenerator = new CoinGenerator(playerMover.getHitbox(),gameStatsHandler.getGameStatsModel());
     }
 
     private void initializeGameElements() {
 
         root.getChildren().add(map.getPane());
-        root.getChildren().add(coinGenerator.getCanvas());  
+        //root.getChildren().add(coinGenerator.getCanvas());  
         root.getChildren().add((Node)entityGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
         root.getChildren().add(pauseMenu.getPauseButton());
@@ -113,7 +112,7 @@ public final class GameLoop {
                         showGameOverMenu();
                         endLoop();  
                     }else{
-                        entityHandler.update(entityGroup, playerMover, inputH.isSpacePressed());
+                        entityHandler.update(entityGroup, inputH.isSpacePressed());
                     }
                    
                     lastUpdate = now;
@@ -129,13 +128,13 @@ public final class GameLoop {
     }
 
     public void startLoop(){
-        coinGenerator.startGenerate();
+        //coinGenerator.startGenerate();
         entityHandler.start();
         timer.start();
     }
 
     public void stopLoop(){   
-        coinGenerator.stopGenerate();
+        //coinGenerator.stopGenerate();
         entityHandler.stop();
         timer.stop();
     }
@@ -165,17 +164,16 @@ public final class GameLoop {
 
     private void updateModel(){ 
     
-        playerMover.move(inputH.isSpacePressed());
+        
         map.updateBackgroundModel();
-        coinGenerator.updatPosition();
+        //coinGenerator.updatPosition();
         
     }
 
     private void updateView() {
 
         map.updateBackgroundView();
-        coinGenerator.renderCoin();
-        playerMover.updateView(root);
+        //coinGenerator.renderCoin();
         gameStatsHandler.updateView();
     }
 

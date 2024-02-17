@@ -10,6 +10,7 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -89,7 +90,7 @@ public class PlayerMover {
      * 
      * @param root The root pane to which the player character's view will be added.
      */
-    public void updateView(final Pane root) {
+    public void updateView(final Group root) {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
         if (!root.getChildren().contains((Node) this.view.getImageView())) {

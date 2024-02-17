@@ -33,8 +33,8 @@ public final class BarryImpl implements Barry {
     private double x_position; // fixed x position
     private double position; // variable y position
 
-    private final double height;
-    private final double width;
+    private double height;
+    private double width;
 
     private double lowBound;
     private double upBound;
@@ -65,14 +65,16 @@ public final class BarryImpl implements Barry {
         
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
+
         gameInfo = GameInfo.getInstance();
-        this.width = gameInfo.getDefaultWidth();
+        this.width = gameInfo.getScreenWidth();
         this.height = gameInfo.getScreenHeight();
         this.lowBound = gameInfo.getScreenHeight() - gameInfo.getScreenHeight() / 8;
         this.upBound = gameInfo.getScreenHeight() / 8;
-        this.x_position = gameInfo.getDefaultWidth() / 6;
+        this.x_position = gameInfo.getScreenWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
+
         this.hitbox = new HitboxImpl(this.getPosition(), new Pair<>(120.0, 60.0));
     }
 
@@ -228,6 +230,15 @@ public final class BarryImpl implements Barry {
     @Override
     public boolean isActive() {
         return this.isActive;
+    }
+
+    @Override
+    public void updateLimits(double widthRatio, double heightRatio) {
+       this.width =this.width * widthRatio;
+        this.height = this.height * heightRatio;
+        this.lowBound = this.lowBound*heightRatio;
+        this.upBound = this.upBound*heightRatio;
+        this.x_position = this.x_position* widthRatio;
     }
 
     

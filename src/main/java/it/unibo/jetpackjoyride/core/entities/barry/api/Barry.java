@@ -69,7 +69,7 @@ public interface Barry {
 
     void setLifeStatus(BarryLifeStatus lifeStatus);
 
-    
+    void updateLimits(double widthRatio, double heightRatio);    
 
     void setActiveValue(boolean value);
 

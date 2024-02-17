@@ -96,6 +96,7 @@ public final class GameLoop {
 
                 if (now - lastUpdate > nSecPerFrame) {
 
+                    map.updateBackground();
                     updateModel();
                     updateView();
 
@@ -168,14 +169,12 @@ public final class GameLoop {
     private void updateModel(){ 
     
         playerMover.move(inputH.isSpacePressed());
-        map.updateBackgroundModel();
         coinGenerator.updatPosition();
         
     }
 
     private void updateView() {
 
-        map.updateBackgroundView();
         coinGenerator.renderCoin();
         playerMover.updateView(root);
         gameStatsHandler.updateView();
@@ -183,16 +182,14 @@ public final class GameLoop {
 
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
-
-            final double newWidth = newValue.doubleValue();
-            gameInfo.updateInfo(newWidth, gameInfo.getScreenHeight());
-            pauseMenu.getPauseButton().setLayoutX(newWidth-pauseMenu.getPauseButton().getWidth());
+            gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
+            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue()-pauseMenu.getPauseButton().getWidth());
+            pauseMenu.getVBox().setPrefWidth(newValue.doubleValue());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
-
-            final double newHeight = newValue.doubleValue();
-            gameInfo.updateInfo(gameInfo.getScreenWidth(), newHeight);
+            gameInfo.updateInfo(gameInfo.getScreenWidth(), newValue.doubleValue());
+            pauseMenu.getVBox().setPrefHeight(newValue.doubleValue());
         });
     }
 

@@ -46,8 +46,8 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
     }
 
     @Override
-    public List<Double> getPosX(){
-        return List.of(bgImageX1,bgImageX2);
+    public Pair<Double, Double> getPosX(){
+        return new Pair<>(this.bgImageX1, this.bgImageX2);
     }
 
     @Override

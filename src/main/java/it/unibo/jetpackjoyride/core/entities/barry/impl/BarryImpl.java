@@ -63,7 +63,7 @@ public final class BarryImpl implements Barry {
         this.x_position = gameInfo.getDefaultWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
-        this.hitbox = new HitboxImpl(this.getPosition(), new Pair<>(120.0, 60.0), 0.0);
+        this.hitbox = new HitboxImpl(this.getPosition(), new Pair<>(120.0, 60.0));
     }
 
     /**

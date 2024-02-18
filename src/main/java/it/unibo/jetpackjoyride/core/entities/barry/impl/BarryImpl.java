@@ -142,14 +142,6 @@ public final class BarryImpl implements Barry {
 
         this.hitbox.updateHitbox(getPosition(), 0.0);
 
-        final double height = GameInfo.getInstance().getScreenHeight();
-        final double width = GameInfo.getInstance().getScreenWidth();
-
-    
-
-        if (height != this.height || width != this.width) {
-            this.updateScreen(width, height);
-        }
     }
 
     /**
@@ -182,12 +174,7 @@ public final class BarryImpl implements Barry {
         return this.hitbox;
     }
 
-    private void updateScreen(final double width, final double height) {
-        this.lowBound = height - height / 8;
-        this.upBound = height / 8;
-        this.x_position = width / 6;
-
-    }
+   
 
     @Override
     public boolean hasShield() {

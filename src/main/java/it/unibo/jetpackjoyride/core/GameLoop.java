@@ -105,7 +105,11 @@ public final class GameLoop {
                         showGameOverMenu();
                         endLoop();  
                     }else{
-                        entityHandler.update(entityGroup, inputH.isSpacePressed());
+                        if(!entityHandler.update(entityGroup, inputH.isSpacePressed())){
+                            showGameOverMenu();
+                           
+                            endLoop();
+                        }
                     }
                    
                     lastUpdate = now;

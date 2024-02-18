@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
@@ -9,13 +12,13 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class ObstacleView implements GenericView{
     private final ImageView imageView;
-    private final Image[] images;
+    private final List<Image> images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
-    public ObstacleView(final Image[] images) {
-        this.images = images.clone();
+    public ObstacleView(final List<Image> images) {
+        this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
         this.animationCounter = new int[3]; // 0 counter for charging, 1 counter for active, 2 counter for deactivated
@@ -135,7 +138,7 @@ public final class ObstacleView implements GenericView{
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        imageView.setImage(images[animationFrame]);
+        imageView.setImage(images.get(animationFrame));
     }
 
     public ImageView getImageView() {

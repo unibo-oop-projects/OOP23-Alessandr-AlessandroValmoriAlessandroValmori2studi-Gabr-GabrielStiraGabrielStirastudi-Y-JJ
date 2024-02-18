@@ -7,7 +7,6 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
-import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -81,12 +80,12 @@ public class ObstacleLoader {
     }
 
     private GenericController<Obstacle,ObstacleView> singleMissile(final Pair<Double,Double> pos, final List<MovementChangers> modifiers) {
-        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, new MovementImpl(pos,new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), modifiers)).get(0);
+        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, new MovementImpl(pos,new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), modifiers));
         return obstacleController;
     }
 
     private GenericController<Obstacle,ObstacleView> singleZapper(final Pair<Double,Double> pos, final Pair<Double,Double> rotation) {
-        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,new Pair<>(Double.valueOf(-this.difficulty)-5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of())).get(0);
+        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,new Pair<>(Double.valueOf(-this.difficulty)-5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of()));
         return obstacleController;
     }
 
@@ -120,9 +119,9 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 65),List.of()), 1));
         }); 
         this.patternSelector.put(4, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 50),List.of()), 1));
-            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(90.0,0.0)), 3));
-            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 80),new Pair<>(90.0,0.0)), 3));
+            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 50),List.of()), 3));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(90.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 80),new Pair<>(90.0,0.0)), 1));
         }); 
         this.patternSelector.put(5, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 75),List.of(MovementChangers.DIAGONALDOWN, MovementChangers.BOUNCING)), 1));

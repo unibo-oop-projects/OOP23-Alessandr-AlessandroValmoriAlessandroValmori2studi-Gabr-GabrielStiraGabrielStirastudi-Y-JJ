@@ -18,6 +18,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.util.Duration;
+import java.util.Optional;
 
 /**
  * The class is responsible for generating coins during gameplay.
@@ -25,12 +26,11 @@ import javafx.util.Duration;
  */
 public final class CoinGenerator {
 
-    private static final int MAX_REUSABLE_COINS = 50; 
+    private static final int MAX_REUSABLE_COINS = 50;
     private static final double PROBABILITY_BASE = 0.3;
     private static final double PROBABILITY_RATE = 0.15;
     private static final int COIN_WIDTH = 30;
     private static final int COIN_HEIGHT = 30;
-  
 
     private final Canvas canvas;
     private final Timeline timeline;
@@ -42,15 +42,15 @@ public final class CoinGenerator {
     private final int initialSpeed = GameInfo.moveSpeed.get();
     private final Random random = new Random();
 
-    private Hitbox playeHitbox;
+    private Optional<Hitbox> playeHitbox;
 
-    /**
+     /**
      * Constructor of the CoinGenerator .
      *
      * @param playeHitbox    the hitbox use to check collision
      * @param gameStatsModel the game statistics infomation
      */
-    public CoinGenerator(Hitbox playeHitbox, GameStatsModel gameStatsModel){
+    public CoinGenerator(Optional<Hitbox> playeHitbox, GameStatsModel gameStatsModel) {
         this.gameInfo = GameInfo.getInstance();
         this.playeHitbox = playeHitbox;
         this.gameStatsModel = gameStatsModel;
@@ -87,7 +87,7 @@ public final class CoinGenerator {
      *
      * @param playerHitbox the hitbox of the player
      */
-    public void setPlayerHitbox(Hitbox playerHitbox){
+    public void setPlayerHitbox(Optional<Hitbox> playerHitbox){
          this.playeHitbox = playerHitbox;
     }
 
@@ -104,21 +104,22 @@ public final class CoinGenerator {
      * The method use to generating coins.
      */
     private void generateCoin() {
-        if(generateOrNot()){
+        if (generateOrNot()) {
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
-             for (Pair<Double, Double> position : shapes) {
-            Coin coin;
-            if (!reusableCoin.isEmpty()) {
-                coin = reusableCoin.remove(0);
-                coin.setPosition(position);
-                
-            } else {
-                coin = new CoinImpl(position, 
-                new HitboxImpl(position, new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))), 
-                canvas.getGraphicsContext2D());
+            for (Pair<Double, Double> position : shapes) {
+                Coin coin;
+                if (!reusableCoin.isEmpty()) {
+                    coin = reusableCoin.remove(0);
+                    coin.setPosition(position);
+
+                } else {
+                    coin = new CoinImpl(position,
+                            new HitboxImpl(position,
+                                    new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))),
+                            canvas.getGraphicsContext2D());
+                }
+                coinList.add(coin);
             }
-            coinList.add(coin);
-        }
         }
     }
 
@@ -147,11 +148,12 @@ public final class CoinGenerator {
     public void updatPosition() {
 
         updateNewPos();
-        checkCollision();
+        if (this.playeHitbox.isPresent()) {
+            checkCollision();
+        }
 
-       
         while (reusableCoin.size() > MAX_REUSABLE_COINS) {
-            reusableCoin.remove(reusableCoin.size()-1);
+            reusableCoin.remove(reusableCoin.size() - 1);
         }
 
         Iterator<Coin> iterator = coinList.iterator();
@@ -164,7 +166,7 @@ public final class CoinGenerator {
                 iterator.remove();
             }
         }
-    
+
     }
     
     /**
@@ -200,13 +202,13 @@ public final class CoinGenerator {
      */
     private void checkCollision(){
         List<Coin> sortedList = coinList.stream()
-                        .filter(p->p.getModel().getPosition().get1() < gameInfo.getScreenWidth()/2)
-                        .sorted(Comparator.comparingDouble(p->p.getModel().getPosition().get1()))
-                        .collect(Collectors.toList());
+                .filter(p -> p.getModel().getPosition().get1() < gameInfo.getScreenWidth() / 2)
+                .sorted(Comparator.comparingDouble(p -> p.getModel().getPosition().get1()))
+                .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-              if(coin.getModel().geHitbox().isTouching(playeHitbox)) {
-                if(!coin.getModel().isCollected()){
+            if (coin.getModel().geHitbox().isTouching(playeHitbox.get())) {
+                if (!coin.getModel().isCollected()) {
                     gameStatsModel.updateCoins(1);
                     coin.setCollectedState(true);
                 }
@@ -223,6 +225,5 @@ public final class CoinGenerator {
     private boolean isOutofMap(double x){
         return x < -gameInfo.getScreenWidth();
     }
-
 
 }

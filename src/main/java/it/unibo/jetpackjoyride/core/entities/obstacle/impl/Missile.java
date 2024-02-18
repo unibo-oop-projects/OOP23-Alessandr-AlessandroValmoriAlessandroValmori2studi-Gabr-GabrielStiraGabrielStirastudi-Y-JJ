@@ -32,30 +32,20 @@ public final class Missile extends AbstractObstacle {
             if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.entityStatus = EntityStatus.ACTIVE;
                 this.movement.setCurrentPosition(new Pair<>(this.movement.getCurrentPosition().get1() + screenX/16,this.movement.getCurrentPosition().get2()));
-                this.movement.setSpeed(new Pair<>(-gameMovingSpeed*screenX/infoResolution.getDefaultWidth(), 0.0));
-                this.movement.setMovementChangers(List.of(MovementChangers.SPEEDY, MovementChangers.SPEEDY, MovementChangers.SPEEDY));
+                this.movement.setSpeed(new Pair<>(-gameMovingSpeed*screenX/infoResolution.getDefaultWidth()*2, this.movement.getSpeed().get2()));
+                this.movement.setMovementChangers(this.movement.getMovementChangers());
             }
         }
 
-        if(this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAYBEFOREDESTRUCTION) {
-            this.setEntityStatus(EntityStatus.INACTIVE);
-        }
-
-        if (this.movement.getCurrentPosition().get1() < -screenX / 8
-                || 
-                !this.movement.getMovementChangers().contains(MovementChangers.BOUNCING) && 
-                    (this.movement.getCurrentPosition().get2() > screenY - screenY / 15 
-                    || 
-                     this.movement.getCurrentPosition().get2() < screenY / 15)
-                ||
-            this.lifetimeAfterDeactivation < 0) {
+        if((this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAYBEFOREDESTRUCTION) || this.movement.getCurrentPosition().get1() < -screenX / 8 || this.lifetimeAfterDeactivation < 0) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
-        
+
         if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.movement.setAcceleration(new Pair<>(0.0, 0.0));
                 this.movement.setSpeed(new Pair<>(-gameMovingSpeed, 0.0));
+                this.movement.setRotation(new Pair<>(0.0,0.0));
                 this.movement.setMovementChangers(List.of());
             }
             this.lifetimeAfterDeactivation--;

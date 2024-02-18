@@ -95,8 +95,16 @@ public final class MovementImpl implements Movement {
                 speedModifier*=SLOWMODIFIER;
             }
         }
+        this.speed = new Pair<>(this.speed.get1() * speedModifier,this.speed.get2() * speedModifier);
 
-        this.speed = new Pair<>(this.speed.get1() * speedModifier,this.speed.get2() * speedModifier );
+        if(this.listOfChangers.contains(MovementChangers.DIAGONALDOWN)) {
+            this.speed = new Pair<>(this.speed.get1(),-this.speed.get1());
+            this.rotation = new Pair<>(-45.0,0.0);
+        }
+        if(this.listOfChangers.contains(MovementChangers.DIAGONALUP)) {
+            this.speed = new Pair<>(this.speed.get1(),this.speed.get1());
+            this.rotation = new Pair<>(45.0,0.0);
+        }
 
         final Double accelerationModifier = this.listOfChangers.contains(MovementChangers.GRAVITY) ? GRAVITYMODIFIER
                 : this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY) ? INVERSEGRAVITYMODIFIER : 0.0;

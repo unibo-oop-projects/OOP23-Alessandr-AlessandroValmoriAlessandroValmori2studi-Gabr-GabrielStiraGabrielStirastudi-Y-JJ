@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -53,9 +54,10 @@ public class PlayerMover {
      * Constructs a new PlayerMover instance.
      */
     public PlayerMover(GameStatsController gameStatsHandler) {
-        this.lastScreenDims= new Pair<>(GameInfo.getInstance().getScreenWidth(),  GameInfo.getInstance().getScreenHeight());
+        this.lastScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
+                GameInfo.getInstance().getScreenHeight());
         this.model = new BarryImpl();
-        this.gameStatsHandler= gameStatsHandler;
+        this.gameStatsHandler = gameStatsHandler;
         this.buildMap();
 
         this.view = new BarryView(this.getSpritesForStatus());
@@ -93,16 +95,18 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public void move(final boolean pressed) {
-        if(this.model.isAlive()){
-            var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),  GameInfo.getInstance().getScreenHeight());
-            if(!currendScreenDims.equals(this.lastScreenDims)){
-                this.model.updateLimits(currendScreenDims.get1() / lastScreenDims.get1(), currendScreenDims.get2() / lastScreenDims.get2());
-                this.lastScreenDims= currendScreenDims;
+        if (this.model.isAlive()) {
+            var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
+                    GameInfo.getInstance().getScreenHeight());
+            if (!currendScreenDims.equals(this.lastScreenDims)) {
+                this.model.updateLimits(currendScreenDims.get1() / lastScreenDims.get1(),
+                        currendScreenDims.get2() / lastScreenDims.get2());
+                this.lastScreenDims = currendScreenDims;
             }
-        this.model.move(pressed);
-        if(this.gameStatsHandler.getGameStatsModel().isShieldEquipped()){
-            this.model.setShieldOn();
-        }
+            this.model.move(pressed);
+            if (this.gameStatsHandler.getGameStatsModel().isShieldEquipped()) {
+                this.model.setShieldOn();
+            }
         }
 
     }
@@ -142,11 +146,12 @@ public class PlayerMover {
      * 
      * @return The hitbox of the player character.
      */
-    public HitboxImpl getHitbox() {
+    public Optional<Hitbox> getHitbox() {
         return this.model.getHitbox();
     }
 
     public void hit(ObstacleType type) {
+        if(this.model.isAlive()){
         if (this.model.hasShield()) {
             this.model.removeShield();
 
@@ -155,6 +160,7 @@ public class PlayerMover {
             this.model.kill(type);
 
         }
+    }
     }
 
     public void setBarryShield() {

@@ -1,25 +1,9 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
-import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
-import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
-import it.unibo.jetpackjoyride.core.movement.MovementImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
-import javafx.scene.image.Image;
-
 
 public final class ObstacleSpawner {
     private final ObstacleLoader obstacleLoader;
@@ -28,11 +12,9 @@ public final class ObstacleSpawner {
         this.obstacleLoader = new ObstacleLoader();
     }
 
-
-
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         if(this.obstacleLoader.hasFinished()) {
-            final Integer difficulty = GameInfo.moveSpeed.get();
+            final Integer difficulty = GameInfo.moveSpeed.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
             this.obstacleLoader.generatePattern(difficulty);
         }
         return this.obstacleLoader.getInstanceOfPattern();

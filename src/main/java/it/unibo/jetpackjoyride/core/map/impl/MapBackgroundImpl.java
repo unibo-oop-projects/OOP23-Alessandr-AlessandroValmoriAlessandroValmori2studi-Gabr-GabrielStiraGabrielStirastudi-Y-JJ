@@ -14,7 +14,7 @@ import javafx.util.Duration;
 
 public class MapBackgroundImpl implements MapBackground {
 
-    private final static int MAX_SPEED = 20;
+    private final static int MAX_SPEED = 15;
     private final static int DEFAULT_SPEED = 5;
 
     private MapBackgroundModel model;

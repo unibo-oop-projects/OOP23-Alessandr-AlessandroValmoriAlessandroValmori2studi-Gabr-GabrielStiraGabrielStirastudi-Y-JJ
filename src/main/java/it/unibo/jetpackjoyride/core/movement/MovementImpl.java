@@ -150,16 +150,6 @@ public final class MovementImpl implements Movement {
             }
         }
 
-        /* HOMING */
-        /*
-         * if(this.listOfChangers.contains(MovementChangers.HOMING)) {
-         * if(this.position.get2() != player.getPosY() ) {
-         * this.acceleration = new Pair<>(this.acceleration.get1(),
-         * this.acceleration.get2() + (player.getPosY() - this.position.get2()));
-         * }
-         * }
-         */
-
         /* STATIC */
         if (this.listOfChangers.contains(MovementChangers.STATIC)) {
             this.acceleration = new Pair<>(0.0, 0.0);

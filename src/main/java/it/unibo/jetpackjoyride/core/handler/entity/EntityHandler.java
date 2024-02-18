@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import javafx.scene.Group;
 
 public class EntityHandler {
-    private final Integer BASEPICKUPSPAWNCHANCE = 5000;
+    private final Integer BASEPICKUPSPAWNCHANCE = 10;
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
@@ -54,7 +54,7 @@ public class EntityHandler {
             isCanvasAdded = true;
         }
 
-        if(!this.isUsingPowerUp) {
+        if(!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty()) {
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 

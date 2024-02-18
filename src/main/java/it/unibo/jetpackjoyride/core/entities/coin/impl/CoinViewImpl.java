@@ -30,8 +30,8 @@ public class CoinViewImpl implements CoinView {
       double moveSpeed = GameInfo.moveSpeed.get();
       double posX = controller.getModel().getPosition().get1();
       double posY = controller.getModel().getPosition().get2();
-      double width = controller.getModel().getPosition().get1();
-      double height = controller.getModel().getPosition().get2();
+      double width = controller.getModel().getSize().get1();
+      double height = controller.getModel().getSize().get2();
       if (isOnScreen) {
          gc.clearRect(posX + moveSpeed, posY, width,height);
          gc.drawImage(coinFrames[currentCoinframe],posX, posY,width, height);
@@ -40,7 +40,7 @@ public class CoinViewImpl implements CoinView {
          gc.clearRect(posX+moveSpeed,posY,width,height);
       }
    }
-   
+
    @Override
    public void setVisible(boolean isOnScreen) {
       this.isOnScreen = isOnScreen;

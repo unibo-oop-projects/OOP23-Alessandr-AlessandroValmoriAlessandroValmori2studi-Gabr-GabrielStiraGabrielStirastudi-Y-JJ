@@ -22,8 +22,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     private Random random;
     private Map<String,List<Pair<Double, Double>>> cachedRegularShapes;
 
-    public CoinShapeFactoryImpl(final GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
+    public CoinShapeFactoryImpl() {
+        this.gameInfo = GameInfo.getInstance();
         random = new Random();
         minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
         maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
@@ -33,6 +33,13 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
     @Override
     public List<Pair<Double, Double>> regularShapes() {
+        /*if(GameInfo.moveSpeed.get() >= 10){
+            double posX = gameInfo.getScreenWidth();
+            double initialY = 0;
+            cachedRegularShapes.put("multiStraightLine", 
+            multiStraightLine(8, posX, initialY, 2+random.nextInt(3)));
+            cachedRegularShapes.put("prismatic", prismatic(6, 3));
+        }*/
         updateDimension();
         List<String> keys = new ArrayList<>(cachedRegularShapes.keySet());
         String randomKey = keys.get(random.nextInt(keys.size()));

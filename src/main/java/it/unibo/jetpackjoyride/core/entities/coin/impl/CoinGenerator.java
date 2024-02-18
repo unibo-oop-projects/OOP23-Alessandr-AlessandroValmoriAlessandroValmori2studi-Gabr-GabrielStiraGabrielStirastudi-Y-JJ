@@ -45,7 +45,7 @@ public final class CoinGenerator {
         this.playeHitbox = playeHitbox;
         this.gameStatsModel = gameStatsModel;
         this.canvas = new Canvas(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        this.coinShapeFactory = new CoinShapeFactoryImpl(gameInfo);
+        this.coinShapeFactory = new CoinShapeFactoryImpl();
         timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generateCoin()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }

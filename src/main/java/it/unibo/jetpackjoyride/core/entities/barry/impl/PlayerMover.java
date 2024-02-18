@@ -57,6 +57,10 @@ public class PlayerMover {
         this.lastScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                 GameInfo.getInstance().getScreenHeight());
         this.model = new BarryImpl();
+        if(gameStatsHandler.getGameStatsModel().isShieldEquipped()){
+            this.model.setShieldOn();
+            gameStatsHandler.getGameStatsModel().setShield(false);
+        }
         this.gameStatsHandler = gameStatsHandler;
         this.buildMap();
 
@@ -95,6 +99,7 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public boolean move(final boolean pressed) {
+        
         if (this.model.isAlive()) {
             var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                     GameInfo.getInstance().getScreenHeight());
@@ -104,9 +109,7 @@ public class PlayerMover {
                 this.lastScreenDims = currendScreenDims;
             }
             this.model.move(pressed);
-            if (this.gameStatsHandler.getGameStatsModel().isShieldEquipped()) {
-                this.model.setShieldOn();
-            }
+            
             return true;
         }
         else {
@@ -157,6 +160,7 @@ public class PlayerMover {
     public void hit(ObstacleType type) {
         if(this.model.isAlive()){
         if (this.model.hasShield()) {
+            System.out.println("removed shield");
             this.model.removeShield();
 
         } else {

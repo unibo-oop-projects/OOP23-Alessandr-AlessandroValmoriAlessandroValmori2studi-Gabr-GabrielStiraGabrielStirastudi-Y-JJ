@@ -13,7 +13,7 @@ import javafx.util.Duration;
 import java.util.*;
 
 public final class ObstacleHandler {
-    
+    private final static Double MINIMUMSPAWNTIME = 0.25;
     private ObstacleSpawner obstacleSpawner;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
     private Timeline timeline;
@@ -22,7 +22,7 @@ public final class ObstacleHandler {
     
         this.listOfControllers = new ArrayList<>();
         this.obstacleSpawner = new ObstacleSpawner();
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> generate()));
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(MINIMUMSPAWNTIME), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 

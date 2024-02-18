@@ -15,14 +15,14 @@ public class VehiclePickUp extends AbstractPickUp {
 	private static final Integer ANIMATIONDURATION = 100;
     private Integer animationTimer;
 	private Integer switchWave;
-	private final PowerUpType vehicleSpawn;
+	private PowerUpType vehicleSpawn;
 
-    public VehiclePickUp(final PowerUpType vehicleSpawn, final Movement movement, final Hitbox hitbox) {
+    public VehiclePickUp(final Movement movement, final Hitbox hitbox) {
         super(PickUpType.VEHICLE, movement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
 		this.animationTimer = 0;
 		this.switchWave = 0;
-		this.vehicleSpawn = vehicleSpawn;
+		this.vehicleSpawn = PowerUpType.DUKEFISHRON;
     }
 
 	@Override
@@ -47,6 +47,10 @@ public class VehiclePickUp extends AbstractPickUp {
 			this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), -this.movement.getAcceleration().get2()));
 			this.switchWave = -40;
 		}
+	}
+
+	public void setVehicleSpawn(PowerUpType newVehicleType) {
+		this.vehicleSpawn = newVehicleType;
 	}
 
 	public PowerUpType getVehicleSpawn() {

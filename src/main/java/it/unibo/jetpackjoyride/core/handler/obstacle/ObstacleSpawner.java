@@ -22,107 +22,21 @@ import javafx.scene.image.Image;
 
 
 public final class ObstacleSpawner {
-    private final EntityGenerator entityGenerator;
-    private Image[] images;
-    private Integer gracePeriod;
-
-    enum Difficulty{
-        VERYEASY(1), EASY(2), NOTSOEASY(3), NORMAL(4), NOTSOHARD(5), 
-        HARD(6), VERYHARD(7), SWEATING(8), IMPOSSIBLE(9), BARRY(10);
-
-        private final Integer difficulty;
-
-        Difficulty(Integer difficulty){
-            this.difficulty = difficulty;
-        }
-
-        public static Optional<Difficulty> getDifficulty(Integer difficulty) {
-            for(var d : Difficulty.values()){
-                if(d.getDifficultyAsInteger().equals(difficulty)) {
-                    return Optional.of(d);
-                }
-            }
-            return Optional.empty();
-        }
-
-        public Integer getDifficultyAsInteger(){
-            return this.difficulty;
-        }
-    }
+    private final ObstacleLoader obstacleLoader;
 
     public ObstacleSpawner() {
-        this.entityGenerator = new EntityGeneratorImpl();
-        this.gracePeriod = 0;
+        this.obstacleLoader = new ObstacleLoader();
     }
 
 
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
-        if(this.gracePeriod > 0) {
-            this.gracePeriod--;
-            return List.of();
+        if(this.obstacleLoader.hasFinished()) {
+            final Integer difficulty = GameInfo.moveSpeed.get();
+            this.obstacleLoader.generatePattern(difficulty);
         }
+        return this.obstacleLoader.getInstanceOfPattern();
 
-        //Integer difficulty = GameInfo.moveSpeed.get();
-        Integer difficulty = 1;
-        Optional<Difficulty> difficultyLevel = Difficulty.getDifficulty(difficulty);
-        if(difficultyLevel.isEmpty()) {
-            return List.of();
-        }
-
-        switch (difficultyLevel.get()) {
-            case VERYEASY:
-                this.gracePeriod = 5;
-                return this.missileChunk();
-            case EASY:
-
-                break;
-            case NOTSOEASY:
-
-                break;
-            case NORMAL:
-
-                break;
-            case NOTSOHARD:
-
-                break;
-            case HARD:
-
-                break;
-            case VERYHARD:
-
-                break;
-            case SWEATING:
-
-                break;
-            case IMPOSSIBLE:
-
-                break;
-            case BARRY:
-
-                break;
-            default:
-                break;
-        }
-        return null;
-
-    }
-
-    private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
-
-        final List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
-        final Random random = new Random();
-        int numberOfObstacles = 1;
-
-        for (int i = 0; i < numberOfObstacles; i++) {
-            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/3)),
-                            new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
-                
-            obstacleControllers.addAll(this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement));
-        }
-        return obstacleControllers;
     }
 
     /*private List<GenericController<Obstacle,ObstacleView>> randomChunk() {

@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.utilities;
 
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -10,9 +9,8 @@ public final class GameInfo {
     private double screenHeight;
     private double screenWidth;
 
-    private Optional<Double> currentPlayableYPos = Optional.empty();
-
-    public static AtomicInteger moveSpeed = new AtomicInteger(5);
+    private final static Integer INITALGAMESPEED = 5;
+    public static AtomicInteger moveSpeed = new AtomicInteger(INITALGAMESPEED);
 
     private static GameInfo gameInfo = new GameInfo();
 
@@ -60,11 +58,7 @@ public final class GameInfo {
         GameInfo.moveSpeed.set(newSpeed);
     }
 
-    public void setCurrentYPos(double y){
-        this.currentPlayableYPos = Optional.of(y);
-    }
-
-    public Optional<Double> getCurrentYPos(){
-        return this.currentPlayableYPos;
+    public Integer getInitialGameSpeed(){
+        return INITALGAMESPEED;
     }
 }

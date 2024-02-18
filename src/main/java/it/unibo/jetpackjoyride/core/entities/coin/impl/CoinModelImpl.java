@@ -7,30 +7,31 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class CoinModelImpl implements CoinModel {
+    private static final double COIN_WIDTH = 30;
+    private static final double COIN_HEIGHT = 30;
 
     private Pair<Double,Double> position;
     private HitboxImpl coinHitbox;
-    private double coinHeight;
-    private double coinWidth;
     private boolean isCollected;
     
-    public CoinModelImpl(Pair<Double,Double> position, HitboxImpl hitbox,double coinHeight, double coinWidth){
+    public CoinModelImpl(Pair<Double,Double> position, HitboxImpl hitbox){
             this.position = position;
             this.coinHitbox = hitbox;
-            this.coinHeight = coinHeight;
-            this.coinWidth = coinWidth;
             this.isCollected = false;
     }
 
+    @Override
     public void updateCoinModel(){
         this.position = new Pair<Double,Double>(position.get1()-GameInfo.moveSpeed.get(), position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
 
+    @Override
     public boolean isCollected(){
         return this.isCollected;
     }
 
+    @Override
     public void setCollectedState(boolean isCollected){
         this.isCollected = isCollected;
     }
@@ -40,21 +41,20 @@ public class CoinModelImpl implements CoinModel {
         return position;
     }
 
+    @Override
     public void setPosition(Pair<Double,Double> position){
         this.position = position;
         this.coinHitbox.updateHitbox(position, 0.0);
     }
+    
     @Override
-    public double getHeight() {
-        return this.coinHeight;
-    }
-    @Override
-    public double getWidth() {
-        return this.coinWidth;
-    }
-
     public Hitbox geHitbox(){
         return this.coinHitbox;
+    }
+
+    @Override
+    public Pair<Double, Double> getSize() {
+        return new Pair<Double,Double>(COIN_WIDTH,COIN_HEIGHT);
     }
 
 }

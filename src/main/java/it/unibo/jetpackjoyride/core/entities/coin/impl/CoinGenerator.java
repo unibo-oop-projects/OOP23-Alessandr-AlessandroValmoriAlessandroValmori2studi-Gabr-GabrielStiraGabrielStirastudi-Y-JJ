@@ -8,9 +8,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
-import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
-import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
@@ -23,11 +21,12 @@ import javafx.util.Duration;
 
 public final class CoinGenerator {
 
-    private static final int MAX_REUSABLE_COINS = 100; 
+    private static final int MAX_REUSABLE_COINS = 50; 
     private static final double PROBABILITY_BASE = 0.3;
     private static final double PROBABILITY_RATE = 0.15;
     private static final int COIN_WIDTH = 30;
     private static final int COIN_HEIGHT = 30;
+  
 
     private final Canvas canvas;
     private final Timeline timeline;
@@ -68,6 +67,10 @@ public final class CoinGenerator {
          this.playeHitbox = playerHitbox;
     }
 
+    public Canvas getCanvas(){
+        return this.canvas;
+    }
+
     private void generateCoin() {
         if(generateOrNot()){
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
@@ -76,13 +79,13 @@ public final class CoinGenerator {
             if (!reusableCoin.isEmpty()) {
                 coin = reusableCoin.remove(0);
                 coin.setPosition(position);
+                
             } else {
-                CoinModel model = new CoinModelImpl(position, new HitboxImpl(position, new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))), COIN_WIDTH, COIN_HEIGHT);
-                CoinView view = new CoinViewImpl(model);
-                coin = new CoinImpl(model, view, canvas.getGraphicsContext2D());
+                coin = new CoinImpl(position, 
+                new HitboxImpl(position, new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))), 
+                canvas.getGraphicsContext2D());
             }
             coinList.add(coin);
-            coin.setVisible(true);
         }
         }
     }
@@ -117,8 +120,8 @@ public final class CoinGenerator {
         Iterator<Coin> iterator = coinList.iterator();
         while (iterator.hasNext()) {
             Coin coin = iterator.next();
-            coin.update();
-            if (isOutofMap(coin.getPosition().get1())) {
+            coin.updateModel();
+            if (isOutofMap(coin.getModel().getPosition().get1())) {
                 reusableCoin.add(coin);
                 coin.setCollectedState(false);
                 iterator.remove();
@@ -127,17 +130,13 @@ public final class CoinGenerator {
     
     }
     
-    public Canvas getCanvas(){
-        return this.canvas;
-    }
-
     private void updateNewPos() {
         if (isScreenSizeChange()) {
             double ratioX = gameInfo.getScreenWidth() / canvas.getWidth();
             double ratioY = gameInfo.getScreenHeight() / canvas.getHeight();
 
             for (Coin coin : coinList) {
-                var oldPosition = coin.getPosition();
+                var oldPosition = coin.getModel().getPosition();
                 coin.setPosition(new Pair<>(oldPosition.get1() * ratioX, oldPosition.get2() * ratioY));
             }
         }
@@ -150,14 +149,13 @@ public final class CoinGenerator {
 
     private void checkCollision(){
         List<Coin> sortedList = coinList.stream()
-                        .filter(p->p.getPosition().get1() < gameInfo.getScreenWidth()/2)
-                        .sorted(Comparator.comparingDouble(p->p.getPosition().get1()))
+                        .filter(p->p.getModel().getPosition().get1() < gameInfo.getScreenWidth()/2)
+                        .sorted(Comparator.comparingDouble(p->p.getModel().getPosition().get1()))
                         .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-              if(coin.geHitbox().isTouching(playeHitbox)) {
-                coin.setVisible(false);
-                if(!coin.isCollected()){
+              if(coin.getModel().geHitbox().isTouching(playeHitbox)) {
+                if(!coin.getModel().isCollected()){
                     gameStatsModel.updateCoins(1);
                     coin.setCollectedState(true);
                 }

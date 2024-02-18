@@ -3,14 +3,39 @@ package it.unibo.jetpackjoyride.core.statistical.api;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+/**
+ * An interface representing a controller for game statistics.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public interface GameStatsController {
-     void updateModel();
+     /**
+     * Updates the model.
+     */
+    void updateModel();
 
-     void updateView();
+    /**
+     * Updates the view.
+     */
+    void updateView();
 
-     Text getText();
+    /**
+     * Gets the text associated with the statistics(like coins and meter).
+     *
+     * @return the text
+     */
+    Text getText();
 
-     ImageView getImageView();
+    /**
+     * Gets the image view associated with the statistics(A Score Pane).
+     *
+     * @return the image view
+     */
+    ImageView getImageView();
 
-     GameStatsModel getGameStatsModel();
+    /**
+     * Gets the game statistics model.
+     *
+     * @return the game statistics model
+     */
+    GameStatsModel getGameStatsModel();
 }

@@ -4,12 +4,16 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
-import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+/**
+ * Implementation of the MapBackground interface.
+ * This class provides functionality to control the background view of the game.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class MapBackgroungViewImpl implements MapBackgroundView{
 
     private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
@@ -19,12 +23,19 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
     private final Pane root;
     private MapBackground controller;
 
+    /**
+     * Constructor of the MapBackgroundViewImpl
+     * 
+     * @param controller The controller for the map background, 
+     * it gives the nesessary date for view to upadte.
+     */
     public MapBackgroungViewImpl(MapBackground controller){
         this.root = new Pane();
         this.controller = controller;
         loadBackgroungImage();
     }
 
+    @Override
     public void updateBackgroundView() {
         if(bgImageView1.getFitWidth() != controller.getSize().get1() 
         || bgImageView1.getFitHeight() != controller.getSize().get2()){
@@ -35,10 +46,14 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         bgImageView2.setX(controller.getPosX().get2());
     }
 
+    @Override
     public Pane getPane(){
         return this.root;
     }
 
+    /**
+    *  Loads the background images and initializes image views with proper sizes.
+    */
     private void loadBackgroungImage() {
 
         bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
@@ -50,6 +65,12 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         this.root.getChildren().addAll(bgImageView1, bgImageView2);
     }
 
+    /**
+    * Creates an image view with the given image path.
+    * 
+    * @param path The path to the image.
+    * @return An ImageView object representing the image.
+    */
     private ImageView creatImageView(String path) {
 
         try {

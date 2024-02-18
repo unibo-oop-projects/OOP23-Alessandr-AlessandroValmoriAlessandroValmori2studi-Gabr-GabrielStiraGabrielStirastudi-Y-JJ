@@ -194,7 +194,8 @@ public final class CoinGenerator {
     }
 
     /**
-     * Checks for collisions between coins and the player.
+     * Checks for collisions between coins and the player and 
+     * only coins that cross half of the screen will be checked. 
      * If a collision occurs, updates the game statistics accordingly.
      */
     private void checkCollision(){

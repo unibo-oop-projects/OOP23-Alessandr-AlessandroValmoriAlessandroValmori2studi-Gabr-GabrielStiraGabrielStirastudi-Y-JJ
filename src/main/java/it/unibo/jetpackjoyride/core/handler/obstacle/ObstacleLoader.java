@@ -74,7 +74,7 @@ public class ObstacleLoader {
 
         final Integer random = new Random().nextInt(3);
         //this.patternSelector.get(this.difficulty*3-random).pattern(listOfMissiles);
-        this.patternSelector.get(4).pattern(listOfObstacles);
+        this.patternSelector.get(8).pattern(listOfObstacles);
         return listOfObstacles;
         
     }

@@ -46,10 +46,11 @@ public class EntityHandler {
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
         
         if(!playerHandler.move(isSpaceBarPressed)){
+            this.coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
         playerHandler.updateView(entityGroup);
-        this.coinHandler.setPlayerHitbox(this.playerHandler.getHitbox());
+       
         coinHandler.updatPosition();
         coinHandler.renderCoin();
 
@@ -88,6 +89,7 @@ public class EntityHandler {
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
                     this.coinHandler.setPlayerHitbox(Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
+                    System.out.println("HITBOX set to powerup");
                     break;
                 default:
                     break;

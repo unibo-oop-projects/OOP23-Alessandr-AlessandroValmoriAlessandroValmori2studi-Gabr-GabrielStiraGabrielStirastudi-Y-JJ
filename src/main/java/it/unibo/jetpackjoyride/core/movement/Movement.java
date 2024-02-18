@@ -7,6 +7,8 @@ import java.util.*;
 public interface Movement {
 
     enum MovementChangers {
+        DIAGONALUP, // ySpeed is initially set the same as xSpeed
+        DIAGONALDOWN, // ySpeed is initially set the same as -xSpeed
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
         SLOW, // Slower initial speed set by the SLOWMODIFIER
         SPEEDY, // Faster initial speed set by the SPEEDYMODIFIER

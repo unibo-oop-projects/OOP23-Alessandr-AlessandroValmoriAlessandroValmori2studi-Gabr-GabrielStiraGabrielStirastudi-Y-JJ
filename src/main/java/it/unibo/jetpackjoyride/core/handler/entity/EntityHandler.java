@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import javafx.scene.Group;
 
 public class EntityHandler {
-    private final Integer BASEPICKUPSPAWNCHANCE = 10;
+    private final Integer BASEPICKUPSPAWNCHANCE = 2000;
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;

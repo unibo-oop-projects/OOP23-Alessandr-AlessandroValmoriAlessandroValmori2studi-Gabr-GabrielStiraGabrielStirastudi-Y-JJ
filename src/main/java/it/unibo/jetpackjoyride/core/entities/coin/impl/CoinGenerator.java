@@ -20,6 +20,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.util.Duration;
 import java.util.Optional;
 
+/**
+ * The class is responsible for generating coins during gameplay.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public final class CoinGenerator {
 
     private static final int MAX_REUSABLE_COINS = 50;
@@ -40,6 +44,12 @@ public final class CoinGenerator {
 
     private Optional<Hitbox> playeHitbox;
 
+     /**
+     * Constructor of the CoinGenerator .
+     *
+     * @param playeHitbox    the hitbox use to check collision
+     * @param gameStatsModel the game statistics infomation
+     */
     public CoinGenerator(Optional<Hitbox> playeHitbox, GameStatsModel gameStatsModel) {
         this.gameInfo = GameInfo.getInstance();
         this.playeHitbox = playeHitbox;
@@ -50,27 +60,49 @@ public final class CoinGenerator {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * Starts the generation of coins.
+     */
     public void startGenerate() {
         timeline.play();
     }
 
+    /**
+     * Stops the generation of coins.
+     */
     public void stopGenerate() {
         timeline.stop();
     }
 
-    public void clean() {
+    /**
+     * Cleans up the generated coins and Canvas.
+     */
+    public void clean(){
         this.coinList.clear();
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    public void setPlayerHitbox(Optional<Hitbox> playerHitbox) {
-        this.playeHitbox = playerHitbox;
+    /**
+     * Sets actual the hitbox of the player.
+     *
+     * @param playerHitbox the hitbox of the player
+     */
+    public void setPlayerHitbox(Optional<Hitbox> playerHitbox){
+         this.playeHitbox = playerHitbox;
     }
 
-    public Canvas getCanvas() {
+    /**
+     * A method to get the canvas containing the coins.
+     *
+     * @return the canvas containing the coins
+     */
+    public Canvas getCanvas(){
         return this.canvas;
     }
 
+    /**
+     * The method use to generating coins.
+     */
     private void generateCoin() {
         if (generateOrNot()) {
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
@@ -91,13 +123,14 @@ public final class CoinGenerator {
         }
     }
 
-    private boolean generateOrNot() {
-        double probabilityInfluenBySpeed = PROBABILITY_BASE
-                + (GameInfo.moveSpeed.get() - initialSpeed) * PROBABILITY_RATE;
-        System.out.println(probabilityInfluenBySpeed);
+    private boolean generateOrNot(){
+        double probabilityInfluenBySpeed = PROBABILITY_BASE + (GameInfo.moveSpeed.get()-initialSpeed) * PROBABILITY_RATE;
         return random.nextDouble() < probabilityInfluenBySpeed;
     }
 
+    /**
+     * Renders the coins on the canvas.
+     */
     public void renderCoin() {
         if (isScreenSizeChange()) {
             canvas.setHeight(gameInfo.getScreenHeight());
@@ -109,6 +142,9 @@ public final class CoinGenerator {
         }
     }
 
+    /**
+     * Updates the position of the coins.
+     */
     public void updatPosition() {
 
         updateNewPos();
@@ -132,7 +168,11 @@ public final class CoinGenerator {
         }
 
     }
-
+    
+    /**
+     * Updates the position of the coins based on changes in the screen size.
+     * If the screen size has changed, adjusts the positions of the coins accordingly.
+     */
     private void updateNewPos() {
         if (isScreenSizeChange()) {
             double ratioX = gameInfo.getScreenWidth() / canvas.getWidth();
@@ -146,11 +186,21 @@ public final class CoinGenerator {
 
     }
 
+    /**
+     * Checks if the screen size has changed.
+     *
+     * @return true if the screen size has changed, false otherwise
+     */
     private boolean isScreenSizeChange() {
         return canvas.getWidth() != gameInfo.getScreenWidth() || canvas.getHeight() != gameInfo.getScreenHeight();
     }
 
-    private void checkCollision() {
+    /**
+     * Checks for collisions between coins and the player and 
+     * only coins that cross half of the screen will be checked. 
+     * If a collision occurs, updates the game statistics accordingly.
+     */
+    private void checkCollision(){
         List<Coin> sortedList = coinList.stream()
                 .filter(p -> p.getModel().getPosition().get1() < gameInfo.getScreenWidth() / 2)
                 .sorted(Comparator.comparingDouble(p -> p.getModel().getPosition().get1()))
@@ -166,7 +216,13 @@ public final class CoinGenerator {
         }
     }
 
-    private boolean isOutofMap(double x) {
+    /**
+     * Checks if a coin is out of the visible area of the screen.
+     *
+     * @param x the x-coordinate of the coin
+     * @return true if the coin is out of the visible area, false otherwise
+     */
+    private boolean isOutofMap(double x){
         return x < -gameInfo.getScreenWidth();
     }
 

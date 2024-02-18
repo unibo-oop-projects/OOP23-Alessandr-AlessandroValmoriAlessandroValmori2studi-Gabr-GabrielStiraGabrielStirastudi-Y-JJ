@@ -43,9 +43,11 @@ public class EntityHandler {
         this.isUsingPowerUp = false;
     }
 
-    public void update(final Group entityGroup, final boolean isSpaceBarPressed) {
+    public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
         
-        playerHandler.move(isSpaceBarPressed);
+        if(!playerHandler.move(isSpaceBarPressed)){
+            return false;
+        }
         playerHandler.updateView(entityGroup);
         this.coinHandler.setPlayerHitbox(this.playerHandler.getHitbox());
         coinHandler.updatPosition();
@@ -91,6 +93,7 @@ public class EntityHandler {
                     break;
             }
         }
+        return true;
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {

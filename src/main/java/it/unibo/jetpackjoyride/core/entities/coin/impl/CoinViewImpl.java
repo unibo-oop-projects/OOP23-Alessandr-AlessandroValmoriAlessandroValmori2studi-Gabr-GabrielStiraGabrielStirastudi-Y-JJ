@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
-import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
+import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,33 +13,35 @@ public class CoinViewImpl implements CoinView {
 
    private int numOfFrames = 35;
    private Image[] coinFrames;
-   private CoinModel model;
+   private Coin controller;
    private int currentCoinframe = 0;
 
    private boolean isOnScreen;
 
-   public CoinViewImpl(CoinModel model) {
-      this.model = model;
+   public CoinViewImpl(Coin controller) {
+      this.controller = controller;
       this.coinFrames = new Image[numOfFrames];
       isOnScreen = false;
       loadCoinImages();
    }
 
+   @Override
    public void renderCoin(GraphicsContext gc) {
       double moveSpeed = GameInfo.moveSpeed.get();
+      double posX = controller.getModel().getPosition().get1();
+      double posY = controller.getModel().getPosition().get2();
+      double width = controller.getModel().getPosition().get1();
+      double height = controller.getModel().getPosition().get2();
       if (isOnScreen) {
-         gc.clearRect(model.getPosition().get1() + moveSpeed, model.getPosition().get2(), model.getWidth(),
-               model.getHeight());
-         gc.drawImage(coinFrames[currentCoinframe],
-               model.getPosition().get1(),
-               model.getPosition().get2(), model.getWidth(), model.getHeight());
+         gc.clearRect(posX + moveSpeed, posY, width,height);
+         gc.drawImage(coinFrames[currentCoinframe],posX, posY,width, height);
          updateFrame();
       }else{
-         gc.clearRect(model.getPosition().get1()+moveSpeed, model.getPosition().get2(), model.getWidth(),
-               model.getHeight());
+         gc.clearRect(posX+moveSpeed,posY,width,height);
       }
    }
-
+   
+   @Override
    public void setVisible(boolean isOnScreen) {
       this.isOnScreen = isOnScreen;
    }

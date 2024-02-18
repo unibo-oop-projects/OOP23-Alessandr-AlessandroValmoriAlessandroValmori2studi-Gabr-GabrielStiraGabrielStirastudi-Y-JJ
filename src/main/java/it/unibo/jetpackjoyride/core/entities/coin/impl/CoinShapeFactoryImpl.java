@@ -12,6 +12,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
+    private static final double MIN_SIZE_RATE = 0.2;
+    private static final double MAX_SIZE_RATE = 0.9;
     private final int SPACE = 50;
     private double minY ;
     private double maxY ; 
@@ -23,8 +25,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     public CoinShapeFactoryImpl(final GameInfo gameInfo) {
         this.gameInfo = gameInfo;
         random = new Random();
-        minY = gameInfo.getScreenHeight() * 0.1;
-        maxY = gameInfo.getScreenHeight() * 0.9; 
+        minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
+        maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
         this.cachedRegularShapes = new HashMap<>();
         loadInitialShapes();
     }
@@ -118,8 +120,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
 
     private void updateDimension(){
-        minY = gameInfo.getScreenHeight() * 0.1;
-        maxY = gameInfo.getScreenHeight() * 0.9; 
+        minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
+        maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
     }
 }
     

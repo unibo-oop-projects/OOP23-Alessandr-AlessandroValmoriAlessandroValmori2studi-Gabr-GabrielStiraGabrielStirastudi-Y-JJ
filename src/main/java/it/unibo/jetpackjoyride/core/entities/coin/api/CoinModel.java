@@ -11,9 +11,7 @@ public interface CoinModel {
 
     void setPosition(Pair<Double, Double> position);
 
-    double getHeight();
-
-    double getWidth();
+    Pair<Double, Double> getSize();
 
     Hitbox geHitbox();
 

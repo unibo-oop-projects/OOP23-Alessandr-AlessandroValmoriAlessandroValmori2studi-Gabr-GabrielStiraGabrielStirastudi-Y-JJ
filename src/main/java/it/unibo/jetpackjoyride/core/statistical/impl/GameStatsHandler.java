@@ -21,6 +21,7 @@ public class GameStatsHandler implements GameStatsController {
      * Constructs a new GameStatsHandler.
      */
     public GameStatsHandler( ) {      
+        System.out.println("GAME STATS CREATED");
         loadDateFromFile();
         this.view =  new GameStatsViewImpl();
     }

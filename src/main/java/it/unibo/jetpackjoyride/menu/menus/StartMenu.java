@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import java.util.Optional;
 
 /**
  * Class representing the  Start menu, extend from the GameMenu
@@ -22,7 +23,7 @@ import javafx.scene.image.Image;
  */
 public final class StartMenu extends GameMenu{
 
-    private GameLoop gameLoop;
+    private Optional<GameLoop> gameLoop = Optional.empty();
       private final ShopController shopController;
 
     /**
@@ -45,13 +46,13 @@ public final class StartMenu extends GameMenu{
 
     @Override
     protected void initializeGameMenu(){
-        this.gameLoop = new GameLoop(this.stage,getGameStatsHandler());
+      
         VBox buttonsRoot = new VBox(20);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Command startCommand = new StartCommand(this.gameLoop, stage,this);
+       
         Button startButton = ButtonFactory.createButton("PlayGame",
-        e->{startCommand.execute();setGameStagePosition();},150,50);
+        e->{this.gameLoop = Optional.of(new GameLoop(this.stage,getGameStatsHandler())); Command startCommand = new StartCommand(this.gameLoop.get(), stage,this);startCommand.execute();setGameStagePosition();},150,50);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
 
@@ -68,7 +69,9 @@ public final class StartMenu extends GameMenu{
     @Override
     protected void stageCloseAction(){
         stage.setOnCloseRequest(event -> {
-            this.gameLoop.endLoop();
+            if(this.gameLoop.isPresent()){
+            this.gameLoop.get().endLoop();
+            }
             defaultCloseAction();
         });
     }

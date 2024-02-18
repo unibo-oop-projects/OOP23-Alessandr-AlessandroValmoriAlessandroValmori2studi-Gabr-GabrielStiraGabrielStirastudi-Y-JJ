@@ -24,33 +24,7 @@ public final class ObstacleSpawner {
 
     public ObstacleSpawner() {
         this.entityGenerator = new EntityGeneratorImpl();
-        this.initialize();
     }
-
-    private void initialize() {
-        this.images = new Image[56]; // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
-
-        // MISSILE 20 total
-        this.imageLoader(images, "sprites/entities/obstacles/missile/missile_", 0, 20);
-
-        // ZAPPER 20 total
-        this.imageLoader(images, "sprites/entities/obstacles/zapper/zapper_", 20, 20);
-
-        // LASER 16 total
-        this.imageLoader(images, "sprites/entities/obstacles/laser/laser_", 40, 16);
-    }
-
-    private void imageLoader(Image[] images, final String pathName, final Integer startingFrom, final Integer numberOfImages) {
-        int index = startingFrom;
-        for (int i = 0; i < numberOfImages; i++) {
-            final String imagePath = getClass().getClassLoader()
-                    .getResource(pathName + (i + 1) + ".png").toExternalForm();
-            images[index] = new Image(imagePath);
-            index++;
-        }
-    }
-
-
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         //return randomChunk();
@@ -58,30 +32,23 @@ public final class ObstacleSpawner {
     }
 
     private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
-        List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
-        Random random = new Random();
-        int numberOfObstacles = 1;
+        final List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
+        final Random random = new Random();
+        int numberOfObstacles = 3;
 
         for (int i = 0; i < numberOfObstacles; i++) {
-            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/6)),
+            Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/3)),
                             new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of());
-            Hitbox hitbox = new HitboxImpl(movement.getCurrentPosition(), new Pair<>(150.0, 50.0));
-            Image[] actualImages = loadImages(0, 19);
                 
-            Obstacle model = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement, hitbox);
-
-            ObstacleView view = new ObstacleView(actualImages);
-
-            GenericController<Obstacle,ObstacleView> obstacle = new GenericController<Obstacle,ObstacleView>(model, view);
-            obstacleControllers.add(obstacle);
+            obstacleControllers.addAll(this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement));
         }
         return obstacleControllers;
     }
 
-    private List<GenericController<Obstacle,ObstacleView>> randomChunk() {
+    /*private List<GenericController<Obstacle,ObstacleView>> randomChunk() {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         final Double gameMovingSpeed = Double.valueOf(GameInfo.moveSpeed.get());
@@ -138,7 +105,7 @@ public final class ObstacleSpawner {
                     throw new IllegalStateException();
             }
 
-            Obstacle model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
+            //Obstacle model = this.entityGenerator.generateObstacle(obstacleType, movement, hitbox);
 
             ObstacleView view = new ObstacleView(actualImages);
 
@@ -146,7 +113,7 @@ public final class ObstacleSpawner {
             obstacleControllers.add(obstacle);
         }
         return obstacleControllers;
-    }
+    }*/
 
     private Image[] loadImages(final Integer fromIndex, final Integer toIndex) {
         int j = 0;

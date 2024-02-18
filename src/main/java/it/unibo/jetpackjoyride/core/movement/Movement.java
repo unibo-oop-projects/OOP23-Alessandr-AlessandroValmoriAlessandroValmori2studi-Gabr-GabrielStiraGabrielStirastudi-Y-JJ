@@ -8,8 +8,6 @@ public interface Movement {
 
     enum MovementChangers {
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
-        HOMING, // Acceleration of y in changed based on the y difference between the player
-                // entity and this entity
         SLOW, // Slower initial speed set by the SLOWMODIFIER
         SPEEDY, // Faster initial speed set by the SPEEDYMODIFIER
         STATIC, // No velocity, the object is still and doesn't move

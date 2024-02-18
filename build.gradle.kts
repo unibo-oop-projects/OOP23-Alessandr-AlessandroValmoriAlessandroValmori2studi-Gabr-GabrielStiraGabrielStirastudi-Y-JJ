@@ -30,6 +30,9 @@ val javaFXModules = listOf(
 val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
 
 dependencies {
+    val testFxVersion = "4.0.16-alpha" 
+    testImplementation("org.testfx:testfx-core:$testFxVersion")
+    testImplementation("org.testfx:testfx-junit5:$testFxVersion")
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.3")
 
@@ -54,6 +57,11 @@ dependencies {
 tasks.withType<Test> {
     // Enables JUnit 5 Jupiter module
     useJUnitPlatform()
+	  testLogging {
+        events(*org.gradle.api.tasks.testing.logging.TestLogEvent.values())
+        showStandardStreams = true
+    }
+
 }
 
 val main: String by project

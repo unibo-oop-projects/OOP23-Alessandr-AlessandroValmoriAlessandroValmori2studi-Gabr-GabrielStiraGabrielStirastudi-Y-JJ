@@ -9,6 +9,10 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/**
+ * Implementation of the CoinView interface.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class CoinViewImpl implements CoinView {
 
    private int numOfFrames = 35;
@@ -18,6 +22,11 @@ public class CoinViewImpl implements CoinView {
 
    private boolean isOnScreen;
 
+   /**
+     * Constructs a CoinViewImpl with the given Coin controller.
+     *
+     * @param controller the controller use to update View
+     */
    public CoinViewImpl(Coin controller) {
       this.controller = controller;
       this.coinFrames = new Image[numOfFrames];

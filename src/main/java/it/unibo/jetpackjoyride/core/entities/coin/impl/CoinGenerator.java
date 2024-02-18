@@ -155,16 +155,13 @@ public final class CoinGenerator {
                         .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-              for (var vertex : playeHitbox.getHitboxVertex()) {
-                    if(coin.geHitbox().isTouching(vertex) || coin.geHitbox().isTouching(playeHitbox.getHitboxPosition())){
-                        coin.setVisible(false);
-                        if(!coin.isCollected()){
-                            gameStatsModel.updateCoins(1);
-                            coin.setCollectedState(true);
-                        }
-                        break;
-                    }
-              }
+              if(coin.geHitbox().isTouching(playeHitbox)) {
+                coin.setVisible(false);
+                if(!coin.isCollected()){
+                    gameStatsModel.updateCoins(1);
+                    coin.setCollectedState(true);
+                }
+            }
         }
     }
 

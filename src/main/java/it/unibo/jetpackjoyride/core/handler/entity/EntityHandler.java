@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.entity;
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
@@ -15,7 +16,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 
 public class EntityHandler {
     private ObstacleHandler obstacleHandler;
@@ -107,7 +107,9 @@ public class EntityHandler {
         final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).collect(Collectors.toList());
         final Integer random = new Random().nextInt(listOfPossibleSpawns.size());
 
-        this.pickUpHandler.spawnVehiclePickUp(listOfPossibleSpawns.get(random));
+        this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
+        final VehiclePickUp vehiclePickUp = (VehiclePickUp)this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+        vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(random));
     }
 
     private void spawnPowerUp(final PowerUpType powerUpType) {

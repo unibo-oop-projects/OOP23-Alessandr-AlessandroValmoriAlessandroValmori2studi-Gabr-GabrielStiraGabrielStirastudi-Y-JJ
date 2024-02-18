@@ -22,7 +22,7 @@ public final class ObstacleHandler {
     
         this.listOfControllers = new ArrayList<>();
         this.obstacleSpawner = new ObstacleSpawner();
-        this.timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generate()));
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
@@ -48,7 +48,7 @@ public final class ObstacleHandler {
 
                 controller.update(false);
 
-                if (collisionChecker(controller.getEntityModel().getHitbox(), playerHitbox)
+                if (controller.getEntityModel().getHitbox().isTouching(playerHitbox)
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                     Obstacle obstacleHit = (Obstacle)controller.getEntityModel();
                     obstacleHitPlayer = Optional.of(obstacleHit.getObstacleType());
@@ -76,20 +76,6 @@ public final class ObstacleHandler {
             }
             return obstacleHitPlayer;
         }
-    }
-
-    private boolean collisionChecker(final Hitbox hitbox, final Hitbox playerHitbox) {
-        for (final var vertex : playerHitbox.getHitboxVertex()) {
-            if (hitbox.isTouching(vertex) || hitbox.isTouching(playerHitbox.getHitboxPosition())) {
-                return true;
-            }
-        }
-        for (final var vertex : hitbox.getHitboxVertex()) {
-            if (playerHitbox.isTouching(vertex) || playerHitbox.isTouching(hitbox.getHitboxPosition())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void deactivateAllObstacles() {

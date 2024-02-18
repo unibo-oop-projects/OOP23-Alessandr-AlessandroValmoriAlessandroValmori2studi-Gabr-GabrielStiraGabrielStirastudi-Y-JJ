@@ -43,9 +43,13 @@ public class EntityHandler {
         this.isUsingPowerUp = false;
     }
 
-    public void update(final Group entityGroup, final boolean isSpaceBarPressed) {
-        playerHandler.move(isSpaceBarPressed);
+    public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
+        
+        if(!playerHandler.move(isSpaceBarPressed)){
+            return false;
+        }
         playerHandler.updateView(entityGroup);
+        this.coinHandler.setPlayerHitbox(this.playerHandler.getHitbox());
         coinHandler.updatPosition();
         coinHandler.renderCoin();
 
@@ -58,7 +62,7 @@ public class EntityHandler {
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
-        var obstacleHit = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox() : playerHandler.getHitbox());
+        var obstacleHit = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()) : playerHandler.getHitbox());
         if(obstacleHit.isPresent()) {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
@@ -83,12 +87,13 @@ public class EntityHandler {
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
-                    this.coinHandler.setPlayerHitbox(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox());
+                    this.coinHandler.setPlayerHitbox(Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
                     break;
                 default:
                     break;
             }
         }
+        return true;
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {

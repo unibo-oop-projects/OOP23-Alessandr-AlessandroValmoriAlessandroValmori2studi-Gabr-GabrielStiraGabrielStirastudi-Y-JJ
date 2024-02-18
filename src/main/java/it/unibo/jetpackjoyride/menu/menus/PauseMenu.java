@@ -10,6 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
+/**
+ * Class representing the  Pause menu, extend from the GameMenu
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class PauseMenu extends GameMenu {
 
     private  VBox buttonsVBox;
@@ -17,6 +22,12 @@ public class PauseMenu extends GameMenu {
     private Button pauseButton;
 
 
+    /**
+     * Constructs a new PauseMenu.
+     * And it call back the constructor of the superclass
+     * @param primaryStage the primary stage
+     * @param gameLoop     the game loop
+     */
     public PauseMenu(final Stage primaryStage,final GameLoop gameLoop) {
         super(primaryStage,null);
         this.gameLoop = gameLoop;
@@ -46,15 +57,30 @@ public class PauseMenu extends GameMenu {
         buttonsVBox.setVisible(false);
     }
    
-    public Button getPauseButton(){
+   /**
+     * Gets the pause button.
+     *
+     * @return the pause button
+     */
+    public Button getPauseButton() {
         return pauseButton;
     }
 
-    public VBox getVBox(){
+    /**
+     * Gets the VBox.
+     *
+     * @return the VBox
+     */
+    public VBox getVBox() {
         return this.buttonsVBox;
     }
 
-    public void setVisbile(boolean isvisible){
-        this.buttonsVBox.setVisible(isvisible);
+    /**
+     * Sets the visibility of the menu.
+     *
+     * @param isVisible whether the menu is visible
+     */
+    public void setVisible(boolean isVisible) {
+        this.buttonsVBox.setVisible(isVisible);
     }
 }

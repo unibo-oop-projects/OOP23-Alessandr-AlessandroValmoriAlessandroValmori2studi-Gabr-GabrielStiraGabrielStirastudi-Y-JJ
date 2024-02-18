@@ -17,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * The GameLoop class manages the main game loop and manages different game stages
+ */
 public final class GameLoop {
 
     private Scene gameScene;
@@ -39,6 +42,12 @@ public final class GameLoop {
 
     private final InputHandler inputH = new InputHandler();
 
+    /**
+     * Constructs a GameLoop object with the specified stage and game statistics controller.
+     * All necessary instances are initialized here.
+     * @param stage               the primary stage for the game
+     * @param gameStatsController the game statistics controller
+     */
     public GameLoop(Stage stage, final GameStatsController gameStatsController) {
         this.stage = stage;
         this.gameStatsHandler = gameStatsController;
@@ -89,14 +98,18 @@ public final class GameLoop {
                 if (now - lastUpdate > nSecPerFrame) {
 
                     map.updateBackground();
-                    updateModel();
-                    updateView();
+                    gameStatsHandler.updateView();
+
 
                     if(false){
                         showGameOverMenu();
                         endLoop();  
                     }else{
-                        entityHandler.update(entityGroup, inputH.isSpacePressed());
+                        if(!entityHandler.update(entityGroup, inputH.isSpacePressed())){
+                            showGameOverMenu();
+                           
+                            endLoop();
+                        }
                     }
                    
                     lastUpdate = now;
@@ -111,22 +124,34 @@ public final class GameLoop {
         };
     }
 
+    /**
+     * Starts the game loop.
+     */
     public void startLoop(){
         entityHandler.start();
         timer.start();
     }
 
+    /**
+     * Stop the game loop.
+     */
     public void stopLoop(){   
         entityHandler.stop();
         timer.stop();
     }
 
+    /**
+     * End the game loop.
+     */
     public void endLoop(){
         saveGame();
         this.stopLoop();
         timer.stop();
     }
 
+    /**
+     * Reset the game loop.
+     */
     public void resetLoop(){
         saveGame();
         if(!root.getChildren().isEmpty()){
@@ -138,17 +163,13 @@ public final class GameLoop {
         initializeGameElements();
     }
     
-    
+    /**
+     * Gets the game scene.
+     *
+     * @return the game scene
+     */
     public Scene getScene(){
         return this.gameScene;
-    }
-
-    private void updateModel(){ 
-       
-    }
-
-    private void updateView() {
-        gameStatsHandler.updateView();
     }
 
     private void setListenerForGameInfo() {
@@ -176,6 +197,9 @@ public final class GameLoop {
         }
     }
 
+    /**
+     * Use to set the Over menu, when player dead.
+     */
     public void showGameOverMenu(){
         OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
         overMenu.show();

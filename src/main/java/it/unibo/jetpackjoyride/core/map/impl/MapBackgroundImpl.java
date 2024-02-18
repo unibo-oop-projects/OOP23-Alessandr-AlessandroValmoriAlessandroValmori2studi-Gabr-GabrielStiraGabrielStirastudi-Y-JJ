@@ -11,7 +11,11 @@ import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-
+/**
+ * Implementation of the MapBackground interface.
+ * This class provides functionality to control the background of the game.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class MapBackgroundImpl implements MapBackground {
 
     private final static int MAX_SPEED = 15;
@@ -22,6 +26,9 @@ public class MapBackgroundImpl implements MapBackground {
     private Timeline timeline;
     private GameInfo gameInfo;
 
+    /**
+     * Constructor of the MapBackgroundImpl.
+     */
     public MapBackgroundImpl(){
         model = new MapBackgroundModelImpl();
         view = new MapBackgroungViewImpl(this);
@@ -66,11 +73,16 @@ public class MapBackgroundImpl implements MapBackground {
          return this.model.getSize();
     }
 
+     /**
+     * Method that updates the background view.
+     */
     private void updateBackgroundView() {
         this.view.updateBackgroundView();
     }
 
- 
+   /**
+     * Method that updates the background model.
+     */
     private void updateBackgroundModel() { 
         if(!timeline.statusProperty().get().equals(Status.RUNNING)){
             timeline.play();

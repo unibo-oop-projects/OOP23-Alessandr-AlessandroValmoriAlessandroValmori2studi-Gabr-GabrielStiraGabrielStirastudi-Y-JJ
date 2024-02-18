@@ -59,6 +59,7 @@ public class PlayerMover {
         this.model = new BarryImpl();
         if(gameStatsHandler.getGameStatsModel().isShieldEquipped()){
             this.model.setShieldOn();
+            gameStatsHandler.getGameStatsModel().addShields(gameStatsHandler.getGameStatsModel().getNumOfShields()-1);
             gameStatsHandler.getGameStatsModel().setShield(false);
         }
         this.gameStatsHandler = gameStatsHandler;

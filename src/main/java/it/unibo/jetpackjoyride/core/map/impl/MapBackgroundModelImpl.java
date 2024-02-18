@@ -41,8 +41,8 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
         bgImageX1 -= GameInfo.moveSpeed.get();
         bgImageX2 -= GameInfo.moveSpeed.get();;
 
-        if (isOutofMap(bgImageX1)) {
-            bgImageX1 = bgImageX2 + mapWidth-OFFSET;
+        if (isOutofMap(bgImageX1)) { //If the Backgroung Image is completely outside the map.
+            bgImageX1 = bgImageX2 + mapWidth-OFFSET;// then reset its position to behind the other. 
         }
         if (isOutofMap(bgImageX2)) {
             bgImageX2 = bgImageX1 + mapWidth-OFFSET;

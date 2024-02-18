@@ -26,6 +26,9 @@ public class GameStats implements GameStatsModel {
     private boolean isShieldEquipped;
     private int numOfShields;
     
+    /**
+     * Constructs a new GameStats object with default values.
+     */
     public GameStats(){
         this.numOfShields=0;
         this.isShieldEquipped= false;
@@ -35,6 +38,13 @@ public class GameStats implements GameStatsModel {
         
     }
 
+    /**
+     * Save the game statistics to a file.
+     *
+     * @param stats    the game statistics to save
+     * @param filename the name of the file
+     * @throws IOException if an I/O error occurs
+     */
     public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
      
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
@@ -42,21 +52,31 @@ public class GameStats implements GameStatsModel {
         }
     }
 
-  
+    /**
+     * Loads the game statistics from a file.
+     *
+     * @param filename the name of the file
+     * @return the game statistics load from the file
+     * @throws IOException            if an I/O error occurs
+     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     */
     public static GameStatsModel readFromFile(String filename) throws IOException, ClassNotFoundException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             return (GameStatsModel) in.readObject();
         }
     }
 
+    @Override
     public int getTotCoins(){
         return this.totCoins;
     }
 
+    @Override
     public void updateCoins(int coin){
         this.totCoins = totCoins + coin;
     }
 
+    @Override
     public int getBestDistance(){
         return bestDistance;
     }
@@ -67,10 +87,12 @@ public class GameStats implements GameStatsModel {
         }
     }
 
+    @Override
     public void addDistance(){
         this.currentDistance = currentDistance +GameInfo.moveSpeed.get();
     }
 
+    @Override
     public void updateDate(){
         this.setBestDistance();
         this.currentDistance = 0;

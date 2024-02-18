@@ -6,6 +6,10 @@ import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
+/**
+ * Implementation of the CoinModel interface.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class CoinModelImpl implements CoinModel {
     private static final double COIN_WIDTH = 30;
     private static final double COIN_HEIGHT = 30;
@@ -14,6 +18,12 @@ public class CoinModelImpl implements CoinModel {
     private HitboxImpl coinHitbox;
     private boolean isCollected;
     
+    /**
+     * Constructs a CoinModelImpl with the given position and hitbox.
+     *
+     * @param position the initial position of the coin
+     * @param hitbox   the hitbox of the coin
+     */
     public CoinModelImpl(Pair<Double,Double> position, HitboxImpl hitbox){
             this.position = position;
             this.coinHitbox = hitbox;

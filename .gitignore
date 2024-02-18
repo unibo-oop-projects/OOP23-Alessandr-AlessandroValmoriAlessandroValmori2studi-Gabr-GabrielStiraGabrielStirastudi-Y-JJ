@@ -8,7 +8,7 @@
 # output folders
 bin/
 build/
-gameStats.data
+*.data
 
 # files ignored by extension
 *.class

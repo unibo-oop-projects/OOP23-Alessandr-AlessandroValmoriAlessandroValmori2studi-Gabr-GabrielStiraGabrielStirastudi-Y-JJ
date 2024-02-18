@@ -1,24 +1,30 @@
 package it.unibo.jetpackjoyride.core.map.impl;
 
-import java.util.List;
-
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-
-
-
+/**
+ * Implementation of the MapBackground interface.
+ * This class provides functionality to control the background model of the game.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class MapBackgroundModelImpl implements MapBackgroundModel {
 
    
     private final static int OFFSET = 1;
 
+    /**
+     * the backgroung position and size
+     */
      private double bgImageX1, bgImageX2;
      private final GameInfo gameInfo;
      private double mapWidth;
      private double mapHeight;
     
+    /**
+     * Constructor of the MapBackgroundModelImpl.
+     */
      public MapBackgroundModelImpl() {
 
         this.gameInfo = GameInfo.getInstance();
@@ -55,11 +61,16 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
         return new Pair<>(this.mapWidth, this.mapHeight);
     }
 
+    @Override
     public void reset(){
         this.bgImageX1 = 0;
         this.bgImageX2 = mapWidth;
     }
 
+     /**
+     * Updates the size of the background based on the screen size.
+     * If the screen size has changed, this method adjusts the background accordingly.
+     */
     private void updateSize() {
         double newWidth = gameInfo.getScreenWidth();
         double newHeight = gameInfo.getScreenHeight();
@@ -77,6 +88,12 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
 
     }
 
+    /**
+     * Checks if the given x-coordinate is outside the map area.
+     * 
+     * @param x The x-coordinate to check.
+     * @return True if the x-coordinate is outside the map area, false otherwise.
+     */
     private boolean isOutofMap(double x) {
         return x <= -mapWidth;
     }

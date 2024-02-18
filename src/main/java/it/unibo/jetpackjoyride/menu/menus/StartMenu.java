@@ -16,12 +16,21 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
-
+/**
+ * Class representing the  Start menu, extend from the GameMenu
+ * @author yukai.zhou@studio.unibo.it
+ */
 public final class StartMenu extends GameMenu{
 
     private GameLoop gameLoop;
       private final ShopController shopController;
 
+    /**
+     * Constructs a new StartMenu.
+     * And it call back the constructor of the superclass
+     * @param primaryStage        the primary stage
+     * @param gameStatsController the game statistics controller
+     */
     public StartMenu(Stage primaryStage,final GameStatsController gameStatsController) {
         super(primaryStage, gameStatsController);
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());

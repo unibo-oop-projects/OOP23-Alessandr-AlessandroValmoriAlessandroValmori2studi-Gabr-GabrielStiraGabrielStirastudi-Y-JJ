@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.entity;
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
@@ -15,9 +16,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 
 public class EntityHandler {
+    private final Integer BASEPICKUPSPAWNCHANCE = 5000;
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
@@ -28,12 +29,6 @@ public class EntityHandler {
 
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded = false;
-    private Integer counter;
-
-    public enum Event {
-        BARRYHIT, POWERUPHIT, NONE, POWERUPSPAWNED, PICKUPPICKEDUP
-    }
-
 
     public void initialize(final GameStatsController gameStatsHandler) {
         this.obstacleHandler = new ObstacleHandler();
@@ -46,7 +41,6 @@ public class EntityHandler {
 
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
-        this.counter = 0;
     }
 
     public void update(final Group entityGroup, final boolean isSpaceBarPressed) {
@@ -60,7 +54,7 @@ public class EntityHandler {
             isCanvasAdded = true;
         }
 
-        if(!this.isUsingPowerUp && this.counter % 500 == 0) {//Every 500m spawns a pickUp if Barry is not using a powerUp
+        if(!this.isUsingPowerUp) {
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
@@ -95,19 +89,20 @@ public class EntityHandler {
                     break;
             }
         }
-
-        this.counter++;
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {
-        if(unlockedPowerUps.isEmpty() || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
+        Integer random = new Random().nextInt(BASEPICKUPSPAWNCHANCE);
+        if(random != 0 || unlockedPowerUps.isEmpty() || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
             return;
         }
 
         final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).collect(Collectors.toList());
-        final Integer random = new Random().nextInt(listOfPossibleSpawns.size());
+        random = new Random().nextInt(listOfPossibleSpawns.size());
 
-        this.pickUpHandler.spawnVehiclePickUp(listOfPossibleSpawns.get(random));
+        this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
+        final VehiclePickUp vehiclePickUp = (VehiclePickUp)this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+        vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(random));
     }
 
     private void spawnPowerUp(final PowerUpType powerUpType) {

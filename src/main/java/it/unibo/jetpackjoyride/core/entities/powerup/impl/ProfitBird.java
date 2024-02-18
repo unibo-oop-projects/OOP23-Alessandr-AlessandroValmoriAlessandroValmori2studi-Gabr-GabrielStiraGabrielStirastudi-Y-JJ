@@ -30,7 +30,7 @@ public class ProfitBird extends AbstractPowerUp{
                 }
                 break;
             case JUMPING:
-                this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
+                this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED*screenSizeY/infoResolution.getDefaultHeight()));
                 this.performingAction = PerformingAction.ASCENDING;
                 break;
             case ASCENDING:
@@ -39,14 +39,14 @@ public class ProfitBird extends AbstractPowerUp{
                 }
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
                     this.performingAction = PerformingAction.JUMPING;
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED*screenSizeY/infoResolution.getDefaultHeight()));
                     this.intervalBewteenJumps = false;
                 }
                 break;
             case DESCENDING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
                     this.performingAction = PerformingAction.JUMPING;
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED));
+                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -BASEJUMPSPEED*screenSizeY/infoResolution.getDefaultHeight()));
                     this.intervalBewteenJumps = false;
                 }
                 if(this.movement.getCurrentPosition().get2() >= screenSizeY - screenSizeY/8) {

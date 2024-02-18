@@ -41,6 +41,7 @@ public class PlayerMover {
         {
             put(BarryStatus.WALKING, 4);
             put(BarryStatus.BURNED, 4);
+            put(BarryStatus.LASERED, 4);
             put(BarryStatus.ZAPPED, 4);
             put(BarryStatus.FALLING, 2);
             put(BarryStatus.PROPELLING, 2);

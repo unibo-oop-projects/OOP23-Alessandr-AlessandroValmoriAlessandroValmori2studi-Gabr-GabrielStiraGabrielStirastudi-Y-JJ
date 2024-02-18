@@ -14,6 +14,7 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
@@ -42,7 +43,7 @@ public final class BarryImpl implements Barry {
     private BarryStatus status; // walking, falling ..
     private BarryLifeStatus lifeStatus; // dead or alive
 
-    private final HitboxImpl hitbox;
+    private Optional<Hitbox> hitbox;
 
     private final GameInfo gameInfo;
 
@@ -75,7 +76,7 @@ public final class BarryImpl implements Barry {
         this.position = lowBound;
         this.speed = 0;
 
-        this.hitbox = new HitboxImpl(this.getPosition(), new Pair<>(this.width/17, this.height/7));
+        this.hitbox = Optional.of(new HitboxImpl(this.getPosition(), new Pair<>(this.width/17, this.height/7)));
     }
 
     /**
@@ -140,7 +141,7 @@ public final class BarryImpl implements Barry {
             this.fall();
         }
 
-        this.hitbox.updateHitbox(getPosition(), 0.0);
+        this.hitbox.get().updateHitbox(getPosition(), 0.0);
 
     }
 
@@ -170,7 +171,7 @@ public final class BarryImpl implements Barry {
      * @return the hitbox of Barry
      */
     @Override
-    public HitboxImpl getHitbox() {
+    public Optional<Hitbox> getHitbox() {
         return this.hitbox;
     }
 
@@ -189,6 +190,7 @@ public final class BarryImpl implements Barry {
 
     @Override
     public void kill(ObstacleType type) {
+        this.hitbox = Optional.empty();
         this.status = type.equals(ObstacleType.ZAPPER) ? BarryStatus.ZAPPED : 
         type.equals(ObstacleType.LASER) ? BarryStatus.LASERED : 
         type.equals(ObstacleType.MISSILE) ? BarryStatus.BURNED : BarryStatus.UNDEFINED;
@@ -227,6 +229,8 @@ public final class BarryImpl implements Barry {
         this.upBound = this.upBound*heightRatio;
         this.x_position = this.x_position* widthRatio;
     }
+
+  
 
     
 }

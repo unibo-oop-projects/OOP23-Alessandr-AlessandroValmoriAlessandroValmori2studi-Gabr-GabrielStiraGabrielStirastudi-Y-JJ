@@ -7,6 +7,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
+import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import javafx.geometry.Pos;
@@ -15,13 +16,25 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Class representing the game over menu, extend from the GameMenu
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class OverMenu extends GameMenu{
 
     private  VBox buttonsVBox;
     private final GameLoop gameLoop;
     private final ShopController shopController;
-     private WritableImage writableImage;
+    private WritableImage writableImage;
 
+    /**
+     * Constructs a new game over menu.
+     * And it call back the constructor of the superclass
+     *
+     * @param primaryStage      the primary stage
+     * @param gameLoop          the game loop
+     * @param gameStatsHandler  the game statistics handler
+     */
     public OverMenu(final Stage primaryStage,
                         final GameLoop gameLoop,
                         final GameStatsController gameStatsHandler) {
@@ -43,7 +56,7 @@ public class OverMenu extends GameMenu{
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(20);
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
-        Command restartCommand = new RestartCommand(gameLoop,stage,this);
+        Command restartCommand = new RestartCommand(new GameLoop(stage, getGameStatsHandler()),stage,this);
         Button restartButton = ButtonFactory.createButton("PlayAgain",e->restartCommand.execute(),220,120);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
@@ -53,6 +66,9 @@ public class OverMenu extends GameMenu{
         addButtons(buttonsVBox);
     }
 
+    /**
+     * show the OverMenu on Main Stage
+     */
     public void show(){
         this.stage.setScene(this.scene);
     }

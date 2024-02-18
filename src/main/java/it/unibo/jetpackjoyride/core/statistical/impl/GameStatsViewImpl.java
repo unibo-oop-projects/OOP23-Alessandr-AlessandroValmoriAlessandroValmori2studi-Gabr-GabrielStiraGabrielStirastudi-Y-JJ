@@ -11,6 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * An implementation of the GameStatsView interface.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class GameStatsViewImpl implements GameStatsView{
 
     private final String SCORE_IMAGE1_PATH = "background/ScorePane.png";
@@ -18,6 +22,9 @@ public class GameStatsViewImpl implements GameStatsView{
     private final Text coinAndDistanceText = new Text();
     private final ImageView scorePane;
 
+     /**
+     * Constructs a new GameStatsViewImpl object.
+     */
     public GameStatsViewImpl(){
         scorePane = creatImageView(SCORE_IMAGE1_PATH);
         scorePane.setX(0);
@@ -30,23 +37,28 @@ public class GameStatsViewImpl implements GameStatsView{
         coinAndDistanceText.setFont(Font.font("Serif", 15)); 
        
     }
-
-    public void updateDateView(GameStatsModel model){
+    @Override
+    public void updateDataView(GameStatsModel model){
         coinAndDistanceText.setText("Current meter: " + model.getcurrentDistance() + 
                                     "\n" +
                                     "Last best meter : " + model.getBestDistance() +
                                     "\n" + "Total Coins: " + model.getTotCoins()  );
     }
 
+    @Override
     public Text getText(){
         return this.coinAndDistanceText;
     }
 
+    @Override
     public ImageView getImageView(){
         return this.scorePane;
     }
 
-
+  /**
+     * A method that used to create ImageView
+     * @param path The path to the image
+     */
     private ImageView creatImageView(String path) {
 
         try {

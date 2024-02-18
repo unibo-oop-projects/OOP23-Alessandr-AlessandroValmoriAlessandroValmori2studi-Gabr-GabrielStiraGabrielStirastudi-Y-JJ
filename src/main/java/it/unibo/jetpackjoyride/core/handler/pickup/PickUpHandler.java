@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import java.util.Optional;
 
 
 public class PickUpHandler {
@@ -23,19 +24,20 @@ public class PickUpHandler {
         entityGenerator = new EntityGeneratorImpl();
     }
 
-    public boolean update(final Group pickUpGroup, final Hitbox playerHitbox) {
+    public boolean update(final Group pickUpGroup, final Optional<Hitbox> playerHitbox) {
         final var iterator = listOfControllers.iterator();
         boolean pickUpPickedUp = false;
         while (iterator.hasNext()) {
             final var controller = iterator.next();
 
             controller.update(false);
-
-            if (controller.getEntityModel().getHitbox().isTouching(playerHitbox)
+            if (playerHitbox.isPresent()) {
+            if (controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
                         && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                             pickUpPickedUp = true;
                     controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                 }
+            }
 
             if (!pickUpGroup.getChildren().contains((Node) controller.getImageView())) {
                 pickUpGroup.getChildren().add((Node) controller.getImageView());

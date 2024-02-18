@@ -79,10 +79,6 @@ public class EntityHandler {
 
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
-        if(this.powerUpHandler.getAllPowerUps().size()>0) {
-            System.out.println(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox().getHitboxVertex());
-        }
-
         if(this.pickUpHandler.update(entityGroup, playerHandler.getHitbox())) {
             playerHandler.deactivate();
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
@@ -93,7 +89,7 @@ public class EntityHandler {
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
-                    this.coinHandler.setPlayerHitbox(pickUpPickedUp.getHitbox());
+                    this.coinHandler.setPlayerHitbox(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox());
                     break;
                 default:
                     break;

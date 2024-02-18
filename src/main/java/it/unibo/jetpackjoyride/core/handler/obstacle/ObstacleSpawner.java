@@ -2,12 +2,14 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
@@ -18,17 +20,92 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 
+
 public final class ObstacleSpawner {
     private final EntityGenerator entityGenerator;
     private Image[] images;
+    private Integer gracePeriod;
+
+    enum Difficulty{
+        VERYEASY(1), EASY(2), NOTSOEASY(3), NORMAL(4), NOTSOHARD(5), 
+        HARD(6), VERYHARD(7), SWEATING(8), IMPOSSIBLE(9), BARRY(10);
+
+        private final Integer difficulty;
+
+        Difficulty(Integer difficulty){
+            this.difficulty = difficulty;
+        }
+
+        public static Optional<Difficulty> getDifficulty(Integer difficulty) {
+            for(var d : Difficulty.values()){
+                if(d.getDifficultyAsInteger().equals(difficulty)) {
+                    return Optional.of(d);
+                }
+            }
+            return Optional.empty();
+        }
+
+        public Integer getDifficultyAsInteger(){
+            return this.difficulty;
+        }
+    }
 
     public ObstacleSpawner() {
         this.entityGenerator = new EntityGeneratorImpl();
+        this.gracePeriod = 0;
     }
 
+
+
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
-        //return randomChunk();
-        return missileChunk();
+        if(this.gracePeriod > 0) {
+            this.gracePeriod--;
+            return List.of();
+        }
+
+        //Integer difficulty = GameInfo.moveSpeed.get();
+        Integer difficulty = 1;
+        Optional<Difficulty> difficultyLevel = Difficulty.getDifficulty(difficulty);
+        if(difficultyLevel.isEmpty()) {
+            return List.of();
+        }
+
+        switch (difficultyLevel.get()) {
+            case VERYEASY:
+                this.gracePeriod = 5;
+                return this.missileChunk();
+            case EASY:
+
+                break;
+            case NOTSOEASY:
+
+                break;
+            case NORMAL:
+
+                break;
+            case NOTSOHARD:
+
+                break;
+            case HARD:
+
+                break;
+            case VERYHARD:
+
+                break;
+            case SWEATING:
+
+                break;
+            case IMPOSSIBLE:
+
+                break;
+            case BARRY:
+
+                break;
+            default:
+                break;
+        }
+        return null;
+
     }
 
     private List<GenericController<Obstacle,ObstacleView>> missileChunk() {
@@ -37,7 +114,7 @@ public final class ObstacleSpawner {
 
         final List<GenericController<Obstacle,ObstacleView>> obstacleControllers = new ArrayList<>();
         final Random random = new Random();
-        int numberOfObstacles = 3;
+        int numberOfObstacles = 1;
 
         for (int i = 0; i < numberOfObstacles; i++) {
             Movement movement = new MovementImpl(new Pair<>(screenSizeX - screenSizeX/20, screenSizeY/6 + random.nextDouble(screenSizeY-screenSizeY/3)),
@@ -114,16 +191,5 @@ public final class ObstacleSpawner {
         }
         return obstacleControllers;
     }*/
-
-    private Image[] loadImages(final Integer fromIndex, final Integer toIndex) {
-        int j = 0;
-        int k = 0;
-        Image[] actualImages = new Image[toIndex - fromIndex + 1];
-        for (j = fromIndex; j <= toIndex; j++) {
-            actualImages[k] = this.images[j];
-            k++;
-        }
-        return actualImages;
-    }
 
 }

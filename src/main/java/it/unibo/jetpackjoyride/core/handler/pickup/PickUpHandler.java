@@ -8,7 +8,6 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.scene.Group;

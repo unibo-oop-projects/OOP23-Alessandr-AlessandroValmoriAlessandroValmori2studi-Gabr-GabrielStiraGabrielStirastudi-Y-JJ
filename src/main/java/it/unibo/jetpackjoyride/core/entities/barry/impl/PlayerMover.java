@@ -99,7 +99,7 @@ public class PlayerMover {
      * @param pressed Indicates whether the movement input is pressed.
      */
     public boolean move(final boolean pressed) {
-        System.out.println(this.model.hasShield());
+        
         if (this.model.isAlive()) {
             var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                     GameInfo.getInstance().getScreenHeight());

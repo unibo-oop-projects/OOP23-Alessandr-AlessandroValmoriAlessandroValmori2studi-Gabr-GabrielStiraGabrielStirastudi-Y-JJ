@@ -101,16 +101,13 @@ public final class GameLoop {
                     gameStatsHandler.updateView();
 
 
-                    if(false){
-                        showGameOverMenu();
-                        endLoop();  
-                    }else{
                         if(!entityHandler.update(entityGroup, inputH.isSpacePressed())){
                             showGameOverMenu();
+                            
                            
                             endLoop();
                         }
-                    }
+                    
                    
                     lastUpdate = now;
                 }

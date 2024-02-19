@@ -21,7 +21,7 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
 
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
-    private MapBackground controller;
+    private final MapBackground controller;
 
     /**
      * Constructor of the MapBackgroundViewImpl
@@ -71,7 +71,7 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
     * @param path The path to the image.
     * @return An ImageView object representing the image.
     */
-    private ImageView creatImageView(String path) {
+    private ImageView creatImageView(final String path) {
 
         try {
             URL backgroundImageUrl = getClass().getClassLoader().getResource(path);
@@ -88,7 +88,7 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         }
     }
 
-    private void setImageViewSize(ImageView bImageView, double width, double height) {
+    private void setImageViewSize(final ImageView bImageView, final double width, final double height) {
         bImageView.setFitWidth(width);
         bImageView.setFitHeight(height);
     }

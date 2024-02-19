@@ -77,7 +77,6 @@ public final class GameLoop {
     }
 
     private void initializeGameElements() {
-
         root.getChildren().add(map.getPane());
         root.getChildren().add((Node)entityGroup);
         root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
@@ -92,7 +91,6 @@ public final class GameLoop {
             long lastStatsupdate = 0;
             private static final long statsUpdateInterval = 1_000_000_000L;
 
-            @SuppressWarnings("unused")
             @Override
             public void handle(final long now) {
 

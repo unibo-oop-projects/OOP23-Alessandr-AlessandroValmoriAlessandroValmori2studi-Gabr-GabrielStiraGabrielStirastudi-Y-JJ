@@ -24,7 +24,7 @@ import java.util.Optional;
 public final class StartMenu extends GameMenu{
 
     private Optional<GameLoop> gameLoop = Optional.empty();
-      private final ShopController shopController;
+    private final ShopController shopController;
 
     /**
      * Constructs a new StartMenu.
@@ -37,6 +37,7 @@ public final class StartMenu extends GameMenu{
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
         shopController = new ShopControllerImpl(primaryStage, this);
+        this.gameLoop = Optional.of(new GameLoop(this.stage,getGameStatsHandler())); 
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
@@ -46,13 +47,12 @@ public final class StartMenu extends GameMenu{
 
     @Override
     protected void initializeGameMenu(){
-      
         VBox buttonsRoot = new VBox(20);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-       
+        Command startCommand = new StartCommand(this.gameLoop.get(), stage,this);
         Button startButton = ButtonFactory.createButton("PlayGame",
-        e->{this.gameLoop = Optional.of(new GameLoop(this.stage,getGameStatsHandler())); Command startCommand = new StartCommand(this.gameLoop.get(), stage,this);startCommand.execute();setGameStagePosition();},150,50);
+        e->{startCommand.execute();setGameStagePosition();},150,50);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
 
@@ -75,10 +75,4 @@ public final class StartMenu extends GameMenu{
             defaultCloseAction();
         });
     }
-
-    @Override
-    protected void updateStuff(double ratioX, double ratioY) {
-        
-    }
-   
 }

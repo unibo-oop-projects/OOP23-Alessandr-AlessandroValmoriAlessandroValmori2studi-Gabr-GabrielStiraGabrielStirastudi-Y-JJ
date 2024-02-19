@@ -251,10 +251,4 @@ public class ShopView extends GameMenu {
             defaultCloseAction();
         });
     }
-
-    @Override
-    protected void updateStuff(double ratioX, double ratioY) {
-
-    }
-
 }

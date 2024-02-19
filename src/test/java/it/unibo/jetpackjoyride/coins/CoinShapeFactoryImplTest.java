@@ -36,8 +36,8 @@ public class CoinShapeFactoryImplTest {
         for (Pair<Double, Double> shape : shapes) {
             GameInfo gameInfo = GameInfo.getInstance();
             double y = shape.get2();
-            assertTrue("Y coordinate is below minimum bound", y >= gameInfo.getDefaultHeight()* 0.2);
-            assertTrue("Y coordinate is above maximum bound", y <= gameInfo.getDefaultHeight() * 0.9);
+            assertTrue("Y coordinate is above minimum bound", y >= gameInfo.getDefaultHeight()* 0.2);
+            assertTrue("Y coordinate is below maximum bound", y <= gameInfo.getDefaultHeight() * 0.9);
         }
     }
     

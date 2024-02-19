@@ -94,7 +94,7 @@ public class MapBackgroundModelImpl implements MapBackgroundModel {
      * @param x The x-coordinate to check.
      * @return True if the x-coordinate is outside the map area, false otherwise.
      */
-    private boolean isOutofMap(double x) {
+    private boolean isOutofMap(final double x) {
         return x <= -mapWidth;
     }
 }

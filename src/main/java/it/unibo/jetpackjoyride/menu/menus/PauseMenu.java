@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class PauseMenu extends GameMenu {
 
-    private  VBox buttonsVBox;
+    private final VBox buttonsVBox;
     private final GameLoop gameLoop;
     private Button pauseButton;
 
@@ -31,13 +31,13 @@ public class PauseMenu extends GameMenu {
     public PauseMenu(final Stage primaryStage,final GameLoop gameLoop) {
         super(primaryStage,null);
         this.gameLoop = gameLoop;
+        buttonsVBox = new VBox();
         initializeGameMenu();
         
     }
 
     @Override
     protected void initializeGameMenu(){
-        buttonsVBox = new VBox();
         buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
         buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
@@ -80,7 +80,7 @@ public class PauseMenu extends GameMenu {
      *
      * @param isVisible whether the menu is visible
      */
-    public void setVisible(boolean isVisible) {
+    public void setVisible(final boolean isVisible) {
         this.buttonsVBox.setVisible(isVisible);
     }
 }

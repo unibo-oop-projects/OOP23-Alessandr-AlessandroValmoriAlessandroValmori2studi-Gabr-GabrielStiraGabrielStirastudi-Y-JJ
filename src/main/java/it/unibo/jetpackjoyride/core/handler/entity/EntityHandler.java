@@ -47,6 +47,7 @@ public class EntityHandler {
         
         if(!playerHandler.move(isSpaceBarPressed)){
             this.coinHandler.setPlayerHitbox(Optional.empty());
+            
             return false;
         }
         playerHandler.updateView(entityGroup);

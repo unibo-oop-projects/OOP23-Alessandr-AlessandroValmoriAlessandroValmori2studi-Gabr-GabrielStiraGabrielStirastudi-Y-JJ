@@ -9,11 +9,11 @@ import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.menus.OverMenu;
 import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.InputHandler;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,7 +40,7 @@ public final class GameLoop {
     private Pane root;
     private Group entityGroup;
 
-    private final InputHandler inputH = new InputHandler();
+    private boolean spacePressed;
 
     /**
      * Constructs a GameLoop object with the specified stage and game statistics controller.
@@ -50,6 +50,7 @@ public final class GameLoop {
      */
     public GameLoop(Stage stage, final GameStatsController gameStatsController) {
         this.stage = stage;
+        this.spacePressed=false;
         this.gameStatsHandler = gameStatsController;
         initializeScene();
         this.initializeGameElements();
@@ -61,9 +62,9 @@ public final class GameLoop {
         gameInfo = GameInfo.getInstance();
         entityGroup = new Group();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-
-        gameScene.setOnKeyPressed(event -> inputH.keyPressed(event.getCode()));
-        gameScene.setOnKeyReleased(event -> inputH.keyReleased(event.getCode()));
+        
+        gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);
+        gameScene.setOnKeyReleased(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? false : true);
 
         setupTimer();
 
@@ -101,7 +102,7 @@ public final class GameLoop {
                     gameStatsHandler.updateView();
 
 
-                        if(!entityHandler.update(entityGroup, inputH.isSpacePressed())){
+                        if(!entityHandler.update(entityGroup, spacePressed)){
                             showGameOverMenu();
                             
                            

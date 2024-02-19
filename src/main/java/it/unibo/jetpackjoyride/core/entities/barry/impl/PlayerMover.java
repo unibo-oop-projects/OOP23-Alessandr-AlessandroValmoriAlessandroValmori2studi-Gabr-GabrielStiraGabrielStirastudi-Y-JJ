@@ -101,7 +101,7 @@ public class PlayerMover {
      */
     public boolean move(final boolean pressed) {
         
-        if (this.model.isAlive()) {
+        
             var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                     GameInfo.getInstance().getScreenHeight());
             if (!currendScreenDims.equals(this.lastScreenDims)) {
@@ -109,14 +109,9 @@ public class PlayerMover {
                         currendScreenDims.get2() / lastScreenDims.get2());
                 this.lastScreenDims = currendScreenDims;
             }
-            this.model.move(pressed);
+            return this.model.move(pressed);
             
-            return true;
-        }
-        else {
-            return false;
-        }
-
+         
     }
 
     /**

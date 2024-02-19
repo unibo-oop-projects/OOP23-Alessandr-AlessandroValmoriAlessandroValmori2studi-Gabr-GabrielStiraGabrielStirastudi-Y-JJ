@@ -2,8 +2,8 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -20,7 +20,7 @@ interface PatternSelector {
 }
 
 public class ObstacleLoader {
-    private final EntityGenerator entityGenerator;
+    private final EntityControllerGeneratorImpl entityGenerator;
     private final List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> totalPattern;
     private Integer interval;
     private Integer duration;
@@ -30,7 +30,7 @@ public class ObstacleLoader {
     private Integer difficulty;
 
     public ObstacleLoader() {
-        this.entityGenerator = new EntityGeneratorImpl();
+        this.entityGenerator = new EntityControllerGeneratorImpl();
         this.totalPattern = new ArrayList<>();
         this.duration = 0;
         this.interval = 0;
@@ -82,20 +82,20 @@ public class ObstacleLoader {
 
     private GenericController<Obstacle, ObstacleView> singleMissile(final Pair<Double, Double> pos,
             final List<MovementChangers> modifiers) {
-        return this.entityGenerator.generateObstacle(ObstacleType.MISSILE,
+        return this.entityGenerator.generateObstacleController(ObstacleType.MISSILE,
                 new MovementImpl(pos, new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), modifiers));
     }
 
     private GenericController<Obstacle, ObstacleView> singleZapper(final Pair<Double, Double> pos,
             final Pair<Double, Double> rotation) {
 
-        return this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,
+        return this.entityGenerator.generateObstacleController(ObstacleType.ZAPPER, new MovementImpl(pos,
                 new Pair<>(Double.valueOf(-this.difficulty / 5) - 5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of()));
     }
 
     private GenericController<Obstacle, ObstacleView> singleLaser(final Pair<Double, Double> pos,
             final Pair<Double, Double> speed) {
-        return this.entityGenerator.generateObstacle(ObstacleType.LASER,
+        return this.entityGenerator.generateObstacleController(ObstacleType.LASER,
                 new MovementImpl(pos, speed, new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of()));
     }
 

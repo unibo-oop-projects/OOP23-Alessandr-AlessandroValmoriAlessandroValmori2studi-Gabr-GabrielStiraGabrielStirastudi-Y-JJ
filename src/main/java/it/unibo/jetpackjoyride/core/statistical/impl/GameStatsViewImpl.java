@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core.statistical.impl;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
@@ -16,6 +17,10 @@ import javafx.scene.text.Text;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class GameStatsViewImpl implements GameStatsView {
+
+    private static final int CURRENT_DISTANCE = 0;
+    private static final int BEST_DISTANCE = 1;
+    private static final int TOT_COIN = 2;
 
     private static final String SCORE_IMAGE1_PATH = "background/ScorePane.png";
     private static final double SCORE_PANE_X = 0;
@@ -46,15 +51,15 @@ public final class GameStatsViewImpl implements GameStatsView {
     }
 
     @Override
-    public void updateDataView(final GameStatsModel model) {
+    public void updateDataView(List<Integer> data) {
         coinAndDistanceText.setText("Current meter: " 
-                                    + model.getcurrentDistance() 
+                                    + data.get(CURRENT_DISTANCE)
                                     + "\n" 
                                     + "Last best meter : " 
-                                    + model.getBestDistance() 
+                                    + data.get(CURRENT_DISTANCE) 
                                     + "\n" 
                                     + "Total Coins: " 
-                                    + model.getTotCoins());
+                                    + data.get(TOT_COIN));
     }
 
     @Override

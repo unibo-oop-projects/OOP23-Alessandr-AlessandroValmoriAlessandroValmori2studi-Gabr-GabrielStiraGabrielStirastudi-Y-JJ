@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
 import java.io.IOException;
+import java.util.List;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
@@ -32,7 +33,7 @@ public final class GameStatsHandler implements GameStatsController {
     }
     @Override
     public void updateView() {
-        view.updateDataView(model);
+        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), model.getTotCoins()));
     }
     @Override
     public Text getText() {

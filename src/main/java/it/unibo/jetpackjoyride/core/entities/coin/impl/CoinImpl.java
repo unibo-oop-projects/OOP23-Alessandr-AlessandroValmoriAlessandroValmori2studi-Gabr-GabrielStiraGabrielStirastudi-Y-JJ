@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.coin.impl;
 
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
@@ -45,8 +47,8 @@ public final class CoinImpl implements Coin {
         this.view.renderCoin(gc);
     }
     @Override
-    public CoinModel getModel() {
-        return this.model;
+    public  List<Pair<Double, Double>> getModelData() {
+        return List.of(model.getPosition(), model.getSize());
     }
 
     @Override

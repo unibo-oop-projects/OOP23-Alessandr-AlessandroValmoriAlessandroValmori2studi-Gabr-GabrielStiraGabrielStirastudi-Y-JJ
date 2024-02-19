@@ -49,7 +49,7 @@ public class VehiclePickUp extends AbstractPickUp {
 		}
 	}
 
-	public void setVehicleSpawn(PowerUpType newVehicleType) {
+	public void setVehicleSpawn(final PowerUpType newVehicleType) {
 		this.vehicleSpawn = newVehicleType;
 	}
 

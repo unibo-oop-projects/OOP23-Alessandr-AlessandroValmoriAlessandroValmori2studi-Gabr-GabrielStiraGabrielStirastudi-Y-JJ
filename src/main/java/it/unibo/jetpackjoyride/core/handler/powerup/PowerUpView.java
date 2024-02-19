@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
@@ -10,13 +13,13 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class PowerUpView implements GenericView {
-    private ImageView imageView;
-    private Image[] images;
+    private final ImageView imageView;
+    private final List<Image> images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
-    public PowerUpView(final Image[] images) {
+    public PowerUpView(final List<Image> images) {
         this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
@@ -26,12 +29,13 @@ public final class PowerUpView implements GenericView {
         this.animationLenght = 1;
     }
 
+    @Override
     public void updateView(final Entity entity) {
-        PowerUp powerUp = (PowerUp)entity;
+        final PowerUp powerUp = (PowerUp)entity;
         Double width;
         Double height;
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         animationFrame = 0;
 
         switch (powerUp.getPowerUpType()) {
@@ -41,7 +45,7 @@ public final class PowerUpView implements GenericView {
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
                         animationLenght = 7;
-                        animationFrame = ((animationCounter[0]) / animationLenght % 6);
+                        animationFrame = (animationCounter[0]) / animationLenght % 6;
                         animationCounter[0]++;
                         break;
 
@@ -96,7 +100,7 @@ public final class PowerUpView implements GenericView {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:
                             animationLenght = 5;
-                            animationFrame = ((animationCounter[1]) / animationLenght % 5);
+                            animationFrame = (animationCounter[1]) / animationLenght % 5;
                             if (animationCounter[1] > 0) {
                                 animationCounter[1]--;
                             }
@@ -123,7 +127,7 @@ public final class PowerUpView implements GenericView {
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
                         animationLenght = 7;
-                        animationFrame = ((animationCounter[0]) / animationLenght % 3);
+                        animationFrame = (animationCounter[0]) / animationLenght % 3;
                         animationCounter[0]++;
                         break;
 
@@ -158,7 +162,7 @@ public final class PowerUpView implements GenericView {
                 switch (powerUp.getPerformingAction()) {
                     case ASCENDING:
                         animationLenght = 6;
-                        animationFrame = ((animationCounter[0]) / animationLenght % 6);
+                        animationFrame = (animationCounter[0]) / animationLenght % 6;
                         animationCounter[0]++;
                         break;
                     case DESCENDING:
@@ -186,9 +190,10 @@ public final class PowerUpView implements GenericView {
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        imageView.setImage(images[animationFrame]);
+        imageView.setImage(images.get(animationFrame));
     }
 
+    @Override
     public ImageView getImageView() {
         return imageView;
     }

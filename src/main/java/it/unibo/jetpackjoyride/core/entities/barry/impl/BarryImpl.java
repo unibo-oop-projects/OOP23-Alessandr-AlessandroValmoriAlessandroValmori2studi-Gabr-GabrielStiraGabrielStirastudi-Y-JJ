@@ -84,7 +84,7 @@ public final class BarryImpl implements Barry {
      *
      * @return true if Barry is falling, false otherwise
      */
-    private boolean fall() {
+    private boolean fall(boolean isAlive) {
         if (this.position + this.speed < lowBound) {
             if (this.position + this.speed < upBound) {
                 this.speed = 0;
@@ -92,13 +92,13 @@ public final class BarryImpl implements Barry {
             }
             this.speed += this.GRAVITYFORCE;
             this.position += this.speed;
-            this.status = BarryStatus.FALLING;
+            this.status = isAlive ?  BarryStatus.FALLING : this.status;
 
             return true;
         }
 
         this.position = lowBound;
-        this.status = BarryStatus.WALKING;
+        this.status = isAlive ? BarryStatus.WALKING : this.status;
         this.speed = 0;
         return false;
     }
@@ -134,14 +134,24 @@ public final class BarryImpl implements Barry {
      * @param jumping true if Barry is jumping, false if not
      */
     @Override
-    public void move(final boolean jumping) {
+    public boolean move(final boolean jumping) {
+
+        if(this.lifeStatus.equals(BarryLifeStatus.DEAD)){
+            this.fall(false);
+            if(this.position >= lowBound){
+                return false;
+            }
+            return true;
+            
+        }
         if (jumping) {
             this.propel();
         } else {
-            this.fall();
+            this.fall(true);
         }
 
         this.hitbox.get().updateHitbox(getPosition(), 0.0);
+        return true;
 
     }
 

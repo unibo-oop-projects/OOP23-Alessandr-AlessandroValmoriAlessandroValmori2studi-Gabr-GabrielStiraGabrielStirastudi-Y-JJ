@@ -82,4 +82,5 @@ public class PauseMenu extends GameMenu {
     public void setVisible(final boolean isVisible) {
         this.buttonsVBox.setVisible(isVisible);
     }
+
 }

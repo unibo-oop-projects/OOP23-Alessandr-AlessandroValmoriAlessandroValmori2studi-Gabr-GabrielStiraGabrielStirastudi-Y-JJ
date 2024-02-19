@@ -9,9 +9,7 @@ import java.util.Collections;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryLifeStatus;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -20,7 +18,6 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 /**
  * The PlayerMover class is responsible for managing the movement of the player
@@ -32,11 +29,10 @@ public class PlayerMover {
 
     private Pair<Double, Double> lastScreenDims;
 
-    private Barry model;
-    private BarryView view;
-    private Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
-    private GameStatsController gameStatsHandler;
-    private static final int numCopies = 7;
+    private final Barry model;
+    private final BarryView view;
+    private final Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+    private static final int NUM_COPIES = 7;
 
     private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
         {
@@ -53,7 +49,7 @@ public class PlayerMover {
     /**
      * Constructs a new PlayerMover instance.
      */
-    public PlayerMover(GameStatsController gameStatsHandler) {
+    public PlayerMover(final GameStatsController gameStatsHandler) {
         this.lastScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                 GameInfo.getInstance().getScreenHeight());
         this.model = new BarryImpl();
@@ -62,7 +58,7 @@ public class PlayerMover {
             gameStatsHandler.getGameStatsModel().addShields(gameStatsHandler.getGameStatsModel().getNumOfShields()-1);
             gameStatsHandler.getGameStatsModel().setShield(false);
         }
-        this.gameStatsHandler = gameStatsHandler;
+        
         this.buildMap();
 
         this.view = new BarryView(this.getSpritesForStatus());
@@ -79,7 +75,7 @@ public class PlayerMover {
                         .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
                         .toExternalForm();
 
-                images.addAll(Collections.nCopies(numCopies, new Image(imagePath)));
+                images.addAll(Collections.nCopies(NUM_COPIES, new Image(imagePath)));
             }
             this.statusMap.put(entry.getKey(), new ArrayList<>(images));
         }
@@ -102,7 +98,7 @@ public class PlayerMover {
     public boolean move(final boolean pressed) {
         
         
-            var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
+            final var currendScreenDims = new Pair<>(GameInfo.getInstance().getScreenWidth(),
                     GameInfo.getInstance().getScreenHeight());
             if (!currendScreenDims.equals(this.lastScreenDims)) {
                 this.model.updateLimits(currendScreenDims.get1() / lastScreenDims.get1(),
@@ -124,8 +120,8 @@ public class PlayerMover {
         this.view.update(model);
         this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
 
-        Node imageView = (Node) this.view.getImageView();
-        Node shieldImageView = (Node) this.view.getShieldImageView();
+        final Node imageView = (Node) this.view.getImageView();
+        final Node shieldImageView = (Node) this.view.getShieldImageView();
 
         if (this.model.isActive()) {
             if (!root.getChildren().contains(imageView)) {
@@ -133,10 +129,10 @@ public class PlayerMover {
             }
             if (this.model.hasShield() && !root.getChildren().contains(shieldImageView)) {
                 root.getChildren().add(shieldImageView);
-                System.out.println("has shield");
+               
             } else if (!this.model.hasShield() && root.getChildren().contains(shieldImageView)) {
                 root.getChildren().remove(shieldImageView);
-                System.out.println("doesnt have shield");
+                
             }
         } else {
             root.getChildren().removeAll(imageView, shieldImageView);

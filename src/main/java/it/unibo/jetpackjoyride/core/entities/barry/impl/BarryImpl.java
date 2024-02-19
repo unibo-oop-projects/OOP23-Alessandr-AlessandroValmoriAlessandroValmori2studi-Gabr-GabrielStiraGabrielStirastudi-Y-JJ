@@ -8,10 +8,9 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import java.util.Optional;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
+
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
@@ -31,7 +30,7 @@ public final class BarryImpl implements Barry {
     private double speed; // can be negative or positive, negative goes up, positive down
     // its standard value is 0, when Barry is walking
 
-    private double x_position; // fixed x position
+    private double xPosition; // fixed x position
     private double position; // variable y position
 
     private double height;
@@ -44,9 +43,6 @@ public final class BarryImpl implements Barry {
     private BarryLifeStatus lifeStatus; // dead or alive
 
     private Optional<Hitbox> hitbox;
-
-    private final GameInfo gameInfo;
-
 
     private boolean hasShield;
 
@@ -67,12 +63,12 @@ public final class BarryImpl implements Barry {
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
 
-        gameInfo = GameInfo.getInstance();
-        this.width = gameInfo.getScreenWidth();
-        this.height = gameInfo.getScreenHeight();
-        this.lowBound = gameInfo.getScreenHeight() - gameInfo.getScreenHeight() / 8;
-        this.upBound = gameInfo.getScreenHeight() / 8;
-        this.x_position = gameInfo.getScreenWidth() / 6;
+    
+        this.width = GameInfo.getInstance().getScreenWidth();
+        this.height = GameInfo.getInstance().getScreenHeight();
+        this.lowBound = GameInfo.getInstance().getScreenHeight() - GameInfo.getInstance().getScreenHeight() / 8;
+        this.upBound = GameInfo.getInstance().getScreenHeight() / 8;
+        this.xPosition = GameInfo.getInstance().getScreenWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
 
@@ -84,7 +80,7 @@ public final class BarryImpl implements Barry {
      *
      * @return true if Barry is falling, false otherwise
      */
-    private boolean fall(boolean isAlive) {
+    private boolean fall(final boolean isAlive) {
         if (this.position + this.speed < lowBound) {
             if (this.position + this.speed < upBound) {
                 this.speed = 0;
@@ -135,25 +131,21 @@ public final class BarryImpl implements Barry {
      */
     @Override
     public boolean move(final boolean jumping) {
-
-        if(this.lifeStatus.equals(BarryLifeStatus.DEAD)){
+        if (this.lifeStatus.equals(BarryLifeStatus.DEAD)) {
             this.fall(false);
-            if(this.position >= lowBound){
-                return false;
-            }
-            return true;
-            
+            return this.position < lowBound;
         }
+    
         if (jumping) {
             this.propel();
         } else {
             this.fall(true);
         }
-
+    
         this.hitbox.get().updateHitbox(getPosition(), 0.0);
         return true;
-
     }
+    
 
     /**
      * Gets the current status of Barry.
@@ -172,7 +164,7 @@ public final class BarryImpl implements Barry {
      */
     @Override
     public Pair<Double, Double> getPosition() {
-        return new Pair<>(this.x_position, this.position);
+        return new Pair<>(this.xPosition, this.position);
     }
 
     /**
@@ -199,7 +191,7 @@ public final class BarryImpl implements Barry {
     }
 
     @Override
-    public void kill(ObstacleType type) {
+    public void kill(final ObstacleType type) {
         this.hitbox = Optional.empty();
         this.status = type.equals(ObstacleType.ZAPPER) ? BarryStatus.ZAPPED : 
         type.equals(ObstacleType.LASER) ? BarryStatus.LASERED : 
@@ -217,12 +209,12 @@ public final class BarryImpl implements Barry {
     }
 
     @Override
-    public void setLifeStatus(BarryLifeStatus lifeStatus) {
+    public void setLifeStatus(final BarryLifeStatus lifeStatus) {
         this.lifeStatus = lifeStatus;
     }
 
     @Override
-    public void setActiveValue(boolean value) {
+    public void setActiveValue(final boolean value) {
         this.isActive=value;
     }
 
@@ -232,12 +224,12 @@ public final class BarryImpl implements Barry {
     }
 
     @Override
-    public void updateLimits(double widthRatio, double heightRatio) {
+    public void updateLimits(final double widthRatio, final double heightRatio) {
        this.width =this.width * widthRatio;
         this.height = this.height * heightRatio;
         this.lowBound = this.lowBound*heightRatio;
         this.upBound = this.upBound*heightRatio;
-        this.x_position = this.x_position* widthRatio;
+        this.xPosition = this.xPosition* widthRatio;
     }
 
   

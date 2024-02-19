@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
@@ -9,25 +12,26 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class ObstacleView implements GenericView{
     private final ImageView imageView;
-    private final Image[] images;
+    private final List<Image> images;
     private int animationFrame;
     private int animationLenght;
     private int[] animationCounter;
 
-    public ObstacleView(final Image[] images) {
-        this.images = images.clone();
+    public ObstacleView(final List<Image> images) {
+        this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
         this.animationCounter = new int[3]; // 0 counter for charging, 1 counter for active, 2 counter for deactivated
         this.animationLenght = 1;
     }
 
+    @Override
     public void updateView(final Entity entity) {
-        Obstacle obstacle = (Obstacle)entity;
+        final Obstacle obstacle = (Obstacle)entity;
         Double width;
         Double height;
-        Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
+        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
@@ -36,7 +40,7 @@ public final class ObstacleView implements GenericView{
                         width = screenSizeX / 16;
                         height = screenSizeY / 12;
                         animationLenght = 4;
-                        animationFrame = ((animationCounter[0]) / animationLenght % 3);
+                        animationFrame = (animationCounter[0]) / animationLenght % 3;
                         if(animationCounter[0] > 90) {
                             animationFrame = 3 + ((animationCounter[0]) / animationLenght % 2);
                             width+=15;
@@ -58,11 +62,9 @@ public final class ObstacleView implements GenericView{
                         break;
                     case DEACTIVATED:
                         width = screenSizeX / 8;
-                        height = screenSizeY / 16;
+                        height = screenSizeY / 5;
                         animationLenght = 7;
                         animationFrame = 12 + ((animationCounter[2]) / animationLenght % 8);
-                        width = screenSizeX / 8;
-                        height = screenSizeY / 5;
                         animationCounter[2]++;
                         break;
                     default:
@@ -135,9 +137,10 @@ public final class ObstacleView implements GenericView{
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        imageView.setImage(images[animationFrame]);
+        imageView.setImage(images.get(animationFrame));
     }
 
+    @Override
     public ImageView getImageView() {
         return imageView;
     }

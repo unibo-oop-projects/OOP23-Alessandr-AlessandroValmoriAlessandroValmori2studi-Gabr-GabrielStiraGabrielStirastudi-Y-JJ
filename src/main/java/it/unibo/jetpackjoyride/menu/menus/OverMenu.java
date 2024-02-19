@@ -21,8 +21,8 @@ import javafx.stage.Stage;
  */
 public class OverMenu extends GameMenu{
 
-    private final VBox buttonsVBox;
-    private final GameLoop gameLoop;
+    private  VBox buttonsVBox;
+    private GameLoop gameLoop;
     private final ShopController shopController;
     private WritableImage writableImage;
 
@@ -55,8 +55,9 @@ public class OverMenu extends GameMenu{
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(20);
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
-        Command restartCommand = new RestartCommand(new GameLoop(stage, getGameStatsHandler()),stage,this);
-        Button restartButton = ButtonFactory.createButton("PlayAgain",e->restartCommand.execute(),220,120);
+       
+        Button restartButton = ButtonFactory.createButton("PlayAgain",
+        e->{this.gameLoop = new GameLoop(stage, getGameStatsHandler()) ;Command restartCommand = new RestartCommand(this.gameLoop,stage,this); restartCommand.execute();},220,120);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
         
@@ -71,5 +72,4 @@ public class OverMenu extends GameMenu{
     public void show(){
         this.stage.setScene(this.scene);
     }
-
 }

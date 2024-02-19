@@ -13,8 +13,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 public final class PowerUpHandler {
-    private List<GenericController<PowerUp,PowerUpView>> listOfControllers;
-    private EntityGenerator entityGenerator;
+    private final List<GenericController<PowerUp,PowerUpView>> listOfControllers;
+    private final EntityGenerator entityGenerator;
 
     public PowerUpHandler() {
         this.listOfControllers = new ArrayList<>();
@@ -22,9 +22,9 @@ public final class PowerUpHandler {
     }
 
     public void update(final Group powerUpGroup, final boolean isSpaceBarPressed) {
-        var iterator = listOfControllers.iterator();
+        final var iterator = listOfControllers.iterator();
         while (iterator.hasNext()) {
-            var controller = iterator.next();
+            final var controller = iterator.next();
 
             controller.update(isSpaceBarPressed);
 
@@ -40,7 +40,7 @@ public final class PowerUpHandler {
     }
 
     public void spawnPowerUp(final PowerUpType powerUpType) {
-        List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUp(powerUpType);
+        final List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUp(powerUpType);
         listOfControllers.addAll(powerup);
     }
 

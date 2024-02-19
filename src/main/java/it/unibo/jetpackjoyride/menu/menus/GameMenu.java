@@ -22,8 +22,8 @@ import java.awt.Toolkit;
 public abstract class GameMenu {
     private static final int PORTION = 4;
 
-    private ChangeListener<Number> widthListener;
-    private ChangeListener<Number> heightListener;
+    protected ChangeListener<Number> widthListener;
+    protected ChangeListener<Number> heightListener;
     
     protected final Scene scene;
     protected final Stage stage;
@@ -142,7 +142,8 @@ public abstract class GameMenu {
     /**
      * adds the listeners to the scene.
      */
-    private void addSizeListener(){
+    protected void addSizeListener(){
+        
         widthListener = (obs,oldvalue,newVal) ->{
             double ratioX = newVal.doubleValue()/oldvalue.doubleValue();
             menuImageView.setFitWidth(menuImageView.getFitWidth()*ratioX);

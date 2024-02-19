@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.entity.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
@@ -32,39 +33,65 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 
 public class EntityGeneratorImpl implements EntityGenerator {
+    private final List<Image> obstacleImages;
+    private final List<Image> powerupImages;
+    private final List<Image> pickupImages;
+
+    public EntityGeneratorImpl() {
+        this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
+        this.powerupImages = new ArrayList<>(); // 0-23 LILSTOMPER | 24-29 MRCUDDLE | 30-41 PROFITBIRD | 42-53 DUKEFISHRON
+        this.pickupImages = new ArrayList<>(); // 0-20 VEHICLEPICKUP
+
+        // MISSILE 20 total
+        obstacleImages.addAll(imageLoader(20, "sprites/entities/obstacles/missile/missile_"));
+        // ZAPPER 20 total
+        obstacleImages.addAll(imageLoader(20, "sprites/entities/obstacles/zapper/zapper_"));
+        // LASER 16 total
+        obstacleImages.addAll(imageLoader(16, "sprites/entities/obstacles/laser/laser_"));
+        
+        // LILSTOMPER 24 total
+        powerupImages.addAll(imageLoader(24, "sprites/entities/powerups/lilstomper/lilstomper_"));
+        // MRCUDDLE 6 total
+        powerupImages.addAll(imageLoader(6, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
+        // PROFITBIRD 12 total
+        powerupImages.addAll(imageLoader(12, "sprites/entities/powerups/profitbird/profitbird_"));
+        // DUKEFISHRON 12 total
+        powerupImages.addAll(imageLoader(12, "sprites/entities/powerups/dukefishron/dukefishron_"));
+
+        // VEHICLEPICKUP
+        pickupImages.addAll(imageLoader(21, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
+
+        
+    }
 
     @Override
-    public List<GenericController<Obstacle, ObstacleView>> generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
+    public GenericController<Obstacle, ObstacleView> generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
-        ObstacleView obstacleView;
         Hitbox obstacleHitbox;
-        final List<Obstacle> obstacleModel = new ArrayList<>();
-        final List<GenericController<Obstacle, ObstacleView>> obstacle = new ArrayList<>();
-        Image[] images;
+        final Obstacle obstacleModel;
+        final GenericController<Obstacle, ObstacleView> obstacle;
         
         switch (obstacleType) {
             case MISSILE: //Canon obstacle existing in the original game
                 obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX / 32, screenSizeY / 48));
-                obstacleModel.add(new Missile(obstacleMovement, obstacleHitbox));
-                images = imageLoader(20, "sprites/entities/obstacles/missile/missile_");
+                obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
+                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages,0,19)));
                 break;
             case ZAPPER: //Canon obstacle existing in the original game
                 obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX / 8, screenSizeY / 24));
-                obstacleModel.add(new Zapper(obstacleMovement, obstacleHitbox));
-                images = imageLoader(20, "sprites/entities/obstacles/zapper/zapper_");
+                obstacleModel = new Zapper(obstacleMovement, obstacleHitbox);
+                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages,20, 39)));
                 break;
             case LASER: //Canon obstacle existing in the original game
                 obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX, screenSizeY / 30));
-                obstacleModel.add(new Laser(obstacleMovement, obstacleHitbox));
-                images = imageLoader(16, "sprites/entities/obstacles/laser/laser_");
+                obstacleModel = new Laser(obstacleMovement, obstacleHitbox);
+                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages, 40, 55)));
                 break;
             default:
                 throw new IllegalArgumentException("EntityGenerator could not generate the obstacle");
         }
 
-        obstacleView = new ObstacleView(images);
-        obstacle.add(new GenericController<Obstacle,ObstacleView>(obstacleModel.get(0), obstacleView));
         return obstacle;
     }
 
@@ -74,22 +101,15 @@ public class EntityGeneratorImpl implements EntityGenerator {
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         Movement powerUpMovement;
         Hitbox powerUpHitbox;
-        PowerUpView powerUpView;
         final List<PowerUp> powerUpModel = new ArrayList<>();
         final List<GenericController<PowerUp, PowerUpView>> powerUp = new ArrayList<>();
-        Image[] images;
         
         switch (powerUpType) {
             case LILSTOMPER: //Canon powerup existing in the original game
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 8, screenSizeY / 5));
                 powerUpModel.add(new LilStomper(powerUpMovement, powerUpHitbox));
-
-                images = imageLoader(24, "sprites/entities/powerups/lilstomper/lilstomper_");
-
-                powerUpView = new PowerUpView(images);
-
-                powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
+                powerUp.add(new GenericController<>(powerUpModel.get(0), new PowerUpView(this.takeImages(this.powerupImages, 0,23))));
                 break;
 
             case MRCUDDLES: //Canon powerup existing in the original game
@@ -97,11 +117,8 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
                 powerUpModel.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
 
-                images = imageLoader(6, "sprites/entities/powerups/mrcuddles/mrcuddles_");
-
                 for (final var powerUpInstance : powerUpModel) {
-                    powerUpView = new PowerUpView(images);
-                    powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpInstance, powerUpView));
+                    powerUp.add(new GenericController<>(powerUpInstance, new PowerUpView(this.takeImages(this.powerupImages, 24,29))));
                 }
                 break;
 
@@ -109,24 +126,13 @@ public class EntityGeneratorImpl implements EntityGenerator {
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
                 powerUpModel.add(new ProfitBird(powerUpMovement, powerUpHitbox));
-
-                images = imageLoader(12, "sprites/entities/powerups/profitbird/profitbird_");
-
-                powerUpView = new PowerUpView(images);
-
-                powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
-
+                powerUp.add(new GenericController<>(powerUpModel.get(0), new PowerUpView(this.takeImages(this.powerupImages, 30,41))));
                 break;
             case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
                 powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.BOUNCING));
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
                 powerUpModel.add(new DukeFishron(powerUpMovement, powerUpHitbox));
-
-                images = imageLoader(12, "sprites/entities/powerups/dukefishron/dukefishron_");
-
-                powerUpView = new PowerUpView(images);
-
-                powerUp.add(new GenericController<PowerUp,PowerUpView>(powerUpModel.get(0), powerUpView));
+                powerUp.add(new GenericController<>(powerUpModel.get(0),  new PowerUpView(this.takeImages(this.powerupImages, 42,53))));
                 break;
 
             default:
@@ -136,41 +142,34 @@ public class EntityGeneratorImpl implements EntityGenerator {
     }
 
     @Override
-    public List<GenericController<PickUp, PickUpView>> generatePickUp(final PickUpType pickUpType) {
+    public GenericController<PickUp, PickUpView> generatePickUp(final PickUpType pickUpType) {
         final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
         final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         Movement pickUpMovement;
         Hitbox pickUpHitbox;
-        PickUpView pickUpView;
-        final List<PickUp> pickUpModel = new ArrayList<>();
-        final List<GenericController<PickUp, PickUpView>> pickUp = new ArrayList<>();
-        Image[] images;
+        final PickUp pickUpModel;
+        final GenericController<PickUp, PickUpView> pickUp;
 
         switch (pickUpType) {
             case VEHICLE: // Canon pickup existing in the original game
                 pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
                 pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9));
-                pickUpModel.add(new VehiclePickUp(pickUpMovement, pickUpHitbox));
-                images = imageLoader(21, "sprites/entities/pickups/vehiclepickup/vehiclepickup_");
+                pickUpModel = new VehiclePickUp(pickUpMovement, pickUpHitbox);
+                pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, 0,20)));
                 break;
         
             default:
             throw new IllegalArgumentException("EntityGenerator could not generate the pickup");
             
         }
-
-        pickUpView = new PickUpView(images);
-        pickUp.add(new GenericController<PickUp,PickUpView>(pickUpModel.get(0), pickUpView));
         return pickUp;
     }
 
-    private Image[] imageLoader(final Integer numberOfImages, final String pathName) {
-        Image[] images = new Image[numberOfImages];
-        for (int i = 0; i < numberOfImages; i++) {
-            images[i] = new Image(getClass().getClassLoader()
-            .getResource(pathName + (i + 1) + ".png")
-            .toExternalForm());
-        }
-        return images;
+    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
+        return IntStream.range(0, numberOfImages).mapToObj(i -> new Image(getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm())).toList();
     } 
+
+    private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
+        return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
+    }
 }

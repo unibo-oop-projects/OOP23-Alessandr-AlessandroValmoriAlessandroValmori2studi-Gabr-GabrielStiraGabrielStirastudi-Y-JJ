@@ -16,9 +16,9 @@ import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 
 public interface EntityGenerator {
-    List<GenericController<Obstacle, ObstacleView>> generateObstacle(ObstacleType obstacleType, Movement obstacleMovement);
+    GenericController<Obstacle, ObstacleView> generateObstacle(ObstacleType obstacleType, Movement obstacleMovement);
 
     List<GenericController<PowerUp, PowerUpView>> generatePowerUp(PowerUpType powerUpType);
 
-    List<GenericController<PickUp, PickUpView>> generatePickUp(PickUpType pickUpType);
+    GenericController<PickUp, PickUpView> generatePickUp(PickUpType pickUpType);
 }

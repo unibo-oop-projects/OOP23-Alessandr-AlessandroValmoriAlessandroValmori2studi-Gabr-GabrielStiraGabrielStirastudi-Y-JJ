@@ -45,7 +45,7 @@ public interface Barry {
      *
      * @param jumping True if Barry is jumping, false if not.
      */
-    void move(boolean jumping);
+    boolean move(boolean jumping);
 
     /**
      * Gets the hitbox of Barry.

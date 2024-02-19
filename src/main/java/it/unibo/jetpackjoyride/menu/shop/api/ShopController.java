@@ -12,20 +12,22 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 public interface ShopController {
 
     enum Items{
-        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES), Optional.of(1)), 
-        SHIELD(20, Optional.empty(), Optional.of(4)), 
-        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER), Optional.of(2)), 
-        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD), Optional.of(3)),
-        DUKE(666, Optional.of(PowerUpType.DUKEFISHRON), Optional.empty());
+        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0), Optional.of("MR CUDDLES\n Too cool not to buy")), 
+        SHIELD(20, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A consumable equippable shield")), 
+        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER), Optional.of(1),Optional.of("STOMPER\n Clumsy but robust vehicle")), 
+        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD), Optional.of(2), Optional.of("PROFIT BIRD\n Greedy bird, moves like flappy bird")),
+        DUKE(666, Optional.of(PowerUpType.DUKEFISHRON), Optional.empty(), Optional.empty());
 
         private final int cost;
         private final Optional<Integer> order;
         private final Optional<PowerUpType> powerup;
+        private final Optional<String> description;
 
-        Items(int cost, Optional<PowerUpType> powerup, Optional<Integer> order){
+        Items(int cost, Optional<PowerUpType> powerup, Optional<Integer> order, Optional<String> description){
             this.cost = cost;
             this.powerup = powerup;
             this.order = order;
+            this.description = description;
         }
 
         public int getItemCost(){
@@ -39,7 +41,12 @@ public interface ShopController {
         public Optional<Integer> getOrder(){
             return this.order;
         }
+
+        public Optional<String> getDescription(){
+            return this.description;
+        }
     }
+    
 
     Scene getScene();
 

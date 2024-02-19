@@ -6,6 +6,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -28,7 +29,7 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 /**
  * The view class for the shop menu.
  */
-public class ShopView extends GameMenu{
+public class ShopView extends GameMenu {
     // Constants related to image positioning
     private final int imageXPos = 50;
     private final int imageSize = 110;
@@ -49,35 +50,30 @@ public class ShopView extends GameMenu{
     private final String equipShieldStyle = "-fx-background-color: #0000ff; -fx-text-fill: white; -fx-font-size: 16;";
 
     // Constants related to image positioning on the Y-axis
-    private final int cuddleImageYPos = 100;
-   
+    private final int cuddleImageYPos=(int)GameInfo.getInstance().getScreenHeight()/8;
 
     // Other constants
-    
-   
-    
+
     private final ShopController controller;
     private final Text moneyText;
     private final Text displayEquipped;
     private final Text dukeUnlocked;
     private Text shieldNum;
 
-
     private Button equipShieldButton = new Button();
 
-    private Map<Items, String> descriptionMap = new HashMap<>();
+    private Map<Button, Text> descriptionsMap = new HashMap<>();
     private Map<Button, Items> buttonMap = new HashMap<>();
-    private Map<Button, ImageView> imageMap =new HashMap<>();
+    private Map<Button, ImageView> imageMap = new HashMap<>();
 
     /**
      * Constructor for ShopView.
      */
     public ShopView(final ShopController controller, Stage primaryStage, GameStatsController gameStatsHandler) {
         super(primaryStage, gameStatsHandler);
-        
-   
+
+      
         this.controller = controller;
-        //scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         scene.setOnKeyPressed(ev -> {
             this.controller.type(ev.getCode());
@@ -86,47 +82,58 @@ public class ShopView extends GameMenu{
         initializeGameMenu();
         setGameStagePosition();
         stageCloseAction();
-        
-        //initializes the button map
-        for(var entry : Items.values()){
-            if(!entry.equals(Items.DUKE)){
+
+        // initializes the button map e la description map
+        for (var entry : Items.values()) {
+            if (!entry.equals(Items.DUKE)) {
                 this.buttonMap.put(new Button(), entry);
             }
         }
 
-        
-        //inizializza la imageMap
+        // inizializza la imageMap e il description set
         for (var entry : buttonMap.entrySet()) {
-
+            this.descriptionsMap.put(entry.getKey(), new Text(entry.getValue().getDescription().get()));
             this.imageMap.put(entry.getKey(), new ImageView(new Image(
-                getClass().getClassLoader().getResource("shop/shop"+entry.getValue().name() + ".png").toExternalForm())));
-                
+                    getClass().getClassLoader().getResource("shop/shop" + entry.getValue().name() + ".png")
+                            .toExternalForm())));
+
         }
-        //posiziona la imageMap
+        // posiziona la imageMap n
         for (var entry : imageMap.entrySet()) {
 
-           entry.getValue().setFitWidth(imageSize);
-           entry.getValue().setFitHeight(imageSize);
-           entry.getValue().setTranslateX(imageXPos);
-           entry.getValue().setTranslateY(this.cuddleImageYPos + (this.buttonMap.get(entry.getKey()).getOrder().get())*(this.imageSize+this.imageDistance));
-                
+            entry.getValue().setFitWidth(imageSize);
+            entry.getValue().setFitHeight(imageSize);
+            entry.getValue().setTranslateX(imageXPos);
+            entry.getValue().setTranslateY(
+                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (this.imageSize + this.imageDistance) + this.cuddleImageYPos);
+
+        }
+
+        for (var entry : this.descriptionsMap.entrySet()) {
+            entry.getValue().setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
+            entry.getValue().setFill(Color.WHITE);
+            entry.getValue().setTranslateX(textPosX);
+            entry.getValue().setTranslateY(
+                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (this.imageSize + this.imageDistance)
+                            + this.cuddleImageYPos);
         }
 
         // posiziona la buttonMap
         for (var entry : buttonMap.entrySet()) {
-            
+
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(buttonStyle);
             entry.getKey().setPrefWidth(buttonWidth);
             entry.getKey().setPrefHeight(buttonHeight);
             entry.getKey().setTranslateX(buyButtonXPosition);
-            entry.getKey().setTranslateY(entry.getValue().getOrder().get()*(this.imageSize+this.imageDistance)+buyButtonYDisplacement);
+            entry.getKey().setTranslateY(
+                    entry.getValue().getOrder().get() * (this.imageSize + this.imageDistance) + buyButtonYDisplacement+ this.cuddleImageYPos);
             entry.getKey().setOnAction(e -> {
                 this.controller.buy(entry.getValue());
             });
         }
 
-      
+        // inizializza e posiziona la description map 
 
         final Button backButton = ButtonFactory.createButton("menu", e -> this.controller.backToMenu(), buttonWidth * 2,
                 30 * 2);
@@ -134,34 +141,29 @@ public class ShopView extends GameMenu{
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-       
-
-      
-
-       
-
-      
-/* 
-        shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
-        shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
-        shieldNum.setFill(Color.GREEN);
-        shieldNum.setTranslateX(shieldNumPosX);
-        shieldNum.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
-
-       
-
-      
-
-        equipShieldButton.setText("EQUIP");
-        equipShieldButton.setStyle(equipShieldStyle);
-        equipShieldButton.setPrefSize(buttonWidth, buttonHeight);
-        equipShieldButton.setTranslateX(buyButtonXPosition + buttonWidth + imageDistance);
-        equipShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
-        equipShieldButton.setOnAction(e -> {
-            this.controller.toggleEquipUnequipShield();
-
-        });
-        */
+        
+          shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
+          shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
+          shieldNum.setFill(Color.GREEN);
+          shieldNum.setTranslateX(shieldNumPosX);
+          shieldNum.setTranslateY(Items.SHIELD.getOrder().get() * (this.imageSize + this.imageDistance) + this.cuddleImageYPos);
+          
+          
+          
+          
+          
+          equipShieldButton.setText("EQUIP");
+          equipShieldButton.setStyle(equipShieldStyle);
+          equipShieldButton.setPrefSize(buttonWidth, buttonHeight);
+          equipShieldButton.setTranslateX(buyButtonXPosition + buttonWidth +
+          imageDistance);
+          equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (this.imageSize + this.imageDistance)
+          + this.cuddleImageYPos + buyButtonYDisplacement);
+          equipShieldButton.setOnAction(e -> {
+          this.controller.toggleEquipUnequipShield();
+          
+          });
+         
 
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
@@ -173,7 +175,7 @@ public class ShopView extends GameMenu{
         displayEquipped = new Text();
         displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
         displayEquipped.setFill(Color.WHITE);
-        displayEquipped.setTranslateY(200);
+        displayEquipped.setTranslateY(this.cuddleImageYPos*3);
         displayEquipped.setTextAlignment(TextAlignment.RIGHT);
         displayEquipped.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
 
@@ -184,51 +186,22 @@ public class ShopView extends GameMenu{
         dukeUnlocked.setTextAlignment(TextAlignment.RIGHT);
         dukeUnlocked.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
 
-        final Text descriptionText1 = new Text("Mr Snuggles\n Too cool not to buy, be serious...");
-        descriptionText1.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
-        descriptionText1.setFill(Color.WHITE);
-        descriptionText1.setTranslateX(textPosX);
-        descriptionText1.setTranslateY(cuddleImageYPos + imageSizeHalf);
-/* 
-        final Text descriptionText2 = new Text("Lil Stomper\n Clumsy but robust vehicle");
-        descriptionText2.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
-        descriptionText2.setFill(Color.WHITE);
-        descriptionText2.setTranslateX(textPosX);
-        descriptionText2.setTranslateY(stomperImageYPos + imageSizeHalf);
-
-        final Text descriptionText3 = new Text("Profit Bird\n Flappy bird -like vehicle");
-        descriptionText3.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
-        descriptionText3.setFill(Color.WHITE);
-        descriptionText3.setTranslateX(textPosX);
-        descriptionText3.setTranslateY(profitBirdImageYPos + imageSizeHalf);
-
-        final Text descriptionText4 = new Text("Shield (Consumable\n A shield that can be equipped");
-        descriptionText4.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
-        descriptionText4.setFill(Color.WHITE);
-        descriptionText4.setTranslateX(textPosX);
-        descriptionText4.setTranslateY(shieldImageYPos + imageSizeHalf);
-        */
-
         root.getChildren().addAll(this.imageMap.values());
+        root.getChildren().addAll(this.descriptionsMap.values());
         root.getChildren().addAll(this.buttonMap.keySet());
 
         root.getChildren().addAll(
-                
+
                 backButton,
-              
-                //equipShieldButton,
+
+                equipShieldButton,
                 moneyText,
-                descriptionText1,
-                /* 
-                descriptionText2,
-                descriptionText3,
-                descriptionText4,
-                */
+
                 displayEquipped,
-               
-                dukeUnlocked
-                //shieldNum
-                );
+
+                dukeUnlocked,
+        shieldNum
+        );
         this.update();
     }
 
@@ -242,16 +215,18 @@ public class ShopView extends GameMenu{
     }
 
     public void update() {
-        if(this.controller.getUnlocked().contains(Items.DUKE)){
+        if (this.controller.getUnlocked().contains(Items.DUKE)) {
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
         }
         this.moneyText.setText("Money: $" + this.controller.retrieveBalance());
-        this.shieldNum.setText(String.valueOf(this.controller.getNumOfShields()));
-        if (this.controller.getNumOfShields() == 0) {
-            this.shieldNum.setFill(Color.RED);
-        } else {
-            this.shieldNum.setFill(Color.GREEN);
-        }
+        
+          this.shieldNum.setText(String.valueOf(this.controller.getNumOfShields()));
+          if (this.controller.getNumOfShields() == 0) {
+          this.shieldNum.setFill(Color.RED);
+          } else {
+          this.shieldNum.setFill(Color.GREEN);
+          }
+         
         this.displayEquipped.setText(
                 this.controller.isShieldEquipped() ? "SHIELD EQUIPPED" : " ");
 
@@ -279,23 +254,16 @@ public class ShopView extends GameMenu{
     }
 
     @Override
-    protected void stageCloseAction(){
+    protected void stageCloseAction() {
         stage.setOnCloseRequest(event -> {
             this.controller.save();
             defaultCloseAction();
         });
     }
 
-
-    protected void addSizeListener(){
-      System.out.println("ciao");
-    }
-
     @Override
     protected void updateStuff(double ratioX, double ratioY) {
-        
-    }
 
-    
+    }
 
 }

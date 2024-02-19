@@ -1,0 +1,179 @@
+> Task :compileJava
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :generateCheckstyleConfiguration UP-TO-DATE
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :cpdCheck SKIPPED
+> Task :populateDefaultSpotBugsExcludes
+> Task :cpdJavaCheck FAILED
+
+> Task :test
+
+ButtonFactoryTest > testButtonCreationFallbackToText() STARTED
+
+ButtonFactoryTest > testButtonCreationFallbackToText() PASSED
+
+ButtonFactoryTest > testButtonCreationWithValidImage() STARTED
+
+ButtonFactoryTest > testButtonCreationWithValidImage() PASSED
+
+MapBackgroundImplTest > testReset() STARTED
+
+MapBackgroundImplTest > testReset() PASSED
+
+MapBackgroundImplTest > testGetPosX() STARTED
+
+MapBackgroundImplTest > testGetPosX() PASSED
+
+MapBackgroundImplTest > testGetSize() STARTED
+
+MapBackgroundImplTest > testGetSize() PASSED
+
+MapBackgroundImplTest > testUpdateBackground() STARTED
+
+MapBackgroundImplTest > testUpdateBackground() PASSED
+
+MapBackgroundImplTest > isRisizebleWithGameInfo() STARTED
+
+MapBackgroundImplTest > isRisizebleWithGameInfo() PASSED
+
+GameStatsTest > testUpdateCoins() STARTED
+
+GameStatsTest > testUpdateCoins() PASSED
+
+GameStatsTest > testReadAndWriteToFile() STARTED
+
+GameStatsTest > testReadAndWriteToFile() PASSED
+
+GameStatsTest > testSetBestDistance() STARTED
+
+GameStatsTest > testSetBestDistance() PASSED
+
+CoinShapeFactoryImplTest > theListShouldNotbeNullorEmpty STARTED
+
+CoinShapeFactoryImplTest > theListShouldNotbeNullorEmpty PASSED
+
+CoinShapeFactoryImplTest > testYCoordinatesWithinDefaultSize STARTED
+
+CoinShapeFactoryImplTest > testYCoordinatesWithinDefaultSize PASSED
+
+> Task :checkstyleTest FAILED
+
+> Task :checkstyleMain
+
+> Task :pmdTest FAILED
+
+> Task :spotbugsTest
+L D UwF: GameStatsTest.gameStats not initialized in constructor and dereferenced in it.unibo.jetpackjoyride.save.GameStatsTest.testReadAndWriteToFile()  At GameStatsTest.java:[line 55]
+L D UwF: CoinShapeFactoryImplTest.coinShapeFactory not initialized in constructor and dereferenced in it.unibo.jetpackjoyride.coins.CoinShapeFactoryImplTest.theListShouldNotbeNullorEmpty()  At CoinShapeFactoryImplTest.java:[line 24]
+L D UwF: GameStatsTest.gameStats not initialized in constructor and dereferenced in it.unibo.jetpackjoyride.save.GameStatsTest.testUpdateCoins()  At GameStatsTest.java:[line 28]
+L D UwF: GameStatsTest.gameStats not initialized in constructor and dereferenced in it.unibo.jetpackjoyride.save.GameStatsTest.testSetBestDistance()  At GameStatsTest.java:[line 36]
+L D UwF: CoinShapeFactoryImplTest.coinShapeFactory not initialized in constructor and dereferenced in it.unibo.jetpackjoyride.coins.CoinShapeFactoryImplTest.testYCoordinatesWithinDefaultSize()  At CoinShapeFactoryImplTest.java:[line 32]
+
+> Task :spotbugsTest FAILED
+
+> Task :checkstyleMain
+
+Use of deprecated attribute 'VariableDeclaratorId/@Image' by XPath rule 'FinalFieldCouldBeStatic' (in ruleset 'Design'), please use @Name instead
+
+> Task :spotbugsMain
+M V MS: Public static it.unibo.jetpackjoyride.utilities.GameInfo.getInstance() may expose internal representation by returning GameInfo.gameInfo  At GameInfo.java:[line 20]
+M V EI: it.unibo.jetpackjoyride.core.statistical.impl.GameStats.getUnlocked() may expose internal representation by returning GameStats.unlockedSet  At GameStats.java:[line 116]
+M V EI2: new it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView(List) may expose internal representation by storing an externally mutable object into BarryView.images  At BarryView.java:[line 31]
+M V EI: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.getImageView() may expose internal representation by returning BarryView.imageView  At BarryView.java:[line 70]
+M V EI: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.getShieldImageView() may expose internal representation by returning BarryView.shieldImageView  At BarryView.java:[line 81]
+M V EI: it.unibo.jetpackjoyride.core.statistical.impl.GameStatsViewImpl.getText() may expose internal representation by returning GameStatsViewImpl.coinAndDistanceText  At GameStatsViewImpl.java:[line 50]
+M V EI: it.unibo.jetpackjoyride.core.statistical.impl.GameStatsViewImpl.getImageView() may expose internal representation by returning GameStatsViewImpl.scorePane  At GameStatsViewImpl.java:[line 55]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.PauseCommand(GameLoop, PauseMenu) may expose internal representation by storing an externally mutable object into PauseCommand.menu  At PauseCommand.java:[line 25]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.PauseCommand(GameLoop, PauseMenu) may expose internal representation by storing an externally mutable object into PauseCommand.gameLoop  At PauseCommand.java:[line 24]
+M V EI2: new it.unibo.jetpackjoyride.core.handler.generic.GenericController(Entity, GenericView) may expose internal representation by storing an externally mutable object into GenericController.model  At GenericController.java:[line 11]
+M V EI: it.unibo.jetpackjoyride.core.handler.generic.GenericController.getEntityModel() may expose internal representation by returning GenericController.model  At GenericController.java:[line 25]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand(ShopController, Stage) may expose internal representation by storing an externally mutable object into OpenShopCommand.stage  At OpenShopCommand.java:[line 24]
+M V EI: it.unibo.jetpackjoyride.core.movement.MovementImpl.getMovementChangers() may expose internal representation by returning MovementImpl.listOfChangers  At MovementImpl.java:[line 54]
+M V EI2: it.unibo.jetpackjoyride.core.movement.MovementImpl.setMovementChangers(List) may expose internal representation by storing an externally mutable object into MovementImpl.listOfChangers  At MovementImpl.java:[line 87]
+M V EI: it.unibo.jetpackjoyride.core.map.impl.MapBackgroungViewImpl.getPane() may expose internal representation by returning MapBackgroungViewImpl.root  At MapBackgroungViewImpl.java:[line 51]
+M B Dm: it.unibo.jetpackjoyride.menu.menus.GameMenu.defaultCloseAction() invokes System.exit(...), which shuts down the entire virtual machine  At GameMenu.java:[line 122]
+M V EI: it.unibo.jetpackjoyride.menu.menus.GameMenu.getScene() may expose internal representation by returning GameMenu.scene  At GameMenu.java:[line 54]
+M V EI2: new it.unibo.jetpackjoyride.menu.menus.GameMenu(Stage, GameStatsController) may expose internal representation by storing an externally mutable object into GameMenu.stage  At GameMenu.java:[line 42]
+M V EI: it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler.getAllPowerUps() may expose internal representation by returning PowerUpHandler.listOfControllers  At PowerUpHandler.java:[line 48]
+M V EI: it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler.getAllPickUps() may expose internal representation by returning PickUpHandler.listOfControllers  At PickUpHandler.java:[line 58]
+M V EI: it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView.getImageView() may expose internal representation by returning ObstacleView.imageView  At ObstacleView.java:[line 145]
+M V EI2: new it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView(List) may expose internal representation by storing an externally mutable object into ObstacleView.images  At ObstacleView.java:[line 21]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView.updateView(Entity)  At ObstacleView.java:[line 30]
+M V EI2: new it.unibo.jetpackjoyride.core.entities.coin.impl.CoinViewImpl(Coin) may expose internal representation by storing an externally mutable object into CoinViewImpl.controller  At CoinViewImpl.java:[line 31]
+M V EI: it.unibo.jetpackjoyride.menu.shop.impl.ShopView.getScene() may expose internal representation by returning it.unibo.jetpackjoyride.menu.menus.GameMenu.scene  At ShopView.java:[line 205]
+L V MC: Overridable method stageCloseAction is called from constructor new it.unibo.jetpackjoyride.menu.shop.impl.ShopView(ShopController, Stage, GameStatsController).  At ShopView.java:[line 81]
+L V MC: Overridable method update is called from constructor new it.unibo.jetpackjoyride.menu.shop.impl.ShopView(ShopController, Stage, GameStatsController).  At ShopView.java:[line 195]
+L V MC: Overridable method setGameStagePosition is called from constructor new it.unibo.jetpackjoyride.menu.shop.impl.ShopView(ShopController, Stage, GameStatsController).  At ShopView.java:[line 80]
+L V MC: Overridable method initializeGameMenu is called from constructor new it.unibo.jetpackjoyride.menu.shop.impl.ShopView(ShopController, Stage, GameStatsController).  At ShopView.java:[line 79]
+M V EI: it.unibo.jetpackjoyride.core.hitbox.api.AbstractHitbox.getHitboxVertex() may expose internal representation by returning AbstractHitbox.hitbox  At AbstractHitbox.java:[line 115]
+M P Bx: Boxed value is unboxed and then immediately reboxed in it.unibo.jetpackjoyride.core.hitbox.api.AbstractHitbox.computeNewPoint(Pair, Pair, Double)  At AbstractHitbox.java:[line 46]
+
+> Task :pmdMain FAILED
+
+> Task :checkstyleMain
+
+> Task :checkstyleMain FAILED
+
+> Task :spotbugsMain
+M V EI2: new it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity(Entity$EntityType, Movement, Hitbox) may expose internal representation by storing an externally mutable object into AbstractEntity.movement  At AbstractEntity.java:[line 16]
+M V EI: it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity.getEntityMovement() may expose internal representation by returning AbstractEntity.movement  At AbstractEntity.java:[line 23]
+H B DMI: Random object created and used only once in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.patternSpawner()  At ObstacleLoader.java:[line 74]
+H B DMI: Random object created and used only once in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.lambda$loadPatterns$30(List, int)  At ObstacleLoader.java:[line 275]
+H B DMI: Random object created and used only once in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.lambda$loadPatterns$30(List, int)  At ObstacleLoader.java:[line 276]
+H B DMI: Random object created and used only once in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.lambda$loadPatterns$16(List)  At ObstacleLoader.java:[line 202]
+M D ICAST: Integral division result cast to double or float in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.singleZapper(Pair, Pair)  At ObstacleLoader.java:[line 93]
+M V EI2: new it.unibo.jetpackjoyride.core.entities.coin.impl.CoinImpl(Pair, HitboxImpl, GraphicsContext) may expose internal representation by storing an externally mutable object into CoinImpl.gc  At CoinImpl.java:[line 30]
+M V EI: it.unibo.jetpackjoyride.core.entities.coin.impl.CoinImpl.getModel() may expose internal representation by returning CoinImpl.model  At CoinImpl.java:[line 48]
+M V EI: it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator.getCanvas() may expose internal representation by returning CoinGenerator.canvas  At CoinGenerator.java:[line 100]
+M V EI2: new it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator(Optional, GameStatsModel) may expose internal representation by storing an externally mutable object into CoinGenerator.gameStatsModel  At CoinGenerator.java:[line 56]
+H B DMI: Random object created and used only once in it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.spawnVehiclePickUp(Set)  At EntityHandler.java:[line 104]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into StartCommand.stage  At StartCommand.java:[line 28]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into StartCommand.menu  At StartCommand.java:[line 29]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into StartCommand.gameLoop  At StartCommand.java:[line 27]
+M V EI: it.unibo.jetpackjoyride.menu.menus.PauseMenu.getVBox() may expose internal representation by returning PauseMenu.buttonsVBox  At PauseMenu.java:[line 74]
+M V EI2: new it.unibo.jetpackjoyride.menu.menus.PauseMenu(Stage, GameLoop) may expose internal representation by storing an externally mutable object into PauseMenu.gameLoop  At PauseMenu.java:[line 33]
+M V EI: it.unibo.jetpackjoyride.menu.menus.PauseMenu.getPauseButton() may expose internal representation by returning PauseMenu.pauseButton  At PauseMenu.java:[line 65]
+L V MC: Overridable method initializeGameMenu is called from constructor new it.unibo.jetpackjoyride.menu.menus.PauseMenu(Stage, GameLoop).  At PauseMenu.java:[line 35]
+M V EI2: new it.unibo.jetpackjoyride.core.GameLoop(Stage, GameStatsController) may expose internal representation by storing an externally mutable object into GameLoop.stage  At GameLoop.java:[line 52]
+M V EI: it.unibo.jetpackjoyride.core.GameLoop.getScene() may expose internal representation by returning GameLoop.gameScene  At GameLoop.java:[line 168]
+L P UM: Method calls static Math class method on a constant value  At GameLoop.java:[line 37]
+M V EI: it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator.generateMrCuddle() may expose internal representation by returning MrCuddlesGenerator.mrCuddles  At MrCuddlesGenerator.java:[line 34]
+M D SF: Switch statement found in it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser.updateStatus(boolean) where default case is missing  At Laser.java:[lines 19-27]
+M V EI2: new it.unibo.jetpackjoyride.core.handler.pickup.PickUpView(List) may expose internal representation by storing an externally mutable object into PickUpView.images  At PickUpView.java:[line 22]
+M V EI: it.unibo.jetpackjoyride.core.handler.pickup.PickUpView.getImageView() may expose internal representation by returning PickUpView.imageView  At PickUpView.java:[line 97]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp in it.unibo.jetpackjoyride.core.handler.pickup.PickUpView.updateView(Entity)  At PickUpView.java:[line 30]
+M V EI: it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl.getUnlocked() may expose internal representation by returning ShopControllerImpl.unlockedItems  At ShopControllerImpl.java:[line 136]
+M V EI2: new it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl(Stage, GameMenu) may expose internal representation by storing an externally mutable object into ShopControllerImpl.gameMenu  At ShopControllerImpl.java:[line 47]
+M V EI2: new it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl(Stage, GameMenu) may expose internal representation by storing an externally mutable object into ShopControllerImpl.primaryStage  At ShopControllerImpl.java:[line 57]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into RestartCommand.gameLoop  At RestartCommand.java:[line 26]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into RestartCommand.stage  At RestartCommand.java:[line 27]
+M V EI2: new it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand(GameLoop, Stage, GameMenu) may expose internal representation by storing an externally mutable object into RestartCommand.menu  At RestartCommand.java:[line 28]
+H B RC: Suspicious comparison of a Integer reference to constant in it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper.updateStatus(boolean)  At LilStomper.java:[line 39]
+M V EI: it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView.getImageView() may expose internal representation by returning PowerUpView.imageView  At PowerUpView.java:[line 198]
+M V EI2: new it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView(List) may expose internal representation by storing an externally mutable object into PowerUpView.images  At PowerUpView.java:[line 23]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp in it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView.updateView(Entity)  At PowerUpView.java:[line 34]
+M V EI: it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler.getGameStatsModel() may expose internal representation by returning GameStatsHandler.model  At GameStatsHandler.java:[line 47]
+L D FE: Test for floating point equality in it.unibo.jetpackjoyride.core.map.impl.MapBackgroundModelImpl.updateSize()  At MapBackgroundModelImpl.java:[line 78]
+M V EI2: new it.unibo.jetpackjoyride.menu.menus.OverMenu(Stage, GameLoop, GameStatsController) may expose internal representation by storing an externally mutable object into OverMenu.gameLoop  At OverMenu.java:[line 41]
+L V MC: Overridable method initializeGameMenu is called from constructor new it.unibo.jetpackjoyride.menu.menus.OverMenu(Stage, GameLoop, GameStatsController).  At OverMenu.java:[line 48]
+M P SS: Unread field: it.unibo.jetpackjoyride.core.statistical.impl.GameStatsViewImpl.SCORE_IMAGE1_PATH; should this field be static?  At GameStatsViewImpl.java:[line 20]
+M P UrF: Unread field: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.animationFrame  At BarryView.java:[line 35]
+M P SS: Unread field: it.unibo.jetpackjoyride.core.entities.coin.impl.CoinShapeFactoryImpl.SPACE; should this field be static?  At CoinShapeFactoryImpl.java:[line 22]
+M P UrF: Unread field: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.images  At BarryView.java:[line 31]
+M P UrF: Unread field: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.oldStatus  At BarryView.java:[line 36]
+M P SS: Unread field: it.unibo.jetpackjoyride.core.map.impl.MapBackgroungViewImpl.BACKGROUNG_IMAGE2_PATH; should this field be static?  At MapBackgroungViewImpl.java:[line 20]
+M P SS: Unread field: it.unibo.jetpackjoyride.core.map.impl.MapBackgroungViewImpl.BACKGROUNG_IMAGE1_PATH; should this field be static?  At MapBackgroungViewImpl.java:[line 19]
+L P UrF: Unread field: it.unibo.jetpackjoyride.core.entities.barry.impl.BarryView.infoResolution  At BarryView.java:[line 34]
+H V MS: it.unibo.jetpackjoyride.utilities.GameInfo.moveSpeed isn't final but should be  At GameInfo.java:[line 13]
+
+> Task :spotbugsMain FAILED
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.4/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+13 actionable tasks: 11 executed, 2 up-to-date

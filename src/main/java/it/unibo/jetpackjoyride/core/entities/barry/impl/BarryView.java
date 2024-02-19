@@ -42,8 +42,28 @@ public final class BarryView {
      *
      * @param barry The Barry entity whose view needs to be updated.
      */
+
     public void update(final Barry barry) {
-        // Logic to update the visual representation of Barry
+        final double width = infoResolution.getScreenWidth() / 8;
+        final double height = infoResolution.getScreenHeight() / 10;
+
+        imageView.setX(barry.getPosition().get1() - width / 2);
+        imageView.setY(barry.getPosition().get2() - height / 2);
+
+        imageView.setFitWidth(width);
+        imageView.setFitHeight(height);
+
+        imageView.setImage(this.images.get(animationFrame));
+        animationFrame = (animationFrame + 1) % images.size();
+
+        shieldImageView.setX(barry.getPosition().get1() - width / 2);
+        shieldImageView.setY(barry.getPosition().get2() - height / 2);
+
+        shieldImageView.setFitWidth(width);
+        shieldImageView.setFitHeight(height);
+
+        shieldImageView.setImage(new Image("sprites/entities/player/barrySHIELD.png"));
+
     }
 
     /**
@@ -56,7 +76,12 @@ public final class BarryView {
      * @param status The current status of the Barry entity.
      */
     public void setCurrentImages(final List<Image> images, final BarryStatus status) {
-        // Logic to set the current images based on status
+        if (status != this.oldStatus) {
+            this.oldStatus = status;
+            this.images = images;
+            animationFrame = 0;
+        }
+
     }
 
     /**

@@ -75,5 +75,10 @@ public final class StartMenu extends GameMenu{
             defaultCloseAction();
         });
     }
+
+    @Override
+    protected void updateStuff(double ratioX, double ratioY) {
+        
+    }
    
 }

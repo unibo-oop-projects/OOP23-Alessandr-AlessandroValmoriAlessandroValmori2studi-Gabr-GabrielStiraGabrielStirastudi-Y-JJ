@@ -22,7 +22,7 @@ import java.util.LinkedList;
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
  */
-public final class ShopControllerImpl implements ShopController {
+public final class ShopControllerImpl  implements ShopController {
 
     private final ShopView view;
     private final Stage primaryStage;
@@ -42,6 +42,7 @@ public final class ShopControllerImpl implements ShopController {
      * Initializes the model and view components.
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
+        
         this.characters = new LinkedList<>();
         this.gameMenu = gameMenu;
 
@@ -55,7 +56,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.primaryStage = primaryStage;
 
-        this.view = new ShopView(this);
+        this.view = new ShopView(this, primaryStage, gameMenu.getGameStatsHandler());
     }
 
     /**
@@ -104,18 +105,7 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void backToMenu() {
-
-        final String filename = "gameStats.data";
-
-        try {
-            this.gameStatsHandler.getGameStatsModel().addShields(this.numOfShields);
-            this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
-            this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
-            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
-            System.out.println("Game stats saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
-        }
+        this.save();
         primaryStage.setScene(gameMenu.getScene());
     }
 
@@ -168,4 +158,24 @@ public final class ShopControllerImpl implements ShopController {
             }
         }
     }
+
+    @Override
+    public void save() {
+        this.gameStatsHandler.getGameStatsModel().addShields(this.numOfShields);
+            this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
+            this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
+
+
+        final String filename = "gameStats.data";
+
+        try {
+            
+            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save game stats: " + e.getMessage());
+        }
+    }
+
+   
 }

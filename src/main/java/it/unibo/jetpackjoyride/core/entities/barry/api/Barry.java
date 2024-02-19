@@ -1,9 +1,9 @@
 package it.unibo.jetpackjoyride.core.entities.barry.api;
 
-import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import java.util.Optional;
 

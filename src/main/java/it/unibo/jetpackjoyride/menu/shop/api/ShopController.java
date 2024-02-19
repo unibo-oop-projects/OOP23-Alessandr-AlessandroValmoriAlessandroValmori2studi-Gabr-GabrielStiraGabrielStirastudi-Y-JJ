@@ -23,7 +23,7 @@ public interface ShopController {
         private final Optional<PowerUpType> powerup;
         private final Optional<String> description;
 
-        Items(int cost, Optional<PowerUpType> powerup, Optional<Integer> order, Optional<String> description){
+        Items(final int cost, final Optional<PowerUpType> powerup, final Optional<Integer> order, final Optional<String> description){
             this.cost = cost;
             this.powerup = powerup;
             this.order = order;

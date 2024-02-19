@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
  * A class implementing the GameStatsController interface.
  * @author yukai.zhou@studio.unibo.it
  */
-public class GameStatsHandler implements GameStatsController {
+public final class GameStatsHandler implements GameStatsController {
 
     private GameStatsModel model;
     private GameStatsView view;
@@ -20,46 +20,44 @@ public class GameStatsHandler implements GameStatsController {
     /**
      * Constructs a new GameStatsHandler.
      */
-    public GameStatsHandler( ) {      
+    public GameStatsHandler() {
         System.out.println("GAME STATS CREATED");
         loadDateFromFile();
         this.view =  new GameStatsViewImpl();
     }
 
     @Override
-    public void updateModel(){
+    public void updateModel() {
         model.addDistance();
     }
     @Override
-    public void updateView(){
+    public void updateView() {
         view.updateDataView(model);
     }
     @Override
-    public Text getText(){
+    public Text getText() {
         return view.getText();
     } 
     @Override
-    public ImageView getImageView(){
+    public ImageView getImageView() {
         return view.getImageView();
     }
     @Override
-    public GameStatsModel getGameStatsModel(){
+    public GameStatsModel getGameStatsModel() {
         return this.model;
     }
 
      /**
-     * A method use to load the last statistical
+     * A method use to load the last statistical.
      */
-    private void loadDateFromFile(){
+    private void loadDateFromFile() {
         try {
-            this.model = GameStats.readFromFile("gameStats.data"); 
+            this.model = GameStatsIO.readFromFile("gameStats.data"); 
             System.out.println("Game stats loaded successfully.");
             System.out.println(this.model.getTotCoins());
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Failed to load game stats: " + e.getMessage());
-          
             this.model = new GameStats();
         }
     }
-    
 }

@@ -8,11 +8,11 @@ import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
  * A command to pause the game.
  * @author yukai.zhou@studio.unibo.it
  */
-public class PauseCommand implements Command {
+public final class PauseCommand implements Command {
 
     private final GameLoop gameLoop;
     private final PauseMenu menu;
-   
+
 
      /**
      * Constructs a new PauseCommand.
@@ -20,16 +20,14 @@ public class PauseCommand implements Command {
      * @param gameLoop the game loop
      * @param menu     the pause menu
      */
-    public PauseCommand(final GameLoop gameLoop,final PauseMenu menu){
+    public PauseCommand(final GameLoop gameLoop, final PauseMenu menu) {
         this.gameLoop = gameLoop; 
         this.menu = menu;
-
     }
 
     @Override
     public void execute() {
         this.gameLoop.stopLoop();
-        menu.setVisible(true);        
+        menu.setVisible(true);      
     }
- 
 }

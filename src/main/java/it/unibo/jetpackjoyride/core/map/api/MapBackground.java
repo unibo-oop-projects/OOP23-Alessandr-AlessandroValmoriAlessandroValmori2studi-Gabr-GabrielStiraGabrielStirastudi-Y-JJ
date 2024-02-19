@@ -21,24 +21,23 @@ public interface MapBackground {
      * @return The pane containing the background.
      */
     Pane getPane();
-    
+
     /**
      * Method to get the x-coordinate position of the background.
      * 
      * @return A Pair representing the x-coordinate position.
      */
-    Pair<Double,Double> getPosX();
+    Pair<Double, Double> getPosX();
 
     /**
      * Method to get the size of the background.
      * 
      * @return A Pair representing the width and height of the background.
      */
-    Pair<Double,Double> getSize();
+    Pair<Double, Double> getSize();
 
     /**
      * Resets the background position and reset the game speed.
      */
     void reset();
-
 }

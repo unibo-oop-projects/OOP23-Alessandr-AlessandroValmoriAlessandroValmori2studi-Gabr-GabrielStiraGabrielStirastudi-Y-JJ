@@ -8,34 +8,34 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public interface Coin {
 
-    /**
-     * Updates the model of the coin.
-     */
+/**
+ * Updates the model of the coin.
+ */
     void updateModel();
-    
-    /**
-     * Renders the coin.
-     */
+
+/**
+ * Renders the coin.
+ */
     void render();
 
-    /**
-     * Get the model of the coin.
-     *
-     * @return the model of the coin
-     */
+/**
+ * Get the model of the coin.
+ *
+ * @return the model of the coin
+ */
     CoinModel getModel();
 
-    /**
-     * Set the position of the coin.
-     *
-     * @param position the position to set for the coin
-     */
+/**
+ * Set the position of the coin.
+ *
+ * @param position the position to set for the coin
+ */
     void setPosition(Pair<Double, Double> position);
 
-    /**
-     * Set the collected state of the coin.
-     *
-     * @param isCollected true if the coin is collected, false otherwise
-     */
+/**
+ * Set the collected state of the coin.
+ *
+ * @param isCollected true if the coin is collected, false otherwise
+ */
     void setCollectedState(boolean isCollected);
 }

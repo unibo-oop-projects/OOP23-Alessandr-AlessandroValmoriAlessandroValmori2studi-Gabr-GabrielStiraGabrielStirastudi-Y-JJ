@@ -5,7 +5,7 @@ import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.OverMenu;
 import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * The GameLoop class manages the main game loop and manages different game stages
+ * The GameLoop class manages the main game loop and manages different game stages.
  */
 public final class GameLoop {
 
@@ -33,8 +33,8 @@ public final class GameLoop {
 
     private EntityHandler entityHandler;
 
-    private static final int fps = 70;
-    private final long nSecPerFrame = Math.round(1.0 / fps * 1e9);
+    private static final int FPS = 70;
+    private final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
 
     private Stage stage;
     private Pane root;
@@ -48,9 +48,9 @@ public final class GameLoop {
      * @param stage               the primary stage for the game
      * @param gameStatsController the game statistics controller
      */
-    public GameLoop(Stage stage, final GameStatsController gameStatsController) {
+    public GameLoop(final Stage stage, final GameStatsController gameStatsController) {
         this.stage = stage;
-        this.spacePressed=false;
+        this.spacePressed = false;
         this.gameStatsHandler = gameStatsController;
         initializeScene();
         this.initializeGameElements();
@@ -62,7 +62,7 @@ public final class GameLoop {
         gameInfo = GameInfo.getInstance();
         entityGroup = new Group();
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-        
+
         gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);
         gameScene.setOnKeyReleased(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? false : true);
 
@@ -70,7 +70,7 @@ public final class GameLoop {
 
         map = new MapBackgroundImpl();
         pauseMenu = new PauseMenu(this.stage, this);
-        
+
         entityHandler = new EntityHandler();
         entityHandler.initialize(gameStatsHandler);
 
@@ -78,8 +78,8 @@ public final class GameLoop {
 
     private void initializeGameElements() {
         root.getChildren().add(map.getPane());
-        root.getChildren().add((Node)entityGroup);
-        root.getChildren().addAll(gameStatsHandler.getImageView(),gameStatsHandler.getText());
+        root.getChildren().add((Node) entityGroup);
+        root.getChildren().addAll(gameStatsHandler.getImageView(), gameStatsHandler.getText());
         root.getChildren().add(pauseMenu.getPauseButton());
         root.getChildren().add(pauseMenu.getVBox());
     }
@@ -87,8 +87,8 @@ public final class GameLoop {
     private void setupTimer() {
         timer = new AnimationTimer() {
 
-            long lastUpdate = 0;
-            long lastStatsupdate = 0;
+            private long lastUpdate = 0;
+            private long lastStatsupdate = 0;
             private static final long statsUpdateInterval = 1_000_000_000L;
 
             @Override
@@ -100,22 +100,17 @@ public final class GameLoop {
                     gameStatsHandler.updateView();
 
 
-                        if(!entityHandler.update(entityGroup, spacePressed)){
-                            showGameOverMenu();
-                            
-                           
+                        if (!entityHandler.update(entityGroup, spacePressed)) {
+                            showGameOverMenu();            
                             endLoop();
                         }
-                    
-                   
                     lastUpdate = now;
                 }
 
-                if(now - lastStatsupdate > statsUpdateInterval){
+                if (now - lastStatsupdate > statsUpdateInterval) {
                     gameStatsHandler.updateModel();
                     lastStatsupdate = now;
                 }
-
             }
         };
     }
@@ -123,7 +118,7 @@ public final class GameLoop {
     /**
      * Starts the game loop.
      */
-    public void startLoop(){
+    public void startLoop() {
         entityHandler.start();
         timer.start();
     }
@@ -131,7 +126,7 @@ public final class GameLoop {
     /**
      * Stop the game loop.
      */
-    public void stopLoop(){   
+    public void stopLoop() {
         entityHandler.stop();
         timer.stop();
     }
@@ -139,7 +134,7 @@ public final class GameLoop {
     /**
      * End the game loop.
      */
-    public void endLoop(){
+    public void endLoop() {
         saveGame();
         this.stopLoop();
         timer.stop();
@@ -148,9 +143,9 @@ public final class GameLoop {
     /**
      * Reset the game loop.
      */
-    public void resetLoop(){
+    public void resetLoop() {
         saveGame();
-        if(!root.getChildren().isEmpty()){
+        if (!root.getChildren().isEmpty()) {
             root.getChildren().clear();
             entityGroup.getChildren().clear();
             map.reset();
@@ -158,20 +153,20 @@ public final class GameLoop {
         }
         initializeGameElements();
     }
-    
+
     /**
      * Gets the game scene.
      *
      * @return the game scene
      */
-    public Scene getScene(){
+    public Scene getScene() {
         return this.gameScene;
     }
 
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
-            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue()-pauseMenu.getPauseButton().getWidth());
+            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue() - pauseMenu.getPauseButton().getWidth());
             pauseMenu.getVBox().setPrefWidth(newValue.doubleValue());
         });
 
@@ -181,12 +176,12 @@ public final class GameLoop {
         });
     }
 
-    private void saveGame(){
+    private void saveGame() {
         final String filename = "gameStats.data"; 
 
         try {
             this.gameStatsHandler.getGameStatsModel().updateDate();
-            GameStats.writeToFile(this.gameStatsHandler.getGameStatsModel(), filename); 
+            GameStatsIO.writeToFile(this.gameStatsHandler.getGameStatsModel(), filename); 
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());
@@ -196,7 +191,7 @@ public final class GameLoop {
     /**
      * Use to set the Over menu, when player dead.
      */
-    public void showGameOverMenu(){
+    private void showGameOverMenu() {
         OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
         overMenu.show();
     }

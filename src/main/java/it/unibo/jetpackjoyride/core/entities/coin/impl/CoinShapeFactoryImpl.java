@@ -17,15 +17,21 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
+    private static final int BASE_LENGTH_STRAIGHT_LINE = 10;
+    private static final int BASE_LENGTH_MULTI_STRAIGHT_LINE = 8;
+    private static final int BASE_NUM_OF_COINS_STEPPED = 3;
+    private static final int BASE_STEPPES_STEPPED = 4;
+    private static final int BASE_NUM_OF_COINS_PRISMATIC = 6;
+    private static final int BASE_LINE_PRISMATIC = 3;
     private static final double MIN_SIZE_RATE = 0.2;
     private static final double MAX_SIZE_RATE = 0.9;
-    private final int SPACE = 50;
-    private double minY ;
-    private double maxY ; 
+    private static final int SPACECING = 50;
+    private double minY;
+    private double maxY; 
 
     private GameInfo gameInfo;
     private Random random;
-    private Map<String,List<Pair<Double, Double>>> cachedRegularShapes;
+    private Map<String, List<Pair<Double, Double>>> cachedRegularShapes;
 
     /**
      * Constructs a CoinShapeFactoryImpl object.
@@ -56,14 +62,14 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @param startY     the y-coordinate of the starting position of the straight line
      * @return a list of pairs representing the positions of coins in the straight line
      */
-    private  List<Pair<Double, Double>> straightLine(int numOfCoins, double startX, double startY) {
+    private  List<Pair<Double, Double>> straightLine(final int numOfCoins, final double startX, final double startY) {
                 List<Pair<Double, Double>> outlist = new ArrayList<>();
                 for (int i = 0; i < numOfCoins; i++) {
-                    outlist.add(new Pair<Double, Double>(startX+(i*SPACE), startY));
+                    outlist.add(new Pair<Double, Double>(startX + (i * SPACECING), startY));
                 }
                 return outlist;
             }
-    
+
     /**
      * Generates multiple straight lines for coins.
      *
@@ -73,16 +79,18 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @param n          the number of straight lines to generate
      * @return a list of pairs representing the positions of coins in the multiple straight lines
      */
-    private  List<Pair<Double, Double>> multiStraightLine(int numOfCoins, double startX, double startY,int n) {  
+
+    private  List<Pair<Double, Double>> multiStraightLine(final int numOfCoins, 
+        final double startX, final double startY, final int n) {
                 List<Pair<Double, Double>> outlist = 
-                new ArrayList<>(straightLine(numOfCoins,startX,startY));
-                for(int i = 1 ; i< n ; i++){
-                    outlist.addAll(straightLine(numOfCoins, startX, startY+(i*SPACE)));
+                new ArrayList<>(straightLine(numOfCoins, startX, startY));
+                for (int i = 1; i < n; i++) {
+                    outlist.addAll(straightLine(numOfCoins, startX, startY + (i * SPACECING)));
                 }
                 return outlist;
-            }         
-      
-    
+            } 
+
+
     /**
      * Generates a stepped shape for coins.
      *
@@ -93,18 +101,19 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @param up         a boolean indicating whether the steps go up or down
      * @return a list of pairs representing the positions of coins in the stepped shape
      */
-    private  List<Pair<Double, Double>> stepped(int numOfCoins,int steps,double startX, double startY,boolean up) {
+    private  List<Pair<Double, Double>> stepped(final int numOfCoins, final int steps, 
+    final double startX, final double startY, final boolean up) {
                 double posY = startY;
                 double posX = startX;
                 List<Pair<Double, Double>> outlist = 
-                new ArrayList<>(straightLine(numOfCoins,posX,posY));
-                for(int i = 0 ; i< steps ; i++){
-                    var lastpos = outlist.get(outlist.size()-1);
-                    double nextPosY =  up ? lastpos.get2() -SPACE : lastpos.get2() + SPACE;
+                new ArrayList<>(straightLine(numOfCoins, posX, posY));
+                for (int i = 0; i < steps; i++) {
+                    var lastpos = outlist.get(outlist.size() - 1);
+                    double nextPosY =  up ? lastpos.get2() - SPACECING : lastpos.get2() + SPACECING;
                     outlist.addAll(straightLine(numOfCoins, lastpos.get1(), nextPosY));
                 }
                 return outlist;
-            }        
+            }
 
     /**
      * Generates a prismatic shape for coins.
@@ -113,34 +122,35 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @param n          the number of sections
      * @return a list of pairs representing the positions of coins in the prismatic shape
      */
-    private  List<Pair<Double, Double>> prismatic(int numOfCoins,int n) {
+    private  List<Pair<Double, Double>> prismatic(final int numOfCoins, final int n) {
                 double posX = gameInfo.getScreenWidth();
-                double posY = minY + random.nextDouble() * (maxY-minY);
+                double posY = minY + random.nextDouble() * (maxY - minY);
                 List<Pair<Double, Double>> outlist = 
-                new ArrayList<>(straightLine(numOfCoins,posX,posY));
+                new ArrayList<>(straightLine(numOfCoins, posX, posY));
                 var firstPair = outlist.get(0);
-                for(int i = 1 ; i< n ; i++){
-                   var num = numOfCoins-(i*2);
-                   if(num > 0){
-                    outlist.addAll(straightLine(num,firstPair.get1()+SPACE*i , firstPair.get2()+SPACE*i));
-                    outlist.addAll(straightLine(num,firstPair.get1()+SPACE*i , firstPair.get2()-SPACE*i));
-                   }             
-                }          
+                for (int i = 1; i < n; i++) {
+                   var num = numOfCoins - (i * 2);
+                   if (num > 0) {
+                    outlist.addAll(straightLine(num, firstPair.get1() + SPACECING * i, firstPair.get2() + SPACECING * i));
+                    outlist.addAll(straightLine(num, firstPair.get1() + SPACECING * i, firstPair.get2() - SPACECING * i));
+                   }
+                }
                 return outlist;
-            }         
-       
+            }
 
     /**
      * Loads initial shapes in cached Map for coins.
      */
-    private void loadInitialShapes(){
+    private void loadInitialShapes() {
         double posX = gameInfo.getScreenWidth();
         double initialY = 0;
-        cachedRegularShapes.put("straightLine", straightLine(10, posX, initialY));
-        cachedRegularShapes.put("multiStraightLine", multiStraightLine(8, posX, initialY, 2));
-        cachedRegularShapes.put("steppedUp", stepped(3, 4, posX, initialY, true));
-        cachedRegularShapes.put("steppedDown", stepped(3, 4, posX, initialY, false));
-        cachedRegularShapes.put("prismatic", prismatic(6, 3));
+        cachedRegularShapes.put("straightLine", straightLine(BASE_LENGTH_STRAIGHT_LINE, posX, initialY));
+        cachedRegularShapes.put("multiStraightLine", multiStraightLine(BASE_LENGTH_MULTI_STRAIGHT_LINE, posX, initialY, 2));
+        cachedRegularShapes.
+        put("steppedUp", stepped(BASE_NUM_OF_COINS_STEPPED, BASE_STEPPES_STEPPED, posX, initialY, true));
+        cachedRegularShapes.
+        put("steppedDown", stepped(BASE_NUM_OF_COINS_STEPPED, BASE_STEPPES_STEPPED, posX, initialY, false));
+        cachedRegularShapes.put("prismatic", prismatic(BASE_NUM_OF_COINS_PRISMATIC, BASE_LINE_PRISMATIC));
     }
 
 
@@ -150,27 +160,24 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @param cachedShape a list of pairs representing the positions of coins in a shape
      * @return a list of pairs representing the positions of coins with randomized y-coordinates
      */
-    private List<Pair<Double,Double>> randomYwithoutOutofmap(List<Pair<Double,Double>> cachedShape){
-        double minY1 = cachedShape.stream().mapToDouble(p->p.get2()).min().getAsDouble();
-        double maxY1 = cachedShape.stream().mapToDouble(p->p.get2()).max().getAsDouble();
-       
+    private List<Pair<Double, Double>> randomYwithoutOutofmap(final List<Pair<Double, Double>> cachedShape) {
+        double minY1 = cachedShape.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
+        double maxY1 = cachedShape.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
+
         double oldX = cachedShape.get(0).get1();
-        double newStartY = minY + random.nextDouble() * (maxY - minY-(maxY1-minY1));
+        double newStartY = minY + random.nextDouble() * (maxY - minY - (maxY1 - minY1));
         double newStartX = gameInfo.getScreenWidth() - oldX;
-        List<Pair<Double,Double>> outList = cachedShape.stream()
-                                    .map(pos->new Pair<Double,Double>(pos.get1()+newStartX, pos.get2()-minY1+newStartY))
-                                    .collect(Collectors.toList());
+        List<Pair<Double, Double>> outList = cachedShape.stream()
+                            .map(pos -> new Pair<Double, Double>(pos.get1() + newStartX, pos.get2() - minY1 + newStartY))
+                            .collect(Collectors.toList());
         return outList;
     }
-
 
     /**
      * Updates the minimum and maximum y-coordinates based on the new screen height.
      */
-    private void updateDimension(){
+    private void updateDimension() {
         minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
         maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
     }
 }
-    
-

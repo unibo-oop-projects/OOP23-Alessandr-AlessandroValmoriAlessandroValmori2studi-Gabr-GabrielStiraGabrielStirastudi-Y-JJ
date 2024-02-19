@@ -8,8 +8,8 @@ import javafx.stage.Stage;
  * A command to open the shop.
  * @author yukai.zhou@studio.unibo.it
  */
-public class OpenShopCommand implements Command {
-    
+public final class OpenShopCommand implements Command {
+
     private final ShopController shopController;
     private final Stage stage;
 
@@ -19,13 +19,13 @@ public class OpenShopCommand implements Command {
      * @param shopController the shop controller
      * @param stage          the stage
      */
-    public OpenShopCommand(final ShopController shopController,final Stage stage){
+    public OpenShopCommand(final ShopController shopController, final Stage stage) {
         this.shopController = shopController;
         this.stage = stage;
     }
+
     @Override
     public void execute() {
         stage.setScene(shopController.getScene());
     }
-    
 }

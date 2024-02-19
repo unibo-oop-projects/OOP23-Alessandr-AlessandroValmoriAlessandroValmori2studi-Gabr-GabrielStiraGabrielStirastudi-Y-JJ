@@ -50,7 +50,7 @@ public final class CoinGenerator {
      * @param playeHitbox    the hitbox use to check collision
      * @param gameStatsModel the game statistics infomation
      */
-    public CoinGenerator(Optional<Hitbox> playeHitbox, GameStatsModel gameStatsModel) {
+    public CoinGenerator(final Optional<Hitbox> playeHitbox, final GameStatsModel gameStatsModel) {
         this.gameInfo = GameInfo.getInstance();
         this.playeHitbox = playeHitbox;
         this.gameStatsModel = gameStatsModel;
@@ -77,7 +77,7 @@ public final class CoinGenerator {
     /**
      * Cleans up the generated coins and Canvas.
      */
-    public void clean(){
+    public void clean() {
         this.coinList.clear();
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
@@ -87,7 +87,7 @@ public final class CoinGenerator {
      *
      * @param playerHitbox the hitbox of the player
      */
-    public void setPlayerHitbox(Optional<Hitbox> playerHitbox){
+    public void setPlayerHitbox(final Optional<Hitbox> playerHitbox) {
          this.playeHitbox = playerHitbox;
     }
 
@@ -96,7 +96,7 @@ public final class CoinGenerator {
      *
      * @return the canvas containing the coins
      */
-    public Canvas getCanvas(){
+    public Canvas getCanvas() {
         return this.canvas;
     }
 
@@ -123,8 +123,9 @@ public final class CoinGenerator {
         }
     }
 
-    private boolean generateOrNot(){
-        double probabilityInfluenBySpeed = PROBABILITY_BASE + (GameInfo.moveSpeed.get()-initialSpeed) * PROBABILITY_RATE;
+    private boolean generateOrNot() {
+        double probabilityInfluenBySpeed = 
+        PROBABILITY_BASE + (GameInfo.moveSpeed.get() - initialSpeed) * PROBABILITY_RATE;
         return random.nextDouble() < probabilityInfluenBySpeed;
     }
 
@@ -141,10 +142,9 @@ public final class CoinGenerator {
             coin.render();
         }
     }
-
-    /**
-     * Updates the position of the coins.
-     */
+/**
+* Updates the position of the coins.
+*/
     public void updatPosition() {
 
         updateNewPos();
@@ -166,9 +166,8 @@ public final class CoinGenerator {
                 iterator.remove();
             }
         }
-
     }
-    
+
     /**
      * Updates the position of the coins based on changes in the screen size.
      * If the screen size has changed, adjusts the positions of the coins accordingly.
@@ -183,7 +182,6 @@ public final class CoinGenerator {
                 coin.setPosition(new Pair<>(oldPosition.get1() * ratioX, oldPosition.get2() * ratioY));
             }
         }
-
     }
 
     /**
@@ -200,7 +198,7 @@ public final class CoinGenerator {
      * only coins that cross half of the screen will be checked. 
      * If a collision occurs, updates the game statistics accordingly.
      */
-    private void checkCollision(){
+    private void checkCollision() {
         List<Coin> sortedList = coinList.stream()
                 .filter(p -> p.getModel().getPosition().get1() < gameInfo.getScreenWidth() / 2)
                 .sorted(Comparator.comparingDouble(p -> p.getModel().getPosition().get1()))
@@ -222,8 +220,7 @@ public final class CoinGenerator {
      * @param x the x-coordinate of the coin
      * @return true if the coin is out of the visible area, false otherwise
      */
-    private boolean isOutofMap(double x){
+    private boolean isOutofMap(final double x) {
         return x < -gameInfo.getScreenWidth();
     }
-
 }

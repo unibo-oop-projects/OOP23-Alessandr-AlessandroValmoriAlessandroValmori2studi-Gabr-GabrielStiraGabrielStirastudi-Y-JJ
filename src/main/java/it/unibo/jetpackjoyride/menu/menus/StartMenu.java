@@ -22,8 +22,8 @@ import javafx.scene.image.Image;
  */
 public final class StartMenu extends GameMenu{
 
-    private GameLoop gameLoop;
-      private final ShopController shopController;
+    private final GameLoop gameLoop;
+    private final ShopController shopController;
 
     /**
      * Constructs a new StartMenu.
@@ -36,6 +36,7 @@ public final class StartMenu extends GameMenu{
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
         shopController = new ShopControllerImpl(primaryStage, this);
+        this.gameLoop = new GameLoop(this.stage,getGameStatsHandler());
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
@@ -45,7 +46,6 @@ public final class StartMenu extends GameMenu{
 
     @Override
     protected void initializeGameMenu(){
-        this.gameLoop = new GameLoop(this.stage,getGameStatsHandler());
         VBox buttonsRoot = new VBox(20);
         buttonsRoot.setAlignment(Pos.CENTER);
 

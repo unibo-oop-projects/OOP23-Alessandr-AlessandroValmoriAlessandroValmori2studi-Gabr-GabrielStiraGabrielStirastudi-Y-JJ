@@ -25,12 +25,12 @@ public abstract class GameMenu {
     private ChangeListener<Number> widthListener;
     private ChangeListener<Number> heightListener;
     
-    protected Scene scene;
-    protected Stage stage;
-    protected StackPane root;
+    protected final Scene scene;
+    protected final Stage stage;
+    protected final StackPane root;
     protected ImageView menuImageView;     
-    protected GameInfo gameInfo = GameInfo.getInstance();
-    private GameStatsController gameStatsController;
+    protected final GameInfo gameInfo = GameInfo.getInstance();
+    private final GameStatsController gameStatsController;
 
    /**
      * Constructs a new game menu.
@@ -85,7 +85,7 @@ public abstract class GameMenu {
      *
      * @param buttons the buttons to add
      */
-    protected void addButtons(Node buttons) {
+    protected void addButtons(final Node buttons) {
         this.root.getChildren().add(buttons);
     }
 
@@ -94,7 +94,7 @@ public abstract class GameMenu {
      *
      * @param menuImage the menu image
      */
-    protected void setMenuImage(Image menuImage){
+    protected void setMenuImage(final Image menuImage){
         if(menuImageView != null){
             this.root.getChildren().remove(menuImageView);
         }

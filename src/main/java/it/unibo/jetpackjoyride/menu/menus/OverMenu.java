@@ -7,7 +7,6 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
-import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import javafx.geometry.Pos;
@@ -22,7 +21,7 @@ import javafx.stage.Stage;
  */
 public class OverMenu extends GameMenu{
 
-    private  VBox buttonsVBox;
+    private final VBox buttonsVBox;
     private final GameLoop gameLoop;
     private final ShopController shopController;
     private WritableImage writableImage;
@@ -45,12 +44,12 @@ public class OverMenu extends GameMenu{
         this.gameLoop.getScene().snapshot(writableImage);
         setMenuImage(writableImage);
         shopController = new ShopControllerImpl(primaryStage, this);
+        buttonsVBox = new VBox();
         initializeGameMenu();
     }
 
     @Override
     protected void initializeGameMenu(){
-        buttonsVBox = new VBox();
         buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
         buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);

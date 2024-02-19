@@ -21,10 +21,10 @@ public class MapBackgroundImpl implements MapBackground {
     private final static int MAX_SPEED = 15;
     private final static int DEFAULT_SPEED = 5;
 
-    private MapBackgroundModel model;
-    private MapBackgroundView view;
+    private final MapBackgroundModel model;
+    private final MapBackgroundView view;
     private Timeline timeline;
-    private GameInfo gameInfo;
+    private final GameInfo gameInfo;
 
     /**
      * Constructor of the MapBackgroundImpl.
@@ -35,7 +35,7 @@ public class MapBackgroundImpl implements MapBackground {
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> {
             if(GameInfo.moveSpeed.get() == MAX_SPEED){
-                timeline.stop();
+                this.timeline.stop();
             }else{
                 gameInfo.setMoveSpeed(GameInfo.moveSpeed.incrementAndGet());
             }       

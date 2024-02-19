@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -150,20 +151,15 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @return a list of pairs representing the positions of coins with randomized y-coordinates
      */
     private List<Pair<Double,Double>> randomYwithoutOutofmap(List<Pair<Double,Double>> cachedShape){
-        double minY1 = Double.MAX_VALUE;
-        double maxY1 = Double.MIN_VALUE;
+        double minY1 = cachedShape.stream().mapToDouble(p->p.get2()).min().getAsDouble();
+        double maxY1 = cachedShape.stream().mapToDouble(p->p.get2()).max().getAsDouble();
+       
         double oldX = cachedShape.get(0).get1();
-        for (Pair<Double,Double> pair : cachedShape) {
-             minY1 = Math.min(minY1, pair.get2());
-             maxY1 = Math.max(maxY1, pair.get2());
-        }
-
         double newStartY = minY + random.nextDouble() * (maxY - minY-(maxY1-minY1));
         double newStartX = gameInfo.getScreenWidth() - oldX;
-        List<Pair<Double,Double>> outList = new ArrayList<>();
-        for (Pair<Double,Double> pos : cachedShape) {
-             outList.add(new Pair<Double,Double>(pos.get1()+newStartX, pos.get2()-minY1+newStartY));
-        }
+        List<Pair<Double,Double>> outList = cachedShape.stream()
+                                    .map(pos->new Pair<Double,Double>(pos.get1()+newStartX, pos.get2()-minY1+newStartY))
+                                    .collect(Collectors.toList());
         return outList;
     }
 

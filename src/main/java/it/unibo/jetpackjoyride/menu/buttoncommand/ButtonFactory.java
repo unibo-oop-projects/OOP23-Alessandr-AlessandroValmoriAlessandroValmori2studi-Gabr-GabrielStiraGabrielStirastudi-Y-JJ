@@ -22,11 +22,12 @@ public class ButtonFactory {
      * @param y      the height of the button
      * @return the created button
      */
-     public static Button createButton(final String name,final EventHandler<ActionEvent> action, double x,double y) {
+     public static Button createButton(final String name,final EventHandler<ActionEvent> action, final double x,final double y) {
          final Button button = new Button();
         button.setOnAction(action);
         button.setPrefWidth(x);
         button.setPrefHeight(y);
+        button.setFocusTraversable(false);
 
         if (loadImageFromResources(name).isPresent()) {
             Image img = loadImageFromResources(name).get();
@@ -34,6 +35,7 @@ public class ButtonFactory {
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
             imageView.setPreserveRatio(false);
+            
             button.setGraphic(imageView);
             button.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
         } else {
@@ -48,7 +50,7 @@ public class ButtonFactory {
      * @param imageName the name of the image
      * @return an Optional containing the loaded image, or empty if the image could not be loaded
      */
-    private static Optional<Image> loadImageFromResources(String imageName) {
+    private static Optional<Image> loadImageFromResources(final String imageName) {
         try {  
             String imagePath = "/buttons/" + imageName + ".png";
             Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));

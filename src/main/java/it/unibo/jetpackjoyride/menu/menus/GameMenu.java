@@ -25,14 +25,12 @@ public abstract class GameMenu {
     protected ChangeListener<Number> widthListener;
     protected ChangeListener<Number> heightListener;
     
-    protected Scene scene;
-    protected Stage stage;
-    protected StackPane root;
+    protected final Scene scene;
+    protected final Stage stage;
+    protected final StackPane root;
     protected ImageView menuImageView;     
-    protected GameInfo gameInfo = GameInfo.getInstance();
-    private GameStatsController gameStatsController;
-    private double ratioX;
-    private double ratioY;
+    protected final GameInfo gameInfo = GameInfo.getInstance();
+    private final GameStatsController gameStatsController;
 
    /**
      * Constructs a new game menu.
@@ -87,7 +85,7 @@ public abstract class GameMenu {
      *
      * @param buttons the buttons to add
      */
-    protected void addButtons(Node buttons) {
+    protected void addButtons(final Node buttons) {
         this.root.getChildren().add(buttons);
     }
 
@@ -96,7 +94,7 @@ public abstract class GameMenu {
      *
      * @param menuImage the menu image
      */
-    protected void setMenuImage(Image menuImage){
+    protected void setMenuImage(final Image menuImage){
         if(menuImageView != null){
             this.root.getChildren().remove(menuImageView);
         }
@@ -147,18 +145,14 @@ public abstract class GameMenu {
     protected void addSizeListener(){
         
         widthListener = (obs,oldvalue,newVal) ->{
-           ratioX = newVal.doubleValue()/oldvalue.doubleValue();
+            double ratioX = newVal.doubleValue()/oldvalue.doubleValue();
             menuImageView.setFitWidth(menuImageView.getFitWidth()*ratioX);
-            updateStuff(ratioX, ratioY);
         };
         scene.widthProperty().addListener(widthListener);
         heightListener = (obs,oldvalue,newVal) ->{
-            ratioY = newVal.doubleValue()/oldvalue.doubleValue();
+            double ratioY = newVal.doubleValue()/oldvalue.doubleValue();
             menuImageView.setFitHeight(menuImageView.getFitHeight()*ratioY);
-            updateStuff(ratioX, ratioY);
         };
         scene.heightProperty().addListener(heightListener);
     }
-
-    protected abstract void updateStuff(double ratioX, double ratioY);
 }

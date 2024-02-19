@@ -143,9 +143,4 @@ public class GameStats implements GameStatsModel {
     public void setShield(boolean isShieldEquipped) {
         this.isShieldEquipped = isShieldEquipped;
     }
-
-    
-    
-
-   
 }

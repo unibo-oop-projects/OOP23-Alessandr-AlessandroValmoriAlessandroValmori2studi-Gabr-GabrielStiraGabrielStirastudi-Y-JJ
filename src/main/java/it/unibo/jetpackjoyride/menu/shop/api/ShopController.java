@@ -12,18 +12,20 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 public interface ShopController {
 
     enum Items{
-        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES)), 
-        SHIELD(20, Optional.empty()), 
-        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER)), 
-        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD)),
-        DUKE(666, Optional.of(PowerUpType.DUKEFISHRON));
+        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES), Optional.of(1)), 
+        SHIELD(20, Optional.empty(), Optional.of(4)), 
+        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER), Optional.of(2)), 
+        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD), Optional.of(3)),
+        DUKE(666, Optional.of(PowerUpType.DUKEFISHRON), Optional.empty());
 
         private final int cost;
+        private final Optional<Integer> order;
         private final Optional<PowerUpType> powerup;
 
-        Items(int cost, Optional<PowerUpType> powerup){
+        Items(int cost, Optional<PowerUpType> powerup, Optional<Integer> order){
             this.cost = cost;
             this.powerup = powerup;
+            this.order = order;
         }
 
         public int getItemCost(){
@@ -32,6 +34,10 @@ public interface ShopController {
 
         public Optional<PowerUpType> getCorresponding(){
             return this.powerup;
+        }
+
+        public Optional<Integer> getOrder(){
+            return this.order;
         }
     }
 

@@ -8,13 +8,11 @@ import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
-import it.unibo.jetpackjoyride.menu.menus.OverMenu;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -32,8 +30,8 @@ public final class ShopControllerImpl  implements ShopController {
 
     private int numOfShields;
     private boolean isShieldEquipped;
-    private Set<Items> unlockedItems;
-    private Deque<String> characters;
+    private final Set<Items> unlockedItems;
+    private final Deque<String> characters;
 
     private final String pw = "TRUFFLEWORM";
 

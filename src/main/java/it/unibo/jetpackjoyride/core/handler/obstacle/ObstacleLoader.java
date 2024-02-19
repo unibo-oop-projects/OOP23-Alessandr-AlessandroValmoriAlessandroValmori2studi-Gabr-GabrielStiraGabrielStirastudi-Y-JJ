@@ -72,7 +72,10 @@ public class ObstacleLoader {
         final List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> listOfObstacles = new ArrayList<>();
 
         final Integer random = new Random().nextInt(3);
-        this.patternSelector.get(this.difficulty * 3 - random).pattern(listOfObstacles);
+        var rand = this.difficulty * 3 - random;
+        System.out.println(rand);
+        this.patternSelector.get(rand).pattern(listOfObstacles);
+       
         return listOfObstacles;
 
     }

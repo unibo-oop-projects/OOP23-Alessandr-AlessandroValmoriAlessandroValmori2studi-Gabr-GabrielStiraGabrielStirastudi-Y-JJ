@@ -74,4 +74,9 @@ public class OverMenu extends GameMenu{
         this.stage.setScene(this.scene);
     }
 
+    @Override
+    protected void updateStuff(double ratioX, double ratioY) {
+        
+    }
+
 }

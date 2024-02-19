@@ -1,18 +1,16 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
+
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,8 +20,8 @@ import javafx.stage.Stage;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.HashSet;
+
 import java.util.HashMap;
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
@@ -52,9 +50,7 @@ public class ShopView extends GameMenu{
 
     // Constants related to image positioning on the Y-axis
     private final int cuddleImageYPos = 100;
-    private final int stomperImageYPos = cuddleImageYPos + imageSize + imageDistance;
-    private final int profitBirdImageYPos = stomperImageYPos + imageSize + imageDistance;
-    private final int shieldImageYPos = profitBirdImageYPos + imageSize + imageDistance;
+   
 
     // Other constants
     
@@ -66,14 +62,12 @@ public class ShopView extends GameMenu{
     private final Text dukeUnlocked;
     private Text shieldNum;
 
-    private Button buyMrCuddlesButton = new Button();
-    private Button buyStomperButton = new Button();
-    private Button buyProfitBirdButton = new Button();
-    private Button buyShieldButton = new Button();
 
     private Button equipShieldButton = new Button();
 
+    private Map<Items, String> descriptionMap = new HashMap<>();
     private Map<Button, Items> buttonMap = new HashMap<>();
+    private Map<Button, ImageView> imageMap =new HashMap<>();
 
     /**
      * Constructor for ShopView.
@@ -92,17 +86,41 @@ public class ShopView extends GameMenu{
         initializeGameMenu();
         setGameStagePosition();
         stageCloseAction();
+        
+        //initializes the button map
+        for(var entry : Items.values()){
+            if(!entry.equals(Items.DUKE)){
+                this.buttonMap.put(new Button(), entry);
+            }
+        }
 
-        buttonMap.put(buyMrCuddlesButton, Items.MRCUDDLES);
-        buttonMap.put(buyStomperButton, Items.STOMPER);
-        buttonMap.put(buyProfitBirdButton, Items.PROFITBIRD);
-        buttonMap.put(buyShieldButton, Items.SHIELD);
-
+        
+        //inizializza la imageMap
         for (var entry : buttonMap.entrySet()) {
+
+            this.imageMap.put(entry.getKey(), new ImageView(new Image(
+                getClass().getClassLoader().getResource("shop/shop"+entry.getValue().name() + ".png").toExternalForm())));
+                
+        }
+        //posiziona la imageMap
+        for (var entry : imageMap.entrySet()) {
+
+           entry.getValue().setFitWidth(imageSize);
+           entry.getValue().setFitHeight(imageSize);
+           entry.getValue().setTranslateX(imageXPos);
+           entry.getValue().setTranslateY(this.cuddleImageYPos + (this.buttonMap.get(entry.getKey()).getOrder().get())*(this.imageSize+this.imageDistance));
+                
+        }
+
+        // posiziona la buttonMap
+        for (var entry : buttonMap.entrySet()) {
+            
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(buttonStyle);
             entry.getKey().setPrefWidth(buttonWidth);
             entry.getKey().setPrefHeight(buttonHeight);
+            entry.getKey().setTranslateX(buyButtonXPosition);
+            entry.getKey().setTranslateY(entry.getValue().getOrder().get()*(this.imageSize+this.imageDistance)+buyButtonYDisplacement);
             entry.getKey().setOnAction(e -> {
                 this.controller.buy(entry.getValue());
             });
@@ -116,55 +134,23 @@ public class ShopView extends GameMenu{
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-        final Image cuddlesImage = new Image(
-                getClass().getClassLoader().getResource("shop/cuddleart.png").toExternalForm());
-        final ImageView cuddlesImageView = new ImageView(cuddlesImage);
-        cuddlesImageView.setFitWidth(imageSize);
-        cuddlesImageView.setFitHeight(imageSize);
-        cuddlesImageView.setTranslateX(imageXPos);
-        cuddlesImageView.setTranslateY(cuddleImageYPos);
+       
 
-        buyMrCuddlesButton.setTranslateX(buyButtonXPosition);
-        buyMrCuddlesButton.setTranslateY(cuddleImageYPos + buyButtonYDisplacement);
+      
 
-        final Image stomperImage = new Image(
-                getClass().getClassLoader().getResource("shop/lilstomper.png").toExternalForm());
-        final ImageView stomperImageView = new ImageView(stomperImage);
-        stomperImageView.setFitWidth(imageSize);
-        stomperImageView.setFitHeight(imageSize);
-        stomperImageView.setTranslateX(imageXPos);
-        stomperImageView.setTranslateY(stomperImageYPos);
+       
 
-        buyStomperButton.setTranslateX(buyButtonXPosition);
-        buyStomperButton.setTranslateY(stomperImageYPos + buyButtonYDisplacement);
-
-        final Image profitBirdImage = new Image(
-                getClass().getClassLoader().getResource("shop/profitbirdArt.png").toExternalForm());
-        final ImageView profitBirdImageView = new ImageView(profitBirdImage);
-        profitBirdImageView.setFitWidth(imageSize);
-        profitBirdImageView.setFitHeight(imageSize);
-        profitBirdImageView.setTranslateX(imageXPos);
-        profitBirdImageView.setTranslateY(profitBirdImageYPos);
-
-        buyProfitBirdButton.setTranslateX(buyButtonXPosition);
-        buyProfitBirdButton.setTranslateY(profitBirdImageYPos + buyButtonYDisplacement);
-
+      
+/* 
         shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
         shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
         shieldNum.setFill(Color.GREEN);
         shieldNum.setTranslateX(shieldNumPosX);
         shieldNum.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
 
-        final Image shieldImage = new Image(
-                getClass().getClassLoader().getResource("shop/shield.png").toExternalForm());
-        final ImageView shieldImageView = new ImageView(shieldImage);
-        shieldImageView.setFitWidth(imageSize);
-        shieldImageView.setFitHeight(imageSize);
-        shieldImageView.setTranslateX(imageXPos);
-        shieldImageView.setTranslateY(shieldImageYPos);
+       
 
-        buyShieldButton.setTranslateX(buyButtonXPosition);
-        buyShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
+      
 
         equipShieldButton.setText("EQUIP");
         equipShieldButton.setStyle(equipShieldStyle);
@@ -175,6 +161,7 @@ public class ShopView extends GameMenu{
             this.controller.toggleEquipUnequipShield();
 
         });
+        */
 
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
@@ -202,7 +189,7 @@ public class ShopView extends GameMenu{
         descriptionText1.setFill(Color.WHITE);
         descriptionText1.setTranslateX(textPosX);
         descriptionText1.setTranslateY(cuddleImageYPos + imageSizeHalf);
-
+/* 
         final Text descriptionText2 = new Text("Lil Stomper\n Clumsy but robust vehicle");
         descriptionText2.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
         descriptionText2.setFill(Color.WHITE);
@@ -220,30 +207,28 @@ public class ShopView extends GameMenu{
         descriptionText4.setFill(Color.WHITE);
         descriptionText4.setTranslateX(textPosX);
         descriptionText4.setTranslateY(shieldImageYPos + imageSizeHalf);
+        */
+
+        root.getChildren().addAll(this.imageMap.values());
+        root.getChildren().addAll(this.buttonMap.keySet());
 
         root.getChildren().addAll(
                 
                 backButton,
-                cuddlesImageView,
-                buyMrCuddlesButton,
-
-                stomperImageView,
-                buyStomperButton,
-
-                profitBirdImageView,
-                buyProfitBirdButton,
-
-                shieldImageView,
-                buyShieldButton,
-                equipShieldButton,
+              
+                //equipShieldButton,
                 moneyText,
                 descriptionText1,
+                /* 
                 descriptionText2,
                 descriptionText3,
                 descriptionText4,
+                */
                 displayEquipped,
-                dukeUnlocked,
-                shieldNum);
+               
+                dukeUnlocked
+                //shieldNum
+                );
         this.update();
     }
 
@@ -299,6 +284,16 @@ public class ShopView extends GameMenu{
             this.controller.save();
             defaultCloseAction();
         });
+    }
+
+
+    protected void addSizeListener(){
+      System.out.println("ciao");
+    }
+
+    @Override
+    protected void updateStuff(double ratioX, double ratioY) {
+        
     }
 
     

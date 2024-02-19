@@ -14,6 +14,9 @@ import javafx.scene.image.Image;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class CoinViewImpl implements CoinView {
+
+   private static final int POSITION = 0;
+   private static final int SIZE = 1;
    private static final int NUM_OF_FRAMES = 35;
    private static final int NUM_OF_COIN_IMAGES = 7;
    private static final int NUM_OF_FRAMES_FOR_IMAGE = 5;
@@ -39,10 +42,10 @@ public final class CoinViewImpl implements CoinView {
    @Override
    public void renderCoin(final GraphicsContext gc) {
       double moveSpeed = GameInfo.moveSpeed.get();
-      double posX = controller.getModel().getPosition().get1();
-      double posY = controller.getModel().getPosition().get2();
-      double width = controller.getModel().getSize().get1();
-      double height = controller.getModel().getSize().get2();
+      double posX = controller.getModelData().get(POSITION).get1();
+      double posY = controller.getModelData().get(POSITION).get2();
+      double width = controller.getModelData().get(SIZE).get1();
+      double height = controller.getModelData().get(SIZE).get2();
       if (isOnScreen) {
          gc.clearRect(posX + moveSpeed, posY, width, height);
          gc.drawImage(coinFrames[currentCoinframe], posX, posY, width, height);

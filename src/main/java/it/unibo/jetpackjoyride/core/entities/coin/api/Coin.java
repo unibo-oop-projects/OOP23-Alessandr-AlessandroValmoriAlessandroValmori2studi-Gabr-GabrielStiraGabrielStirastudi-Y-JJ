@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.coin.api;
 
+import java.util.List;
+
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 /**
@@ -23,7 +25,7 @@ public interface Coin {
  *
  * @return the model of the coin
  */
-    CoinModel getModel();
+    List<Pair<Double, Double>> getModelData();
 
 /**
  * Set the position of the coin.

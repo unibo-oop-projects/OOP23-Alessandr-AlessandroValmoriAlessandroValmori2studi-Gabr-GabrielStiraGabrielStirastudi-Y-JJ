@@ -12,8 +12,8 @@ import javafx.scene.image.ImageView;
 
 public class PickUpView implements GenericView{
 
-    private ImageView imageView;
-    private List<Image> images;
+    private final ImageView imageView;
+    private final List<Image> images;
     private int animationFrame;
     private int animationLenght;
     private int animationCounter;

@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
@@ -59,5 +60,15 @@ public final class CoinImpl implements Coin {
     @Override
     public void setCollectedState(final boolean isCollected) {
         this.model.setCollectedState(isCollected);
+    }
+
+    @Override
+    public Hitbox geHitbox() {
+        return this.model.geHitbox();
+    }
+
+    @Override
+    public boolean isCollected() {
+        return this.model.isCollected();
     }
 }

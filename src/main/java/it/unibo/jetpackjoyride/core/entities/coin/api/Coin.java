@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core.entities.coin.api;
 
 import java.util.List;
 
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 /**
@@ -40,4 +41,18 @@ public interface Coin {
  * @param isCollected true if the coin is collected, false otherwise
  */
     void setCollectedState(boolean isCollected);
+
+     /**
+     * Get hitbox of the coin model.
+     * 
+     * @return The hitbox of the coin model.
+     */
+    Hitbox geHitbox();
+
+    /**
+     * Check if the coin is collected.
+     * 
+     * @return True if the coin is collected, false otherwise.
+     */
+    boolean isCollected();
 }

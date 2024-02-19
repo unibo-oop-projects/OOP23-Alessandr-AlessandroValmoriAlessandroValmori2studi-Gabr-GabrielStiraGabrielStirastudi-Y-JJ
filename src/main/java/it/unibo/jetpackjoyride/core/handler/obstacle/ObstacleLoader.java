@@ -69,12 +69,12 @@ public class ObstacleLoader {
 
 
     private List<Pair<GenericController<Obstacle,ObstacleView>, Integer>> patternSpawner() {
-        this.duration=20;
+        this.duration=25;
         final List<Pair<GenericController<Obstacle,ObstacleView>, Integer>> listOfObstacles = new ArrayList<>();
 
         final Integer random = new Random().nextInt(3);
         //this.patternSelector.get(this.difficulty*3-random).pattern(listOfMissiles);
-        this.patternSelector.get(2).pattern(listOfObstacles);
+        this.patternSelector.get(26).pattern(listOfObstacles);
         return listOfObstacles;
         
     }
@@ -86,6 +86,11 @@ public class ObstacleLoader {
 
     private GenericController<Obstacle,ObstacleView> singleZapper(final Pair<Double,Double> pos, final Pair<Double,Double> rotation) {
         final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,new Pair<>(Double.valueOf(-this.difficulty)-5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of()));
+        return obstacleController;
+    }
+
+    private GenericController<Obstacle,ObstacleView> singleLaser(final Pair<Double,Double> pos, final Pair<Double,Double> speed) {
+        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.LASER, new MovementImpl(pos,speed, new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of()));
         return obstacleController;
     }
 
@@ -109,12 +114,13 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 30),List.of()), 1));
         }); 
         this.patternSelector.put(2, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 80),List.of()), 1));
+            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 85),List.of()), 1));
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 15),List.of()), 1));
-            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 45),new Pair<>(0.0,0.0)), 3));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 50),new Pair<>(0.0,0.0)), 3));
 
         }); 
         this.patternSelector.put(3, (l) -> { 
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 20),new Pair<>(0.0,0.0)), 1));
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 45),List.of()), 1));
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 65),List.of()), 1));
         }); 
@@ -129,8 +135,10 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 25),List.of()), 5));
         }); 
         this.patternSelector.put(6, (l) -> { 
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 70),new Pair<>(0.0,0.0)), 3));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 60),new Pair<>(0.0,0.0)), 3));
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 40),List.of()), 1));
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 30),List.of(MovementChangers.DIAGONALDOWN, MovementChangers.DIAGONALUP)), 1));
+            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 30),List.of(MovementChangers.DIAGONALUP,MovementChangers.BOUNCING)), 1));
         }); 
         this.patternSelector.put(7, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 15),List.of()), 1));
@@ -143,7 +151,15 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of(MovementChangers.DIAGONALUP, MovementChangers.BOUNCING)), 1));
         }); 
         this.patternSelector.put(9, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 10),new Pair<>(0.0,0.0)), 2));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(90.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 80),new Pair<>(90.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 90),new Pair<>(0.0,0.0)), 2));
+
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 10),new Pair<>(0.0,0.0)), 6));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(90.0,0.0)), 7));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 80),new Pair<>(90.0,0.0)), 7));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 90),new Pair<>(0.0,0.0)), 6));
         }); 
         this.patternSelector.put(10, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
@@ -154,8 +170,11 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 65),List.of()), 1));
         }); 
         this.patternSelector.put(12, (l) -> { 
+            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 75),List.of()), 1));
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 15),new Pair<>(0.0,0.0)), 3));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 25),new Pair<>(0.0,0.0)), 5));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 35),new Pair<>(0.0,0.0)), 7));
         }); 
         this.patternSelector.put(13, (l) -> { 
             l.addAll(this.stairsPattern(ObstacleType.MISSILE, true, 3));
@@ -164,13 +183,35 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
         }); 
         this.patternSelector.put(15, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+            this.duration=35;
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 10),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 20),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 30),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 40),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 50),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 60),new Pair<>(0.0,0.0)), 1));
+
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 90),new Pair<>(0.0,0.0)), 17));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 80),new Pair<>(0.0,0.0)), 17));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 70),new Pair<>(0.0,0.0)), 17));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 60),new Pair<>(0.0,0.0)), 17));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 50),new Pair<>(0.0,0.0)), 17));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 40),new Pair<>(0.0,0.0)), 17));
         }); 
         this.patternSelector.put(16, (l) -> { 
             l.addAll(this.stairsPattern(ObstacleType.MISSILE, false, 5));
         }); 
         this.patternSelector.put(17, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 15),new Pair<>(30.0,0.0)), 3));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 30),new Pair<>(30.0,0.0)), 5));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 45),new Pair<>(30.0,0.0)), 7));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 60),new Pair<>(30.0,0.0)), 9));
+        
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 45),new Pair<>(30.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 60),new Pair<>(30.0,0.0)), 3));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 75),new Pair<>(30.0,0.0)), 5));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 90),new Pair<>(30.0,0.0)), 7));
         }); 
         this.patternSelector.put(18, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
@@ -188,7 +229,18 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
         }); 
         this.patternSelector.put(23, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 30),new Pair<>(0.0,2.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 70),new Pair<>(0.0,-3.0)), 3));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 45),new Pair<>(0.0,1.0)), 5));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 15),new Pair<>(0.0,-2.0)), 7));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 85),new Pair<>(0.0,0.0)), 9));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 60),new Pair<>(0.0,1.0)), 11));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 40),new Pair<>(0.0,1.0)), 13));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 70),new Pair<>(0.0,-1.0)), 15));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(0.0,-2.0)), 17));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 50),new Pair<>(0.0,2.0)), 19));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 20),new Pair<>(0.0,1.0)), 21));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 80),new Pair<>(0.0,-3.0)), 23));
         }); 
         this.patternSelector.put(24, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
@@ -197,13 +249,34 @@ public class ObstacleLoader {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
         }); 
         this.patternSelector.put(26, (l) -> { 
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
+            this.duration = 40;
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 15),new Pair<>(0.0,0.0)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 15),new Pair<>(0.0,0.0)), 12));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 15),new Pair<>(0.0,0.0)), 24));
+
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 15),new Pair<>(0.0,0.75)), 1));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 38),new Pair<>(0.0,0.75)), 16));
+
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 85),new Pair<>(0.0,0.0)), 24));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 85),new Pair<>(0.0,0.0)), 12));
+            l.add(new Pair<>(this.singleLaser(this.mapYDivisor(50, 85),new Pair<>(0.0,0.0)), 1));
         }); 
         this.patternSelector.put(27, (l) -> { 
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90),List.of()), 1));
         }); 
         this.patternSelector.put(28, (l) -> { 
-            l.addAll(this.stairsPattern(ObstacleType.MISSILE, true, 8));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 10),new Pair<>(90.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 30),new Pair<>(90.0,0.0)), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 50),new Pair<>(90.0,0.0)), 1));
+
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 90),new Pair<>(90.0,0.0)), 5));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 70),new Pair<>(90.0,0.0)), 5));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 50),new Pair<>(90.0,0.0)), 5));
+
+           
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 10),new Pair<>(90.0,0.0)), 9));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 30),new Pair<>(90.0,0.0)), 9));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 50),new Pair<>(90.0,0.0)), 9));
         }); 
         this.patternSelector.put(29, (l) -> { 
             l.addAll(this.stairsPattern(ObstacleType.MISSILE, false, 8));

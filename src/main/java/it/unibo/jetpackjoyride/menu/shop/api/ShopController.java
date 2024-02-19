@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+
 import java.util.Set;
 import java.util.Optional;
 
@@ -13,7 +15,8 @@ public interface ShopController {
         MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES)), 
         SHIELD(20, Optional.empty()), 
         STOMPER(20, Optional.of(PowerUpType.LILSTOMPER)), 
-        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD));
+        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD)),
+        DUKE(666, Optional.of(PowerUpType.DUKEFISHRON));
 
         private final int cost;
         private final Optional<PowerUpType> powerup;
@@ -47,6 +50,10 @@ public interface ShopController {
     boolean isShieldEquipped();
 
     Set<Items> getUnlocked();
+
+    void type(KeyCode code);
+
+    
 
     
 

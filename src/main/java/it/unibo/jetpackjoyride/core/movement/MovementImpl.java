@@ -7,9 +7,6 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public final class MovementImpl implements Movement {
-
-    private static final Double SPEEDYMODIFIER = 1.5;
-    private static final Double SLOWMODIFIER = 0.7;
     private static final Double GRAVITYMODIFIER = 0.1;
     private static final Double INVERSEGRAVITYMODIFIER = -0.1;
 
@@ -86,17 +83,6 @@ public final class MovementImpl implements Movement {
 
         this.listOfChangers = listOfChangers;
 
-        Double speedModifier = 1.0;
-        for(final var changer : this.listOfChangers) {
-            if(changer.equals(MovementChangers.SPEEDY)) {
-                speedModifier*=SPEEDYMODIFIER;
-            }
-            if(changer.equals(MovementChangers.SLOW)) {
-                speedModifier*=SLOWMODIFIER;
-            }
-        }
-        this.speed = new Pair<>(this.speed.get1() * speedModifier,this.speed.get2() * speedModifier);
-
         if(this.listOfChangers.contains(MovementChangers.DIAGONALDOWN)) {
             this.speed = new Pair<>(this.speed.get1(),-this.speed.get1());
             this.rotation = new Pair<>(-45.0,0.0);
@@ -156,12 +142,6 @@ public final class MovementImpl implements Movement {
                 this.speed = new Pair<>(this.speed.get1(), -Math.abs(this.speed.get2()));
                 this.rotation = new Pair<>(Math.abs(this.rotation.get1()), this.rotation.get2());
             }
-        }
-
-        /* STATIC */
-        if (this.listOfChangers.contains(MovementChangers.STATIC)) {
-            this.acceleration = new Pair<>(0.0, 0.0);
-            this.speed = new Pair<>(0.0, 0.0);
         }
 
         /* BOUNDS */

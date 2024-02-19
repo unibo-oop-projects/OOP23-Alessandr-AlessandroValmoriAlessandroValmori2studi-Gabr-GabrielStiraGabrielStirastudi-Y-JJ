@@ -10,9 +10,6 @@ public interface Movement {
         DIAGONALUP, // ySpeed is initially set the same as xSpeed
         DIAGONALDOWN, // ySpeed is initially set the same as -xSpeed
         BOUNCING, // Once the upper or lower bound of the screen is hit, the y speed is inverted
-        SLOW, // Slower initial speed set by the SLOWMODIFIER
-        SPEEDY, // Faster initial speed set by the SPEEDYMODIFIER
-        STATIC, // No velocity, the object is still and doesn't move
         GRAVITY, // y speed is accelerated downwards
         INVERSEGRAVITY, // y speed is accelerated upwards
         BOUNDS, // x and y will only vary between specified limits

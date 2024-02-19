@@ -3,8 +3,8 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -14,11 +14,11 @@ import javafx.scene.Node;
 
 public final class PowerUpHandler {
     private final List<GenericController<PowerUp,PowerUpView>> listOfControllers;
-    private final EntityGenerator entityGenerator;
+    private final EntityControllerGeneratorImpl entityGenerator;
 
     public PowerUpHandler() {
         this.listOfControllers = new ArrayList<>();
-        entityGenerator = new EntityGeneratorImpl();
+        entityGenerator = new EntityControllerGeneratorImpl();
     }
 
     public void update(final Group powerUpGroup, final boolean isSpaceBarPressed) {
@@ -40,7 +40,7 @@ public final class PowerUpHandler {
     }
 
     public void spawnPowerUp(final PowerUpType powerUpType) {
-        final List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUp(powerUpType);
+        final List<GenericController<PowerUp, PowerUpView>> powerup = entityGenerator.generatePowerUpControllers(powerUpType);
         listOfControllers.addAll(powerup);
     }
 

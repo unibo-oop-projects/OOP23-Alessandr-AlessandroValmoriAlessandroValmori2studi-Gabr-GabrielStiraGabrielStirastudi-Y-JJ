@@ -204,7 +204,9 @@ public class ShopView extends GameMenu {
     public Scene getScene() {
         return scene;
     }
-
+    /**
+     * Updates the view of the shop menu.
+     */
     public void update() {
         if (this.controller.getUnlocked().contains(Items.DUKE)) {
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");

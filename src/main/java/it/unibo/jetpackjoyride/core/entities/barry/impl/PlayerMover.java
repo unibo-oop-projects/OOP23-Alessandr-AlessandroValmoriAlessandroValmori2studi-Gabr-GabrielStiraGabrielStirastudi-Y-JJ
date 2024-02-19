@@ -148,7 +148,11 @@ public class PlayerMover {
     public Optional<Hitbox> getHitbox() {
         return this.model.getHitbox();
     }
-
+    /**
+     * Handles the player character being hit by an obstacle.
+     * 
+     * @param type The type of obstacle that hit the player character.
+     */
     public void hit(ObstacleType type) {
         if(this.model.isAlive()){
         if (this.model.hasShield()) {
@@ -162,15 +166,21 @@ public class PlayerMover {
         }
     }
     }
-
+    /**
+     * Sets the shield on the player character.
+     */
     public void setBarryShield() {
         this.model.setShieldOn();
     }
-
+    /**
+     * Activates the player character.
+     */
     public void activate() {
         this.model.setActiveValue(true);
     }
-
+    /**
+     * Deactivates the player character.
+     */
     public void deactivate() {
         this.model.setActiveValue(false);
     }

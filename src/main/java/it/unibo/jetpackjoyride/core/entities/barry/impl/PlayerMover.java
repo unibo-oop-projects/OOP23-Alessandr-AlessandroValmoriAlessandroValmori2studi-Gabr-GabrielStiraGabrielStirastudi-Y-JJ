@@ -67,6 +67,11 @@ public class PlayerMover {
     /**
      * Builds the status map containing lists of images for each BarryStatus.
      */
+
+     public Barry getModel(){
+        return this.model;
+     }
+
     private void buildMap() {
         for (final var entry : framesPerAnimation.entrySet()) {
             final List<Image> images = new ArrayList<>();
@@ -183,6 +188,7 @@ public class PlayerMover {
      */
     public void deactivate() {
         this.model.setActiveValue(false);
+        
     }
 
 }

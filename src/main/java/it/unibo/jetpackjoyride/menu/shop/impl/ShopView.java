@@ -58,6 +58,7 @@ public class ShopView {
     private final ShopController controller;
     private final Text moneyText;
     private final Text displayEquipped;
+    private final Text dukeUnlocked;
     private Text shieldNum;
 
     private Button buyMrCuddlesButton = new Button();
@@ -77,6 +78,11 @@ public class ShopView {
         gameInfo = GameInfo.getInstance();
         this.controller = controller;
         shopScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+
+        shopScene.setOnKeyPressed(ev -> {
+            this.controller.type(ev.getCode());
+            this.update();
+        });
 
         buttonMap.put(buyMrCuddlesButton, Items.MRCUDDLES);
         buttonMap.put(buyStomperButton, Items.STOMPER);
@@ -162,7 +168,7 @@ public class ShopView {
         equipShieldButton.setTranslateY(shieldImageYPos + buyButtonYDisplacement);
         equipShieldButton.setOnAction(e -> {
             this.controller.toggleEquipUnequipShield();
-            
+
         });
 
         moneyText = new Text();
@@ -178,6 +184,13 @@ public class ShopView {
         displayEquipped.setTranslateY(200);
         displayEquipped.setTextAlignment(TextAlignment.RIGHT);
         displayEquipped.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
+
+        dukeUnlocked = new Text();
+        dukeUnlocked.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
+        dukeUnlocked.setFill(Color.YELLOWGREEN);
+        dukeUnlocked.setTranslateY(500);
+        dukeUnlocked.setTextAlignment(TextAlignment.RIGHT);
+        dukeUnlocked.setWrappingWidth(gameInfo.getScreenWidth() - buttonHeight);
 
         final Text descriptionText1 = new Text("Mr Snuggles\n Too cool not to buy, be serious...");
         descriptionText1.setFont(Font.font("Arial", FontWeight.NORMAL, fontSize));
@@ -224,6 +237,7 @@ public class ShopView {
                 descriptionText3,
                 descriptionText4,
                 displayEquipped,
+                dukeUnlocked,
                 shieldNum);
         this.update();
     }
@@ -238,6 +252,9 @@ public class ShopView {
     }
 
     public void update() {
+        if(this.controller.getUnlocked().contains(Items.DUKE)){
+            this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
+        }
         this.moneyText.setText("Money: $" + this.controller.retrieveBalance());
         this.shieldNum.setText(String.valueOf(this.controller.getNumOfShields()));
         if (this.controller.getNumOfShields() == 0) {
@@ -247,19 +264,20 @@ public class ShopView {
         }
         this.displayEquipped.setText(
                 this.controller.isShieldEquipped() ? "SHIELD EQUIPPED" : " ");
-        
-                for(var entry : this.buttonMap.entrySet()){
-                    if(this.controller.getUnlocked().contains(entry.getValue())){
-                        Image image = new Image(
-                getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());
-                       ImageView imageView = new ImageView(image);
-                       imageView.setFitWidth(buttonWidth);
-                       imageView.setFitHeight(buttonHeight);
-                       imageView.setPreserveRatio(false);
-                       entry.getKey().setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
-                        entry.getKey().setGraphic(imageView);
-                    }
-                }
+
+        for (var entry : this.buttonMap.entrySet()) {
+            if (this.controller.getUnlocked().contains(entry.getValue())) {
+                Image image = new Image(
+                        getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(buttonWidth);
+                imageView.setFitHeight(buttonHeight);
+                imageView.setPreserveRatio(false);
+                entry.getKey().setStyle(
+                        "-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
+                entry.getKey().setGraphic(imageView);
+            }
+        }
 
     }
 

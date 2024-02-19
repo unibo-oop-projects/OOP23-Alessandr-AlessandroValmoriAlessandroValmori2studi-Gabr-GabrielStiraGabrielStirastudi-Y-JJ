@@ -26,6 +26,8 @@ import java.util.Optional;
  */
 public final class CoinGenerator {
 
+    private static final int POSITION = 0;
+    private static final int SIZE = 1;
     private static final int MAX_REUSABLE_COINS = 50;
     private static final double PROBABILITY_BASE = 0.3;
     private static final double PROBABILITY_RATE = 0.15;
@@ -160,7 +162,7 @@ public final class CoinGenerator {
         while (iterator.hasNext()) {
             Coin coin = iterator.next();
             coin.updateModel();
-            if (isOutofMap(coin.getModel().getPosition().get1())) {
+            if (isOutofMap(coin.getModelData().get(POSITION).get1())) {
                 reusableCoin.add(coin);
                 coin.setCollectedState(false);
                 iterator.remove();
@@ -178,7 +180,7 @@ public final class CoinGenerator {
             double ratioY = gameInfo.getScreenHeight() / canvas.getHeight();
 
             for (Coin coin : coinList) {
-                var oldPosition = coin.getModel().getPosition();
+                var oldPosition = coin.getModelData().get(POSITION);
                 coin.setPosition(new Pair<>(oldPosition.get1() * ratioX, oldPosition.get2() * ratioY));
             }
         }
@@ -200,13 +202,13 @@ public final class CoinGenerator {
      */
     private void checkCollision() {
         List<Coin> sortedList = coinList.stream()
-                .filter(p -> p.getModel().getPosition().get1() < gameInfo.getScreenWidth() / 2)
-                .sorted(Comparator.comparingDouble(p -> p.getModel().getPosition().get1()))
+                .filter(p -> p.getModelData().get(POSITION).get1() < gameInfo.getScreenWidth() / 2)
+                .sorted(Comparator.comparingDouble(p -> p.getModelData().get(POSITION).get1()))
                 .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-            if (coin.getModel().geHitbox().isTouching(playeHitbox.get())) {
-                if (!coin.getModel().isCollected()) {
+            if (coin.geHitbox().isTouching(playeHitbox.get())) {
+                if (!coin.isCollected()) {
                     gameStatsModel.updateCoins(1);
                     coin.setCollectedState(true);
                 }

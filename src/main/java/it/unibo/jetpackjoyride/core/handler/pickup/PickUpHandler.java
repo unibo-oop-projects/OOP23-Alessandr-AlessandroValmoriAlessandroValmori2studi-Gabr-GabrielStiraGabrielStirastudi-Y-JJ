@@ -31,12 +31,11 @@ public class PickUpHandler {
             final var controller = iterator.next();
 
             controller.update(false);
-            if (playerHitbox.isPresent()) {
-            if (controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
-                        && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
-                            pickUpPickedUp = true;
-                    controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
-                }
+            if (playerHitbox.isPresent() && controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
+                && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                pickUpPickedUp = true;
+                controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
+                
             }
 
             if (!pickUpGroup.getChildren().contains((Node) controller.getImageView())) {

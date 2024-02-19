@@ -20,7 +20,7 @@ interface PatternSelector {
 
 public class ObstacleLoader {
     private final EntityGenerator entityGenerator;
-    private List<Pair<GenericController<Obstacle,ObstacleView>, Integer>> totalPattern;
+    private final List<Pair<GenericController<Obstacle,ObstacleView>, Integer>> totalPattern;
     private Integer interval;
     private Integer duration;
     private Double screenSizeX;
@@ -73,26 +73,22 @@ public class ObstacleLoader {
         final List<Pair<GenericController<Obstacle,ObstacleView>, Integer>> listOfObstacles = new ArrayList<>();
 
         final Integer random = new Random().nextInt(3);
-        //this.patternSelector.get(this.difficulty*3-random).pattern(listOfObstacles);
-        this.difficulty=27;
-        this.patternSelector.get(difficulty).pattern(listOfObstacles);
+        this.patternSelector.get(this.difficulty*3-random).pattern(listOfObstacles);
         return listOfObstacles;
         
     }
 
     private GenericController<Obstacle,ObstacleView> singleMissile(final Pair<Double,Double> pos, final List<MovementChangers> modifiers) {
-        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, new MovementImpl(pos,new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), modifiers));
-        return obstacleController;
+        return this.entityGenerator.generateObstacle(ObstacleType.MISSILE, new MovementImpl(pos,new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), modifiers));
     }
 
     private GenericController<Obstacle,ObstacleView> singleZapper(final Pair<Double,Double> pos, final Pair<Double,Double> rotation) {
-        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,new Pair<>(Double.valueOf(-this.difficulty/5)-5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of()));
-        return obstacleController;
+
+        return this.entityGenerator.generateObstacle(ObstacleType.ZAPPER, new MovementImpl(pos,new Pair<>(Double.valueOf(-this.difficulty/5)-5, 0.0), new Pair<>(0.0, 0.0), rotation, List.of()));
     }
 
     private GenericController<Obstacle,ObstacleView> singleLaser(final Pair<Double,Double> pos, final Pair<Double,Double> speed) {
-        final GenericController<Obstacle,ObstacleView> obstacleController = this.entityGenerator.generateObstacle(ObstacleType.LASER, new MovementImpl(pos,speed, new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of()));
-        return obstacleController;
+        return this.entityGenerator.generateObstacle(ObstacleType.LASER, new MovementImpl(pos,speed, new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0), List.of()));
     }
 
     private List<Pair<GenericController<Obstacle,ObstacleView>,Integer>> missileStairs(final boolean dir, final Integer number, final Integer whenStarting) {

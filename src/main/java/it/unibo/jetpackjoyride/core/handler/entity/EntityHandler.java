@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import javafx.scene.Group;
 
 public class EntityHandler {
-    private final Integer BASEPICKUPSPAWNCHANCE = 100;
+    private final static Integer BASEPICKUPSPAWNCHANCE = 100;
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
@@ -28,7 +28,7 @@ public class EntityHandler {
     private Set<Items> unlockedPowerUps;
 
     private boolean isUsingPowerUp;
-    private boolean isCanvasAdded = false;
+    private boolean isCanvasAdded;
 
     public void initialize(final GameStatsController gameStatsHandler) {
         this.obstacleHandler = new ObstacleHandler();
@@ -64,7 +64,7 @@ public class EntityHandler {
             this.spawnVehiclePickUp(this.unlockedPowerUps);
         }
 
-        var obstacleHit = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()) : playerHandler.getHitbox());
+        final var obstacleHit = this.obstacleHandler.update(entityGroup, isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()) : playerHandler.getHitbox());
         if(obstacleHit.isPresent()) {
             if(this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
@@ -90,7 +90,6 @@ public class EntityHandler {
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
                     this.coinHandler.setPlayerHitbox(Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
-                    System.out.println("HITBOX set to powerup");
                     break;
                 default:
                     break;

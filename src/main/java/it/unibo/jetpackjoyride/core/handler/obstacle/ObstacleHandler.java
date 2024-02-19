@@ -47,14 +47,14 @@ public final class ObstacleHandler {
                     final var controller = iterator.next();
 
                     controller.update(false);
-                    if (playerHitbox.isPresent()) {
-                    if (controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
-                            && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
-                        Obstacle obstacleHit = (Obstacle) controller.getEntityModel();
+                    if (playerHitbox.isPresent() && controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
+                    && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                        final Obstacle obstacleHit = (Obstacle) controller.getEntityModel();
                         obstacleHitPlayer = Optional.of(obstacleHit.getObstacleType());
                         controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                     }
-                }
+                    
+                
 
                     if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
                         obstacleGroup.getChildren().add((Node) controller.getImageView());

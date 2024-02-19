@@ -36,8 +36,10 @@ public final class ShopControllerImpl  implements ShopController {
     private static final String PASSWORD = "TRUFFLEWORM";
 
     /**
-     * Constructs a new ShopController.
-     * Initializes the model and view components.
+     * Constructs a new ShopControllerImpl instance.
+     *
+     * @param primaryStage   The primary stage of the application.
+     * @param gameMenu       The game menu associated with the shop.
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
         

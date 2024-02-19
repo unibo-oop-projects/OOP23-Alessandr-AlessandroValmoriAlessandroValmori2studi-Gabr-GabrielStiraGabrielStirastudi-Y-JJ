@@ -48,22 +48,16 @@ public final class BarryImpl implements Barry {
 
     private boolean isActive;
 
-   
-
     /**
      * Constructs a new instance of BarryImpl.
      * Initializes the initial state of Barry, including position, speed, status,
      * hitbox, and game information.
      */
     public BarryImpl() {
-
-        
-        this.isActive=true;
-        
+        // Initialize default values for Barry
+        this.isActive = true;
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
-
-    
         this.width = GameInfo.getInstance().getScreenWidth();
         this.height = GameInfo.getInstance().getScreenHeight();
         this.lowBound = GameInfo.getInstance().getScreenHeight() - GameInfo.getInstance().getScreenHeight() / 8;
@@ -71,13 +65,13 @@ public final class BarryImpl implements Barry {
         this.xPosition = GameInfo.getInstance().getScreenWidth() / 6;
         this.position = lowBound;
         this.speed = 0;
-
-        this.hitbox = Optional.of(new HitboxImpl(this.getPosition(), new Pair<>(this.width/17, this.height/7)));
+        this.hitbox = Optional.of(new HitboxImpl(this.getPosition(), new Pair<>(this.width / 17, this.height / 7)));
     }
 
     /**
      * Checks if Barry is falling and updates the position accordingly.
      *
+     * @param isAlive indicates if Barry is alive
      * @return true if Barry is falling, false otherwise
      */
     private boolean fall(final boolean isAlive) {
@@ -128,6 +122,7 @@ public final class BarryImpl implements Barry {
      * Updates the hitbox after the movement.
      *
      * @param jumping true if Barry is jumping, false if not
+     * @return true if the movement was successful, false otherwise
      */
     @Override
     public boolean move(final boolean jumping) {
@@ -178,18 +173,32 @@ public final class BarryImpl implements Barry {
     }
 
    
-
+    /**
+     * Checks if Barry has a shield.
+     *
+     * @return true if Barry has a shield, false otherwise
+     */
     @Override
     public boolean hasShield() {
         return hasShield;
     }
 
-    
+    /**
+     * Checks if Barry is alive.
+     *
+     * @return true if Barry is alive, false otherwise
+     */
     @Override
     public boolean isAlive() {
         return this.lifeStatus.equals(BarryLifeStatus.ALIVE);
     }
 
+    /**
+     * Kills Barry based on the type of obstacle.
+     * Updates Barry's hitbox and status accordingly.
+     *
+     * @param type the type of obstacle that killed Barry
+     */
     @Override
     public void kill(final ObstacleType type) {
         this.hitbox = Optional.empty();
@@ -198,31 +207,53 @@ public final class BarryImpl implements Barry {
         type.equals(ObstacleType.MISSILE) ? BarryStatus.BURNED : BarryStatus.UNDEFINED;
     }
 
+    /**
+     * Removes the shield from Barry.
+     */
     @Override
     public void removeShield() {
         this.hasShield=false;
     }
-
+    /**
+     * Sets the shield on Barry.
+     */
     @Override
     public void setShieldOn() {
         this.hasShield=true;
     }
-
+    /**
+     * Sets the life status of Barry.
+     *
+     * @param lifeStatus the life status of Barry
+     */
     @Override
     public void setLifeStatus(final BarryLifeStatus lifeStatus) {
         this.lifeStatus = lifeStatus;
     }
-
+    /**
+     * Sets the active value of Barry.
+     *
+     * @param value the active value of Barry
+     */
     @Override
     public void setActiveValue(final boolean value) {
         this.isActive=value;
     }
-
+    /**
+     * Checks if Barry is active.
+     *
+     * @return true if Barry is active, false otherwise
+     */
     @Override
     public boolean isActive() {
         return this.isActive;
     }
-
+    /**
+     * Updates the limits of Barry based on width and height ratios.
+     *
+     * @param widthRatio  the ratio for the width of Barry
+     * @param heightRatio the ratio for the height of Barry
+     */
     @Override
     public void updateLimits(final double widthRatio, final double heightRatio) {
        this.width =this.width * widthRatio;

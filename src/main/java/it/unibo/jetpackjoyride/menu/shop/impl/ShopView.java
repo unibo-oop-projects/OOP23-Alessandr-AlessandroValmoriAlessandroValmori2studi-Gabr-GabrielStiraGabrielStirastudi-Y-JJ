@@ -1,6 +1,9 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
+import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -15,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -25,7 +30,7 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 /**
  * The view class for the shop menu.
  */
-public class ShopView {
+public class ShopView extends GameMenu{
     // Constants related to image positioning
     private final int imageXPos = 50;
     private final int imageSize = 110;
@@ -52,9 +57,9 @@ public class ShopView {
     private final int shieldImageYPos = profitBirdImageYPos + imageSize + imageDistance;
 
     // Other constants
-    private final Scene shopScene;
-    private final Pane root;
-    private final GameInfo gameInfo;
+    
+   
+    
     private final ShopController controller;
     private final Text moneyText;
     private final Text displayEquipped;
@@ -73,16 +78,20 @@ public class ShopView {
     /**
      * Constructor for ShopView.
      */
-    public ShopView(final ShopController controller) {
-        root = new Pane();
-        gameInfo = GameInfo.getInstance();
+    public ShopView(final ShopController controller, Stage primaryStage, GameStatsController gameStatsHandler) {
+        super(primaryStage, gameStatsHandler);
+        
+   
         this.controller = controller;
-        shopScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
+        //scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
-        shopScene.setOnKeyPressed(ev -> {
+        scene.setOnKeyPressed(ev -> {
             this.controller.type(ev.getCode());
             this.update();
         });
+        initializeGameMenu();
+        setGameStagePosition();
+        stageCloseAction();
 
         buttonMap.put(buyMrCuddlesButton, Items.MRCUDDLES);
         buttonMap.put(buyStomperButton, Items.STOMPER);
@@ -99,11 +108,7 @@ public class ShopView {
             });
         }
 
-        final Image backgroundImage = new Image(
-                getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
-        final ImageView backgroundImageView = new ImageView(backgroundImage);
-        backgroundImageView.setFitWidth(gameInfo.getScreenWidth());
-        backgroundImageView.setFitHeight(gameInfo.getScreenHeight());
+      
 
         final Button backButton = ButtonFactory.createButton("menu", e -> this.controller.backToMenu(), buttonWidth * 2,
                 30 * 2);
@@ -217,7 +222,7 @@ public class ShopView {
         descriptionText4.setTranslateY(shieldImageYPos + imageSizeHalf);
 
         root.getChildren().addAll(
-                backgroundImageView,
+                
                 backButton,
                 cuddlesImageView,
                 buyMrCuddlesButton,
@@ -248,7 +253,7 @@ public class ShopView {
      * @return The scene of the shop menu.
      */
     public Scene getScene() {
-        return shopScene;
+        return scene;
     }
 
     public void update() {
@@ -280,5 +285,22 @@ public class ShopView {
         }
 
     }
+
+    @Override
+    protected void initializeGameMenu() {
+        root.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+        Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
+        setMenuImage(menuImage);
+    }
+
+    @Override
+    protected void stageCloseAction(){
+        stage.setOnCloseRequest(event -> {
+            this.controller.save();
+            defaultCloseAction();
+        });
+    }
+
+    
 
 }

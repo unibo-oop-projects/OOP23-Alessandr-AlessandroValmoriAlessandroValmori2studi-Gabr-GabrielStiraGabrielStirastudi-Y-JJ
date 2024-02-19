@@ -53,6 +53,8 @@ public interface ShopController {
 
     void type(KeyCode code);
 
+    void save();
+
     
 
     

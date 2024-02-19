@@ -27,6 +27,7 @@ public class ButtonFactory {
         button.setOnAction(action);
         button.setPrefWidth(x);
         button.setPrefHeight(y);
+        button.setFocusTraversable(false);
 
         if (loadImageFromResources(name).isPresent()) {
             Image img = loadImageFromResources(name).get();
@@ -34,6 +35,7 @@ public class ButtonFactory {
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
             imageView.setPreserveRatio(false);
+            
             button.setGraphic(imageView);
             button.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
         } else {

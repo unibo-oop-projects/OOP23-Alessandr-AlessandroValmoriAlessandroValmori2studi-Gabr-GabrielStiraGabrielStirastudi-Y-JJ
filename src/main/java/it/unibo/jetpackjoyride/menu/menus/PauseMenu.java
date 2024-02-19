@@ -51,7 +51,6 @@ public class PauseMenu extends GameMenu {
         pauseButton = ButtonFactory.createButton("Pause",e->pauseCommand.execute(),50,50);
         pauseButton.setLayoutX(gameInfo.getScreenWidth()-70);
         pauseButton.setLayoutY(0);
-        pauseButton.setFocusTraversable(false);
         
         buttonsVBox.getChildren().addAll(restartButton);
         buttonsVBox.setVisible(false);

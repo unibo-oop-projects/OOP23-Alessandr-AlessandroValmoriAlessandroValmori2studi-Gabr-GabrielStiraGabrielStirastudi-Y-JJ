@@ -65,10 +65,7 @@ public final class ShopControllerImpl  implements ShopController {
      * 
      * @return The scene of the shop menu.
      */
-    @Override
-    public Scene getScene() {
-        return this.view.getScene();
-    }
+
 
     @Override
     public void buy(final Items item) {
@@ -177,6 +174,13 @@ public final class ShopControllerImpl  implements ShopController {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
     }
+
+    @Override
+    public Scene getScene() {
+        return this.view.getScene();
+    }
+
+   
 
    
 }

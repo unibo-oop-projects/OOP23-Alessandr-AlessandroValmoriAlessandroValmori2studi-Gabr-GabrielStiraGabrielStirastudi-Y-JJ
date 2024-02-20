@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 import java.util.Set;
@@ -74,7 +75,8 @@ public interface ShopController {
     }
 
     void showTheShop();
-
+    void updateView();
+    
     /**
      * Navigates back to the main menu.
      */

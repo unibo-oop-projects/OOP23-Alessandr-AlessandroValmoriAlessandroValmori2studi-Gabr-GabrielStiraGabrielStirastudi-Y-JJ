@@ -9,8 +9,10 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
-
+import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
+import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -21,7 +23,7 @@ import java.util.LinkedList;
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
  */
-public final class ShopControllerImpl  implements ShopController {
+public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
     private final Stage primaryStage;
@@ -43,7 +45,7 @@ public final class ShopControllerImpl  implements ShopController {
      * @param gameMenu       The game menu associated with the shop.
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
-        
+
         this.characters = new LinkedList<>();
         this.gameMenu = gameMenu;
 
@@ -58,6 +60,15 @@ public final class ShopControllerImpl  implements ShopController {
         this.primaryStage = primaryStage;
 
         this.view = new ShopView(this, primaryStage, gameMenu.getGameStatsHandler());
+
+        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
+        ShieldEquippedObs shieldEquippedObs = new ShieldEquippedObsImpl(this);
+        BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
+
+        // Register observers with ShopView
+        this.view.addBuyObs(shopItemPurchaseObs);
+        this.view.addEquipObserver(shieldEquippedObs);
+        this.view.addBackToMenuObs(backToMenuObs);
     }
 
     /**
@@ -163,18 +174,23 @@ public final class ShopControllerImpl  implements ShopController {
     @Override
     public void save() {
         this.gameStatsHandler.getGameStatsModel().addShields(this.numOfShields);
-            this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
-            this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
-
+        this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
+        this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
 
         final String filename = "gameStats.data";
 
         try {
-            
+
             GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
     }
+
+    @Override
+    public void updateView() {
+        this.view.update();
+    }
+
 }

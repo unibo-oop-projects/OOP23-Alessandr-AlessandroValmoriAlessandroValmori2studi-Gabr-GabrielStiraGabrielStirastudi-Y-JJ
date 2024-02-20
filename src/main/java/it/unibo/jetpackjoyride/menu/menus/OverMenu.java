@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.menu.menus;
 
-
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
@@ -10,6 +9,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
@@ -19,9 +19,9 @@ import javafx.stage.Stage;
  * Class representing the game over menu, extend from the GameMenu
  * @author yukai.zhou@studio.unibo.it
  */
-public class OverMenu extends GameMenu{
+public final class OverMenu extends GameMenu {
 
-    private  VBox buttonsVBox;
+    private VBox buttonsVBox;
     private GameLoop gameLoop;
     private final ShopController shopController;
     private WritableImage writableImage;
@@ -35,13 +35,12 @@ public class OverMenu extends GameMenu{
      * @param gameStatsHandler  the game statistics handler
      */
     public OverMenu(final Stage primaryStage,
-                        final GameLoop gameLoop,
+                        final Scene gamScene,
                         final GameStatsController gameStatsHandler) {
         super(primaryStage,gameStatsHandler);
-        this.gameLoop = gameLoop;
         writableImage = 
-        new WritableImage((int)this.gameLoop.getScene().getWidth(), (int)this.gameLoop.getScene().getHeight());
-        this.gameLoop.getScene().snapshot(writableImage);
+        new WritableImage((int)gamScene.getWidth(), (int)gamScene.getHeight());
+        gamScene.snapshot(writableImage);
         setMenuImage(writableImage);
         shopController = new ShopControllerImpl(primaryStage, this);
         buttonsVBox = new VBox();
@@ -49,7 +48,7 @@ public class OverMenu extends GameMenu{
     }
 
     @Override
-    protected void initializeGameMenu(){
+    protected void initializeGameMenu() {
         buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
         buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
@@ -57,19 +56,21 @@ public class OverMenu extends GameMenu{
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
        
         Button restartButton = ButtonFactory.createButton("PlayAgain",
-        e->{this.gameLoop = new GameLoop(stage, getGameStatsHandler()) ;Command restartCommand = new RestartCommand(this.gameLoop,stage,this); restartCommand.execute();},220,120);
+        e -> {this.gameLoop = new GameLoop(stage, getGameStatsHandler()); 
+            Command restartCommand = new RestartCommand(this.gameLoop, stage, this); 
+            restartCommand.execute(); },220,120);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
-        Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
-        
+        Button  shopButton = ButtonFactory
+        .createButton("Shop",e -> openShopCommand.execute(),DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
-        buttonsVBox.getChildren().addAll(restartButton,shopButton);
+        buttonsVBox.getChildren().addAll(restartButton, shopButton);
         addButtons(buttonsVBox);
     }
 
     /**
      * show the OverMenu on Main Stage
      */
-    public void show(){
+    public void show() {
         this.stage.setScene(this.scene);
     }
 }

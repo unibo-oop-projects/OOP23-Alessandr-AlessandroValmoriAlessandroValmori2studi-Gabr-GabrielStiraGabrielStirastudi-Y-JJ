@@ -8,7 +8,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class ProfitBird extends AbstractPowerUp{
     
-    private final static Double BASEJUMPSPEED = 5.0;
+    private final static Double BASEJUMPSPEED = 8.0;
     private Boolean intervalBewteenJumps;
 
     public ProfitBird(final Movement movement, final Hitbox hitbox) {
@@ -65,7 +65,5 @@ public class ProfitBird extends AbstractPowerUp{
 
         final Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
-
-        this.movement.update();
     }
 }

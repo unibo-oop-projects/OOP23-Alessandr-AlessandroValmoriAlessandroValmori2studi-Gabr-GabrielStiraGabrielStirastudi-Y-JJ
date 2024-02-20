@@ -1,44 +1,47 @@
 package it.unibo.jetpackjoyride.coins;
 
+import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinShapeFactoryImpl;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
 
+/**
+ * Test cases for the ButtonFactory class.
+ * @author yukai.zhou@studio.unibo.it
+ */
 public class CoinShapeFactoryImplTest {
 
-    private CoinShapeFactoryImpl coinShapeFactory;
+    private static final int COUNT = 50;
+    private static final double MIN_SIZE_RATE = 0.2;
+    private static final double MAX_SIZE_RATE = 0.9;
+    private CoinShapeFactory coinShapeFactory;
 
-    @org.junit.Before
-    public void setUp() {
-        coinShapeFactory = new CoinShapeFactoryImpl();
-       
-    }
-
-    @org.junit.Test
+    /**
+     * Test that the list of shapes should not be null or empty.
+     */
+    @Test
     public void theListShouldNotbeNullorEmpty() {
-        for (int i = 0; i < 50; i++) {
-            List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
-            assertNotNull("The list of shapes should not be null  " + i, shapes);
-            assertFalse("The list of shapes should not be empty " + i, shapes.isEmpty());
+        coinShapeFactory = new CoinShapeFactoryImpl();
+        for (int i = 0; i < COUNT; i++) {
+            var list = this.coinShapeFactory.regularShapes();
+            assertFalse(list.isEmpty());
         }
     }
 
-    @org.junit.Test
+    /**
+     * Test Y coordinates are within default size bounds.
+     */
+    @Test
     public void testYCoordinatesWithinDefaultSize() {
-        List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
-        assertNotNull("The list of shapes should not be null", shapes);
-        assertFalse("The list of shapes should not be empty", shapes.isEmpty());
-
-        for (Pair<Double, Double> shape : shapes) {
-            GameInfo gameInfo = GameInfo.getInstance();
-            double y = shape.get2();
-            assertTrue("Y coordinate is above minimum bound", y >= gameInfo.getDefaultHeight()* 0.2);
-            assertTrue("Y coordinate is below maximum bound", y <= gameInfo.getDefaultHeight() * 0.9);
+        double screenY = GameInfo.getInstance().getScreenHeight();
+        coinShapeFactory = new CoinShapeFactoryImpl();
+        for (var shape : coinShapeFactory.regularShapes()) {
+            assertTrue("Y coordinate is above minimum bound", shape.get2() >=  screenY * MIN_SIZE_RATE);
+            assertTrue("Y coordinate is below maximum bound", shape.get2() <=  screenY * MAX_SIZE_RATE);
         }
     }
-    
 }

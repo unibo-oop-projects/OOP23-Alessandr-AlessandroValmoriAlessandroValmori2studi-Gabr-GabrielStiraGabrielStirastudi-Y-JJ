@@ -43,9 +43,9 @@ public class VehiclePickUp extends AbstractPickUp {
 		}
 
 		this.switchWave++;
-		if(this.switchWave == 40 && this.entityStatus.equals(EntityStatus.ACTIVE)) {
+		if(this.switchWave == 20 && this.entityStatus.equals(EntityStatus.ACTIVE)) {
 			this.movement.setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), -this.movement.getAcceleration().get2()));
-			this.switchWave = -40;
+			this.switchWave = -20;
 		}
 	}
 

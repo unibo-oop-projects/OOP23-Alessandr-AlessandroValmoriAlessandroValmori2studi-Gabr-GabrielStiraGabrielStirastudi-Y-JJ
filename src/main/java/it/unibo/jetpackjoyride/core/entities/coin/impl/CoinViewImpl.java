@@ -13,9 +13,14 @@ import javafx.scene.image.Image;
  * Implementation of the CoinView interface.
  * @author yukai.zhou@studio.unibo.it
  */
-public class CoinViewImpl implements CoinView {
+public final class CoinViewImpl implements CoinView {
 
-   private int numOfFrames = 35;
+   private static final int POSITION = 0;
+   private static final int SIZE = 1;
+   private static final int NUM_OF_FRAMES = 35;
+   private static final int NUM_OF_COIN_IMAGES = 7;
+   private static final int NUM_OF_FRAMES_FOR_IMAGE = 5;
+
    private Image[] coinFrames;
    private Coin controller;
    private int currentCoinframe = 0;
@@ -27,37 +32,37 @@ public class CoinViewImpl implements CoinView {
      *
      * @param controller the controller use to update View
      */
-   public CoinViewImpl(Coin controller) {
+   public CoinViewImpl(final Coin controller) {
       this.controller = controller;
-      this.coinFrames = new Image[numOfFrames];
+      this.coinFrames = new Image[NUM_OF_FRAMES];
       isOnScreen = false;
       loadCoinImages();
    }
 
    @Override
-   public void renderCoin(GraphicsContext gc) {
+   public void renderCoin(final GraphicsContext gc) {
       double moveSpeed = GameInfo.moveSpeed.get();
-      double posX = controller.getModel().getPosition().get1();
-      double posY = controller.getModel().getPosition().get2();
-      double width = controller.getModel().getSize().get1();
-      double height = controller.getModel().getSize().get2();
+      double posX = controller.getModelData().get(POSITION).get1();
+      double posY = controller.getModelData().get(POSITION).get2();
+      double width = controller.getModelData().get(SIZE).get1();
+      double height = controller.getModelData().get(SIZE).get2();
       if (isOnScreen) {
-         gc.clearRect(posX + moveSpeed, posY, width,height);
-         gc.drawImage(coinFrames[currentCoinframe],posX, posY,width, height);
+         gc.clearRect(posX + moveSpeed, posY, width, height);
+         gc.drawImage(coinFrames[currentCoinframe], posX, posY, width, height);
          updateFrame();
-      }else{
-         gc.clearRect(posX+moveSpeed,posY,width,height);
+      } else {
+         gc.clearRect(posX + moveSpeed, posY, width, height);
       }
    }
 
    @Override
-   public void setVisible(boolean isOnScreen) {
+   public void setVisible(final boolean isOnScreen) {
       this.isOnScreen = isOnScreen;
    }
 
    private void loadCoinImages() {
       int index = 0;
-      for (int i = 0; i < 7; i++) {
+      for (int i = 0; i < NUM_OF_COIN_IMAGES; i++) {
          String path = "sprites/entities/coins/coin" + (i) + ".png";
          try {
             URL coinImageUrl = getClass().getClassLoader().getResource(path);
@@ -66,7 +71,7 @@ public class CoinViewImpl implements CoinView {
             }
             String url = coinImageUrl.toExternalForm();
             Image coinImage = new Image(url);
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < NUM_OF_FRAMES_FOR_IMAGE; j++) {
                coinFrames[index] = coinImage;
                index++;
             }

@@ -12,19 +12,17 @@ import javafx.stage.Stage;
  */
 public class GameApp extends Application {
 
-    
     private StartMenu gameMenu;
 
     /**
      * Start method to start the Jetpack Joyride Game application.
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) throws Exception {
         GameStatsController gameStatsHandler = new GameStatsHandler();
-        gameMenu = new StartMenu(primaryStage,gameStatsHandler);
+        gameMenu = new StartMenu(primaryStage, gameStatsHandler);
         primaryStage.setTitle("JetPack Joyride");
-
-        primaryStage.setScene(gameMenu.getScene());
+        gameMenu.showMenu();
         primaryStage.show();
     }
 

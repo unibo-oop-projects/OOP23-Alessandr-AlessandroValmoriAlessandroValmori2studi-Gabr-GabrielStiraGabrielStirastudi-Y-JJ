@@ -14,22 +14,24 @@ import javafx.scene.layout.Pane;
  * This class provides functionality to control the background view of the game.
  * @author yukai.zhou@studio.unibo.it
  */
-public class MapBackgroungViewImpl implements MapBackgroundView{
+public final class MapBackgroungViewImpl implements MapBackgroundView {
 
-    private final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
-    private final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
+    private static final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
+    private static final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
 
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
+    private final Pane gameRoot;
     private final MapBackground controller;
 
     /**
-     * Constructor of the MapBackgroundViewImpl
+     * Constructor of the MapBackgroundViewImpl.
      * 
      * @param controller The controller for the map background, 
      * it gives the nesessary date for view to upadte.
      */
-    public MapBackgroungViewImpl(MapBackground controller){
+    public MapBackgroungViewImpl(final MapBackground controller, final Pane gameRoot) {
+        this.gameRoot = gameRoot;
         this.root = new Pane();
         this.controller = controller;
         loadBackgroungImage();
@@ -37,8 +39,8 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
 
     @Override
     public void updateBackgroundView() {
-        if(bgImageView1.getFitWidth() != controller.getSize().get1() 
-        || bgImageView1.getFitHeight() != controller.getSize().get2()){
+        if (bgImageView1.getFitWidth() != controller.getSize().get1() 
+        || bgImageView1.getFitHeight() != controller.getSize().get2()) {
             setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
             setImageViewSize(bgImageView2, controller.getSize().get1(), controller.getSize().get2());
         }
@@ -47,8 +49,8 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
     }
 
     @Override
-    public Pane getPane(){
-        return this.root;
+    public void addNodeInRoot() {
+        gameRoot.getChildren().add(this.root);
     }
 
     /**
@@ -60,7 +62,7 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
 
         setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
-        setImageViewSize(bgImageView2,controller.getSize().get1(), controller.getSize().get2());
+        setImageViewSize(bgImageView2, controller.getSize().get1(), controller.getSize().get2());
 
         this.root.getChildren().addAll(bgImageView1, bgImageView2);
     }
@@ -92,6 +94,4 @@ public class MapBackgroungViewImpl implements MapBackgroundView{
         bImageView.setFitWidth(width);
         bImageView.setFitHeight(height);
     }
-
-   
 }

@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Set;
 
-import javax.sound.midi.Soundbank;
 
 import java.util.HashSet;
 import java.io.ObjectOutputStream;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import java.util.Collections;
 
 public class GameStats implements GameStatsModel {
 
@@ -120,8 +118,6 @@ public class GameStats implements GameStatsModel {
     public void unlock(Set<Items> items) {
         this.unlockedSet.addAll(items);
     }
-
-    
 
     @Override
     public void addShields(int num) {

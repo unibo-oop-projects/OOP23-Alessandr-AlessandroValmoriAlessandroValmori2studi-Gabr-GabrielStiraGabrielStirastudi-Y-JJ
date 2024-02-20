@@ -2,7 +2,6 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.util.*;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
@@ -73,7 +72,6 @@ public class ObstacleLoader {
 
         final Integer random = new Random().nextInt(3);
         var rand = this.difficulty * 3 - random;
-        System.out.println(rand);
         this.patternSelector.get(rand).pattern(listOfObstacles);
        
         return listOfObstacles;

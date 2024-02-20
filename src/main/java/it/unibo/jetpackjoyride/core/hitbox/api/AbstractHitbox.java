@@ -26,9 +26,7 @@ public abstract class AbstractHitbox implements Hitbox {
 
         final Double initialX = hitboxStartingPos.get1() - width / 2;
         final Double initialY = hitboxStartingPos.get2() - height / 2;
-
         this.hitbox = new HashSet<>();
-
         this.hitbox.add(new Pair<>(initialX, initialY));
         this.hitbox.add(new Pair<>(initialX + width, initialY));
         this.hitbox.add(new Pair<>(initialX, initialY + height));

@@ -1,18 +1,19 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
 import java.io.IOException;
+import java.util.List;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+import javafx.scene.Node;
+
 
 /**
  * A class implementing the GameStatsController interface.
  * @author yukai.zhou@studio.unibo.it
  */
-public class GameStatsHandler implements GameStatsController {
+public final class GameStatsHandler implements GameStatsController {
 
     private GameStatsModel model;
     private GameStatsView view;
@@ -20,46 +21,41 @@ public class GameStatsHandler implements GameStatsController {
     /**
      * Constructs a new GameStatsHandler.
      */
-    public GameStatsHandler( ) {      
+    public GameStatsHandler() {
         System.out.println("GAME STATS CREATED");
         loadDateFromFile();
         this.view =  new GameStatsViewImpl();
     }
 
     @Override
-    public void updateModel(){
+    public void updateModel() {
         model.addDistance();
     }
     @Override
-    public void updateView(){
-        view.updateDataView(model);
+    public void updateView() {
+        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), model.getTotCoins()));
     }
+
     @Override
-    public Text getText(){
-        return view.getText();
-    } 
-    @Override
-    public ImageView getImageView(){
+    public Node getScoreNode() {
         return view.getImageView();
     }
     @Override
-    public GameStatsModel getGameStatsModel(){
+    public GameStatsModel getGameStatsModel() {
         return this.model;
     }
 
      /**
-     * A method use to load the last statistical
+     * A method use to load the last statistical.
      */
-    private void loadDateFromFile(){
+    private void loadDateFromFile() {
         try {
-            this.model = GameStats.readFromFile("gameStats.data"); 
+            this.model = GameStatsIO.readFromFile("gameStats.data"); 
             System.out.println("Game stats loaded successfully.");
             System.out.println(this.model.getTotCoins());
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Failed to load game stats: " + e.getMessage());
-          
             this.model = new GameStats();
         }
     }
-    
 }

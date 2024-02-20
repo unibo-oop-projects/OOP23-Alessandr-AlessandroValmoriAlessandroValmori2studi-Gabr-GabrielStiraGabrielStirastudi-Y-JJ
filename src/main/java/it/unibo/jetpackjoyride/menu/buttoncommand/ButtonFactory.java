@@ -12,7 +12,12 @@ import javafx.scene.image.ImageView;
  * A factory class for creating buttons.
  * @author yukai.zhou@studio.unibo.it
  */
-public class ButtonFactory {
+public final class ButtonFactory {
+
+    private ButtonFactory() {
+
+    }
+
     /**
      * Creates a button with the specified name(or it can be a path), action, width, and height.
      *
@@ -22,8 +27,9 @@ public class ButtonFactory {
      * @param y      the height of the button
      * @return the created button
      */
-     public static Button createButton(final String name,final EventHandler<ActionEvent> action, final double x,final double y) {
-         final Button button = new Button();
+     public static Button createButton(final String name, final EventHandler<ActionEvent> action, 
+                                       final double x, final double y) {
+        final Button button = new Button();
         button.setOnAction(action);
         button.setPrefWidth(x);
         button.setPrefHeight(y);
@@ -35,7 +41,7 @@ public class ButtonFactory {
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
             imageView.setPreserveRatio(false);
-            
+
             button.setGraphic(imageView);
             button.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-border-width: 0;");
         } else {
@@ -51,7 +57,7 @@ public class ButtonFactory {
      * @return an Optional containing the loaded image, or empty if the image could not be loaded
      */
     private static Optional<Image> loadImageFromResources(final String imageName) {
-        try {  
+        try {
             String imagePath = "/buttons/" + imageName + ".png";
             Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));
             return Optional.of(image);
@@ -60,4 +66,3 @@ public class ButtonFactory {
         }
      }
     }
-

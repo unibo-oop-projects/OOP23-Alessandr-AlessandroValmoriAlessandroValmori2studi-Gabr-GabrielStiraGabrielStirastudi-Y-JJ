@@ -206,7 +206,9 @@ public final class CoinGenerator {
                 .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-             gameStatsModel.updateCoins(coin.checkCollision(playeHitbox.get()));
+             if (playeHitbox.isPresent()) {
+                gameStatsModel.updateCoins(coin.checkCollision(playeHitbox.get()));
+             }
         }
     }
 

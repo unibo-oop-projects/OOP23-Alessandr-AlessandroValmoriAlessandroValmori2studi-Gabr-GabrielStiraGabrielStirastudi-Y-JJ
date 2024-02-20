@@ -35,7 +35,6 @@ public final class MrCuddles extends AbstractPowerUp {
 
         final Double rotationAngle = this.movement.getSpeed().get2();
         this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
-        this.movement.update();
 
         if (lastFrames.get(0)) {
             this.performingAction = PerformingAction.DESCENDING;

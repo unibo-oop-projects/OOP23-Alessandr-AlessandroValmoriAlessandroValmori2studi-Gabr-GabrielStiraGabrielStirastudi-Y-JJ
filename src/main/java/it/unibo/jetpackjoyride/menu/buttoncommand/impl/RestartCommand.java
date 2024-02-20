@@ -9,12 +9,12 @@ import javafx.stage.Stage;
  * A command to restart the game.
  * @author yukai.zhou@studio.unibo.it
  */
-public class RestartCommand implements Command {
+public final class RestartCommand implements Command {
 
     private final GameLoop gameLoop;
     private final Stage stage;
     private final GameMenu menu;
-   
+
     /**
      * Constructs a new RestartCommand.
      *
@@ -22,12 +22,13 @@ public class RestartCommand implements Command {
      * @param stage    the stage
      * @param menu     the game menu
      */
-    public RestartCommand(final GameLoop gameLoop,final Stage stage,final GameMenu menu){
+    public RestartCommand(final GameLoop gameLoop, final Stage stage, final GameMenu menu) {
         this.gameLoop = gameLoop;
         this.stage = stage;
         this.menu = menu;
 
     }
+
     @Override
     public void execute() {
         stage.setScene(gameLoop.getScene());
@@ -35,6 +36,4 @@ public class RestartCommand implements Command {
         gameLoop.resetLoop();
         gameLoop.startLoop();
     }
-    
-    
 }

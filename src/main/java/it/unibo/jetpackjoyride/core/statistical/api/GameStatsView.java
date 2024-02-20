@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.statistical.api;
 
+import java.util.List;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -14,7 +16,7 @@ public interface GameStatsView {
      *
      * @param model the game statistics model
      */
-    void updateDataView(GameStatsModel model);
+    void updateDataView(List<Integer> data);
 
     /**
      * Gets the text associated with the statistics(like coins and meter).

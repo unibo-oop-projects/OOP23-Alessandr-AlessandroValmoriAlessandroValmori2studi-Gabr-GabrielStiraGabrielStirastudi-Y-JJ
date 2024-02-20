@@ -20,11 +20,14 @@ import java.awt.Toolkit;
  * @author yukai.zhou@studio.unibo.it
  */
 public abstract class GameMenu {
+
+    protected static final int DEFAULT_BUTTON_WIDTH = 150;
+    protected static final int DEFAULT_BUTTON_HEIGHT = 50;
     private static final int PORTION = 4;
 
-    protected ChangeListener<Number> widthListener;
-    protected ChangeListener<Number> heightListener;
-    
+    private ChangeListener<Number> widthListener;
+    private ChangeListener<Number> heightListener;
+
     protected final Scene scene;
     protected final Stage stage;
     protected final StackPane root;
@@ -57,11 +60,11 @@ public abstract class GameMenu {
     /**
      * Removes the listeners attached to the scene.
      */
-    public void removeListener(){
-        if(scene != null && widthListener != null){
+    public void removeListener() {
+        if(scene != null && widthListener != null) {
             scene.widthProperty().removeListener(widthListener);
         }
-        if(scene != null && heightListener != null){
+        if(scene != null && heightListener != null) {
             scene.heightProperty().removeListener(heightListener);
         }
     }
@@ -71,7 +74,7 @@ public abstract class GameMenu {
      *
      * @return the game statistics controller
      */
-    public GameStatsController getGameStatsHandler(){
+    public GameStatsController getGameStatsHandler() {
         return this.gameStatsController;
     }
 
@@ -94,8 +97,8 @@ public abstract class GameMenu {
      *
      * @param menuImage the menu image
      */
-    protected void setMenuImage(final Image menuImage){
-        if(menuImageView != null){
+    protected void setMenuImage(final Image menuImage) {
+        if(menuImageView != null) {
             this.root.getChildren().remove(menuImageView);
         }
         menuImageView = new ImageView(menuImage);
@@ -108,7 +111,7 @@ public abstract class GameMenu {
     /**
      * The method can define the action to perform when the stage is closed.
      */
-    protected void stageCloseAction(){
+    protected void stageCloseAction() {
         stage.setOnCloseRequest(event -> {
             defaultCloseAction();
         });
@@ -117,11 +120,11 @@ public abstract class GameMenu {
     /**
      *  The default action when the stage is closed.
      */
-    protected void defaultCloseAction(){
+    protected void defaultCloseAction() {
         Platform.exit(); 
         System.exit(0);
     }
-       
+
     /**
      * Sets the position of the game stage.
      */
@@ -142,14 +145,14 @@ public abstract class GameMenu {
     /**
      * adds the listeners to the scene.
      */
-    protected void addSizeListener(){
-        
-        widthListener = (obs,oldvalue,newVal) ->{
+    protected void addSizeListener() {
+     
+        widthListener = (obs,oldvalue,newVal) -> {
             double ratioX = newVal.doubleValue()/oldvalue.doubleValue();
             menuImageView.setFitWidth(menuImageView.getFitWidth()*ratioX);
         };
         scene.widthProperty().addListener(widthListener);
-        heightListener = (obs,oldvalue,newVal) ->{
+        heightListener = (obs,oldvalue,newVal) -> {
             double ratioY = newVal.doubleValue()/oldvalue.doubleValue();
             menuImageView.setFitHeight(menuImageView.getFitHeight()*ratioY);
         };

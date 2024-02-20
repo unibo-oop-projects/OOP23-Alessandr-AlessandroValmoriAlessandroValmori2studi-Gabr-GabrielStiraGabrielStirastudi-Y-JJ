@@ -16,10 +16,11 @@ import javafx.util.Duration;
  * This class provides functionality to control the background of the game.
  * @author yukai.zhou@studio.unibo.it
  */
-public class MapBackgroundImpl implements MapBackground {
+public final class MapBackgroundImpl implements MapBackground {
 
-    private final static int MAX_SPEED = 14;
-    private final static int DEFAULT_SPEED = 5;
+    private static final int MAX_SPEED = 14;
+    private static final int DEFAULT_SPEED = 5;
+    private static final int DURATION_SECONDS = 5;
 
     private final MapBackgroundModel model;
     private final MapBackgroundView view;
@@ -29,16 +30,16 @@ public class MapBackgroundImpl implements MapBackground {
     /**
      * Constructor of the MapBackgroundImpl.
      */
-    public MapBackgroundImpl(){
+    public MapBackgroundImpl() {
         model = new MapBackgroundModelImpl();
         view = new MapBackgroungViewImpl(this);
         gameInfo = GameInfo.getInstance();
-          this.timeline = new Timeline(new KeyFrame(Duration.seconds(5), e -> {
-            if(GameInfo.moveSpeed.get() == MAX_SPEED){
+          this.timeline = new Timeline(new KeyFrame(Duration.seconds(DURATION_SECONDS), e -> {
+            if (GameInfo.moveSpeed.get() == MAX_SPEED) {
                 this.timeline.stop();
-            }else{
+            } else {
                 gameInfo.setMoveSpeed(GameInfo.moveSpeed.incrementAndGet());
-            }       
+            }
         }));
     }
 
@@ -49,18 +50,17 @@ public class MapBackgroundImpl implements MapBackground {
     }
 
     @Override
-    public Pane getPane(){
+    public Pane getPane() {
         return view.getPane();
     }
 
     @Override
     public void reset() {
-        if(GameInfo.moveSpeed.get() != DEFAULT_SPEED){
+        if (GameInfo.moveSpeed.get() != DEFAULT_SPEED) {
             gameInfo.setMoveSpeed(DEFAULT_SPEED);
         }
         model.reset();
         timeline.playFromStart();
-        
     }
 
     @Override
@@ -84,11 +84,9 @@ public class MapBackgroundImpl implements MapBackground {
      * Method that updates the background model.
      */
     private void updateBackgroundModel() { 
-        if(!timeline.statusProperty().get().equals(Status.RUNNING)){
+        if (!timeline.statusProperty().get().equals(Status.RUNNING)) {
             timeline.play();
         }
         this.model.updateBackgroundModel();
     }
-
-  
 }

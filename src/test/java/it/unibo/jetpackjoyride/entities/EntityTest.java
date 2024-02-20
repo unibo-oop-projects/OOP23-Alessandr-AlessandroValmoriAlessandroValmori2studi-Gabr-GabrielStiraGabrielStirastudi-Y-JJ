@@ -15,6 +15,8 @@ import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImp
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
@@ -179,7 +181,26 @@ public class EntityTest{
         }
         assertTrue(hasTouched);
 
+        PickUp vehiclePickUp = this.entityFactory.generatePickUp(PickUpType.VEHICLE);
+        vehiclePickUp.setEntityStatus(EntityStatus.ACTIVE);
+        vehiclePickUp.getEntityMovement().setCurrentPosition(new Pair<>(500.0, 650.0));
+        vehiclePickUp.getEntityMovement().setSpeed(new Pair<>(-10.0, 0.0));
+
+        PowerUp powerUp2 = this.entityFactory.generatePowerUp(PowerUpType.LILSTOMPER).get(0);
+        powerUp2.getEntityMovement().setCurrentPosition(new Pair<>(100.0, 600.0));
+        powerUp2.setEntityStatus(EntityStatus.ACTIVE);
+        hasTouched = false;
         
+        for(int i=0; i<50; i++) {
+            powerUp2.update(false);
+            vehiclePickUp.update(false);
+            if(powerUp2.getHitbox().isTouching(vehiclePickUp.getHitbox())) {
+                hasTouched = true;
+            }
+        }
+        assertTrue(hasTouched);
+
+
     }
 
 }

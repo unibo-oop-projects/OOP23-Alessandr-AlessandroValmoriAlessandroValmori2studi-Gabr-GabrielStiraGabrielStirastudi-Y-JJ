@@ -5,55 +5,55 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 /**
  * Interface of the coin model.
+ * 
  * @author yukai.zhou@studio.unibo.it
  */
 public interface CoinModel {
 
-   
     /**
-     * Updates the state of the coin model.
+     * Update coin model.
      */
     void updateCoinModel();
 
     /**
-     * Gets the position of the coin.
-     *
-     * @return the position of the coin as a Pair of x and y coordinates
+     * Get position of the coin.
+     * 
+     * @return The position of the coin.
      */
     Pair<Double, Double> getPosition();
 
     /**
-     * Sets the position of the coin.
-     *
-     * @param position the new position of the coin as a Pair of x and y coordinates
+     * Set position of the coin.
+     * 
+     * @param position The position to set.
      */
     void setPosition(Pair<Double, Double> position);
 
     /**
-     * Gets the size of the coin.
-     *
-     * @return the size of the coin as a Pair of width and height
+     * Get size of the coin.
+     * 
+     * @return The size of the coin.
      */
     Pair<Double, Double> getSize();
 
     /**
-     * Gets the hitbox of the coin.
-     *
-     * @return the hitbox of the coin
+     * Get hitbox of the coin.
+     * 
+     * @return The hitbox of the coin.
      */
     Hitbox geHitbox();
 
     /**
-     * Checks if the coin has been collected.
-     *
-     * @return true if the coin has been collected, false otherwise
+     * Check if the coin is collected.
+     * 
+     * @return True if the coin is collected, false otherwise.
      */
     boolean isCollected();
 
     /**
-     * Sets the collected state of the coin.
-     *
-     * @param isCollected true if the coin has been collected, false otherwise
+     * Set the collected state of the coin.
+     * 
+     * @param isCollected The collected state to set.
      */
     void setCollectedState(boolean isCollected);
 }

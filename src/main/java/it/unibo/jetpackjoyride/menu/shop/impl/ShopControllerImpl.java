@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
@@ -168,7 +169,7 @@ public final class ShopControllerImpl  implements ShopController {
 
         try {
             
-            GameStats.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
+            GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());

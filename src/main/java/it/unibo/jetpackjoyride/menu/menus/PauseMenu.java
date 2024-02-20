@@ -12,10 +12,15 @@ import javafx.stage.Stage;
 
 
 /**
- * Class representing the  Pause menu, extend from the GameMenu
+ * Class representing the  Pause menu, extend from the GameMenu.
  * @author yukai.zhou@studio.unibo.it
  */
-public class PauseMenu extends GameMenu {
+public final class PauseMenu extends GameMenu {
+    private static final int PAUSE_BUTTON_SIZE = 50;
+    private static final int RESTART_WIDTH = 220;
+    private static final int RESTART_HEIGHT = 120;
+    private static final int SPACE1 = 20;
+    private static final int SPACE = 70;
 
     private final VBox buttonsVBox;
     private final GameLoop gameLoop;
@@ -28,34 +33,34 @@ public class PauseMenu extends GameMenu {
      * @param primaryStage the primary stage
      * @param gameLoop     the game loop
      */
-    public PauseMenu(final Stage primaryStage,final GameLoop gameLoop) {
-        super(primaryStage,null);
+    public PauseMenu(final Stage primaryStage, final GameLoop gameLoop) {
+        super(primaryStage, null);
         this.gameLoop = gameLoop;
         buttonsVBox = new VBox();
         initializeGameMenu();
-        
     }
 
     @Override
-    protected void initializeGameMenu(){
+    protected void initializeGameMenu() {
         buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
         buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
-        buttonsVBox.setSpacing(20);
+        buttonsVBox.setSpacing(SPACE1);
         buttonsVBox.setStyle("-fx-background-color: rgb(0, 0, 0);");
-        Command continueCommand = new StartCommand(gameLoop, stage,this);
-        Button restartButton = ButtonFactory.createButton("back",
-        e->{continueCommand.execute();this.buttonsVBox.setVisible(false);},220,120);
-        
+        Command continueCommand = new StartCommand(gameLoop, stage, this);
+        Button restartButton = ButtonFactory.createButton("back", 
+        e -> {continueCommand.execute(); 
+            this.buttonsVBox.setVisible(false); } , RESTART_WIDTH,RESTART_HEIGHT);
+
         Command pauseCommand = new PauseCommand(gameLoop,this);
-        pauseButton = ButtonFactory.createButton("Pause",e->pauseCommand.execute(),50,50);
-        pauseButton.setLayoutX(gameInfo.getScreenWidth()-70);
+        pauseButton = ButtonFactory.createButton("Pause", e -> pauseCommand.execute(), PAUSE_BUTTON_SIZE,PAUSE_BUTTON_SIZE);
+        pauseButton.setLayoutX(gameInfo.getScreenWidth() - SPACE);
         pauseButton.setLayoutY(0);
-        
+
         buttonsVBox.getChildren().addAll(restartButton);
         buttonsVBox.setVisible(false);
     }
-   
+
    /**
      * Gets the pause button.
      *
@@ -82,5 +87,4 @@ public class PauseMenu extends GameMenu {
     public void setVisible(final boolean isVisible) {
         this.buttonsVBox.setVisible(isVisible);
     }
-
 }

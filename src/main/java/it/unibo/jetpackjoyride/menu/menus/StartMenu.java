@@ -52,7 +52,9 @@ public final class StartMenu extends GameMenu {
         buttonsRoot.setAlignment(Pos.CENTER);
 
         Command startCommand = new StartCommand(this.gameLoop.get(), stage, this);
-        Button startButton = ButtonFactory.createButton("PlayGame", e -> { startCommand.execute(); 
+        Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
+            this.gameLoop = Optional.of(new GameLoop(this.stage, getGameStatsHandler())); 
+            startCommand.execute(); 
             setGameStagePosition(); } , DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
         Button  shopButton = ButtonFactory

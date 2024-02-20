@@ -206,12 +206,7 @@ public final class CoinGenerator {
                 .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-            if (coin.geHitbox().isTouching(playeHitbox.get())) {
-                if (!coin.isCollected()) {
-                    gameStatsModel.updateCoins(1);
-                    coin.setCollectedState(true);
-                }
-            }
+             gameStatsModel.updateCoins(coin.checkCollision(playeHitbox.get()));
         }
     }
 

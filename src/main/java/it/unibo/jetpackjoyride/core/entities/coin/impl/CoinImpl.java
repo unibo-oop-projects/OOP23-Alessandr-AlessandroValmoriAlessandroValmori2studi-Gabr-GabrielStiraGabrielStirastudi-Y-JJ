@@ -16,6 +16,9 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public final class CoinImpl implements Coin {
 
+    private static final int ONE_COIN = 1;
+    private static final int NO_COINS = 0;
+
     private final CoinModel model;
     private final CoinView view;
     private final GraphicsContext gc;
@@ -58,17 +61,18 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public void setCollectedState(final boolean isCollected) {
-        this.model.setCollectedState(isCollected);
+    public Integer checkCollision(Hitbox playHitbox) {
+        if (model.geHitbox().isTouching(playHitbox)) {
+            if (!model.isCollected()) {
+                model.setCollectedState(true);
+                return ONE_COIN;
+            }
+        }
+        return NO_COINS;
     }
 
     @Override
-    public Hitbox geHitbox() {
-        return this.model.geHitbox();
-    }
-
-    @Override
-    public boolean isCollected() {
-        return this.model.isCollected();
+    public void setCollectedState(boolean isCollected) {
+           this.model.setCollectedState(isCollected);
     }
 }

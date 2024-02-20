@@ -42,7 +42,7 @@ public final class StartMenu extends GameMenu {
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
-        setGameStagePosition();
+        stage.centerOnScreen();
         stageCloseAction();
     }
 
@@ -53,11 +53,11 @@ public final class StartMenu extends GameMenu {
 
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
             this.gameLoop = Optional.of(new GameLoop(this.stage, getGameStatsHandler())); 
-            Command startCommand = new StartCommand(this.gameLoop.get(), stage, this);
+            Command startCommand = new StartCommand(this.gameLoop.get(), this);
             startCommand.execute();
-            setGameStagePosition(); 
+            stage.centerOnScreen();
         }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, this);
+        Command openShopCommand = new OpenShopCommand(shopController, this.stage);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

@@ -12,9 +12,6 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 /**
  * Abstract class representing a basic game menu extensible.
  * @author yukai.zhou@studio.unibo.it
@@ -30,7 +27,6 @@ public abstract class GameMenu {
     */
     protected static final int DEFAULT_BUTTON_HEIGHT = 50;
 
-    private static final int PORTION = 4;
     /**
     * The main scene for the game menu where all UI elements are placed.
     */
@@ -78,6 +74,7 @@ public abstract class GameMenu {
      */
     public void showMenu() {
          this.stage.setScene(scene);
+         this.stage.centerOnScreen();
     }
 
     /**
@@ -146,23 +143,6 @@ public abstract class GameMenu {
     protected void defaultCloseAction() {
         Platform.exit(); 
         System.exit(0);
-    }
-
-    /**
-     * Sets the position of the game stage.
-     */
-    public void setGameStagePosition() {
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final double sw = screenSize.getWidth();
-        final double sh = screenSize.getHeight();
-        final double mapw = gameInfo.getScreenWidth();
-        final double maph = gameInfo.getScreenHeight();
-
-        final double stageX = (sw - mapw) / (PORTION / 2);
-        final double stageY = (sh - maph) / PORTION;
-
-        this.stage.setX(stageX);
-        this.stage.setY(stageY);
     }
 
     /**

@@ -65,7 +65,7 @@ public final class OverMenu extends GameMenu {
             Command restartCommand = new RestartCommand(this.gameLoop, stage, this); 
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, this);
+        Command openShopCommand = new OpenShopCommand(shopController, this.stage);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

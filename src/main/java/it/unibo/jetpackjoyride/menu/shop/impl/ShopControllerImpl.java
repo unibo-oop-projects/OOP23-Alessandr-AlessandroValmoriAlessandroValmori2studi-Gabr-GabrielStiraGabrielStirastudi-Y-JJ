@@ -34,11 +34,13 @@ public final class ShopControllerImpl  implements ShopController {
     private final Set<Items> unlockedItems;
     private final Deque<String> characters;
 
-    private final String pw = "TRUFFLEWORM";
+    private static final String PASSWORD = "TRUFFLEWORM";
 
     /**
-     * Constructs a new ShopController.
-     * Initializes the model and view components.
+     * Constructs a new ShopControllerImpl instance.
+     *
+     * @param primaryStage   The primary stage of the application.
+     * @param gameMenu       The game menu associated with the shop.
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
         
@@ -71,7 +73,7 @@ public final class ShopControllerImpl  implements ShopController {
     @Override
     public void buy(final Items item) {
 
-        var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
+        final var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
 
         if (item.equals(Items.SHIELD)) {
             if (item.getItemCost() > available) {
@@ -106,7 +108,6 @@ public final class ShopControllerImpl  implements ShopController {
     public void backToMenu() {
         this.save();
         gameMenu.showMenu();
-        gameMenu.setGameStagePosition();
     }
 
     @Override
@@ -137,9 +138,9 @@ public final class ShopControllerImpl  implements ShopController {
     }
 
     @Override
-    public void type(KeyCode code) {
+    public void type(final KeyCode code) {
         if (!this.unlockedItems.contains(Items.DUKE)) {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
            
             characters.addLast(code.getChar());
             if (this.characters.size() == 12) {
@@ -147,11 +148,11 @@ public final class ShopControllerImpl  implements ShopController {
             }
             if (this.characters.size() == 11) {
 
-                for (var ch : this.characters) {
+                for (final var ch : this.characters) {
                     sb.append(ch);
                 }
-                String concatenatedString = sb.toString();
-                if (concatenatedString.equals(pw)) {
+                final String concatenatedString = sb.toString();
+                if (concatenatedString.equals(PASSWORD)) {
                     System.out.println("DUKE Unlocked");
                     this.unlockedItems.add(Items.DUKE);
                 }
@@ -176,6 +177,4 @@ public final class ShopControllerImpl  implements ShopController {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
     }
-
-   
 }

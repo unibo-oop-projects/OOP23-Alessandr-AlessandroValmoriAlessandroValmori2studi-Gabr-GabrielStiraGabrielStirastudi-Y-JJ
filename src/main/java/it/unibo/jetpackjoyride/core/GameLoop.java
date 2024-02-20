@@ -15,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 /**
@@ -56,12 +55,14 @@ public final class GameLoop {
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();
+        stage.centerOnScreen();
     }
 
     private void initializeScene() {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
         entityGroup = new Group();
+        gameInfo.updateInfo(gameInfo.getDefaultWidth(), gameInfo.getDefaultHeight());
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);
@@ -69,7 +70,7 @@ public final class GameLoop {
 
         setupTimer();
 
-        map = new MapBackgroundImpl();
+        map = new MapBackgroundImpl(this.root);
         pauseMenu = new PauseMenu(this.stage, this);
 
         entityHandler = new EntityHandler();
@@ -78,11 +79,11 @@ public final class GameLoop {
     }
 
     private void initializeGameElements() {
-        root.getChildren().add(map.getPane());
+        map.setMapOnGameRoot();
         root.getChildren().add((Node) entityGroup);
-        root.getChildren().addAll(gameStatsHandler.getImageView(), gameStatsHandler.getText());
-        root.getChildren().add(pauseMenu.getPauseButton());
-        root.getChildren().add(pauseMenu.getVBox());
+        gameStatsHandler.setScorePaneOnRoot(this.root);
+        pauseMenu.setPauseButton(this.root);
+        pauseMenu.setButtonVBox(this.root);
     }
 
     private void setupTimer() {
@@ -102,7 +103,7 @@ public final class GameLoop {
 
 
                         if (!entityHandler.update(entityGroup, spacePressed)) {
-                            showGameOverMenu();            
+                            showGameOverMenu();
                             endLoop();
                         }
                     lastUpdate = now;
@@ -120,6 +121,7 @@ public final class GameLoop {
      * Starts the game loop.
      */
     public void startLoop() {
+        stage.setScene(gameScene);
         entityHandler.start();
         timer.start();
     }
@@ -155,25 +157,16 @@ public final class GameLoop {
         initializeGameElements();
     }
 
-    /**
-     * Gets the game scene.
-     *
-     * @return the game scene
-     */
-    public Scene getScene() {
-        return this.gameScene;
-    }
-
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
-            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue() - pauseMenu.getPauseButton().getWidth());
-            pauseMenu.getVBox().setPrefWidth(newValue.doubleValue());
+            pauseMenu.setPauseButtonSize(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeX(newValue.doubleValue());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newValue.doubleValue());
-            pauseMenu.getVBox().setPrefHeight(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeY(newValue.doubleValue());
         });
     }
 
@@ -193,7 +186,7 @@ public final class GameLoop {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
+        OverMenu overMenu = new OverMenu(stage, this.gameScene, gameStatsHandler);
         overMenu.show();
     }
 }

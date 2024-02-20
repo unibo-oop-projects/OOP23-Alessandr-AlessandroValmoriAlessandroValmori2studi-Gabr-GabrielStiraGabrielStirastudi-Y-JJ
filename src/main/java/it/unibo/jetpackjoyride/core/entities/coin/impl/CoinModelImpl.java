@@ -10,7 +10,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  * Implementation of the CoinModel interface.
  * @author yukai.zhou@studio.unibo.it
  */
-public class CoinModelImpl implements CoinModel {
+public final class CoinModelImpl implements CoinModel {
     private static final double COIN_WIDTH = 30;
     private static final double COIN_HEIGHT = 30;
 
@@ -32,7 +32,7 @@ public class CoinModelImpl implements CoinModel {
 
     @Override
     public void updateCoinModel() {
-        this.position = new Pair<Double, Double>(position.get1() - GameInfo.moveSpeed.get(), position.get2());
+        this.position = new Pair<Double, Double>(position.get1() - GameInfo.MOVE_SPEED.get(), position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
 
@@ -64,6 +64,6 @@ public class CoinModelImpl implements CoinModel {
 
     @Override
     public Pair<Double, Double> getSize() {
-        return new Pair<Double, Double>(COIN_WIDTH,COIN_HEIGHT);
+        return new Pair<Double, Double>(COIN_WIDTH, COIN_HEIGHT);
     }
 }

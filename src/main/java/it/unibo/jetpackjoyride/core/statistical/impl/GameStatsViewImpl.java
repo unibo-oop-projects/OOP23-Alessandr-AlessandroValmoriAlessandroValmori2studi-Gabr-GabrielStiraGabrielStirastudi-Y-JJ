@@ -4,10 +4,11 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -33,6 +34,7 @@ public final class GameStatsViewImpl implements GameStatsView {
 
     private final Text coinAndDistanceText = new Text();
     private final ImageView scorePane;
+    private final Group group = new Group();
 
      /**
      * Constructs a new GameStatsViewImpl object.
@@ -47,29 +49,24 @@ public final class GameStatsViewImpl implements GameStatsView {
         coinAndDistanceText.setY(TEXT_Y);
         coinAndDistanceText.setFill(Color.SILVER);
         coinAndDistanceText.setFont(Font.font("Serif",  FONT_SIZE)); 
-
+        group.getChildren().addAll(scorePane, coinAndDistanceText);
     }
 
     @Override
-    public void updateDataView(List<Integer> data) {
+    public void updateDataView(final List<Integer> data) {
         coinAndDistanceText.setText("Current meter: " 
                                     + data.get(CURRENT_DISTANCE)
                                     + "\n" 
                                     + "Last best meter : " 
-                                    + data.get(CURRENT_DISTANCE) 
+                                    + data.get(BEST_DISTANCE) 
                                     + "\n" 
                                     + "Total Coins: " 
                                     + data.get(TOT_COIN));
     }
 
     @Override
-    public Text getText() {
-        return this.coinAndDistanceText;
-    }
-
-    @Override
-    public ImageView getImageView() {
-        return this.scorePane;
+    public void setNodeOnRoot(final Pane root) {
+         root.getChildren().add(this.group);
     }
 
     /**

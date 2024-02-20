@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.core.map.api;
 
 import it.unibo.jetpackjoyride.utilities.Pair;
-import javafx.scene.layout.Pane;
 
 /**
  * Interface for the MapBackgroung Controller.
@@ -16,11 +15,9 @@ public interface MapBackground {
     void updateBackground();
 
     /**
-     * A method to get the pane containing the background.
-     * 
-     * @return The pane containing the background.
+     * A method to set the backgroung on the Game root, to show the background.
      */
-    Pane getPane();
+    void setMapOnGameRoot();
 
     /**
      * Method to get the x-coordinate position of the background.

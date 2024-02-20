@@ -8,17 +8,18 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public interface CoinView {
 
-/**
- * Renders the coin on the specified GraphicsContext.
- *
- * @param gc the GraphicsContext on which to render the coin
- */
+    /**
+     * Renders the coin on the specified GraphicsContext.
+     *
+     * @param gc the GraphicsContext on which to render the coin
+     */
     void renderCoin(GraphicsContext gc);
 
-/**
- * Sets the visibility of the coin.
- *
- * @param isVisible true if the coin should be visible, false otherwise
- */
-    void setVisible(boolean isVisible);
+    /**
+     * Sets the visibility of the coin.
+     *
+     * @param isVisible true if the coin should be visible, false otherwise
+     */
+    void setVisible(boolean isvisible);
+
 }

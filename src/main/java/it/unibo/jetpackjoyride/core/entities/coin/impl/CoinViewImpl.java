@@ -41,7 +41,7 @@ public final class CoinViewImpl implements CoinView {
 
    @Override
    public void renderCoin(final GraphicsContext gc) {
-      double moveSpeed = GameInfo.moveSpeed.get();
+      double moveSpeed = GameInfo.MOVE_SPEED.get();
       double posX = controller.getModelData().get(POSITION).get1();
       double posY = controller.getModelData().get(POSITION).get2();
       double width = controller.getModelData().get(SIZE).get1();

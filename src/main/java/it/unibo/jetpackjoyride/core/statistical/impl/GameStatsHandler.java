@@ -6,8 +6,8 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+import javafx.scene.layout.Pane;
+
 
 /**
  * A class implementing the GameStatsController interface.
@@ -35,14 +35,7 @@ public final class GameStatsHandler implements GameStatsController {
     public void updateView() {
         view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), model.getTotCoins()));
     }
-    @Override
-    public Text getText() {
-        return view.getText();
-    } 
-    @Override
-    public ImageView getImageView() {
-        return view.getImageView();
-    }
+
     @Override
     public GameStatsModel getGameStatsModel() {
         return this.model;
@@ -60,5 +53,10 @@ public final class GameStatsHandler implements GameStatsController {
             System.err.println("Failed to load game stats: " + e.getMessage());
             this.model = new GameStats();
         }
+    }
+
+    @Override
+    public void setScorePaneOnRoot(final Pane root) {
+          this.view.setNodeOnRoot(root);
     }
 }

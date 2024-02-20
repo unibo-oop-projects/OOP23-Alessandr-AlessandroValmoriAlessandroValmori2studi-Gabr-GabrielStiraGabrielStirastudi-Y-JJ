@@ -43,7 +43,7 @@ public class GameStatsTest {
         int initialBestDistance = gameStats.getBestDistance();
         gameStats.addDistance();
         gameStats.updateDate();
-        assertEquals(initialBestDistance + GameInfo.moveSpeed.get(), gameStats.getBestDistance());
+        assertEquals(initialBestDistance + GameInfo.MOVE_SPEED.get(), gameStats.getBestDistance());
     }
 
     /**

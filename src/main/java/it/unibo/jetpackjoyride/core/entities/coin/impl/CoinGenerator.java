@@ -27,7 +27,6 @@ import java.util.Optional;
 public final class CoinGenerator {
 
     private static final int POSITION = 0;
-    private static final int SIZE = 1;
     private static final int MAX_REUSABLE_COINS = 50;
     private static final double PROBABILITY_BASE = 0.3;
     private static final double PROBABILITY_RATE = 0.15;
@@ -41,7 +40,7 @@ public final class CoinGenerator {
     private final CoinShapeFactory coinShapeFactory;
     private final GameInfo gameInfo;
     private final GameStatsModel gameStatsModel;
-    private final int initialSpeed = GameInfo.moveSpeed.get();
+    private final int initialSpeed = GameInfo.MOVE_SPEED.get();
     private final Random random = new Random();
 
     private Optional<Hitbox> playeHitbox;
@@ -127,7 +126,7 @@ public final class CoinGenerator {
 
     private boolean generateOrNot() {
         double probabilityInfluenBySpeed = 
-        PROBABILITY_BASE + (GameInfo.moveSpeed.get() - initialSpeed) * PROBABILITY_RATE;
+        PROBABILITY_BASE + (GameInfo.MOVE_SPEED.get() - initialSpeed) * PROBABILITY_RATE;
         return random.nextDouble() < probabilityInfluenBySpeed;
     }
 
@@ -207,12 +206,9 @@ public final class CoinGenerator {
                 .collect(Collectors.toList());
 
         for (Coin coin : sortedList) {
-            if (coin.geHitbox().isTouching(playeHitbox.get())) {
-                if (!coin.isCollected()) {
-                    gameStatsModel.updateCoins(1);
-                    coin.setCollectedState(true);
-                }
-            }
+             if (playeHitbox.isPresent()) {
+                gameStatsModel.updateCoins(coin.checkCollision(playeHitbox.get()));
+             }
         }
     }
 

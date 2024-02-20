@@ -22,8 +22,7 @@ public class GameApp extends Application {
         GameStatsController gameStatsHandler = new GameStatsHandler();
         gameMenu = new StartMenu(primaryStage, gameStatsHandler);
         primaryStage.setTitle("JetPack Joyride");
-
-        primaryStage.setScene(gameMenu.getScene());
+        gameMenu.showMenu();
         primaryStage.show();
     }
 

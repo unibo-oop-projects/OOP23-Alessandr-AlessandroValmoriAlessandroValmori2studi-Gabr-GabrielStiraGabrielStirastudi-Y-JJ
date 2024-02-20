@@ -33,7 +33,7 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 /**
  * The view class for the shop menu.
  */
-public class ShopView extends GameMenu {
+public final class ShopView extends GameMenu {
     // Constants related to image positioning
 
     private List<ShieldEquippedObs> equipObsList = new ArrayList<>();

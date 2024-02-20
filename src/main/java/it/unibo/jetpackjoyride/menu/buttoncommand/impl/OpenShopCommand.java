@@ -1,8 +1,6 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand.impl;
 
-import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
-import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import javafx.stage.Stage;
 
@@ -13,7 +11,7 @@ import javafx.stage.Stage;
 public final class OpenShopCommand implements Command {
 
     private final ShopController shopController;
-    private final GameMenu menu;
+    private final Stage stage;
 
      /**
      * Constructs a new OpenShopCommand.
@@ -21,14 +19,14 @@ public final class OpenShopCommand implements Command {
      * @param shopController the shop controller
      * @param stage          the stage
      */
-    public OpenShopCommand(final ShopController shopController, final GameMenu menu) {
+    public OpenShopCommand(final ShopController shopController, final Stage stage) {
         this.shopController = shopController;
-        this.menu = menu;
+        this.stage = stage;
     }
 
     @Override
     public void execute() {
         shopController.showTheShop();
-        menu.setGameStagePosition();
+        stage.centerOnScreen();
     }
 }

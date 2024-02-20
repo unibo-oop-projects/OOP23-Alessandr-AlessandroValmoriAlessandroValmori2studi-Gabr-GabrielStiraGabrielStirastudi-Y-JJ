@@ -110,6 +110,6 @@ public abstract class AbstractHitbox implements Hitbox {
 
     @Override
     public Set<Pair<Double, Double>> getHitboxVertex() {
-        return this.hitbox;
+        return Collections.unmodifiableSet(this.hitbox);
     }
 }

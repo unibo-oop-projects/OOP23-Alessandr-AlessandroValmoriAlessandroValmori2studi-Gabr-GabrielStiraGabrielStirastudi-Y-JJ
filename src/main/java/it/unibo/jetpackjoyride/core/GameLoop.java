@@ -55,12 +55,17 @@ public final class GameLoop {
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();
+        if (stage.isFullScreen()) {
+            stage.setFullScreen(false);
+            stage.centerOnScreen();
+        }
     }
 
     private void initializeScene() {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
         entityGroup = new Group();
+        gameInfo.updateInfo(gameInfo.getDefaultWidth(), gameInfo.getDefaultHeight());
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);

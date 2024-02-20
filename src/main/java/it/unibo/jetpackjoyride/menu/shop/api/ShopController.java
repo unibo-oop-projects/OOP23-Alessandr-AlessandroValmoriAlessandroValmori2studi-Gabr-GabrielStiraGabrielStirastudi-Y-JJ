@@ -130,14 +130,9 @@ public interface ShopController {
     Set<Items> getUnlocked();
 
     /**
-     * Processes the key code input.
-     *
-     * @param code The key code input.
-     */
-    void type(KeyCode code);
-
-    /**
      * Saves the game progress.
      */
     void save();
+
+    void unlock(Items item);
 }

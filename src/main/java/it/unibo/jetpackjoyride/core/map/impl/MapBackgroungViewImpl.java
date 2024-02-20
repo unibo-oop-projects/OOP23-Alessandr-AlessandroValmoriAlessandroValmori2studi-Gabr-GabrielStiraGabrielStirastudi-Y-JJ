@@ -29,6 +29,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
      * 
      * @param controller The controller for the map background, 
      * it gives the nesessary date for view to upadte.
+     * @param gameRoot The main root of the Game
      */
     public MapBackgroungViewImpl(final MapBackground controller, final Pane gameRoot) {
         this.gameRoot = gameRoot;

@@ -55,12 +55,17 @@ public final class GameLoop {
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();
+        if (stage.isFullScreen()) {
+            stage.setFullScreen(false);
+            stage.centerOnScreen();
+        }
     }
 
     private void initializeScene() {
         root = new Pane();
         gameInfo = GameInfo.getInstance();
         entityGroup = new Group();
+        gameInfo.updateInfo(gameInfo.getDefaultWidth(), gameInfo.getDefaultHeight());
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);
@@ -79,9 +84,9 @@ public final class GameLoop {
     private void initializeGameElements() {
         map.setMapOnGameRoot();
         root.getChildren().add((Node) entityGroup);
-        root.getChildren().add(gameStatsHandler.getScoreNode());
-        root.getChildren().add(pauseMenu.getPauseButton());
-        root.getChildren().add(pauseMenu.getVBox());
+        gameStatsHandler.setScorePaneOnRoot(this.root);
+        pauseMenu.setPauseButton(this.root);
+        pauseMenu.setButtonVBox(this.root);
     }
 
     private void setupTimer() {
@@ -101,7 +106,7 @@ public final class GameLoop {
 
 
                         if (!entityHandler.update(entityGroup, spacePressed)) {
-                            showGameOverMenu();       
+                            showGameOverMenu();
                             endLoop();
                         }
                     lastUpdate = now;
@@ -158,13 +163,13 @@ public final class GameLoop {
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
-            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue() - pauseMenu.getPauseButton().getWidth());
-            pauseMenu.getVBox().setPrefWidth(newValue.doubleValue());
+            pauseMenu.setPauseButtonSize(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeX(newValue.doubleValue());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newValue.doubleValue());
-            pauseMenu.getVBox().setPrefHeight(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeY(newValue.doubleValue());
         });
     }
 

@@ -35,9 +35,7 @@ public final class ShopControllerImpl implements ShopController {
     private int numOfShields;
     private boolean isShieldEquipped;
     private final Set<Items> unlockedItems;
-    private final Deque<String> characters;
-
-    private static final String PASSWORD = "TRUFFLEWORM";
+    
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -47,7 +45,7 @@ public final class ShopControllerImpl implements ShopController {
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
 
-        this.characters = new LinkedList<>();
+        
         this.gameMenu = gameMenu;
 
         this.gameStatsHandler = gameMenu.getGameStatsHandler();
@@ -79,7 +77,10 @@ public final class ShopControllerImpl implements ShopController {
      * 
      * @return The scene of the shop menu.
      */
-
+    @Override
+    public void showTheShop() {
+        this.view.setSceneOnStage();
+    }
 
     @Override
     public void buy(final Items item) {

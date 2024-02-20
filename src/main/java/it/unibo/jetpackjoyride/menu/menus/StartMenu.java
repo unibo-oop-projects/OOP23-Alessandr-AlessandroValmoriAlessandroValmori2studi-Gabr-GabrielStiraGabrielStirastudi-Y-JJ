@@ -42,7 +42,7 @@ public final class StartMenu extends GameMenu {
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
-        setGameStagePosition();
+        stage.centerOnScreen();
         stageCloseAction();
     }
 
@@ -51,12 +51,13 @@ public final class StartMenu extends GameMenu {
         VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Command startCommand = new StartCommand(this.gameLoop.get(), stage, this);
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
             this.gameLoop = Optional.of(new GameLoop(this.stage, getGameStatsHandler())); 
-            startCommand.execute(); 
-            setGameStagePosition(); } , DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, stage);
+            Command startCommand = new StartCommand(this.gameLoop.get(), this);
+            startCommand.execute();
+            stage.centerOnScreen();
+        }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
+        Command openShopCommand = new OpenShopCommand(shopController, this.stage);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

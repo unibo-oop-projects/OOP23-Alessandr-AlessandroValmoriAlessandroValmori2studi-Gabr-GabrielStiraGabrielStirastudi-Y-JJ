@@ -31,20 +31,7 @@ public class PlayerMover {
 
     private final Barry model;
     private final BarryView view;
-    private final Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
-    private static final int NUM_COPIES = 7;
 
-    private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
-        {
-            put(BarryStatus.WALKING, 4);
-            put(BarryStatus.BURNED, 4);
-            put(BarryStatus.LASERED, 4);
-            put(BarryStatus.ZAPPED, 4);
-            put(BarryStatus.FALLING, 2);
-            put(BarryStatus.PROPELLING, 2);
-            put(BarryStatus.HEAD_DRAGGING, 2);
-        }
-    };
 
     /**
      * Constructs a new PlayerMover instance.
@@ -59,9 +46,9 @@ public class PlayerMover {
             gameStatsHandler.getGameStatsModel().setShield(false);
         }
         
-        this.buildMap();
+        
 
-        this.view = new BarryView(this.getSpritesForStatus());
+        this.view = new BarryView();
     }
 
     /**
@@ -71,29 +58,6 @@ public class PlayerMover {
      public Barry getModel(){
         return this.model;
      }
-
-    private void buildMap() {
-        for (final var entry : framesPerAnimation.entrySet()) {
-            final List<Image> images = new ArrayList<>();
-            for (int i = 0; i < entry.getValue(); i++) {
-                final String imagePath = getClass().getClassLoader()
-                        .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
-                        .toExternalForm();
-
-                images.addAll(Collections.nCopies(NUM_COPIES, new Image(imagePath)));
-            }
-            this.statusMap.put(entry.getKey(), new ArrayList<>(images));
-        }
-    }
-
-    /**
-     * Retrieves the list of sprites for the current BarryStatus.
-     * 
-     * @return The list of sprites for the current BarryStatus.
-     */
-    private List<Image> getSpritesForStatus() {
-        return this.statusMap.get(this.model.getBarryStatus());
-    }
 
     /**
      * Moves the player character based on the given input.
@@ -121,28 +85,7 @@ public class PlayerMover {
      * @param root The root pane to which the player character's view will be added.
      */
     public void updateView(final Group root) {
-
-        this.view.update(model);
-        this.view.setCurrentImages(this.getSpritesForStatus(), this.model.getBarryStatus());
-
-        final Node imageView = (Node) this.view.getImageView();
-        final Node shieldImageView = (Node) this.view.getShieldImageView();
-
-        if (this.model.isActive()) {
-            if (!root.getChildren().contains(imageView)) {
-                root.getChildren().add(imageView);
-            }
-            if (this.model.hasShield() && !root.getChildren().contains(shieldImageView)) {
-                root.getChildren().add(shieldImageView);
-               
-            } else if (!this.model.hasShield() && root.getChildren().contains(shieldImageView)) {
-                root.getChildren().remove(shieldImageView);
-                
-            }
-        } else {
-            root.getChildren().removeAll(imageView, shieldImageView);
-        }
-
+        this.view.update(root, model);
     }
 
     /**
@@ -161,11 +104,11 @@ public class PlayerMover {
     public void hit(ObstacleType type) {
         if(this.model.isAlive()){
         if (this.model.hasShield()) {
-            System.out.println("removed shield");
+     
             this.model.removeShield();
 
         } else {
-            this.model.setLifeStatus(BarryLifeStatus.DEAD);
+            
             this.model.kill(type);
 
         }

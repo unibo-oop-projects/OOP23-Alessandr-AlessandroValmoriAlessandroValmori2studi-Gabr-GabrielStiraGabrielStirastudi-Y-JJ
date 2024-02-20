@@ -245,6 +245,7 @@ public class ShopView extends GameMenu {
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
     }
+    
 
     @Override
     protected void stageCloseAction() {

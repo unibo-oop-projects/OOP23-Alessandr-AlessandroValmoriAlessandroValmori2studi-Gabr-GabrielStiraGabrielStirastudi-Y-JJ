@@ -48,6 +48,10 @@ public final class BarryImpl implements Barry {
 
     private boolean isActive;
 
+    private int counter = 0;
+
+    private static final int DURATION=50;
+
     /**
      * Constructs a new instance of BarryImpl.
      * Initializes the initial state of Barry, including position, speed, status,
@@ -127,6 +131,10 @@ public final class BarryImpl implements Barry {
     @Override
     public boolean move(final boolean jumping) {
         if (this.lifeStatus.equals(BarryLifeStatus.DEAD)) {
+            this.counter++;
+            if(counter < DURATION){
+                return true;
+            }
             this.fall(false);
             return this.position < lowBound;
         }
@@ -202,6 +210,7 @@ public final class BarryImpl implements Barry {
     @Override
     public void kill(final ObstacleType type) {
         this.hitbox = Optional.empty();
+        this.lifeStatus= BarryLifeStatus.DEAD;
         this.status = type.equals(ObstacleType.ZAPPER) ? BarryStatus.ZAPPED : 
         type.equals(ObstacleType.LASER) ? BarryStatus.LASERED : 
         type.equals(ObstacleType.MISSILE) ? BarryStatus.BURNED : BarryStatus.UNDEFINED;
@@ -261,6 +270,7 @@ public final class BarryImpl implements Barry {
         this.lowBound = this.lowBound*heightRatio;
         this.upBound = this.upBound*heightRatio;
         this.xPosition = this.xPosition* widthRatio;
+        this.position= this.position*heightRatio;
     }
 
   

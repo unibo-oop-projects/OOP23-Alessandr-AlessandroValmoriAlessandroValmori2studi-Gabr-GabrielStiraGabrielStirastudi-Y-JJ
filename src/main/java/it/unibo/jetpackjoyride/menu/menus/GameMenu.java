@@ -53,8 +53,8 @@ public abstract class GameMenu {
      *
      * @return the scene
      */
-    public Scene getScene() {
-        return this.scene;
+    public void showMenu() {
+         this.stage.setScene(scene);
     }
 
     /**

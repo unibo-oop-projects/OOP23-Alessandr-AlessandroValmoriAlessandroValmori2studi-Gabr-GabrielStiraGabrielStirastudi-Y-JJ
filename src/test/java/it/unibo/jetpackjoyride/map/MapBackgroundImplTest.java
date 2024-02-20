@@ -6,6 +6,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -24,11 +26,13 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     private static final int WIDTH_DEFALUT = 800;
     private static final int HEIGHT_DEFALUT = 600;
     private MapBackgroundImpl mapBackground;
+    private Pane root;
 
     @Override
     public void start(final Stage stage) {
-        mapBackground = new MapBackgroundImpl();
-        stage.setScene(new Scene(mapBackground.getPane(), WIDTH_DEFALUT, HEIGHT_DEFALUT));
+        mapBackground = new MapBackgroundImpl(null);
+        root = new Pane();
+        stage.setScene(new Scene(root, WIDTH_DEFALUT, HEIGHT_DEFALUT));
         stage.show();
     }
 

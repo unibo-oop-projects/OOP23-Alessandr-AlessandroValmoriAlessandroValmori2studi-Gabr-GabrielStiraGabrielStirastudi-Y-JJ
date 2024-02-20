@@ -2,8 +2,7 @@ package it.unibo.jetpackjoyride.core.statistical.api;
 
 import java.util.List;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
+import javafx.scene.Node;
 
 /**
  * An interface representing a view for game statistics.
@@ -19,16 +18,9 @@ public interface GameStatsView {
     void updateDataView(List<Integer> data);
 
     /**
-     * Gets the text associated with the statistics(like coins and meter).
-     *
-     * @return the text
-     */
-    Text getText();
-
-    /**
      * Gets the image view associated with the statistics(A Score Pane).
      *
-     * @return the image view
+     * @return the image view with text
      */
-    ImageView getImageView();
+    Node getImageView();
 }

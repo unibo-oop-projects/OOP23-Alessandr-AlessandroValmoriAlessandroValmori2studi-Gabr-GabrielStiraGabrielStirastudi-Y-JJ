@@ -15,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 /**
@@ -69,7 +68,7 @@ public final class GameLoop {
 
         setupTimer();
 
-        map = new MapBackgroundImpl();
+        map = new MapBackgroundImpl(this.root);
         pauseMenu = new PauseMenu(this.stage, this);
 
         entityHandler = new EntityHandler();
@@ -78,9 +77,9 @@ public final class GameLoop {
     }
 
     private void initializeGameElements() {
-        root.getChildren().add(map.getPane());
+        map.setMapOnGameRoot();
         root.getChildren().add((Node) entityGroup);
-        root.getChildren().addAll(gameStatsHandler.getImageView(), gameStatsHandler.getText());
+        root.getChildren().add(gameStatsHandler.getScoreNode());
         root.getChildren().add(pauseMenu.getPauseButton());
         root.getChildren().add(pauseMenu.getVBox());
     }
@@ -102,7 +101,7 @@ public final class GameLoop {
 
 
                         if (!entityHandler.update(entityGroup, spacePressed)) {
-                            showGameOverMenu();            
+                            showGameOverMenu();       
                             endLoop();
                         }
                     lastUpdate = now;
@@ -120,6 +119,7 @@ public final class GameLoop {
      * Starts the game loop.
      */
     public void startLoop() {
+        stage.setScene(gameScene);
         entityHandler.start();
         timer.start();
     }
@@ -155,15 +155,6 @@ public final class GameLoop {
         initializeGameElements();
     }
 
-    /**
-     * Gets the game scene.
-     *
-     * @return the game scene
-     */
-    public Scene getScene() {
-        return this.gameScene;
-    }
-
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
@@ -193,7 +184,7 @@ public final class GameLoop {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this, gameStatsHandler);
+        OverMenu overMenu = new OverMenu(stage, this.gameScene, gameStatsHandler);
         overMenu.show();
     }
 }

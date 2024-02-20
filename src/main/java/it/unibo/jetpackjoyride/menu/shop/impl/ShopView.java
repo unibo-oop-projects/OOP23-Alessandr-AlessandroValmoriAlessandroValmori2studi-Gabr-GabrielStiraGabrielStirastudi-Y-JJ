@@ -90,7 +90,7 @@ public class ShopView extends GameMenu {
             this.update();
         });
         initializeGameMenu();
-        setGameStagePosition();
+        stage.centerOnScreen();
         stageCloseAction();
 
         // initializes the button map e la description map
@@ -213,13 +213,16 @@ public class ShopView extends GameMenu {
     }
 
     /**
-     * Gets the scene of the shop menu.
-     * 
-     * @return The scene of the shop menu.
+     * Sets the scene of the shop menu on Stage.
      */
-    public Scene getScene() {
-        return scene;
+    public void setSceneOnStage() {
+        this.stage.setScene(this.scene);
     }
+
+    public Scene getScene(){
+        return this.scene;
+    }
+
 
     public void addBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
@@ -289,9 +292,6 @@ public class ShopView extends GameMenu {
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
     }
-
- 
-    
 
     @Override
     protected void stageCloseAction() {

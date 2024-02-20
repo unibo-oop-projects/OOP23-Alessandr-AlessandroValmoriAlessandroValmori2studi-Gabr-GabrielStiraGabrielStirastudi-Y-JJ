@@ -74,16 +74,9 @@ public interface ShopController {
         }
     }
 
+    void showTheShop();
     void updateView();
     
-
-    /**
-     * Retrieves the scene of the shop menu.
-     *
-     * @return The scene of the shop menu.
-     */
-    Scene getScene();
-
     /**
      * Navigates back to the main menu.
      */

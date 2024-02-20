@@ -8,14 +8,13 @@ import javafx.application.Application;
  */
 public final class Game {
 
-    
     private Game() {
     }
 
     /**
      * Main method to launch the Jetpack Joyride Game application.
+     * @param args The args necessary
      */
-    
     public static void main(final String[] args) {
         Application.launch(GameApp.class, args);
     }

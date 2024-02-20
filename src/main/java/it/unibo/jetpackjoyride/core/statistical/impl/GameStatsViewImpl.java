@@ -6,9 +6,9 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -65,8 +65,8 @@ public final class GameStatsViewImpl implements GameStatsView {
     }
 
     @Override
-    public Node getImageView() {
-        return this.group;
+    public void setNodeOnRoot(Pane root) {
+         root.getChildren().add(this.group);
     }
 
     /**

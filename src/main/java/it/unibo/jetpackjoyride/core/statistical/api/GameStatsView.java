@@ -2,7 +2,7 @@ package it.unibo.jetpackjoyride.core.statistical.api;
 
 import java.util.List;
 
-import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
 /**
  * An interface representing a view for game statistics.
@@ -12,15 +12,13 @@ public interface GameStatsView {
 
    /**
      * A method to update the view with the data from the game statistics model.
-     *
-     * @param model the game statistics model
+     * @param data the game statistics date provide by data
      */
     void updateDataView(List<Integer> data);
 
     /**
-     * Gets the image view associated with the statistics(A Score Pane).
-     *
-     * @return the image view with text
+     * Sets the imageview associated with the statistics(A Score Pane).
+     * @param root The main root of the GameLoop
      */
-    Node getImageView();
+     void setNodeOnRoot(Pane root);
 }

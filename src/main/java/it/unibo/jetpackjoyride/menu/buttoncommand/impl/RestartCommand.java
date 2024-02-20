@@ -34,5 +34,6 @@ public final class RestartCommand implements Command {
         menu.removeListener();
         gameLoop.resetLoop();
         gameLoop.startLoop();
+        stage.centerOnScreen();
     }
 }

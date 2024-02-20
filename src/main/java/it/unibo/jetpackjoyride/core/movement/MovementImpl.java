@@ -7,8 +7,8 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public final class MovementImpl implements Movement {
-    private static final Double GRAVITYMODIFIER = 0.1;
-    private static final Double INVERSEGRAVITYMODIFIER = -0.1;
+    private static final Double GRAVITYMODIFIER = 0.3;
+    private static final Double INVERSEGRAVITYMODIFIER = -0.3;
 
     private Pair<Double, Double> position;
     private Pair<Double, Double> acceleration;

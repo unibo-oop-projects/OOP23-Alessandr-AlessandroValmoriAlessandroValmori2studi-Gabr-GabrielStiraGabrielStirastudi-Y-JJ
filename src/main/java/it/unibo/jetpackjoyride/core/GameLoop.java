@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 /**
@@ -98,7 +99,6 @@ public final class GameLoop {
 
                     map.updateBackground();
                     gameStatsHandler.updateView();
-
 
                         if(!entityHandler.update(entityGroup, spacePressed)){
                             showGameOverMenu();

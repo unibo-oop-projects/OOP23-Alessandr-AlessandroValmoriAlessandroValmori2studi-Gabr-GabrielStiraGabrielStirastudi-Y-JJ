@@ -31,7 +31,9 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public void setEntityStatus(final EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
-        this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get1() + this.movement.getRotation().get2());
+        if(entityStatus.equals(EntityStatus.ACTIVE)) {
+            this.hitbox.updateHitbox(this.movement.getCurrentPosition(), this.movement.getRotation().get1() + this.movement.getRotation().get2());
+        }
     }
 
     @Override

@@ -16,7 +16,7 @@ public final class ObstacleSpawner {
 
     public List<GenericController<Obstacle,ObstacleView>> generateChunk() {
         if(this.obstacleLoader.hasFinished()) {
-            final Integer difficulty = GameInfo.moveSpeed.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
+            final Integer difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
             this.obstacleLoader.generatePattern(difficulty);
         }
         return this.obstacleLoader.getInstanceOfPattern();

@@ -13,7 +13,10 @@ public final class GameInfo {
     private double screenWidth;
 
     private static final Integer INITALGAMESPEED = 5;
-    public static final AtomicInteger moveSpeed = new AtomicInteger(INITALGAMESPEED);
+    /**
+    * The globle speed for all elements of the game.
+    */
+    public static final AtomicInteger MOVE_SPEED = new AtomicInteger(INITALGAMESPEED);
 
     /**
      * Nested static class to hold the singleton instance of GameInfo.
@@ -50,7 +53,7 @@ public final class GameInfo {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
     }
-    
+
     /**
      * Gets the current screen width.
      *
@@ -93,7 +96,7 @@ public final class GameInfo {
      * @param newSpeed the new speed to set.
      */
     public void setMoveSpeed(final int newSpeed) {
-        GameInfo.moveSpeed.set(newSpeed);
+        GameInfo.MOVE_SPEED.set(newSpeed);
     }
 
     /**

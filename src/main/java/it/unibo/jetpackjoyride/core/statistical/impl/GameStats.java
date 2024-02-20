@@ -13,7 +13,7 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public class GameStats implements GameStatsModel {
+public final class GameStats implements GameStatsModel {
 
     private static final long serialVersionUID = 48181123264L;
 
@@ -23,17 +23,16 @@ public class GameStats implements GameStatsModel {
     private Set<Items> unlockedSet = new HashSet<>();
     private boolean isShieldEquipped;
     private int numOfShields;
-    
+
     /**
      * Constructs a new GameStats object with default values.
      */
-    public GameStats(){
-        this.numOfShields=0;
-        this.isShieldEquipped= false;
+    public GameStats() {
+        this.numOfShields = 0;
+        this.isShieldEquipped = false;
         this.bestDistance = 0;
         this.currentDistance = 0;
         this.totCoins = 1000;
-        
     }
 
     /**
@@ -43,8 +42,7 @@ public class GameStats implements GameStatsModel {
      * @param filename the name of the file
      * @throws IOException if an I/O error occurs
      */
-    public static void writeToFile(GameStatsModel stats, String filename) throws IOException {
-     
+    public static void writeToFile(final GameStatsModel stats, final String filename) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
             out.writeObject(stats);
         }
@@ -58,7 +56,7 @@ public class GameStats implements GameStatsModel {
      * @throws IOException            if an I/O error occurs
      * @throws ClassNotFoundException if the class of a serialized object cannot be found
      */
-    public static GameStatsModel readFromFile(String filename) throws IOException, ClassNotFoundException {
+    public static GameStatsModel readFromFile(final String filename) throws IOException, ClassNotFoundException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             return (GameStatsModel) in.readObject();
         }
@@ -70,39 +68,31 @@ public class GameStats implements GameStatsModel {
     }
 
     @Override
-    public void updateCoins(int coin){
+    public void updateCoins(final int coin) {
         this.totCoins = totCoins + coin;
     }
 
     @Override
-    public int getBestDistance(){
+    public int getBestDistance() {
         return bestDistance;
     }
 
     private void setBestDistance(){
-        if(currentDistance > bestDistance){
+        if (currentDistance > bestDistance) {
              bestDistance = currentDistance;
         }
     }
 
     @Override
-    public void addDistance(){
-        this.currentDistance = currentDistance +GameInfo.moveSpeed.get();
+    public void addDistance() {
+        this.currentDistance = currentDistance +GameInfo.MOVE_SPEED.get();
     }
 
     @Override
-    public void updateDate(){
+    public void updateDate() {
         this.setBestDistance();
         this.currentDistance = 0;
     }
-
-    @Override
-    public String toString() {
-        return "GameStats{" +
-                " best distance=" + bestDistance +
-                '}';
-    }
-
 
     @Override
     public int getcurrentDistance() {
@@ -115,12 +105,12 @@ public class GameStats implements GameStatsModel {
     }
 
     @Override
-    public void unlock(Set<Items> items) {
+    public void unlock(final Set<Items> items) {
         this.unlockedSet.addAll(items);
     }
 
     @Override
-    public void addShields(int num) {
+    public void addShields(final int num) {
         System.out.println("CALLED");
         this.numOfShields = num;
     }
@@ -136,7 +126,7 @@ public class GameStats implements GameStatsModel {
     }
 
     @Override
-    public void setShield(boolean isShieldEquipped) {
+    public void setShield(final boolean isShieldEquipped) {
         this.isShieldEquipped = isShieldEquipped;
     }
 }

@@ -48,7 +48,7 @@ public interface ShopController {
     }
     
 
-    Scene getScene();
+    void showTheShop();
 
     void backToMenu();
 

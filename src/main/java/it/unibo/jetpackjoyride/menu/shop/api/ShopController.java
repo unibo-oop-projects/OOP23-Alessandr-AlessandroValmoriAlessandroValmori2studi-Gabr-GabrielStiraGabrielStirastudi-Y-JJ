@@ -19,10 +19,10 @@ public interface ShopController {
      * Enum representing different items available in the shop.
      */
     enum Items {
-        MRCUDDLES(20, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0), Optional.of("MR CUDDLES\n Too cool not to buy")),
-        SHIELD(20, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A consumable equippable shield")),
-        STOMPER(20, Optional.of(PowerUpType.LILSTOMPER), Optional.of(1), Optional.of("STOMPER\n Clumsy but robust vehicle")),
-        PROFITBIRD(20, Optional.of(PowerUpType.PROFITBIRD), Optional.of(2), Optional.of("PROFIT BIRD\n Greedy bird, moves like flappy bird")),
+        MRCUDDLES(500, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0), Optional.of("MR CUDDLES\n Too cool not to buy")),
+        SHIELD(100, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A consumable equippable shield")),
+        STOMPER(250, Optional.of(PowerUpType.LILSTOMPER), Optional.of(1), Optional.of("STOMPER\n Clumsy but robust vehicle")),
+        PROFITBIRD(400, Optional.of(PowerUpType.PROFITBIRD), Optional.of(2), Optional.of("PROFIT BIRD\n Greedy bird, moves like flappy bird")),
         DUKE(666, Optional.of(PowerUpType.DUKEFISHRON), Optional.empty(), Optional.empty());
 
         private final int cost;

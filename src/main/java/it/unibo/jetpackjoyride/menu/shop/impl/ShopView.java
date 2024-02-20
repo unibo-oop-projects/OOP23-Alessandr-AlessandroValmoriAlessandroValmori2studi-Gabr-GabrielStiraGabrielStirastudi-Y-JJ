@@ -200,10 +200,7 @@ public class ShopView extends GameMenu {
      * 
      * @return The scene of the shop menu.
      */
-    @Override
-    public Scene getScene() {
-        return scene;
-    }
+    
     /**
      * Updates the view of the shop menu.
      */
@@ -244,6 +241,10 @@ public class ShopView extends GameMenu {
         root.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
+    }
+
+    public Scene getScene(){
+        return this.scene;
     }
     
 

@@ -1,13 +1,14 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 
 public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
-    private ShopControllerImpl shopController;
+    private ShopController shopController;
 
-    public ShopItemPurchaseObsImpl(ShopControllerImpl shopController) {
+    public ShopItemPurchaseObsImpl(ShopController shopController) {
         this.shopController = shopController;
     }
 

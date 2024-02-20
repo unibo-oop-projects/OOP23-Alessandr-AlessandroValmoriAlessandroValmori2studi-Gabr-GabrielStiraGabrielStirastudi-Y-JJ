@@ -66,8 +66,8 @@ public final class MapBackgroundImplTest extends ApplicationTest {
             double x1 = mapBackground.getPosX().get1();
             double x2 = mapBackground.getPosX().get2();
             mapBackground.updateBackground();
-            assertEquals(x1 - GameInfo.moveSpeed.get(), mapBackground.getPosX().get1());
-            assertEquals(x2 - GameInfo.moveSpeed.get(), mapBackground.getPosX().get2());
+            assertEquals(x1 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get1());
+            assertEquals(x2 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get2());
         });
     }
 
@@ -77,10 +77,10 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     @Test
     public void testReset() {
         interact(() -> {
-            GameInfo.moveSpeed.set(10);
-            assertEquals(10, GameInfo.moveSpeed.get());
+            GameInfo.MOVE_SPEED.set(10);
+            assertEquals(10, GameInfo.MOVE_SPEED.get());
             mapBackground.reset();
-            assertEquals(EXPECTED_DEFALUT_MOVE_SPEED, GameInfo.moveSpeed.get());
+            assertEquals(EXPECTED_DEFALUT_MOVE_SPEED, GameInfo.MOVE_SPEED.get());
         });
     }
 

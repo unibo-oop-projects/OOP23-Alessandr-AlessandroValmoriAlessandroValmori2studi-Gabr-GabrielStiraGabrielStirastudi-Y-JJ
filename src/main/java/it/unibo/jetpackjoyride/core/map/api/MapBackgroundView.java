@@ -10,7 +10,7 @@ public interface MapBackgroundView {
      * Updates the background view of the map.
      */
     void updateBackgroundView();
-  
+
     /**
      * A method to add the backgroung Node into the Game root.
      */

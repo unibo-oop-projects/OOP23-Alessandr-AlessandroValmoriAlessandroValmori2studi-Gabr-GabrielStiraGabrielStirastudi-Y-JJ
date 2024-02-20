@@ -64,8 +64,8 @@ public final class ShopControllerImpl  implements ShopController {
      * @return The scene of the shop menu.
      */
     @Override
-    public Scene getScene() {
-        return this.view.getScene();
+    public void showTheShop() {
+        this.view.setSceneOnStage();
     }
 
     @Override
@@ -106,6 +106,7 @@ public final class ShopControllerImpl  implements ShopController {
     public void backToMenu() {
         this.save();
         gameMenu.showMenu();
+        gameMenu.setGameStagePosition();
     }
 
     @Override

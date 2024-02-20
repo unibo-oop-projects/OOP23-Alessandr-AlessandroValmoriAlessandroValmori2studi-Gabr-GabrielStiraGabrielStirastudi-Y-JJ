@@ -206,12 +206,10 @@ public class ShopView extends GameMenu {
     }
 
     /**
-     * Gets the scene of the shop menu.
-     * 
-     * @return The scene of the shop menu.
+     * Sets the scene of the shop menu on Stage.
      */
-    public Scene getScene() {
-        return scene;
+    public void setSceneOnStage() {
+        this.stage.setScene(this.scene);
     }
 
     public void update() {

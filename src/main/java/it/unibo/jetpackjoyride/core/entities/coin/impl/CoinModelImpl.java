@@ -32,7 +32,7 @@ public final class CoinModelImpl implements CoinModel {
 
     @Override
     public void updateCoinModel() {
-        this.position = new Pair<Double, Double>(position.get1() - GameInfo.moveSpeed.get(), position.get2());
+        this.position = new Pair<Double, Double>(position.get1() - GameInfo.MOVE_SPEED.get(), position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
 

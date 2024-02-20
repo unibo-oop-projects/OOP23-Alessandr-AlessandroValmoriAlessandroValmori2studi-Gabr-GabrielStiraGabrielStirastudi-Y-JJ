@@ -20,19 +20,44 @@ import java.awt.Toolkit;
  * @author yukai.zhou@studio.unibo.it
  */
 public abstract class GameMenu {
-
+    /**
+    * Default width for buttons within the game menu.
+    */
     protected static final int DEFAULT_BUTTON_WIDTH = 150;
+
+    /**
+    * Default height for buttons within the game menu.
+    */
     protected static final int DEFAULT_BUTTON_HEIGHT = 50;
+
     private static final int PORTION = 4;
+    /**
+    * The main scene for the game menu where all UI elements are placed.
+    */
+    protected final Scene scene;
+
+    /**
+    * The primary stage for the game menu, serving as the top-level JavaFX container.
+    */
+    protected final Stage stage;
+
+    /**
+    * The root pane for the game menu layout, which holds all other UI elements.
+    */
+    protected final StackPane root;
+
+    /**
+    * ImageView for displaying the menu's background image.
+    */
+    protected ImageView menuImageView;
+
+    /**
+    * Utility for accessing game information such as screen dimensions.
+    */
+    protected  GameInfo gameInfo = GameInfo.getInstance();
 
     private ChangeListener<Number> widthListener;
     private ChangeListener<Number> heightListener;
-
-    protected final Scene scene;
-    protected final Stage stage;
-    protected final StackPane root;
-    protected ImageView menuImageView;     
-    protected final GameInfo gameInfo = GameInfo.getInstance();
     private final GameStatsController gameStatsController;
 
    /**
@@ -41,7 +66,7 @@ public abstract class GameMenu {
      * @param primaryStage      the primary stage
      * @param gameStatsController the game statistics controller
      */
-    public GameMenu(final Stage primaryStage,final GameStatsController gameStatsController) {
+    public GameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
@@ -49,9 +74,7 @@ public abstract class GameMenu {
     }
 
     /**
-     * A method to get the scene of this game menu.
-     *
-     * @return the scene
+     * A method to show the game menu on Screen.
      */
     public void showMenu() {
          this.stage.setScene(scene);
@@ -61,10 +84,10 @@ public abstract class GameMenu {
      * Removes the listeners attached to the scene.
      */
     public void removeListener() {
-        if(scene != null && widthListener != null) {
+        if (scene != null && widthListener != null) {
             scene.widthProperty().removeListener(widthListener);
         }
-        if(scene != null && heightListener != null) {
+        if (scene != null && heightListener != null) {
             scene.heightProperty().removeListener(heightListener);
         }
     }
@@ -98,7 +121,7 @@ public abstract class GameMenu {
      * @param menuImage the menu image
      */
     protected void setMenuImage(final Image menuImage) {
-        if(menuImageView != null) {
+        if (menuImageView != null) {
             this.root.getChildren().remove(menuImageView);
         }
         menuImageView = new ImageView(menuImage);
@@ -128,7 +151,7 @@ public abstract class GameMenu {
     /**
      * Sets the position of the game stage.
      */
-    protected void setGameStagePosition() {
+    public void setGameStagePosition() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final double sw = screenSize.getWidth();
         final double sh = screenSize.getHeight();
@@ -146,15 +169,14 @@ public abstract class GameMenu {
      * adds the listeners to the scene.
      */
     protected void addSizeListener() {
-     
-        widthListener = (obs,oldvalue,newVal) -> {
-            double ratioX = newVal.doubleValue()/oldvalue.doubleValue();
-            menuImageView.setFitWidth(menuImageView.getFitWidth()*ratioX);
+        widthListener = (obs, oldvalue, newVal) -> {
+            double ratioX = newVal.doubleValue() / oldvalue.doubleValue();
+            menuImageView.setFitWidth(menuImageView.getFitWidth() * ratioX);
         };
         scene.widthProperty().addListener(widthListener);
-        heightListener = (obs,oldvalue,newVal) -> {
-            double ratioY = newVal.doubleValue()/oldvalue.doubleValue();
-            menuImageView.setFitHeight(menuImageView.getFitHeight()*ratioY);
+        heightListener = (obs, oldvalue, newVal) -> {
+            double ratioY = newVal.doubleValue() / oldvalue.doubleValue();
+            menuImageView.setFitHeight(menuImageView.getFitHeight() * ratioY);
         };
         scene.heightProperty().addListener(heightListener);
     }

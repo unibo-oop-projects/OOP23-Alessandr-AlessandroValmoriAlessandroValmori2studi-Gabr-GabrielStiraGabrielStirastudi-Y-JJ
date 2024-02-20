@@ -79,9 +79,9 @@ public final class GameLoop {
     private void initializeGameElements() {
         map.setMapOnGameRoot();
         root.getChildren().add((Node) entityGroup);
-        root.getChildren().add(gameStatsHandler.getScoreNode());
-        root.getChildren().add(pauseMenu.getPauseButton());
-        root.getChildren().add(pauseMenu.getVBox());
+        gameStatsHandler.setScorePaneOnRoot(this.root);
+        pauseMenu.setPauseButton(this.root);
+        pauseMenu.setButtonVBox(this.root);
     }
 
     private void setupTimer() {
@@ -101,7 +101,7 @@ public final class GameLoop {
 
 
                         if (!entityHandler.update(entityGroup, spacePressed)) {
-                            showGameOverMenu();       
+                            showGameOverMenu();
                             endLoop();
                         }
                     lastUpdate = now;
@@ -158,13 +158,13 @@ public final class GameLoop {
     private void setListenerForGameInfo() {
         gameScene.widthProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(newValue.doubleValue(), gameInfo.getScreenHeight());
-            pauseMenu.getPauseButton().setLayoutX(newValue.doubleValue() - pauseMenu.getPauseButton().getWidth());
-            pauseMenu.getVBox().setPrefWidth(newValue.doubleValue());
+            pauseMenu.setPauseButtonSize(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeX(newValue.doubleValue());
         });
 
         gameScene.heightProperty().addListener((obs, oldValue, newValue) -> {
             gameInfo.updateInfo(gameInfo.getScreenWidth(), newValue.doubleValue());
-            pauseMenu.getVBox().setPrefHeight(newValue.doubleValue());
+            pauseMenu.setButtonVBoxSizeY(newValue.doubleValue());
         });
     }
 

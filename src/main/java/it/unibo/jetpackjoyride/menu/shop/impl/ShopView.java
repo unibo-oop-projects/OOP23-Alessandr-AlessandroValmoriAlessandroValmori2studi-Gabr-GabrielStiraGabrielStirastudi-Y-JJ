@@ -4,7 +4,10 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
+import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
+import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Scene;
@@ -20,7 +23,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.Map;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
@@ -29,6 +35,11 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
  */
 public class ShopView extends GameMenu {
     // Constants related to image positioning
+
+    private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
+    private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
+    private List<BackToMenuObs> backList = new ArrayList<>();
+
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
     private static final int IMAGE_DISTANCE = 30;
@@ -128,37 +139,41 @@ public class ShopView extends GameMenu {
                     entry.getValue().getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
                             + BUY_BUTTON_Y_DISPLACEMENT + this.cuddleImageYPos);
             entry.getKey().setOnAction(e -> {
-                this.controller.buy(entry.getValue());
+               this.buyObsList.forEach(obs -> obs.onItemBought(entry.getValue()));
             });
         }
 
         // inizializza e posiziona la description map
 
-        final Button backButton = ButtonFactory.createButton("menu", e -> this.controller.backToMenu(),
-                BUTTON_WIDTH * 2,
+        final Button backButton = ButtonFactory.createButton("menu", e -> this.backList.forEach(obs -> obs.goBack()), BUTTON_WIDTH * 2,
                 30 * 2);
 
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-        shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
-        shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
-        shieldNum.setFill(Color.GREEN);
-        shieldNum.setTranslateX(SHIELD_COUNTER_X_POS);
-        shieldNum.setTranslateY(
-                Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE) + this.cuddleImageYPos);
-
-        equipShieldButton.setText("EQUIP");
-        equipShieldButton.setStyle(EQUIP_SHIELD_BUTTON_STYLE);
-        equipShieldButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        equipShieldButton.setTranslateX(BUY_BUTTON_X_POS + BUTTON_WIDTH +
-                IMAGE_DISTANCE);
-        equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
-                + this.cuddleImageYPos + BUY_BUTTON_Y_DISPLACEMENT);
-        equipShieldButton.setOnAction(e -> {
-            this.controller.toggleEquipUnequipShield();
-
-        });
+        
+          shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
+          shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
+          shieldNum.setFill(Color.GREEN);
+          shieldNum.setTranslateX(SHIELD_COUNTER_X_POS);
+          shieldNum.setTranslateY(Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE) + this.cuddleImageYPos);
+          
+          
+          
+          
+          
+          equipShieldButton.setText("EQUIP");
+          equipShieldButton.setStyle(EQUIP_SHIELD_BUTTON_STYLE);
+          equipShieldButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+          equipShieldButton.setTranslateX(BUY_BUTTON_X_POS + BUTTON_WIDTH +
+          IMAGE_DISTANCE);
+          equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
+          + this.cuddleImageYPos + BUY_BUTTON_Y_DISPLACEMENT);
+          equipShieldButton.setOnAction(e -> {
+          this.equipObsList.forEach(obs -> obs.toggleShieldEquipped());
+          
+          });
+         
 
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
@@ -200,6 +215,30 @@ public class ShopView extends GameMenu {
      */
     public void setSceneOnStage() {
         this.stage.setScene(this.scene);
+    }
+
+
+    public void addBuyObs(ShopItemPurchaseObs observer) {
+        buyObsList.add(observer);
+    }
+
+    public void addBackToMenuObs(BackToMenuObs observer) {
+        backList.add(observer);
+    }
+    public void removeBackToMenuObs(BackToMenuObs observer) {
+        backList.remove(observer);
+    }
+    
+    public void removeBuyObs(ShopItemPurchaseObs observer) {
+        buyObsList.remove(observer);
+    }
+    
+    public void addEquipObserver(ShieldEquippedObs observer) {
+        equipObsList.add(observer);
+    }
+    
+    public void removeEquipObs(ShieldEquippedObs observer) {
+        equipObsList.remove(observer);
     }
 
     public void update() {

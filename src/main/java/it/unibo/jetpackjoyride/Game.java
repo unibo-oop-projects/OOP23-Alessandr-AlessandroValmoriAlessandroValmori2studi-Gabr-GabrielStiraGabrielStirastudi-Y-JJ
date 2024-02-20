@@ -7,7 +7,7 @@ import javafx.application.Application;
  * It contains the main method that launches the JavaFX application.
  */
 public final class Game {
- 
+
     private Game() {
     }
 

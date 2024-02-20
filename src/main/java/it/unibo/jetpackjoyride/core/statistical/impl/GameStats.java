@@ -63,7 +63,7 @@ public final class GameStats implements GameStatsModel {
     }
 
     @Override
-    public int getTotCoins(){
+    public int getTotCoins() {
         return this.totCoins;
     }
 
@@ -77,7 +77,7 @@ public final class GameStats implements GameStatsModel {
         return bestDistance;
     }
 
-    private void setBestDistance(){
+    private void setBestDistance() {
         if (currentDistance > bestDistance) {
              bestDistance = currentDistance;
         }
@@ -85,7 +85,7 @@ public final class GameStats implements GameStatsModel {
 
     @Override
     public void addDistance() {
-        this.currentDistance = currentDistance +GameInfo.MOVE_SPEED.get();
+        this.currentDistance = currentDistance + GameInfo.MOVE_SPEED.get();
     }
 
     @Override

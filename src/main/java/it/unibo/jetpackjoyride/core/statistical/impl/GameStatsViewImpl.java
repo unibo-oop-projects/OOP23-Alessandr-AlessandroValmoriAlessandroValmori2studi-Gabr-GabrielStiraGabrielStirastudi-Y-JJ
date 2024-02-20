@@ -53,7 +53,7 @@ public final class GameStatsViewImpl implements GameStatsView {
     }
 
     @Override
-    public void updateDataView(List<Integer> data) {
+    public void updateDataView(final List<Integer> data) {
         coinAndDistanceText.setText("Current meter: " 
                                     + data.get(CURRENT_DISTANCE)
                                     + "\n" 
@@ -65,7 +65,7 @@ public final class GameStatsViewImpl implements GameStatsView {
     }
 
     @Override
-    public void setNodeOnRoot(Pane root) {
+    public void setNodeOnRoot(final Pane root) {
          root.getChildren().add(this.group);
     }
 

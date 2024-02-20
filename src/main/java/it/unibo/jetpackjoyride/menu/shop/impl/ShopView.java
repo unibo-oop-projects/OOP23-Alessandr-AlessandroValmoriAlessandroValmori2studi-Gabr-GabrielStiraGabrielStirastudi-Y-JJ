@@ -10,11 +10,10 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -39,6 +38,7 @@ public class ShopView extends GameMenu {
     private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
     private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
     private List<BackToMenuObs> backList = new ArrayList<>();
+    private StackPane root = new StackPane();
 
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
@@ -88,7 +88,7 @@ public class ShopView extends GameMenu {
             this.update();
         });
         initializeGameMenu();
-        stage.centerOnScreen();
+        getStage().centerOnScreen();
         stageCloseAction();
 
         // initializes the button map e la description map
@@ -214,7 +214,7 @@ public class ShopView extends GameMenu {
      * Sets the scene of the shop menu on Stage.
      */
     public void setSceneOnStage() {
-        this.stage.setScene(this.scene);
+        this.getStage().setScene(this.scene);
     }
 
 
@@ -278,11 +278,12 @@ public class ShopView extends GameMenu {
         root.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
+        addButtons(root);
     }
 
     @Override
     protected void stageCloseAction() {
-        stage.setOnCloseRequest(event -> {
+        getStage().setOnCloseRequest(event -> {
             this.controller.save();
             defaultCloseAction();
         });

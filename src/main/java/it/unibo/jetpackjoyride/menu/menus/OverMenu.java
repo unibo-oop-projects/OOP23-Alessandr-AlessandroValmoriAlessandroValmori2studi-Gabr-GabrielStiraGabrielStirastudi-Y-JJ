@@ -61,11 +61,11 @@ public final class OverMenu extends GameMenu {
 
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
-            this.gameLoop = new GameLoop(stage, getGameStatsHandler()); 
-            Command restartCommand = new RestartCommand(this.gameLoop, stage, this); 
+            this.gameLoop = new GameLoop(getStage(), getGameStatsHandler()); 
+            Command restartCommand = new RestartCommand(this.gameLoop, getStage(), this); 
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, this.stage);
+        Command openShopCommand = new OpenShopCommand(shopController, this.getStage());
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
@@ -77,6 +77,6 @@ public final class OverMenu extends GameMenu {
      * show the OverMenu on Main Stage.
      */
     public void show() {
-        this.stage.setScene(this.scene);
+        this.getStage().setScene(this.scene);
     }
 }

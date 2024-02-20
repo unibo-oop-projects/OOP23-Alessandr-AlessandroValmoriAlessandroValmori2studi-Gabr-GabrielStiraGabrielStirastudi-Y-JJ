@@ -21,11 +21,11 @@ public final class Missile extends AbstractObstacle {
         bufferMovement = new Movement.Builder().setPosition(this.movement.getRealPosition())
             .setSpeed(this.movement.getSpeed())
             .setAcceleration(this.movement.getAcceleration())
-            .setRotation(this.movement.getRotation())
+            .setRotation(this.movement.getSpeed().get2()> 0 ? -45.0 : this.movement.getSpeed().get2()<0 ? 45.0 : 0.0,0.0)
             .setMovementChangers(this.movement.getMovementChangers()).build();
 
         this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.movement.getRealPosition().get2())
-                .setRotation(this.movement.getRealPosition().get2(),0.0)
+                .setRotation(this.bufferMovement.getRotation())
                 .build();
     }
 
@@ -42,6 +42,7 @@ public final class Missile extends AbstractObstacle {
                     .setPosition(this.bufferMovement.getRealPosition().get1()-OUTOFBOUNDSSX, this.bufferMovement.getRealPosition().get2())
                     .setSpeed(-gameMovingSpeed*2, this.bufferMovement.getSpeed().get2())
                     .setAcceleration(this.bufferMovement.getAcceleration())
+                    .setRotation(this.bufferMovement.getRotation())
                     .setMovementChangers(this.bufferMovement.getMovementChangers())
                     .build();
             }

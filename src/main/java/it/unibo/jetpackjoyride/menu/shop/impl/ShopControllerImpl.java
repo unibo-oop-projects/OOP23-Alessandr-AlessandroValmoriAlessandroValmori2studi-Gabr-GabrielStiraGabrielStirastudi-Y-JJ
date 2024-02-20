@@ -10,6 +10,7 @@ import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
+import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
@@ -34,9 +35,7 @@ public final class ShopControllerImpl implements ShopController {
     private int numOfShields;
     private boolean isShieldEquipped;
     private final Set<Items> unlockedItems;
-    private final Deque<String> characters;
-
-    private static final String PASSWORD = "TRUFFLEWORM";
+    
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -46,7 +45,7 @@ public final class ShopControllerImpl implements ShopController {
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
 
-        this.characters = new LinkedList<>();
+        
         this.gameMenu = gameMenu;
 
         this.gameStatsHandler = gameMenu.getGameStatsHandler();
@@ -64,11 +63,13 @@ public final class ShopControllerImpl implements ShopController {
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
         ShieldEquippedObs shieldEquippedObs = new ShieldEquippedObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
+        CharacterObs charObs = new CharacterImpl(this, this.gameStatsHandler);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
         this.view.addEquipObserver(shieldEquippedObs);
         this.view.addBackToMenuObs(backToMenuObs);
+        this.view.addCharObs(charObs);
     }
 
     /**
@@ -148,28 +149,7 @@ public final class ShopControllerImpl implements ShopController {
         return this.unlockedItems;
     }
 
-    @Override
-    public void type(final KeyCode code) {
-        if (!this.unlockedItems.contains(Items.DUKE)) {
-            final StringBuilder sb = new StringBuilder();
-           
-            characters.addLast(code.getChar());
-            if (this.characters.size() == 12) {
-                this.characters.removeFirst();
-            }
-            if (this.characters.size() == 11) {
-
-                for (final var ch : this.characters) {
-                    sb.append(ch);
-                }
-                final String concatenatedString = sb.toString();
-                if (concatenatedString.equals(PASSWORD)) {
-                    System.out.println("DUKE Unlocked");
-                    this.unlockedItems.add(Items.DUKE);
-                }
-            }
-        }
-    }
+    
 
     @Override
     public void save() {
@@ -193,4 +173,8 @@ public final class ShopControllerImpl implements ShopController {
         this.view.update();
     }
 
+    @Override
+    public void unlock(Items item) {
+        this.unlockedItems.add(item);
+    }
 }

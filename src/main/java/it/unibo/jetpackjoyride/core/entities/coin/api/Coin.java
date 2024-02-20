@@ -42,17 +42,10 @@ public interface Coin {
  */
     void setCollectedState(boolean isCollected);
 
-     /**
-     * Get hitbox of the coin model.
-     * 
-     * @return The hitbox of the coin model.
-     */
-    Hitbox geHitbox();
-
-    /**
-     * Check if the coin is collected.
-     * 
-     * @return True if the coin is collected, false otherwise.
-     */
-    boolean isCollected();
+/**
+ * Check the collision between coin and player.
+ * @return the value 1 in case of collision happend, otherwise 0
+ * @param playerHitbox the hitbox of the player, use to check collision with coin
+ */
+    Integer checkCollision(Hitbox playerHitbox);
 }

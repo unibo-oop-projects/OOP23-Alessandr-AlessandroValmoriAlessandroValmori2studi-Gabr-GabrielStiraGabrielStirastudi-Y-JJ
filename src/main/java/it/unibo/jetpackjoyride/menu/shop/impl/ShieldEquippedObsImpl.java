@@ -2,12 +2,13 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
 public class ShieldEquippedObsImpl implements ShieldEquippedObs {
 
-    private ShopControllerImpl shopController;
+    private ShopController shopController;
 
-    public ShieldEquippedObsImpl(ShopControllerImpl shopController) {
+    public ShieldEquippedObsImpl(ShopController shopController) {
         this.shopController = shopController;
     }
 
@@ -15,5 +16,6 @@ public class ShieldEquippedObsImpl implements ShieldEquippedObs {
     public void toggleShieldEquipped() {
 
         shopController.toggleEquipUnequipShield();
+        shopController.updateView();
     }
 }

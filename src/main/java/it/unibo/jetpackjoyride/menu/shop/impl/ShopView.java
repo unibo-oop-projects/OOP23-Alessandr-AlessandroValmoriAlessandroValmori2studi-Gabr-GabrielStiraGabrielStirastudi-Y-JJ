@@ -5,6 +5,7 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
+import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
@@ -39,6 +40,7 @@ public class ShopView extends GameMenu {
     private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
     private List<BackToMenuObs> backList = new ArrayList<>();
     private StackPane root = new StackPane();
+    private List<CharacterObs> charObsList = new ArrayList<>();
 
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
@@ -84,7 +86,7 @@ public class ShopView extends GameMenu {
         this.controller = controller;
 
         scene.setOnKeyPressed(ev -> {
-            this.controller.type(ev.getCode());
+            this.charObsList.forEach(obs -> obs.type(ev.getCode()));
             this.update();
         });
         initializeGameMenu();
@@ -217,13 +219,15 @@ public class ShopView extends GameMenu {
         this.getStage().setScene(this.scene);
     }
 
-
     public void addBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
     }
 
     public void addBackToMenuObs(BackToMenuObs observer) {
         backList.add(observer);
+    }
+    public void addCharObs(CharacterObs observer){
+        charObsList.add(observer);
     }
     public void removeBackToMenuObs(BackToMenuObs observer) {
         backList.remove(observer);
@@ -240,6 +244,10 @@ public class ShopView extends GameMenu {
     public void removeEquipObs(ShieldEquippedObs observer) {
         equipObsList.remove(observer);
     }
+    public void removeCharObs(CharacterObs observer){
+        charObsList.remove(observer);
+    }
+    
 
     public void update() {
         if (this.controller.getUnlocked().contains(Items.DUKE)) {

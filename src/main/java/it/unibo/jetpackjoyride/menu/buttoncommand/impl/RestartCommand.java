@@ -26,7 +26,6 @@ public final class RestartCommand implements Command {
         this.gameLoop = gameLoop;
         this.stage = stage;
         this.menu = menu;
-
     }
 
     @Override

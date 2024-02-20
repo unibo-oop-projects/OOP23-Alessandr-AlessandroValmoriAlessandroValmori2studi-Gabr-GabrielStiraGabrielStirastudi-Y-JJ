@@ -55,10 +55,7 @@ public final class GameLoop {
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();
-        if (stage.isFullScreen()) {
-            stage.setFullScreen(false);
-            stage.centerOnScreen();
-        }
+        stage.centerOnScreen();
     }
 
     private void initializeScene() {

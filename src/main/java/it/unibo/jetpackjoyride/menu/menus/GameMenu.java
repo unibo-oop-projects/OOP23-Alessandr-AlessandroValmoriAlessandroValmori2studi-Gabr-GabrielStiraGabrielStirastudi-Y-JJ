@@ -35,17 +35,17 @@ public abstract class GameMenu {
     /**
     * The primary stage for the game menu, serving as the top-level JavaFX container.
     */
-    protected final Stage stage;
+    private final Stage stage;
 
     /**
     * The root pane for the game menu layout, which holds all other UI elements.
     */
-    protected final StackPane root;
+    private final StackPane root;
 
     /**
     * ImageView for displaying the menu's background image.
     */
-    protected ImageView menuImageView;
+    private ImageView menuImageView;
 
     /**
     * Utility for accessing game information such as screen dimensions.
@@ -96,6 +96,15 @@ public abstract class GameMenu {
      */
     public GameStatsController getGameStatsHandler() {
         return this.gameStatsController;
+    }
+
+    /**
+     * Gets the primary stage of the game menu.
+     * 
+     * @return The primary stage of the game menu.
+     */
+    public Stage getStage() {
+        return stage;
     }
 
      /**

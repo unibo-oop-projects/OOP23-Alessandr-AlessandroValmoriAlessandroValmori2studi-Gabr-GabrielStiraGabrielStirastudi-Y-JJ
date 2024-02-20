@@ -56,7 +56,7 @@ public final class GameStatsHandler implements GameStatsController {
     }
 
     @Override
-    public void setScorePaneOnRoot(Pane root) {
+    public void setScorePaneOnRoot(final Pane root) {
           this.view.setNodeOnRoot(root);
     }
 }

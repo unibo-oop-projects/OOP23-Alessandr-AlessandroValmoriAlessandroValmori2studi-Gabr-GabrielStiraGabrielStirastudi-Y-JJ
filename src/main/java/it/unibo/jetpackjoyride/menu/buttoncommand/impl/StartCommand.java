@@ -17,7 +17,6 @@ public final class StartCommand implements Command {
      * Constructs a new StartCommand.
      *
      * @param gameLoop the game loop
-     * @param stage    the stage
      * @param menu     the game menu
      */
     public StartCommand(final GameLoop gameLoop, final GameMenu menu) {

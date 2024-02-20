@@ -183,8 +183,8 @@ public final class PowerUpView implements GenericView {
                 break;
         }
 
-        imageView.setX(powerUp.getEntityMovement().getCurrentPosition().get1() - width / 2);
-        imageView.setY(powerUp.getEntityMovement().getCurrentPosition().get2() - height / 2);
+        imageView.setX(powerUp.getEntityMovement().getRelativePosition().get1() - width / 2);
+        imageView.setY(powerUp.getEntityMovement().getRelativePosition().get2() - height / 2);
         imageView.setRotate(powerUp.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

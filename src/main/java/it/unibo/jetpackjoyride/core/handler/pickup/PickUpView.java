@@ -82,8 +82,8 @@ public class PickUpView implements GenericView{
         }
 
 
-		imageView.setX(pickUp.getEntityMovement().getCurrentPosition().get1() - width / 2);
-        imageView.setY(pickUp.getEntityMovement().getCurrentPosition().get2() - height / 2);
+		imageView.setX(pickUp.getEntityMovement().getRelativePosition().get1() - width / 2);
+        imageView.setY(pickUp.getEntityMovement().getRelativePosition().get2() - height / 2);
         imageView.setRotate(pickUp.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

@@ -3,38 +3,91 @@ package it.unibo.jetpackjoyride.core.entities.entity.api;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
-/* IMPORTANT for the ones which will work with instances of objects which have collisions, can be drawn, can be controlled, etc...
- * Referring in particular to Barry, obstacles, power-up, coins, mini power-up, any form of particle which has collisions, etc...
- * Choose if you want to implement a general interface Entities and then maybe some abstract classes to specify the behaviour of
- * each entity you will have to deal with, or if you want to implement different interfaces for each entity (first one recommended).
+/**
+ * The {@link Entity} interface defines the common behaviour on which to base
+ * the implementation of all entities in the game.
+ * 
+ * @author gabriel.stira@studio.unibo.it
  */
 
-/* An interface for the entities */
-
 public interface Entity {
+    /**
+     * Defines the types of entities in the game.
+     */
     enum EntityType {
         OBSTACLE, POWERUP, PICKUP
     }
 
-    enum EntityStatus { //  COLLISION ON?  |   IS SHOWN?
-        CHARGING,       //       No              Yes
-        ACTIVE,         //       Yes             Yes
-        DEACTIVATED,    //       No              Yes
-        INACTIVE        //       No              No
+    /**
+     * Defines the current status of an entity.
+     */
+    enum EntityStatus { 
+        /**
+         * Entity has no active collision and is shown
+         */
+        CHARGING,
+        /**
+         * Entity has an active collision and is shown
+         */
+        ACTIVE,
+        /**
+         * Entity has no active collision and is shown
+         */
+        DEACTIVATED,
+        /**
+         * Entity has no active collision and is not shown
+         */
+        INACTIVE
     }
 
+    /**
+     * Gets the type of the entity.
+     *
+     * @return The type of the entity.
+     */
     EntityType getEntityType();
 
+    /**
+     * Gets the current status of the entity.
+     *
+     * @return The current status of the entity.
+     */
     EntityStatus getEntityStatus();
 
+    /**
+     * Gets the class which handles the movement characteristics of the entity.
+     *
+     * @return The movement behaviour of the entity.
+     */
     Movement getEntityMovement();
 
+    /**
+     * Gets the class which handles the collision characteristics of the entity.
+     *
+     * @return The collision behaviour of the entity.
+     */
     Hitbox getHitbox();
 
+    /**
+     * Gets the number of times the entity has been updated (ticks).
+     *
+     * @return The age of the entity.
+     */
     Integer getLifetime();
 
+    /**
+     * Sets a new status for the entity.
+     *
+     * @param entityStatus The new status of the entity.
+     */
     void setEntityStatus(EntityStatus entityStatus);
 
+    /**
+     * Updates the entity.
+     *
+     * @param isSpaceBarPressed Is used for entities which interact with the player directly. 
+     * As of now, only thePowerUps use this parameter. Other entities ignore it.
+     */
     void update(boolean isSpaceBarPressed);
 
 }

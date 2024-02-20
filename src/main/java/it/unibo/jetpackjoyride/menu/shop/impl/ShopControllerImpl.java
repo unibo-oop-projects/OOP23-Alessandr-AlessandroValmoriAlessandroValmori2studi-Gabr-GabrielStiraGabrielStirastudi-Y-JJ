@@ -105,7 +105,7 @@ public final class ShopControllerImpl  implements ShopController {
     @Override
     public void backToMenu() {
         this.save();
-        primaryStage.setScene(gameMenu.getScene());
+        gameMenu.showMenu();
     }
 
     @Override

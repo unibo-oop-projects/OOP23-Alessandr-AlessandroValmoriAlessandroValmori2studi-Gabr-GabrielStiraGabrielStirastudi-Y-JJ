@@ -9,6 +9,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
@@ -34,13 +35,12 @@ public final class OverMenu extends GameMenu {
      * @param gameStatsHandler  the game statistics handler
      */
     public OverMenu(final Stage primaryStage,
-                        final GameLoop gameLoop,
+                        final Scene gamScene,
                         final GameStatsController gameStatsHandler) {
         super(primaryStage,gameStatsHandler);
-        this.gameLoop = gameLoop;
         writableImage = 
-        new WritableImage((int)this.gameLoop.getScene().getWidth(), (int)this.gameLoop.getScene().getHeight());
-        this.gameLoop.getScene().snapshot(writableImage);
+        new WritableImage((int)gamScene.getWidth(), (int)gamScene.getHeight());
+        gamScene.snapshot(writableImage);
         setMenuImage(writableImage);
         shopController = new ShopControllerImpl(primaryStage, this);
         buttonsVBox = new VBox();

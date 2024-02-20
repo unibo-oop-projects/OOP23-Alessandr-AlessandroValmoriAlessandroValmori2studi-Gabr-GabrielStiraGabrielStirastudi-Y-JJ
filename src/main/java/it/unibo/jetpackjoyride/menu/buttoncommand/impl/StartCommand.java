@@ -30,7 +30,6 @@ public final class StartCommand implements Command {
 
     @Override
     public void execute() {
-        stage.setScene(gameLoop.getScene());
         menu.removeListener();
         gameLoop.startLoop();
     }

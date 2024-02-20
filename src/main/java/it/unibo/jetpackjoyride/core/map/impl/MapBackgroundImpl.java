@@ -30,9 +30,9 @@ public final class MapBackgroundImpl implements MapBackground {
     /**
      * Constructor of the MapBackgroundImpl.
      */
-    public MapBackgroundImpl() {
+    public MapBackgroundImpl(final Pane gameRoot) {
         model = new MapBackgroundModelImpl();
-        view = new MapBackgroungViewImpl(this);
+        view = new MapBackgroungViewImpl(this, gameRoot);
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(DURATION_SECONDS), e -> {
             if (GameInfo.moveSpeed.get() == MAX_SPEED) {
@@ -44,15 +44,16 @@ public final class MapBackgroundImpl implements MapBackground {
     }
 
     @Override
+    public void setMapOnGameRoot() {
+            view.addNodeInRoot();
+    }
+
+    @Override
     public void updateBackground() {
         updateBackgroundModel();
         updateBackgroundView();
     }
 
-    @Override
-    public Pane getPane() {
-        return view.getPane();
-    }
 
     @Override
     public void reset() {
@@ -89,4 +90,6 @@ public final class MapBackgroundImpl implements MapBackground {
         }
         this.model.updateBackgroundModel();
     }
+
+    
 }

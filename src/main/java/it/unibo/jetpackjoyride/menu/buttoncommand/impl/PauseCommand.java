@@ -28,6 +28,6 @@ public final class PauseCommand implements Command {
     @Override
     public void execute() {
         this.gameLoop.stopLoop();
-        menu.setVisible(true);      
+        menu.setVisible(true); 
     }
 }

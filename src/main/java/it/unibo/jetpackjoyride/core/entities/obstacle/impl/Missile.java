@@ -31,7 +31,7 @@ public final class Missile extends AbstractObstacle {
 
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-        final Double gameMovingSpeed = Double.valueOf(GameInfo.moveSpeed.get());
+        final Double gameMovingSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;

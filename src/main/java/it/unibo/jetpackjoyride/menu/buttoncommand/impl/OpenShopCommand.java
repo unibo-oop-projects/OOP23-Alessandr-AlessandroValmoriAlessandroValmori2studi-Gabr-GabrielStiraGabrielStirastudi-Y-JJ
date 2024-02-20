@@ -26,6 +26,7 @@ public final class OpenShopCommand implements Command {
 
     @Override
     public void execute() {
-        stage.setScene(shopController.getScene());
+        shopController.showTheShop();
+        stage.centerOnScreen();
     }
 }

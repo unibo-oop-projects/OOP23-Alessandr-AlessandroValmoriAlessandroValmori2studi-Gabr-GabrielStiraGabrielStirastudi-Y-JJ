@@ -26,14 +26,13 @@ public final class RestartCommand implements Command {
         this.gameLoop = gameLoop;
         this.stage = stage;
         this.menu = menu;
-
     }
 
     @Override
     public void execute() {
-        stage.setScene(gameLoop.getScene());
         menu.removeListener();
         gameLoop.resetLoop();
         gameLoop.startLoop();
+        stage.centerOnScreen();
     }
 }

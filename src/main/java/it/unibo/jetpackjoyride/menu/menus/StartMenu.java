@@ -38,11 +38,11 @@ public final class StartMenu extends GameMenu {
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
         shopController = new ShopControllerImpl(primaryStage, this);
-        this.gameLoop = Optional.of(new GameLoop(this.stage, getGameStatsHandler())); 
+        this.gameLoop = Optional.of(new GameLoop(this.getStage(), getGameStatsHandler())); 
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
-        setGameStagePosition();
+        getStage().centerOnScreen();
         stageCloseAction();
     }
 
@@ -51,10 +51,13 @@ public final class StartMenu extends GameMenu {
         VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Command startCommand = new StartCommand(this.gameLoop.get(), stage, this);
-        Button startButton = ButtonFactory.createButton("PlayGame", e -> { startCommand.execute(); 
-            setGameStagePosition(); } , DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, stage);
+        Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
+            this.gameLoop = Optional.of(new GameLoop(this.getStage(), getGameStatsHandler())); 
+            Command startCommand = new StartCommand(this.gameLoop.get(), this);
+            startCommand.execute();
+            getStage().centerOnScreen();
+        }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
+        Command openShopCommand = new OpenShopCommand(shopController, this.getStage());
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
@@ -70,7 +73,7 @@ public final class StartMenu extends GameMenu {
 
     @Override
     protected void stageCloseAction() {
-        stage.setOnCloseRequest(event -> {
+        getStage().setOnCloseRequest(event -> {
             if (this.gameLoop.isPresent()) {
             this.gameLoop.get().endLoop();
             }

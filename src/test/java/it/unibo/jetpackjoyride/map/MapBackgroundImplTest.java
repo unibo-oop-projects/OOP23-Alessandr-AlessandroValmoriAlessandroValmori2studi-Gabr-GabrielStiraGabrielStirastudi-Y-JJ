@@ -6,6 +6,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -24,11 +26,13 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     private static final int WIDTH_DEFALUT = 800;
     private static final int HEIGHT_DEFALUT = 600;
     private MapBackgroundImpl mapBackground;
+    private Pane root;
 
     @Override
     public void start(final Stage stage) {
-        mapBackground = new MapBackgroundImpl();
-        stage.setScene(new Scene(mapBackground.getPane(), WIDTH_DEFALUT, HEIGHT_DEFALUT));
+        mapBackground = new MapBackgroundImpl(null);
+        root = new Pane();
+        stage.setScene(new Scene(root, WIDTH_DEFALUT, HEIGHT_DEFALUT));
         stage.show();
     }
 
@@ -62,8 +66,8 @@ public final class MapBackgroundImplTest extends ApplicationTest {
             double x1 = mapBackground.getPosX().get1();
             double x2 = mapBackground.getPosX().get2();
             mapBackground.updateBackground();
-            assertEquals(x1 - GameInfo.moveSpeed.get(), mapBackground.getPosX().get1());
-            assertEquals(x2 - GameInfo.moveSpeed.get(), mapBackground.getPosX().get2());
+            assertEquals(x1 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get1());
+            assertEquals(x2 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get2());
         });
     }
 
@@ -73,10 +77,10 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     @Test
     public void testReset() {
         interact(() -> {
-            GameInfo.moveSpeed.set(10);
-            assertEquals(10, GameInfo.moveSpeed.get());
+            GameInfo.MOVE_SPEED.set(10);
+            assertEquals(10, GameInfo.MOVE_SPEED.get());
             mapBackground.reset();
-            assertEquals(EXPECTED_DEFALUT_MOVE_SPEED, GameInfo.moveSpeed.get());
+            assertEquals(EXPECTED_DEFALUT_MOVE_SPEED, GameInfo.MOVE_SPEED.get());
         });
     }
 

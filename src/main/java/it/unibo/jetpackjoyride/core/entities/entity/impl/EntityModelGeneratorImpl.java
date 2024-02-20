@@ -57,11 +57,11 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
                 obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
                 break;
             case ZAPPER: //Canon obstacle existing in the original game
-                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), LASERHITBOXDIMENSIONS);
+                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), ZAPPERHITBOXDIMENSIONS);
                 obstacleModel = new Zapper(obstacleMovement, obstacleHitbox);
                 break;
             case LASER: //Canon obstacle existing in the original game
-                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), ZAPPERHITBOXDIMENSIONS);
+                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), LASERHITBOXDIMENSIONS);
                 obstacleModel = new Laser(obstacleMovement, obstacleHitbox);
                 break;
             default:

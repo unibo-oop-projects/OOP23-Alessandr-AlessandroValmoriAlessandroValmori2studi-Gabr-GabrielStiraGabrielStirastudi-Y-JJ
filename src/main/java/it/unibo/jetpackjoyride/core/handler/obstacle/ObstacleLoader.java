@@ -63,7 +63,7 @@ public class ObstacleLoader {
     }
 
     private Pair<Double, Double> mapYDivisor(final Integer xDivisor, final Integer yDivisor) {
-        return new Pair<Double, Double>(this.screenSizeX * xDivisor / 100, this.screenSizeY * yDivisor / 100);
+        return new Pair<Double, Double>(xDivisor*1.0,  yDivisor*1.0);
     }
 
     private List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> patternSpawner() {
@@ -72,11 +72,9 @@ public class ObstacleLoader {
 
         final Integer random = new Random().nextInt(3);
         var rand = this.difficulty * 3 - random;
-        //this.patternSelector.get(50).pattern(listOfObstacles);
+        this.patternSelector.get(50).pattern(listOfObstacles);
        
-        //return listOfObstacles;
-
-        return List.of();
+        return listOfObstacles;
     }
 
     private GenericController<Obstacle, ObstacleView> singleMissile(final Pair<Double, Double> pos,
@@ -355,7 +353,7 @@ public class ObstacleLoader {
         this.patternSelector.put(50, (l) -> {
             this.duration = 30;
             
-            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 40), new Pair<>(0.0,0.0), List.of()), 1));
+            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(1300, 400), new Pair<>(17.0,0.0)), 1));
         });
 
     }

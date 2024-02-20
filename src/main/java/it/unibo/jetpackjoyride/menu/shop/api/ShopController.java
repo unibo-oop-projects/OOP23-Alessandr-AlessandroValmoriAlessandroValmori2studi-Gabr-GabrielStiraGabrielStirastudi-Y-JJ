@@ -46,6 +46,8 @@ public interface ShopController {
             return this.description;
         }
     }
+
+    void updateView();
     
 
     Scene getScene();

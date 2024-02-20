@@ -4,7 +4,10 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.GameMenu;
+import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
+import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.Scene;
@@ -22,7 +25,8 @@ import javafx.stage.Stage;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
@@ -31,9 +35,13 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
  */
 public class ShopView extends GameMenu {
     // Constants related to image positioning
+
+    private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
+    private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
+    private List<BackToMenuObs> backList = new ArrayList<>();
+
     private final int imageXPos = 50;
     private final int imageSize = 110;
-    private final int imageSizeHalf = imageSize / 2;
     private final int imageDistance = 30;
 
     // Constants related to button positioning
@@ -129,13 +137,13 @@ public class ShopView extends GameMenu {
             entry.getKey().setTranslateY(
                     entry.getValue().getOrder().get() * (this.imageSize + this.imageDistance) + buyButtonYDisplacement+ this.cuddleImageYPos);
             entry.getKey().setOnAction(e -> {
-                this.controller.buy(entry.getValue());
+               this.buyObsList.forEach(obs -> obs.onItemBought(entry.getValue()));
             });
         }
 
         // inizializza e posiziona la description map 
 
-        final Button backButton = ButtonFactory.createButton("menu", e -> this.controller.backToMenu(), buttonWidth * 2,
+        final Button backButton = ButtonFactory.createButton("menu", e -> this.backList.forEach(obs -> obs.goBack()), buttonWidth * 2,
                 30 * 2);
         ;
         backButton.setTranslateX(20);
@@ -160,7 +168,7 @@ public class ShopView extends GameMenu {
           equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (this.imageSize + this.imageDistance)
           + this.cuddleImageYPos + buyButtonYDisplacement);
           equipShieldButton.setOnAction(e -> {
-          this.controller.toggleEquipUnequipShield();
+          this.equipObsList.forEach(obs -> obs.toggleShieldEquipped());
           
           });
          
@@ -213,6 +221,30 @@ public class ShopView extends GameMenu {
     public Scene getScene() {
         return scene;
     }
+
+    public void addBuyObs(ShopItemPurchaseObs observer) {
+        buyObsList.add(observer);
+    }
+
+    public void addBackToMenuObs(BackToMenuObs observer) {
+        backList.add(observer);
+    }
+    public void removeBackToMenuObs(BackToMenuObs observer) {
+        backList.remove(observer);
+    }
+    
+    public void removeBuyObs(ShopItemPurchaseObs observer) {
+        buyObsList.remove(observer);
+    }
+    
+    public void addEquipObserver(ShieldEquippedObs observer) {
+        equipObsList.add(observer);
+    }
+    
+    public void removeEquipObs(ShieldEquippedObs observer) {
+        equipObsList.remove(observer);
+    }
+    
 
     public void update() {
         if (this.controller.getUnlocked().contains(Items.DUKE)) {

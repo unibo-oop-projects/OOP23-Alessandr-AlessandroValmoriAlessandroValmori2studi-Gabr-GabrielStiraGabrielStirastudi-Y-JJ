@@ -18,10 +18,11 @@ import javafx.scene.image.Image;
 import java.util.Optional;
 
 /**
- * Class representing the  Start menu, extend from the GameMenu
+ * Class representing the  Start menu, extend from the GameMenu.
  * @author yukai.zhou@studio.unibo.it
  */
-public final class StartMenu extends GameMenu{
+public final class StartMenu extends GameMenu {
+    private static final int SPACING = 20;
 
     private Optional<GameLoop> gameLoop = Optional.empty();
     private final ShopController shopController;
@@ -32,12 +33,12 @@ public final class StartMenu extends GameMenu{
      * @param primaryStage        the primary stage
      * @param gameStatsController the game statistics controller
      */
-    public StartMenu(Stage primaryStage,final GameStatsController gameStatsController) {
+    public StartMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
         super(primaryStage, gameStatsController);
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
         shopController = new ShopControllerImpl(primaryStage, this);
-        this.gameLoop = Optional.of(new GameLoop(this.stage,getGameStatsHandler())); 
+        this.gameLoop = Optional.of(new GameLoop(this.stage, getGameStatsHandler())); 
         initializeGameMenu();
         primaryStage.setMinHeight(gameInfo.getDefaultHeight());
         primaryStage.setMinWidth(gameInfo.getDefaultWidth());
@@ -46,30 +47,31 @@ public final class StartMenu extends GameMenu{
     }
 
     @Override
-    protected void initializeGameMenu(){
-        VBox buttonsRoot = new VBox(20);
+    protected void initializeGameMenu() {
+        VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Command startCommand = new StartCommand(this.gameLoop.get(), stage,this);
-        Button startButton = ButtonFactory.createButton("PlayGame",
-        e->{startCommand.execute();setGameStagePosition();},150,50);
+        Command startCommand = new StartCommand(this.gameLoop.get(), stage, this);
+        Button startButton = ButtonFactory.createButton("PlayGame", e -> { startCommand.execute(); 
+            setGameStagePosition(); } , DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
         Command openShopCommand = new OpenShopCommand(shopController, stage);
-        Button  shopButton = ButtonFactory.createButton("Shop",e->openShopCommand.execute(),150,50);
+        Button  shopButton = ButtonFactory
+        .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
-        buttonsRoot.getChildren().addAll(startButton,shopButton);
+        buttonsRoot.getChildren().addAll(startButton, shopButton);
 
-        StackPane.setMargin(buttonsRoot, new Insets(this.scene.getHeight()/2, 0, 0, 0));
+        StackPane.setMargin(buttonsRoot, new Insets(this.scene.getHeight() / 2, 0, 0, 0));
         scene.heightProperty().addListener((obs, oldVal, newVal) -> {
-            StackPane.setMargin(buttonsRoot, new Insets(newVal.doubleValue()/2, 0, 0, 0));
+            StackPane.setMargin(buttonsRoot, new Insets(newVal.doubleValue() / 2, 0, 0, 0));
         });
-        
+
         addButtons(buttonsRoot);
     }
 
     @Override
-    protected void stageCloseAction(){
+    protected void stageCloseAction() {
         stage.setOnCloseRequest(event -> {
-            if(this.gameLoop.isPresent()){
+            if (this.gameLoop.isPresent()) {
             this.gameLoop.get().endLoop();
             }
             defaultCloseAction();

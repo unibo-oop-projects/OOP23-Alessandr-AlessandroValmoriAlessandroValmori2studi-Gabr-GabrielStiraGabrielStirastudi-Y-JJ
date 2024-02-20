@@ -10,11 +10,10 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public interface CoinShapeFactory {
 
-    /**
-     * Generates a list of regular shapes for coins.
-     *
-     * @return a list of pairs containing the positions of regular coin shapes
-     */
-    List<Pair<Double, Double>> regularShapes();
-    
+/**
+ * Generates a list of regular shapes for coins.
+ *
+ * @return a list of pairs containing the positions of regular coin shapes
+ */
+    List<Pair<Double, Double>> regularShapes(); 
 }

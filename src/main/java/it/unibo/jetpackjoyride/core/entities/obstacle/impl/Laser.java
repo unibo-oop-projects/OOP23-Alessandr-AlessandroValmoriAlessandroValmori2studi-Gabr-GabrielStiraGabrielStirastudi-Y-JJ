@@ -5,6 +5,10 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public final class Laser extends AbstractObstacle {
+    private final static Integer TIMEFORCHARGING = 100;
+    private final static Integer LASERDURATION = 150;
+    private final static Integer TIMEFORDECHARGING = 80;
+
     public Laser(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.LASER, movement, hitbox);
         this.entityStatus = EntityStatus.CHARGING;
@@ -12,21 +16,18 @@ public final class Laser extends AbstractObstacle {
 
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetime < 250) {
-            this.lifetime = 250;
+        if (this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetime < TIMEFORCHARGING+LASERDURATION) {
+            this.lifetime = TIMEFORCHARGING+LASERDURATION;
         }
 
-        switch (this.lifetime) {
-            case 100:
-                this.entityStatus = EntityStatus.ACTIVE;
-                break;
-            case 250:
-                this.entityStatus = EntityStatus.DEACTIVATED;
-                break;
-            case 330:
-                this.entityStatus = EntityStatus.INACTIVE;
-            default:
-                break;
+        if(this.lifetime.equals(TIMEFORCHARGING)) {
+            this.entityStatus = EntityStatus.ACTIVE;
+        }
+        if(this.lifetime.equals(TIMEFORCHARGING+LASERDURATION)) {
+            this.entityStatus = EntityStatus.DEACTIVATED;
+        }
+        if(this.lifetime.equals(TIMEFORCHARGING+LASERDURATION+TIMEFORDECHARGING)) {
+            this.entityStatus = EntityStatus.INACTIVE;
         }
     }
 }

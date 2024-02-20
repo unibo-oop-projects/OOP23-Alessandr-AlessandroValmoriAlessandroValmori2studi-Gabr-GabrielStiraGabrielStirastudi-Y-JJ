@@ -23,10 +23,11 @@ public interface EntityModelGenerator {
      * Generates an obstacle with the specified type and movement behavior.
      *
      * @param obstacleType    The type of obstacle to generate.
-     * @param obstacleMovement The movement behavior of the obstacle.
+     * @param obstacleMovement The movement behavior of the obstacle. Since obstacle's type of movement is neither random 
+     * nor fixated (can be dinamically chosen), a Movement has to be provided.
      * @return An obstacle which has the type and the movement specified.
      */
-    Obstacle generateObstacle(ObstacleType obstacleType, Movement obstacleMovement);
+    Obstacle generateObstacle(ObstacleType obstacleType, Movement obstacleMovement); 
 
     /**
      * Generates a list of power-ups of the specified type.

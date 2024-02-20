@@ -6,8 +6,7 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
-import it.unibo.jetpackjoyride.utilities.Pair;
+import it.unibo.jetpackjoyride.utilities.MovementChangers;
 
 public final class MrCuddles extends AbstractPowerUp {
     private final List<Boolean> lastFrames;
@@ -33,8 +32,6 @@ public final class MrCuddles extends AbstractPowerUp {
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 
-        final Double rotationAngle = this.movement.getSpeed().get2();
-        this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
 
         if (lastFrames.get(0)) {
             this.performingAction = PerformingAction.DESCENDING;
@@ -42,15 +39,13 @@ public final class MrCuddles extends AbstractPowerUp {
             this.performingAction = PerformingAction.ASCENDING;
         }
 
-        switch (this.performingAction) {
-            case ASCENDING:
-                this.movement.setMovementChangers(List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
-                break;
-            case DESCENDING:
-                this.movement.setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
-                break;
-            default:
-                break;
-        }
+        this.movement = new Movement.Builder()
+                .setPosition(this.movement.getRealPosition())
+                .setSpeed(this.movement.getSpeed())
+                .setAcceleration(this.movement.getAcceleration())
+                .setRotation(this.movement.getSpeed().get2(), 0.0)
+                .setMovementChangers(List.of(MovementChangers.BOUNDS,
+                     this.performingAction.equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+                .build();
     }
 }

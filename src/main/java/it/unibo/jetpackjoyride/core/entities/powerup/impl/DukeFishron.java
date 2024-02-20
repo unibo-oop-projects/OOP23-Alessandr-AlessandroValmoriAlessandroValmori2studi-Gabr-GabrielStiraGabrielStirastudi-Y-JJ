@@ -8,6 +8,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 public class DukeFishron extends AbstractPowerUp{
     private final static Integer DEFAULTENRAGETIMER = 200;
     private final static Integer DEFAULTENRAGEDURATION = 100;
+    private final static Double RAGESPEEDMODIFIER = 2.0;
+    private final static Double ROTATEDANGLE = 20.0;
 
     private Boolean intervalBewteenJumps;
     private Integer timerForRage;
@@ -25,7 +27,13 @@ public class DukeFishron extends AbstractPowerUp{
             case ASCENDING:
             case DESCENDING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
-                    this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), -this.movement.getSpeed().get2()));
+                    this.movement = new Movement.Builder()
+					    .setAcceleration(this.movement.getAcceleration())
+					    .setSpeed(this.movement.getSpeed().get1(), -this.movement.getSpeed().get2())
+					    .setPosition(this.movement.getRealPosition())
+					    .setRotation(this.movement.getSpeed().get2() > 0 ? new Pair<>(ROTATEDANGLE,0.0) : new Pair<>(-ROTATEDANGLE,0.0))
+					    .setMovementChangers(this.movement.getMovementChangers()).build();
+
                     this.intervalBewteenJumps = false;
                 }
                 break;
@@ -41,17 +49,23 @@ public class DukeFishron extends AbstractPowerUp{
 
         if(this.timerForRage.equals(DEFAULTENRAGETIMER)) {
             this.performingAction = PerformingAction.DESCENDING;
-            this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), this.movement.getSpeed().get2()*2.0));
+            this.movement = new Movement.Builder()
+					    .setAcceleration(this.movement.getAcceleration())
+					    .setSpeed(this.movement.getSpeed().get1(), this.movement.getSpeed().get2()*RAGESPEEDMODIFIER)
+					    .setPosition(this.movement.getRealPosition())
+					    .setRotation(this.movement.getRotation())
+					    .setMovementChangers(this.movement.getMovementChangers()).build();
         }
 
         if(this.timerForRage.equals(DEFAULTENRAGETIMER + DEFAULTENRAGEDURATION)) {
             this.performingAction = PerformingAction.ASCENDING;
             this.timerForRage = 0;
-            this.movement.setSpeed(new Pair<>(this.movement.getSpeed().get1(), this.movement.getSpeed().get2()/2.0));
+            this.movement = new Movement.Builder()
+					    .setAcceleration(this.movement.getAcceleration())
+					    .setSpeed(this.movement.getSpeed().get1(), this.movement.getSpeed().get2()/RAGESPEEDMODIFIER)
+					    .setPosition(this.movement.getRealPosition())
+					    .setRotation(this.movement.getRotation())
+					    .setMovementChangers(this.movement.getMovementChangers()).build();
         }
-
-        final Double rotationAngle = this.movement.getSpeed().get2();
-        this.movement.setRotation(new Pair<>(rotationAngle, 0.0));
-
     }
 }

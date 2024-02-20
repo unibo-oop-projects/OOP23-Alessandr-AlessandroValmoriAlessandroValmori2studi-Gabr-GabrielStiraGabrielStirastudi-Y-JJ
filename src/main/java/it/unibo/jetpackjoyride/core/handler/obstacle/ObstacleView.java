@@ -130,8 +130,8 @@ public final class ObstacleView implements GenericView{
                 break;
         }
 
-        imageView.setX(obstacle.getEntityMovement().getCurrentPosition().get1() - width / 2);
-        imageView.setY(obstacle.getEntityMovement().getCurrentPosition().get2() - height / 2);
+        imageView.setX(obstacle.getEntityMovement().getRelativePosition().get1() - width / 2);
+        imageView.setY(obstacle.getEntityMovement().getRelativePosition().get2() - height / 2);
         imageView.setRotate(obstacle.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

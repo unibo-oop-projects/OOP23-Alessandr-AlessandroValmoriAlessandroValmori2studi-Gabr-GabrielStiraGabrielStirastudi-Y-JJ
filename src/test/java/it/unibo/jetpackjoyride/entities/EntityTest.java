@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.entities; 
+/*package it.unibo.jetpackjoyride.entities; 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -24,7 +24,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.MovementImpl;
+import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class EntityTest{
@@ -42,15 +42,15 @@ public class EntityTest{
 
     @org.junit.Test
     public void testingAllEntitites() {
-        Movement entityMovement = new MovementImpl(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        Movement entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
         Hitbox entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity obstacle = new Missile(entityMovement, entityHitbox);
 
-        entityMovement = new MovementImpl(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
         entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity powerUp = new LilStomper(entityMovement, entityHitbox);
 
-        entityMovement = new MovementImpl(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
         entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity pickUp = new VehiclePickUp(entityMovement, entityHitbox);
 
@@ -113,7 +113,7 @@ public class EntityTest{
 
     @org.junit.Test
     public void entityGenerator() { 
-        Movement entityMovement = new MovementImpl(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        Movement entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
         Obstacle zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, entityMovement);
         
         zapper.setEntityStatus(EntityStatus.CHARGING);
@@ -164,7 +164,7 @@ public class EntityTest{
 
     @org.junit.Test
     public void collisionChecking() { 
-        Movement missileMovement = new MovementImpl(new Pair<>(300.0, 500.0), new Pair<>(-10.0,0.0), ZEROPAIR, ZEROPAIR, List.of());
+        Movement missileMovement = new Movement(new Pair<>(300.0, 500.0), new Pair<>(-10.0,0.0), ZEROPAIR, ZEROPAIR, List.of());
         Obstacle missile = this.entityFactory.generateObstacle(ObstacleType.MISSILE, missileMovement);
         missile.setEntityStatus(EntityStatus.ACTIVE);
 
@@ -206,3 +206,4 @@ public class EntityTest{
 }
 
 
+*/

@@ -21,31 +21,47 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.Movement.MovementChangers;
-import it.unibo.jetpackjoyride.core.movement.MovementImpl;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class EntityModelGeneratorImpl implements EntityModelGenerator{
+    private final static Pair<Double,Double> MISSILEHITBOXDIMENSIONS = new Pair<>(40.0, 15.0);
+    private final static Pair<Double,Double> ZAPPERHITBOXDIMENSIONS = new Pair<>(160.0, 30.0);
+    private final static Pair<Double,Double> LASERHITBOXDIMENSIONS = new Pair<>(1180.0, 24.0);
+
+    private final static Pair<Double,Double> LILSTOMPERSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);
+    private final static Pair<Double,Double> LILSTOMPERHITBOXDIMENSIONS = new Pair<>(160.0, 140.0);
+
+    private final static Pair<Double,Double> MRCUDDLESPAWNINGCOORDINATES = new Pair<>(200.0, 100.0);
+    private final static Pair<Double,Double> MRCUDDLEHITBOXDIMENSIONS = new Pair<>(120.0, 70.0);
+
+    private final static Pair<Double,Double> PROFITBIRDSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);
+    private final static Pair<Double,Double> PROFITBIRDHITBOXDIMENSIONS = new Pair<>(120.0, 70.0);
+
+    private final static Pair<Double,Double> DUKEFISHRONSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);
+    private final static Pair<Double,Double> DUKEFISHRONHITBOXDIMENSIONS = new Pair<>(150.0, 100.0);
+    private final static Pair<Double,Double> DUKEFISHRONBASESPEED = new Pair<>(0.0, 10.0);
+
+    private final static Pair<Double,Double> VEHICLEPICKUPSPAWNINGCOORDINATES = new Pair<>(1300.0, 360.0);
+    private final static Pair<Double,Double> VEHICLEPICKUPHITBOXDIMENSIONS = new Pair<>(80.0, 80.0);
+    private final static Pair<Double,Double> VEHICLEPICKUPBASESPEED = new Pair<>(-3.0, 0.0);
 
     @Override
     public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         Hitbox obstacleHitbox;
         final Obstacle obstacleModel;
         
         switch (obstacleType) {
             case MISSILE: //Canon obstacle existing in the original game
-                obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX / 32, screenSizeY / 48));
+                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), MISSILEHITBOXDIMENSIONS);
                 obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
                 break;
             case ZAPPER: //Canon obstacle existing in the original game
-                obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX / 8, screenSizeY / 24));
+                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), LASERHITBOXDIMENSIONS);
                 obstacleModel = new Zapper(obstacleMovement, obstacleHitbox);
                 break;
             case LASER: //Canon obstacle existing in the original game
-                obstacleHitbox = new HitboxImpl(obstacleMovement.getCurrentPosition(), new Pair<>(screenSizeX, screenSizeY / 30));
+                obstacleHitbox = new HitboxImpl(obstacleMovement.getRelativePosition(), ZAPPERHITBOXDIMENSIONS);
                 obstacleModel = new Laser(obstacleMovement, obstacleHitbox);
                 break;
             default:
@@ -57,31 +73,29 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
 
     @Override
     public List<PowerUp> generatePowerUp(final PowerUpType powerUpType) {
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         Movement powerUpMovement;
         Hitbox powerUpHitbox;
         final List<PowerUp> powerUpModels = new ArrayList<>();
         
         switch (powerUpType) {
             case LILSTOMPER: //Canon powerup existing in the original game
-                powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 8, screenSizeY / 5));
+                powerUpMovement = new Movement.Builder().setPosition(LILSTOMPERSPAWNINGCOORDINATES).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getRelativePosition(), LILSTOMPERHITBOXDIMENSIONS);
                 powerUpModels.add(new LilStomper(powerUpMovement, powerUpHitbox));
                 break;
             case MRCUDDLES: //Canon powerup existing in the original game
-                powerUpMovement = new MovementImpl(new Pair<>(screenSizeX/5, screenSizeY/8), new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
+                powerUpMovement = new Movement.Builder().setPosition(MRCUDDLESPAWNINGCOORDINATES).setMovementChangers(List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)).build();
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getRelativePosition(), MRCUDDLEHITBOXDIMENSIONS);
                 powerUpModels.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
                 break;
             case PROFITBIRD: //Canon powerup existing in the original game
-                powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
+                powerUpMovement = new Movement.Builder().setPosition(PROFITBIRDSPAWNINGCOORDINATES).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getRelativePosition(), PROFITBIRDHITBOXDIMENSIONS);
                 powerUpModels.add(new ProfitBird(powerUpMovement, powerUpHitbox));
                 break;
             case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
-                powerUpMovement = new MovementImpl(new Pair<>(screenSizeX / 4, screenSizeY - screenSizeY / 8), new Pair<>(0.0, 10.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.BOUNCING));
-                powerUpHitbox = new HitboxImpl(powerUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 10, screenSizeY / 10));
+                powerUpMovement = new Movement.Builder().setPosition(DUKEFISHRONSPAWNINGCOORDINATES).setSpeed(DUKEFISHRONBASESPEED).setMovementChangers(List.of(MovementChangers.BOUNCING)).build();
+                powerUpHitbox = new HitboxImpl(powerUpMovement.getRelativePosition(), DUKEFISHRONHITBOXDIMENSIONS);
                 powerUpModels.add(new DukeFishron(powerUpMovement, powerUpHitbox));
                 break;
             default:
@@ -92,16 +106,14 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
 
     @Override
     public PickUp generatePickUp(final PickUpType pickUpType) {
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
         Movement pickUpMovement;
         Hitbox pickUpHitbox;
         final PickUp pickUpModel;
 
         switch (pickUpType) {
             case VEHICLE: // Canon pickup existing in the original game
-                pickUpMovement = new MovementImpl(new Pair<>(screenSizeX, screenSizeY/2), new Pair<>(-3.0, 0.0),new Pair<>(0.0, 0.0), new Pair<>(0.0, 0.0),List.of(MovementChangers.GRAVITY));
-                pickUpHitbox = new HitboxImpl(pickUpMovement.getCurrentPosition(), new Pair<>(screenSizeX / 15, screenSizeY / 9));
+                pickUpMovement = new Movement.Builder().setPosition(VEHICLEPICKUPSPAWNINGCOORDINATES).setSpeed(VEHICLEPICKUPBASESPEED).setMovementChangers(List.of(MovementChangers.GRAVITY)).build();
+                pickUpHitbox = new HitboxImpl(pickUpMovement.getRelativePosition(), VEHICLEPICKUPHITBOXDIMENSIONS);
                 pickUpModel = new VehiclePickUp(pickUpMovement, pickUpHitbox);
                 break;
         

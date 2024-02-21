@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 import java.io.IOException;
 
 import java.util.Set;
+import java.util.Collections;
 import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
-    private final Stage primaryStage;
+ 
     private final GameStatsController gameStatsHandler;
 
     private final GameMenuImpl gameMenu;
@@ -51,7 +52,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
 
-        this.primaryStage = primaryStage;
+        
 
         this.view = new ShopView(this, primaryStage, gameStatsHandler);
 
@@ -144,7 +145,7 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public Set<Items> getUnlocked() {
 
-        return this.unlockedItems;
+        return Collections.unmodifiableSet(this.unlockedItems);
     }
 
     

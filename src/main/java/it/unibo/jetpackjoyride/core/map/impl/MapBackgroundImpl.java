@@ -23,11 +23,15 @@ public final class MapBackgroundImpl implements MapBackground {
     private static final int MAX_SPEED = 14;
     private static final int DEFAULT_SPEED = 5;
     private static final int DURATION_SECONDS = 5;
+    private static final int BGIMAGE_ONE = 0;
+    private static final int BGIMAGE_TWO = 1;
+    private static final int TIMES_FOR_CHANGE = 10;
 
     private final MapBackgroundModel model;
     private final MapBackgroundView view;
     private Timeline timeline;
     private final GameInfo gameInfo;
+    private int counter = 0;
 
     /**
      * Constructor of the MapBackgroundImpl.
@@ -39,9 +43,11 @@ public final class MapBackgroundImpl implements MapBackground {
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(DURATION_SECONDS), e -> {
             if (GameInfo.MOVE_SPEED.get() == MAX_SPEED) {
-                this.timeline.stop();
+                counter++;
             } else {
                 gameInfo.setMoveSpeed(GameInfo.MOVE_SPEED.incrementAndGet());
+                counter++;
+                System.out.println(counter);
             }
         }));
     }
@@ -86,6 +92,27 @@ public final class MapBackgroundImpl implements MapBackground {
         if (!timeline.statusProperty().get().equals(Status.RUNNING)) {
             timeline.play();
         }
+        if (counter == TIMES_FOR_CHANGE) {
+               model.updateImage(); 
+               counter = 0;
+        }
         this.model.updateBackgroundModel();
+        if (isOutofMap(model.getPosX().get1())) {
+            model.setPositionX(BGIMAGE_ONE);
+            if (view.isChange(BGIMAGE_ONE, model.getIndexForImage())) {
+                view.changeImage(BGIMAGE_ONE, model.getIndexForImage());
+            }
+        }
+        if (isOutofMap(model.getPosX().get2())) {
+            model.setPositionX(BGIMAGE_TWO);
+            if (view.isChange(BGIMAGE_TWO, model.getIndexForImage())) {
+                view.changeImage(BGIMAGE_TWO, model.getIndexForImage());
+            }
+        }
+        model.updateSize();
     } 
+
+    private boolean isOutofMap(final double x) {
+        return x <= -model.getSize().get1();
+    }
 }

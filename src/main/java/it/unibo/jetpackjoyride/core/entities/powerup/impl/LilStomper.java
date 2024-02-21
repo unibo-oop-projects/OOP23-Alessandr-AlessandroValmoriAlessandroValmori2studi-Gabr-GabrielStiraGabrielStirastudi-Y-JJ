@@ -9,7 +9,7 @@ public final class LilStomper extends AbstractPowerUp {
     private static final Double TICKJUMPHEITGHSPEED = 0.5;
     private static final Integer MAXTICKSFORJUMP = 15;
     private static final Integer RECOVERTICKSAFTERLANDING = 20;
-    private static final Double DESCENDINGBASESPEED = 2.0;
+    private static final Double DESCENDINGBASESPEED = 4.0;
     private static final Double LANDINGHEIGHT = 600.0;
 
     private Integer loadJump;

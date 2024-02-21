@@ -9,7 +9,7 @@ public final class Movement {
     private static final Double GRAVITYMODIFIER = 0.3;
     private static final Double INVERSEGRAVITYMODIFIER = -0.3;
     private static final Double MAPBOUNDUP = 50.0;
-    private static final Double MAPBOUNDDOWN = 600.0;
+    private static final Double MAPBOUNDDOWN = 630.0;
 
     record MovCharacterizing(Pair<Double,Double> pos, Pair<Double,Double> speed, Pair<Double,Double> acc, Pair<Double,Double> rot) {}
 
@@ -75,11 +75,11 @@ public final class Movement {
         if (this.listOfChangers.contains(MovementChangers.BOUNCING)) {
             if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
                 modifiedSpeed = new Pair<>(modifiedSpeed.get1(), Math.abs(modifiedSpeed.get2()));
-                modifiedRotation = new Pair<>(-Math.abs(this.movementSpecifiers.rot().get1()), this.movementSpecifiers.rot().get2());
+                modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
             }
             if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
                 modifiedSpeed = new Pair<>(modifiedSpeed.get1(), -Math.abs(modifiedSpeed.get2()));
-                modifiedRotation = new Pair<>(Math.abs(this.movementSpecifiers.rot().get1()), this.movementSpecifiers.rot().get2());
+                modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
             }
         }
 

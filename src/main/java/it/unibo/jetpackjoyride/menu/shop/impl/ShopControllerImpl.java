@@ -10,7 +10,6 @@ import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
-import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.stage.Stage;
@@ -28,8 +27,7 @@ public final class ShopControllerImpl implements ShopController {
 
     private final GameMenuImpl gameMenu;
 
-    private int numOfShields;
-    private boolean isShieldEquipped;
+   
     private final Set<Items> unlockedItems;
     
 
@@ -46,9 +44,6 @@ public final class ShopControllerImpl implements ShopController {
 
         this.gameStatsHandler = gameStatsController;
 
-        this.isShieldEquipped = this.gameStatsHandler.getGameStatsModel().isShieldEquipped();
-
-        this.numOfShields = this.gameStatsHandler.getGameStatsModel().getNumOfShields();
 
         this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
 
@@ -58,13 +53,11 @@ public final class ShopControllerImpl implements ShopController {
 
 
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
-        ShieldEquippedObs shieldEquippedObs = new ShieldEquippedObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
         CharacterObs charObs = new CharacterImpl(this);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
-        this.view.addEquipObserver(shieldEquippedObs);
         this.view.addBackToMenuObs(backToMenuObs);
         this.view.addCharObs(charObs);
     }
@@ -84,15 +77,6 @@ public final class ShopControllerImpl implements ShopController {
 
         final var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
 
-        if (item.equals(Items.SHIELD)) {
-            if (item.getItemCost() > available) {
-                System.out.println("Not enough funds :(\n");
-            } else {
-                this.numOfShields++;
-                this.gameStatsHandler.getGameStatsModel().updateCoins(-item.getItemCost());
-            }
-        } else {
-
             if (!this.unlockedItems.contains(item)) {
                 if (item.getItemCost() > available) {
                     System.out.println("Not enough funds :(\n");
@@ -101,9 +85,6 @@ public final class ShopControllerImpl implements ShopController {
                     this.gameStatsHandler.getGameStatsModel().updateCoins(-item.getItemCost());
                 }
             }
-
-        }
-
         this.view.update();
 
     }
@@ -119,28 +100,7 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
-    @Override
-    public void toggleEquipUnequipShield() {
-        if(this.numOfShields>0){
-        this.isShieldEquipped = !this.isShieldEquipped;
-        if (this.isShieldEquipped) {
-            System.out.println("Shop: shield is equipped");
-        } else {
-            System.out.println("Shop: shield is NOT equipped");
-        }
-    }
-        this.view.update();
-    }
-
-    @Override
-    public boolean isShieldEquipped() {
-        return this.isShieldEquipped;
-    }
-
-    @Override
-    public int getNumOfShields() {
-        return this.numOfShields;
-    }
+   
 
     @Override
     public Set<Items> getUnlocked() {
@@ -148,12 +108,9 @@ public final class ShopControllerImpl implements ShopController {
         return Collections.unmodifiableSet(this.unlockedItems);
     }
 
-    
-
     @Override
     public void save() {
-        this.gameStatsHandler.getGameStatsModel().addShields(this.numOfShields);
-        this.gameStatsHandler.getGameStatsModel().setShield(this.isShieldEquipped);
+
         this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
 
         final String filename = "gameStats.data";

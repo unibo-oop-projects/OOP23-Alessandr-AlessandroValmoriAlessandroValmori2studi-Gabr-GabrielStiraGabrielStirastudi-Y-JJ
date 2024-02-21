@@ -5,9 +5,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
-import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
@@ -20,12 +18,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 /**
@@ -48,24 +44,21 @@ public final class ShopView extends GameMenuImpl {
     private static final int SHIELD_COUNTER_X_POS = BUY_BUTTON_X_POS + 2 * BUTTON_WIDTH + 2 * IMAGE_DISTANCE;
     private static final int DESCR_X_POS = SHIELD_COUNTER_X_POS + IMAGE_DISTANCE;
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
-    private static final String EQUIP_SHIELD_BUTTON_STYLE = "-fx-background-color: #0000ff; -fx-text-fill: white; -fx-font-size: 16;";
+    
 
     // Other constants
     private final int cuddleImageYPos = (int) GameInfo.getInstance().getScreenHeight() / 8;
 
     private final ShopController controller;
     private final Text moneyText;
-    private final Text displayEquipped;
-    private final Text dukeUnlocked;
-    private final Text shieldNum;
 
-    private final Button equipShieldButton = new Button();
+    private final Text dukeUnlocked;
+  
 
     private final Map<Button, Text> descriptionsMap = new HashMap<>();
     private final Map<Button, Items> buttonMap = new HashMap<>();
     private final Map<Button, ImageView> imageMap = new HashMap<>();
 
-    private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
     private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
     private List<BackToMenuObs> backList = new ArrayList<>();
     private List<CharacterObs> charObsList = new ArrayList<>();
@@ -146,22 +139,7 @@ public final class ShopView extends GameMenuImpl {
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-        shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
-        shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
-        shieldNum.setFill(Color.GREEN);
-        shieldNum.setTranslateX(SHIELD_COUNTER_X_POS);
-        shieldNum.setTranslateY(Items.SHIELD.getOrder().get() * (IMAGE_SIZE + IMAGE_DISTANCE) + this.cuddleImageYPos);
-
-        equipShieldButton.setText("EQUIP");
-        equipShieldButton.setStyle(EQUIP_SHIELD_BUTTON_STYLE);
-        equipShieldButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        equipShieldButton.setTranslateX(BUY_BUTTON_X_POS + BUTTON_WIDTH + IMAGE_DISTANCE);
-        equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (IMAGE_SIZE + IMAGE_DISTANCE)
-                + this.cuddleImageYPos + BUY_BUTTON_Y_DISPLACEMENT);
-        equipShieldButton.setOnAction(e -> {
-            this.equipObsList.forEach(obs -> obs.toggleShieldEquipped());
-        });
-
+      
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         moneyText.setFill(Color.WHITE);
@@ -169,13 +147,7 @@ public final class ShopView extends GameMenuImpl {
         moneyText.setTextAlignment(TextAlignment.RIGHT);
         moneyText.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
-        displayEquipped = new Text();
-        displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
-        displayEquipped.setFill(Color.WHITE);
-        displayEquipped.setTranslateY(this.cuddleImageYPos * 3);
-        displayEquipped.setTextAlignment(TextAlignment.RIGHT);
-        displayEquipped.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
-
+     
         dukeUnlocked = new Text();
         dukeUnlocked.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
         dukeUnlocked.setFill(Color.YELLOWGREEN);
@@ -189,11 +161,9 @@ public final class ShopView extends GameMenuImpl {
 
         root.getChildren().addAll(
                 backButton,
-                equipShieldButton,
                 moneyText,
-                displayEquipped,
-                dukeUnlocked,
-                shieldNum);
+                dukeUnlocked
+                );
         this.update();
     }
 
@@ -224,13 +194,6 @@ public final class ShopView extends GameMenuImpl {
         buyObsList.remove(observer);
     }
 
-    public void addEquipObserver(ShieldEquippedObs observer) {
-        equipObsList.add(observer);
-    }
-
-    public void removeEquipObs(ShieldEquippedObs observer) {
-        equipObsList.remove(observer);
-    }
 
     public void removeCharObs(CharacterObs observer) {
         charObsList.remove(observer);
@@ -242,16 +205,7 @@ public final class ShopView extends GameMenuImpl {
         }
         this.moneyText.setText("Money: $" + this.controller.retrieveBalance());
 
-        this.shieldNum.setText(String.valueOf(this.controller.getNumOfShields()));
-        if (this.controller.getNumOfShields() == 0) {
-            this.shieldNum.setFill(Color.RED);
-        } else {
-            this.shieldNum.setFill(Color.GREEN);
-        }
-
-        this.displayEquipped.setText(
-                this.controller.isShieldEquipped() ? "SHIELD EQUIPPED" : " ");
-
+        
         for (final var entry : this.buttonMap.entrySet()) {
             if (this.controller.getUnlocked().contains(entry.getValue())) {
                 final Image image = new Image(

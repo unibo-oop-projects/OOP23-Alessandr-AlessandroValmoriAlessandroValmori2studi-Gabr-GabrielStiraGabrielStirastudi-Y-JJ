@@ -146,14 +146,15 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
         }
 
+        final boolean isPropelling = this.performingAction.equals(PerformingAction.PROPELLING) || this.performingAction.equals(PerformingAction.HEAD_DRAGGING);
         this.movement = new Movement.Builder()
         .setPosition(this.movement.getRealPosition())
         .setSpeed(this.movement.getSpeed())
         .setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), this.movement.getAcceleration().get2()*100.0))
         .setRotation(this.movement.getSpeed().get2()*2, 0.0)
-        .setMovementChangers(List.of(MovementChangers.BOUNDS,
-             this.performingAction.equals(PerformingAction.PROPELLING) || this.performingAction.equals(PerformingAction.HEAD_DRAGGING) ? MovementChangers.SPEDUP : MovementChangers.GRAVITY))
-        .build();
+        .setMovementChangers(List.of(MovementChangers.BOUNDS, isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
+         isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY, 
+         isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY)).build();
 
        
 

@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 /**
@@ -27,24 +28,24 @@ public final class BarryView {
     private List<Image> images;
     private int animationFrame;
     private final GameInfo infoResolution;
-    private BarryStatus oldStatus;
+    private PerformingAction oldAction;
   
    
 
 
 
-     private final Map<BarryStatus, List<Image>> statusMap = new HashMap<>();
+     private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
     private static final int NUM_COPIES = 7;
 
-    private final Map<BarryStatus, Integer> framesPerAnimation = new HashMap<>() {
+    private final Map<PerformingAction, Integer> framesPerAnimation = new HashMap<>() {
         {
-            put(BarryStatus.WALKING, 4);
-            put(BarryStatus.BURNED, 4);
-            put(BarryStatus.LASERED, 4);
-            put(BarryStatus.ZAPPED, 4);
-            put(BarryStatus.FALLING, 2);
-            put(BarryStatus.PROPELLING, 2);
-            put(BarryStatus.HEAD_DRAGGING, 2);
+            put(PerformingAction.WALKING, 4);
+            put(PerformingAction.BURNED, 4);
+            put(PerformingAction.LASERED, 4);
+            put(PerformingAction.ZAPPED, 4);
+            put(PerformingAction.FALLING, 2);
+            put(PerformingAction.PROPELLING, 2);
+            put(PerformingAction.HEAD_DRAGGING, 2);
         }
     };
 
@@ -61,10 +62,10 @@ public final class BarryView {
         this.imageView = new ImageView();
         this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
-        this.oldStatus = BarryStatus.WALKING;
+        this.oldAction = PerformingAction.WALKING;
         
         this.buildMap();
-        this.images = new ArrayList<>(this.statusMap.get(this.oldStatus));
+        this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
     }
 
     /**
@@ -78,17 +79,17 @@ public final class BarryView {
 
     public void update(Group root, final Barry barry) {
 
-        if (barry.getBarryStatus() != this.oldStatus) {
-            this.oldStatus = barry.getBarryStatus();
-            this.images = new ArrayList<>(this.statusMap.get(this.oldStatus));
+        if (barry.getPerformingAction() != this.oldAction) {
+            this.oldAction = barry.getPerformingAction();
+            this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
             animationFrame = 0;
         }
         final double width = infoResolution.getScreenWidth() / 8;
         final double height = infoResolution.getScreenHeight() / 10;
 
 
-        imageView.setX(barry.getPosition().get1() - width / 2);
-        imageView.setY(barry.getPosition().get2() - height / 2);
+        imageView.setX(barry.getEntityMovement().getRelativePosition().get1() - width / 2);
+        imageView.setY(barry.getEntityMovement().getRelativePosition().get2() - height / 2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
@@ -96,8 +97,8 @@ public final class BarryView {
         imageView.setImage(this.images.get(animationFrame));
         animationFrame = (animationFrame + 1) % images.size();
 
-        shieldImageView.setX(barry.getPosition().get1() - width / 2);
-        shieldImageView.setY(barry.getPosition().get2() - height / 2);
+        shieldImageView.setX(barry.getEntityMovement().getRelativePosition().get1() - width / 2);
+        shieldImageView.setY(barry.getEntityMovement().getRelativePosition().get2() - height / 2);
 
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);
@@ -107,7 +108,7 @@ public final class BarryView {
          final Node imageView = (Node) this.imageView;
          final Node shieldImageView = (Node) this.shieldImageView;
 
-        if (barry.isActive()) {
+        if (barry.getEntityStatus().equals(EntityStatus.ACTIVE)) {
             if (!root.getChildren().contains(imageView)) {
                 root.getChildren().add(imageView);
             }

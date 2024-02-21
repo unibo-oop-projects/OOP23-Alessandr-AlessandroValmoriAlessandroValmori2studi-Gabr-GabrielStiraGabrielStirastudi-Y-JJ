@@ -30,9 +30,15 @@ public final class Movement {
      * Defines how much the speed will be increased upwards.
      */
     private static final Double INVERSEGRAVITYMODIFIER = -0.3;
+
+
     /**
      * Defines what coordinate could be considered as the upper bound of the map.
      */
+
+     private static final Double PROPELLINGMODIFIER = -0.7;
+
+
     private static final Double MAPBOUNDUP = 80.0;
     /**
      * Defines what coordinate could be considerated as the lower bound of the map.
@@ -177,6 +183,11 @@ public final class Movement {
         if (this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY)) {
             modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + INVERSEGRAVITYMODIFIER);
         }
+        
+        if (this.listOfChangers.contains(MovementChangers.SPEDUP)) {
+            modifiedSpeed = new Pair<>(modifiedSpeed.get1() * PROPELLINGMODIFIER, modifiedSpeed.get2() + PROPELLINGMODIFIER);
+        }
+        
 
         /* BOUNCING */ /* The entity has its speed and rotation inverted when touching one of the edges of the map*/
         if (this.listOfChangers.contains(MovementChangers.BOUNCING)) {

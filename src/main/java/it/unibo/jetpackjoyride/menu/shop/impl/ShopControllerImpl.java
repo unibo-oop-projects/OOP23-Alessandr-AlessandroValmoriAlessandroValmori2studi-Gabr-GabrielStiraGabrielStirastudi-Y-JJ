@@ -60,6 +60,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.view = new ShopView(this, primaryStage, gameMenu.getGameStatsHandler());
 
+
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
         ShieldEquippedObs shieldEquippedObs = new ShieldEquippedObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
@@ -124,12 +125,14 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void toggleEquipUnequipShield() {
+        if(this.numOfShields>0){
         this.isShieldEquipped = !this.isShieldEquipped;
         if (this.isShieldEquipped) {
             System.out.println("Shop: shield is equipped");
         } else {
             System.out.println("Shop: shield is NOT equipped");
         }
+    }
         this.view.update();
     }
 

@@ -11,6 +11,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Zapper;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.ShieldPickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
@@ -46,6 +47,10 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
     private final static Pair<Double,Double> VEHICLEPICKUPSPAWNINGCOORDINATES = new Pair<>(300.0, 360.0);
     private final static Pair<Double,Double> VEHICLEPICKUPHITBOXDIMENSIONS = new Pair<>(80.0, 80.0);
     private final static Pair<Double,Double> VEHICLEPICKUPBASESPEED = new Pair<>(-3.0, 0.0);
+
+    private final static Pair<Double,Double> SHIELDPICKUPSPAWNINGCOORDINATES = new Pair<>(800.0, 360.0);
+    private final static Pair<Double,Double> SHIELDPICKUPHITBOXDIMENSIONS = new Pair<>(50.0, 50.0);
+    private final static Pair<Double,Double> SHIELDPICKUPBASESPEED = new Pair<>(-5.0, 0.0);
 
     @Override
     public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
@@ -116,6 +121,11 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
                 pickUpMovement = new Movement.Builder().setPosition(VEHICLEPICKUPSPAWNINGCOORDINATES).setSpeed(VEHICLEPICKUPBASESPEED).setMovementChangers(List.of(MovementChangers.GRAVITY)).build();
                 pickUpHitbox = new HitboxImpl(pickUpMovement.getRelativePosition(), VEHICLEPICKUPHITBOXDIMENSIONS);
                 pickUpModel = new VehiclePickUp(pickUpMovement, pickUpHitbox);
+                break;
+            case SHIELD: // Canon pickup existing in the original game
+                pickUpMovement = new Movement.Builder().setPosition(SHIELDPICKUPSPAWNINGCOORDINATES).setSpeed(SHIELDPICKUPBASESPEED).build();
+                pickUpHitbox = new HitboxImpl(pickUpMovement.getRelativePosition(), SHIELDPICKUPHITBOXDIMENSIONS);
+                pickUpModel = new ShieldPickUp(pickUpMovement, pickUpHitbox);
                 break;
         
             default:

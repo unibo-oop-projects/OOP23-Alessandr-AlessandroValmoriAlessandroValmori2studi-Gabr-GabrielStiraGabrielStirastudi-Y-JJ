@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public final class MapBackgroundImplTest extends ApplicationTest {
     private static final int EXPECTED_DEFALUT_MOVE_SPEED = 5;
+    private static final int POSITION = 0;
+    private static final int SIZE = 1;
 
     private static final int WIDTH_FOR_TEST = 1600;
     private static final int HEIGHT_FOR_TEST = 800;
@@ -43,14 +45,14 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     public void isRisizebleWithGameInfo() {
         interact(() -> {
             GameInfo gameInfo = GameInfo.getInstance();
-            Pair<Double, Double> size = mapBackground.getSize();
+            Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
             mapBackground.updateBackground();
             assertNotNull(size, "The size should not be null");
             assertEquals(size, new Pair<>(gameInfo.getScreenWidth(), gameInfo.getScreenHeight()));
 
             gameInfo.updateInfo(WIDTH_FOR_TEST, HEIGHT_FOR_TEST);
             mapBackground.updateBackground();
-            Pair<Double, Double> size1 = mapBackground.getSize();
+            Pair<Double, Double> size1 = mapBackground.getModelData().get(SIZE);
             assertEquals(WIDTH_FOR_TEST, size1.get1());
             assertEquals(HEIGHT_FOR_TEST, size1.get2());
 
@@ -63,11 +65,11 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     @Test
     public void testUpdateBackground() {
         interact(() -> {
-            double x1 = mapBackground.getPosX().get1();
-            double x2 = mapBackground.getPosX().get2();
+            double x1 = mapBackground.getModelData().get(POSITION).get1();
+            double x2 = mapBackground.getModelData().get(POSITION).get2();
             mapBackground.updateBackground();
-            assertEquals(x1 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get1());
-            assertEquals(x2 - GameInfo.MOVE_SPEED.get(), mapBackground.getPosX().get2());
+            assertEquals(x1 - GameInfo.MOVE_SPEED.get(), mapBackground.getModelData().get(POSITION).get1());
+            assertEquals(x2 - GameInfo.MOVE_SPEED.get(), mapBackground.getModelData().get(POSITION).get2());
         });
     }
 
@@ -89,7 +91,7 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      */
     @Test
     public void testGetPosX() {
-        Pair<Double, Double> posX = mapBackground.getPosX();
+        Pair<Double, Double> posX = mapBackground.getModelData().get(POSITION);
         assertNotNull(posX, "The position X should not be null");
     }
 
@@ -99,7 +101,7 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     @Test
     public void testGetSize() {
         GameInfo gameInfo = GameInfo.getInstance();
-        Pair<Double, Double> size = mapBackground.getSize();
+        Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
         mapBackground.updateBackground();
         assertNotNull(size, "The size should not be null");
         assertEquals(size, new Pair<>(gameInfo.getScreenWidth(), gameInfo.getScreenHeight())); 

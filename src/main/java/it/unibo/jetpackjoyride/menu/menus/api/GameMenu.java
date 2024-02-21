@@ -14,11 +14,4 @@ public interface GameMenu {
      * Removes the listeners attached to the scene.
      */
     void removeListener();
-
-    /**
-     * Sets the visibility of the menu.
-     *
-     * @param isVisible whether the menu is visible
-     */
-    void setVisible(boolean isVisible);
 }

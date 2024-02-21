@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.map.impl;
 
+import java.util.List;
+
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundModel;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
@@ -33,7 +35,7 @@ public final class MapBackgroundImpl implements MapBackground {
      */
     public MapBackgroundImpl(final Pane gameRoot) {
         model = new MapBackgroundModelImpl();
-        view = new MapBackgroungViewImpl(this);
+        view = new MapBackgroungViewImpl(this.getModelData());
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(DURATION_SECONDS), e -> {
             if (GameInfo.MOVE_SPEED.get() == MAX_SPEED) {
@@ -66,20 +68,15 @@ public final class MapBackgroundImpl implements MapBackground {
     }
 
     @Override
-    public Pair<Double, Double> getPosX() {
-         return this.model.getPosX();
-    }
-
-    @Override
-    public Pair<Double, Double> getSize() {
-         return this.model.getSize();
+    public List<Pair<Double, Double>> getModelData() {
+         return List.of(model.getPosX(), model.getSize());
     }
 
      /**
      * Method that updates the background view.
      */
     private void updateBackgroundView() {
-        this.view.updateBackgroundView();
+        this.view.updateBackgroundView(this.getModelData());
     }
 
    /**

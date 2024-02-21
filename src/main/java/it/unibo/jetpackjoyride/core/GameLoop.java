@@ -47,7 +47,7 @@ public final class GameLoop implements GameLoopControl {
      * Constructs a GameLoop object with the specified stage and game statistics controller.
      * All necessary instances are initialized here.
      * @param stage               the primary stage for the game
-     * @param gameStatsController the game statistics controller
+     * @param shopController The shopController 
      */
     public GameLoop(final Stage stage, final ShopController shopController) {
         this.stage = stage;
@@ -125,6 +125,7 @@ public final class GameLoop implements GameLoopControl {
         stage.setScene(gameScene);
         entityHandler.start();
         timer.start();
+        this.stage.centerOnScreen();
     }
 
     /**

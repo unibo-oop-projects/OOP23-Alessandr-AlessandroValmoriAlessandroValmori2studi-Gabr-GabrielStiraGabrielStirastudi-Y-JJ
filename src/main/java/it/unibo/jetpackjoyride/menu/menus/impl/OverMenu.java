@@ -36,7 +36,6 @@ public final class OverMenu extends GameMenuImpl {
      *
      * @param primaryStage      the primary stage
      * @param gameScene          the game scene
-     * @param gameStatsHandler  the game statistics handler
      */
     public OverMenu(final Stage primaryStage,
                         final Scene gameScene) {
@@ -61,10 +60,11 @@ public final class OverMenu extends GameMenuImpl {
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
             this.gameLoop = new GameLoop(primaryStage, shopController); 
-            Command restartCommand = new RestartCommand(this.gameLoop, this); 
+            Command restartCommand = new RestartCommand(this.gameLoop);
+            this.removeListener();
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, primaryStage);
+        Command openShopCommand = new OpenShopCommand(shopController);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

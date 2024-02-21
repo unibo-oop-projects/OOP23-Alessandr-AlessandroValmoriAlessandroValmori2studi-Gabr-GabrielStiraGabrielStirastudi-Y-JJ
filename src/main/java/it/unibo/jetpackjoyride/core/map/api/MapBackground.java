@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.map.api;
 
+import java.util.List;
+
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.layout.Pane;
 
@@ -24,16 +26,9 @@ public interface MapBackground {
     /**
      * Method to get the x-coordinate position of the background.
      * 
-     * @return A Pair representing the x-coordinate position.
+     * @return A List witch contain the  x-coordinate position and size.
      */
-    Pair<Double, Double> getPosX();
-
-    /**
-     * Method to get the size of the background.
-     * 
-     * @return A Pair representing the width and height of the background.
-     */
-    Pair<Double, Double> getSize();
+    List<Pair<Double, Double>> getModelData();
 
     /**
      * Resets the background position and reset the game speed.

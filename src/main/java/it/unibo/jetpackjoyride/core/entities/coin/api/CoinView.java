@@ -24,6 +24,6 @@ public interface CoinView {
      *
      * @param isVisible true if the coin should be visible, false otherwise
      */
-    void setVisible(boolean isvisible);
+    void setVisible(boolean isVisible);
 
 }

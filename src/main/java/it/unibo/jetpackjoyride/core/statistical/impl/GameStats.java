@@ -1,14 +1,9 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Set;
 
 
 import java.util.HashSet;
-import java.io.ObjectOutputStream;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;

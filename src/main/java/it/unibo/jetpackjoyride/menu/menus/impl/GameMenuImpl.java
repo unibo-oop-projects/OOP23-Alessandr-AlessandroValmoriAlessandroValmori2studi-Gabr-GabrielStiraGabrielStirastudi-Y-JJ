@@ -58,7 +58,6 @@ public abstract class GameMenuImpl implements GameMenu {
      * Constructs a new game menu.
      *
      * @param primaryStage      the primary stage
-     * @param gameStatsController the game statistics controller
      */
     public GameMenuImpl(final Stage primaryStage) {
          this.stage = primaryStage;
@@ -82,15 +81,10 @@ public abstract class GameMenuImpl implements GameMenu {
         }
     }
 
-    @Override
-    public void setVisible(final boolean isVisible) {
-
-    }
 
      /**
      * here can initializes specify funtion of the  menu.
      * @param primaryStage The stage use mainly to set the scene of menu
-     * @param gameStatsController The gameStatsController use mainly to get the data of GameStats for shop and GameLoop
      */
     protected abstract void initializeGameMenu(Stage primaryStage);
 
@@ -133,8 +127,7 @@ public abstract class GameMenuImpl implements GameMenu {
      *  The default action when the stage is closed.
      */
     protected void defaultCloseAction() {
-        Platform.exit(); 
-        System.exit(0);
+        Platform.exit();
     }
 
     /**

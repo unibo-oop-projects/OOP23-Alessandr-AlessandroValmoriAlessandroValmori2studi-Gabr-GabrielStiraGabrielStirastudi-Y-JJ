@@ -145,7 +145,6 @@ public final class BarryImpl extends AbstractEntity implements Barry {
             break;
 
         }
-        System.out.println(this.performingAction);
 
         this.movement = new Movement.Builder()
         .setPosition(this.movement.getRealPosition())

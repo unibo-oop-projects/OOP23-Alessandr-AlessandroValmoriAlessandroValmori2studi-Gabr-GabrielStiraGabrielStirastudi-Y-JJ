@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
-import it.unibo.jetpackjoyride.menu.menus.GameMenu;
+import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
@@ -33,7 +33,7 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 /**
  * The view class for the shop menu.
  */
-public final class ShopView extends GameMenu {
+public final class ShopView extends GameMenuImpl {
     // Constants related to image positioning
 
     private List<ShieldEquippedObs> equipObsList = new ArrayList<>();

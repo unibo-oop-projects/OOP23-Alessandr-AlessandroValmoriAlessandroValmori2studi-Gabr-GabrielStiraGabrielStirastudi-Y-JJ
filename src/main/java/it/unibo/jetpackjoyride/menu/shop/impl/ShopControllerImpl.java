@@ -8,7 +8,7 @@ import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
-import it.unibo.jetpackjoyride.menu.menus.GameMenu;
+import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
@@ -30,7 +30,7 @@ public final class ShopControllerImpl implements ShopController {
     private final Stage primaryStage;
     private final GameStatsController gameStatsHandler;
 
-    private final GameMenu gameMenu;
+    private final GameMenuImpl gameMenu;
 
     private int numOfShields;
     private boolean isShieldEquipped;
@@ -43,7 +43,7 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage   The primary stage of the application.
      * @param gameMenu       The game menu associated with the shop.
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
 
         
         this.gameMenu = gameMenu;

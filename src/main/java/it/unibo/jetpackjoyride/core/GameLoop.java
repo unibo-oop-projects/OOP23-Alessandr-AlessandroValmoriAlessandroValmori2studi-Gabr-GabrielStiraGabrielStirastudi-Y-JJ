@@ -6,8 +6,8 @@ import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
-import it.unibo.jetpackjoyride.menu.menus.OverMenu;
-import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
+import it.unibo.jetpackjoyride.menu.menus.impl.OverMenu;
+import it.unibo.jetpackjoyride.menu.menus.impl.PauseMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 /**
  * The GameLoop class manages the main game loop and manages different game stages.
  */
-public final class GameLoop {
+public final class GameLoop implements GameLoopControl{
 
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -187,6 +187,6 @@ public final class GameLoop {
      */
     private void showGameOverMenu() {
         OverMenu overMenu = new OverMenu(stage, this.gameScene, gameStatsHandler);
-        overMenu.show();
+        overMenu.showMenu();
     }
 }

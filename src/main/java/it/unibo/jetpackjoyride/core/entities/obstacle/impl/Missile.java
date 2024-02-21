@@ -9,7 +9,7 @@ public final class Missile extends AbstractObstacle {
     private static final Double OUTOFBOUNDSSX = -100.0;
     private static final Integer DELAYBEFOREDESTRUCTION = 50;
     private static final Integer DELAYBEFOREACTIVATING = 150;
-    private static final Double WARNINGSPAWNINGX = 1150.0;
+    private static final Double WARNINGSPAWNINGX = 1220.0;
     private Integer lifetimeAfterDeactivation;
     private Movement bufferMovement;
 
@@ -31,8 +31,6 @@ public final class Missile extends AbstractObstacle {
 
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-        final Double gameMovingSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
-        
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
@@ -40,7 +38,7 @@ public final class Missile extends AbstractObstacle {
 
                 this.movement = new Movement.Builder()
                     .setPosition(this.bufferMovement.getRealPosition().get1()-OUTOFBOUNDSSX, this.bufferMovement.getRealPosition().get2())
-                    .setSpeed(-gameMovingSpeed*2, this.bufferMovement.getSpeed().get2())
+                    .setSpeed(-5.0, this.bufferMovement.getSpeed().get2())
                     .setAcceleration(this.bufferMovement.getAcceleration())
                     .setRotation(this.bufferMovement.getRotation())
                     .setMovementChangers(this.bufferMovement.getMovementChangers())
@@ -56,7 +54,7 @@ public final class Missile extends AbstractObstacle {
             if (this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.movement = new Movement.Builder()
                 .setPosition(this.movement.getRealPosition())
-                .setSpeed(-gameMovingSpeed, 0.0)
+                .setSpeed(this.movement.getSpeed().get1()/5, 0.0)
                 .build();
             }
             this.lifetimeAfterDeactivation--;

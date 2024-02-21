@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu.menus;
+package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * Class representing the  Pause menu, extend from the GameMenu.
  * @author yukai.zhou@studio.unibo.it
  */
-public final class PauseMenu extends GameMenu {
+public final class PauseMenu extends GameMenuImpl {
     private static final int PAUSE_BUTTON_SIZE = 50;
     private static final int RESTART_WIDTH = 220;
     private static final int RESTART_HEIGHT = 120;
@@ -107,11 +107,7 @@ public final class PauseMenu extends GameMenu {
         this.buttonsVBox.setPrefHeight(newValue);
     }
 
-    /**
-     * Sets the visibility of the menu.
-     *
-     * @param isVisible whether the menu is visible
-     */
+    @Override
     public void setVisible(final boolean isVisible) {
         this.buttonsVBox.setVisible(isVisible);
     }

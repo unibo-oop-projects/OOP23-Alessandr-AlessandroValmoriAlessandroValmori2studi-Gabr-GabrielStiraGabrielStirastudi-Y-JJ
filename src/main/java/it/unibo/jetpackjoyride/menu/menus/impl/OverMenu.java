@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu.menus;
+package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * Class representing the game over menu, extend from the GameMenu.
  * @author yukai.zhou@studio.unibo.it
  */
-public final class OverMenu extends GameMenu {
+public final class OverMenu extends GameMenuImpl {
 
     private static final int SPACE = 20;
     private static final int RESTART_WIDTH = 220;
@@ -71,12 +71,5 @@ public final class OverMenu extends GameMenu {
 
         buttonsVBox.getChildren().addAll(restartButton, shopButton);
         addButtons(buttonsVBox);
-    }
-
-    /**
-     * show the OverMenu on Main Stage.
-     */
-    public void show() {
-        this.getStage().setScene(this.scene);
     }
 }

@@ -1,8 +1,9 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.GameLoopControl;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
-import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
+import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 
 /**
  * A command to pause the game.
@@ -10,8 +11,8 @@ import it.unibo.jetpackjoyride.menu.menus.PauseMenu;
  */
 public final class PauseCommand implements Command {
 
-    private final GameLoop gameLoop;
-    private final PauseMenu menu;
+    private final GameLoopControl gameLoop;
+    private final GameMenu menu;
 
 
      /**
@@ -20,7 +21,7 @@ public final class PauseCommand implements Command {
      * @param gameLoop the game loop
      * @param menu     the pause menu
      */
-    public PauseCommand(final GameLoop gameLoop, final PauseMenu menu) {
+    public PauseCommand(final GameLoopControl gameLoop, final GameMenu menu) {
         this.gameLoop = gameLoop; 
         this.menu = menu;
     }

@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.menu.menus;
+package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * Class representing the  Start menu, extend from the GameMenu.
  * @author yukai.zhou@studio.unibo.it
  */
-public final class StartMenu extends GameMenu {
+public final class StartMenu extends GameMenuImpl {
     private static final int SPACING = 20;
 
     private Optional<GameLoop> gameLoop = Optional.empty();

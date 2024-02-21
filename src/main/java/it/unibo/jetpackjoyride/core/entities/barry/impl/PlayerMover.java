@@ -1,14 +1,9 @@
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
-import java.util.Collections;
+
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryLifeStatus;
-import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
 
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -16,8 +11,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
+
 
 /**
  * The PlayerMover class is responsible for managing the movement of the player

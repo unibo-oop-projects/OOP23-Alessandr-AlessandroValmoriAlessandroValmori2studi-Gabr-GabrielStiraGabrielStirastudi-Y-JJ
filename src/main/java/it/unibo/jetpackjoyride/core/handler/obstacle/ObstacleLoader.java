@@ -74,8 +74,8 @@ public class ObstacleLoader {
         var rand = this.difficulty * 3 - random;
         this.patternSelector.get(50).pattern(listOfObstacles);
        
-        //return listOfObstacles;
-        return List.of();
+        return listOfObstacles;
+        //return List.of();
     }
 
     private GenericController<Obstacle, ObstacleView> singleMissile(final Pair<Double, Double> pos,

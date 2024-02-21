@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.core.entities.barry.impl;
+package it.unibo.jetpackjoyride.core.handler.player;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;

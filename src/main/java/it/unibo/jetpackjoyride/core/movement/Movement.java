@@ -31,7 +31,6 @@ public final class Movement {
      */
     private static final Double INVERSEGRAVITYMODIFIER = -0.3;
 
-
     /**
      * Defines what coordinate could be considered as the upper bound of the map.
      */

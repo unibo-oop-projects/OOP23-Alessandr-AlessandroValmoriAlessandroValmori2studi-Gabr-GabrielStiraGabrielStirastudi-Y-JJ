@@ -50,7 +50,7 @@ public class PickUpHandler {
     }
 
     public void spawnPickUp(final PickUpType pickUpType) {
-        listOfControllers.add( entityGenerator.generatePickUpController(pickUpType));
+        listOfControllers.add(entityGenerator.generatePickUpController(pickUpType));
     }
 
     public List<GenericController<PickUp, PickUpView>> getAllPickUps() {

@@ -26,6 +26,7 @@ public class EntityControllerGeneratorImpl {
     private final static Integer PROFITBIRDSPRITES = 12;
     private final static Integer DUKEFISHRONSPRITES = 12;
     private final static Integer VEHICLEPICKUPSPRITES = 21;
+    private final static Integer SHIELDPICKUPSPRITES = 2;
 
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
@@ -56,7 +57,8 @@ public class EntityControllerGeneratorImpl {
 
         // VEHICLEPICKUP
         pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
-
+        // VEHICLEPICKUP
+        pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
         
     }
 
@@ -113,6 +115,9 @@ public class EntityControllerGeneratorImpl {
         switch (pickUpType) {
             case VEHICLE: // Canon pickup existing in the original game
                 pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1)));
+                break;
+            case SHIELD: // Canon pickup existing in the original game
+                pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1)));
                 break;
         
             default:

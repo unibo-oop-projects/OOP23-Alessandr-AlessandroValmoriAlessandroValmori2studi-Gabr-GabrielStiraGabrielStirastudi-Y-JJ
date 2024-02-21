@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand.impl;
 
-import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.GameLoopControl;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;

@@ -79,7 +79,7 @@ public final class GameLoop implements GameLoopControl {
     }
 
     private void initializeGameElements() {
-        map.setMapOnGameRoot();
+        map.setMapOnGameRoot(this.root);
         root.getChildren().add((Node) entityGroup);
         gameStatsHandler.setScorePaneOnRoot(this.root);
         pauseMenu.setPauseButton(this.root);

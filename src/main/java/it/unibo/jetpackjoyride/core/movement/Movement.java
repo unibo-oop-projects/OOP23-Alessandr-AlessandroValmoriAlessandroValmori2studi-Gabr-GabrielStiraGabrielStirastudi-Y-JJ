@@ -58,12 +58,16 @@ public final class Movement {
         this.relativePosition = new Pair<>(modifiedPosition.get1()*xScaling, modifiedPosition.get2()*yScaling);
     }
 
-    private MovCharacterizing applyModifiers(Pair<Double,Double> modifiedPosition, Pair<Double,Double> modifiedSpeed,
-                                Pair<Double,Double> modifiedAcceleration, Pair<Double,Double> modifiedRotation) {
+    private MovCharacterizing applyModifiers(Pair<Double,Double> toModifyPosition, Pair<Double,Double> toModifySpeed,
+                                Pair<Double,Double> toModifyAcceleration, Pair<Double,Double> toModifyRotation) {
+        Pair<Double,Double> modifiedPosition = toModifyPosition;
+        Pair<Double,Double> modifiedSpeed = toModifySpeed;
+        Pair<Double,Double> modifiedAcceleration = toModifyAcceleration;
+        Pair<Double,Double> modifiedRotation = toModifyRotation;
 
         /* GRAVITY */
         if (this.listOfChangers.contains(MovementChangers.GRAVITY)) {
-            modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
+            modifiedPosition = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
         }
 
         /* INVERSEGRAVITY */
@@ -105,7 +109,7 @@ public final class Movement {
         final MovCharacterizing modifiedSpecifiers = this.applyModifiers(this.movementSpecifiers.pos(), this.movementSpecifiers.speed(), this.movementSpecifiers.acc(), this.movementSpecifiers.rot());
         Pair<Double,Double> modifiedPosition = modifiedSpecifiers.pos();
         Pair<Double,Double> modifiedSpeed = modifiedSpecifiers.speed();
-        Pair<Double,Double> modifiedAcceleration = modifiedSpecifiers.acc();
+        final Pair<Double,Double> modifiedAcceleration = modifiedSpecifiers.acc();
         Pair<Double,Double> modifiedRotation = modifiedSpecifiers.rot();
 
         modifiedSpeed = new Pair<>(modifiedSpeed.get1() + modifiedAcceleration.get1(), modifiedSpeed.get2() + modifiedAcceleration.get2());
@@ -137,7 +141,7 @@ public final class Movement {
         private List<MovementChangers> listOfChangers = List.of();
 
         private Pair<Double, Double> relativePosition = DEFAULT;
-        private boolean consumed = false;
+        private boolean consumed;
 
         public Builder setPosition(final Double x, final Double y) {
             this.position = new Pair<>(x,y);

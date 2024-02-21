@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;

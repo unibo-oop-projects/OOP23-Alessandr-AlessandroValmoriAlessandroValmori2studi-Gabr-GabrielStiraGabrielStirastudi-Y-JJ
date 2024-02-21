@@ -94,6 +94,15 @@ public final class ShopView extends GameMenu {
             }
         }
 
+        for (final var entry : buttonMap.entrySet()) {
+
+            this.descriptionsMap.put(entry.getKey(), new Text(entry.getValue().getDescription().get()));
+            this.imageMap.put(entry.getKey(), new ImageView(new Image(
+                    getClass().getClassLoader().getResource("shop/shop" + entry.getValue().name() + ".png")
+                            .toExternalForm())));
+
+        }
+
        
         for (final var entry : imageMap.entrySet()) {
             entry.getValue().setFitWidth(IMAGE_SIZE);
@@ -115,10 +124,7 @@ public final class ShopView extends GameMenu {
 
         for (final var entry : buttonMap.entrySet()) {
 
-            this.descriptionsMap.put(entry.getKey(), new Text(entry.getValue().getDescription().get()));
-            this.imageMap.put(entry.getKey(), new ImageView(new Image(
-                    getClass().getClassLoader().getResource("shop/shop" + entry.getValue().name() + ".png")
-                            .toExternalForm())));
+         
                             
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(BUTTON_STYLE);

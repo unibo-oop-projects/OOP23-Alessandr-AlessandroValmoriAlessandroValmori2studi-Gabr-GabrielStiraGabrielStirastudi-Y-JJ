@@ -1,6 +1,6 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
-import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.GameLoopControl;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
@@ -25,7 +25,7 @@ public final class PauseMenu extends GameMenuImpl {
     private static final int SPACE = 70;
 
     private final VBox buttonsVBox;
-    private final GameLoop gameLoop;
+    private final GameLoopControl gameLoop;
     private Button pauseButton;
 
 
@@ -35,7 +35,7 @@ public final class PauseMenu extends GameMenuImpl {
      * @param primaryStage the primary stage
      * @param gameLoop     the game loop
      */
-    public PauseMenu(final Stage primaryStage, final GameLoop gameLoop) {
+    public PauseMenu(final Stage primaryStage, final GameLoopControl gameLoop) {
         super(primaryStage);
         this.gameLoop = gameLoop;
         buttonsVBox = new VBox();

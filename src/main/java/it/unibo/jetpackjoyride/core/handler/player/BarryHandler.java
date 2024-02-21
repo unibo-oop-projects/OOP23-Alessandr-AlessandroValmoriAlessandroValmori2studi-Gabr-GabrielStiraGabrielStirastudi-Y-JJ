@@ -1,11 +1,11 @@
-package it.unibo.jetpackjoyride.core.entities.barry.impl;
+package it.unibo.jetpackjoyride.core.handler.player;
 
 
 import java.util.List;
 import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -23,7 +23,7 @@ import javafx.scene.Group;
  * It handles updating the player's model and view based on user input and game
  * logic.
  */
-public class PlayerMover {
+public class BarryHandler {
 
     private Pair<Double, Double> lastScreenDims;
 
@@ -35,7 +35,7 @@ public class PlayerMover {
     /**
      * Constructs a new PlayerMover instance.
      */
-    public PlayerMover(final GameStatsController gameStatsHandler) {
+    public BarryHandler(final GameStatsController gameStatsHandler) {
       
             
                 

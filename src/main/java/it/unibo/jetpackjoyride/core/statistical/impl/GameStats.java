@@ -109,24 +109,5 @@ public final class GameStats implements GameStatsModel {
         this.unlockedSet.addAll(items);
     }
 
-    @Override
-    public void addShields(final int num) {
-        System.out.println("CALLED");
-        this.numOfShields = num;
-    }
 
-    @Override
-    public int getNumOfShields() {
-        return this.numOfShields;
-    }
-
-    @Override
-    public boolean isShieldEquipped() {
-        return this.isShieldEquipped;
-    }
-
-    @Override
-    public void setShield(final boolean isShieldEquipped) {
-        this.isShieldEquipped = isShieldEquipped;
-    }
 }

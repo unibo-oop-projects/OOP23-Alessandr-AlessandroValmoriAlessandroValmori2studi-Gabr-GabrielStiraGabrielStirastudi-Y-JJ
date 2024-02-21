@@ -92,8 +92,9 @@ public abstract class GameMenuImpl implements GameMenu {
      /**
      * here can initializes specify funtion of the  menu.
      * @param primaryStage The stage use mainly to set the scene of menu
+     * @param gameStatsController The gameStatsController use mainly to get the data of GameStats for shop and GameLoop
      */
-    protected abstract void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController);
+    protected abstract void initializeGameMenu(Stage primaryStage, GameStatsController gameStatsController);
 
     /**
      * Adds buttons to the game menu.

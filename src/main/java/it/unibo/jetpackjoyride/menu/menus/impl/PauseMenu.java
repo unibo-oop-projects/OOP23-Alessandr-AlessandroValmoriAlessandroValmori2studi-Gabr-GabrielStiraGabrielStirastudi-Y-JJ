@@ -4,6 +4,7 @@ import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.PauseCommand;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -43,8 +44,8 @@ public final class PauseMenu extends GameMenuImpl {
 
     @Override
     protected void initializeGameMenu() {
-        buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
-        buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
+        buttonsVBox.setPrefWidth(GameInfo.getInstance().getScreenWidth());
+        buttonsVBox.setPrefHeight(GameInfo.getInstance().getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(SPACE1);
         buttonsVBox.setStyle("-fx-background-color: rgb(0, 0, 0);");
@@ -57,7 +58,7 @@ public final class PauseMenu extends GameMenuImpl {
 
         Command pauseCommand = new PauseCommand(gameLoop, this);
         pauseButton = ButtonFactory.createButton("Pause", e -> pauseCommand.execute(), PAUSE_BUTTON_SIZE, PAUSE_BUTTON_SIZE);
-        pauseButton.setLayoutX(gameInfo.getScreenWidth() - SPACE);
+        pauseButton.setLayoutX(GameInfo.getInstance().getScreenWidth() - SPACE);
         pauseButton.setLayoutY(0);
 
         buttonsVBox.getChildren().addAll(restartButton);

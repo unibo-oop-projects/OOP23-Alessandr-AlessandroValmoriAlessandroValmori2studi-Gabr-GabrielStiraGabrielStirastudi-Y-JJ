@@ -17,7 +17,6 @@ public final class RestartCommand implements Command {
      * Constructs a new RestartCommand.
      *
      * @param gameLoop the game loop
-     * @param stage    the stage
      * @param menu     the game menu
      */
     public RestartCommand(final GameLoopControl gameLoop, final GameMenu menu) {

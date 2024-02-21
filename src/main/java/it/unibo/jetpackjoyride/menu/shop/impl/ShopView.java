@@ -7,6 +7,7 @@ import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
@@ -79,14 +80,14 @@ public final class ShopView extends GameMenuImpl {
         super(primaryStage, gameStatsHandler);
 
         this.controller = controller;
-
-        getScene().setOnKeyPressed(ev -> {
+        this.root.setFocusTraversable(true);
+        this.root.setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
             this.update();
         });
-        initializeGameMenu();
-        getStage().centerOnScreen();
-        stageCloseAction();
+        initializeGameMenu(primaryStage, gameStatsHandler);
+        primaryStage.centerOnScreen();
+        stageCloseAction(primaryStage);
 
         for (final var entry : Items.values()) {
             if (!entry.equals(Items.DUKE)) {
@@ -200,7 +201,7 @@ public final class ShopView extends GameMenuImpl {
      * Sets the scene of the shop menu on Stage.
      */
     public void setSceneOnStage() {
-        this.getStage().setScene(this.getScene());
+         this.showMenu();
     }
 
     public void addBuyObs(ShopItemPurchaseObs observer) {
@@ -267,7 +268,7 @@ public final class ShopView extends GameMenuImpl {
     }
 
     @Override
-    protected void initializeGameMenu() {
+    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
         root.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
@@ -275,8 +276,8 @@ public final class ShopView extends GameMenuImpl {
     }
 
     @Override
-    protected void stageCloseAction() {
-        getStage().setOnCloseRequest(event -> {
+    protected void stageCloseAction(final Stage primaryStage) {
+        primaryStage.setOnCloseRequest(event -> {
             this.controller.save();
             defaultCloseAction();
         });

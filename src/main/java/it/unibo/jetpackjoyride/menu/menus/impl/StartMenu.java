@@ -38,34 +38,34 @@ public final class StartMenu extends GameMenuImpl {
         super(primaryStage, gameStatsController);
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
-        shopController = new ShopControllerImpl(primaryStage, this);
-        this.gameLoop = Optional.of(new GameLoop(this.getStage(), getGameStatsHandler())); 
-        initializeGameMenu();
+        shopController = new ShopControllerImpl(primaryStage, this, gameStatsController);
+        this.gameLoop = Optional.of(new GameLoop(primaryStage, gameStatsController)); 
+        initializeGameMenu(primaryStage, gameStatsController);
         primaryStage.setMinHeight(GameInfo.getInstance().getDefaultHeight());
         primaryStage.setMinWidth(GameInfo.getInstance().getDefaultWidth());
-        getStage().centerOnScreen();
-        stageCloseAction();
+        primaryStage.centerOnScreen();
+        stageCloseAction(primaryStage);
     }
 
     @Override
-    protected void initializeGameMenu() {
+    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
         VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
-            this.gameLoop = Optional.of(new GameLoop(this.getStage(), getGameStatsHandler())); 
+            this.gameLoop = Optional.of(new GameLoop(primaryStage, gameStatsController)); 
             Command startCommand = new StartCommand(this.gameLoop.get(), this);
             startCommand.execute();
-            getStage().centerOnScreen();
+            primaryStage.centerOnScreen();
         }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, this.getStage());
+        Command openShopCommand = new OpenShopCommand(shopController, primaryStage);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
         buttonsRoot.getChildren().addAll(startButton, shopButton);
 
-        StackPane.setMargin(buttonsRoot, new Insets(this.getScene().getHeight() / 2, 0, 0, 0));
-        getScene().heightProperty().addListener((obs, oldVal, newVal) -> {
+        StackPane.setMargin(buttonsRoot, new Insets(primaryStage.getHeight() / 2, 0, 0, 0));
+        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
             StackPane.setMargin(buttonsRoot, new Insets(newVal.doubleValue() / 2, 0, 0, 0));
         });
 
@@ -73,8 +73,8 @@ public final class StartMenu extends GameMenuImpl {
     }
 
     @Override
-    protected void stageCloseAction() {
-        getStage().setOnCloseRequest(event -> {
+    protected void stageCloseAction(final Stage primaryStage) {
+       primaryStage.setOnCloseRequest(event -> {
             if (this.gameLoop.isPresent()) {
             this.gameLoop.get().endLoop();
             }

@@ -2,10 +2,11 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 
-import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -22,30 +23,26 @@ public final class CoinViewImpl implements CoinView {
    private static final int NUM_OF_FRAMES_FOR_IMAGE = 5;
 
    private Image[] coinFrames;
-   private Coin controller;
    private int currentCoinframe = 0;
 
    private boolean isOnScreen;
 
    /**
      * Constructs a CoinViewImpl with the given Coin controller.
-     *
-     * @param controller the controller use to update View
      */
-   public CoinViewImpl(final Coin controller) {
-      this.controller = controller;
+   public CoinViewImpl() {
       this.coinFrames = new Image[NUM_OF_FRAMES];
       isOnScreen = false;
       loadCoinImages();
    }
 
    @Override
-   public void renderCoin(final GraphicsContext gc) {
+   public void renderCoin(final GraphicsContext gc, List<Pair<Double, Double>> modelData) {
       double moveSpeed = GameInfo.MOVE_SPEED.get();
-      double posX = controller.getModelData().get(POSITION).get1();
-      double posY = controller.getModelData().get(POSITION).get2();
-      double width = controller.getModelData().get(SIZE).get1();
-      double height = controller.getModelData().get(SIZE).get2();
+      double posX = modelData.get(POSITION).get1();
+      double posY = modelData.get(POSITION).get2();
+      double width = modelData.get(SIZE).get1();
+      double height = modelData.get(SIZE).get2();
       if (isOnScreen) {
          gc.clearRect(posX + moveSpeed, posY, width, height);
          gc.drawImage(coinFrames[currentCoinframe], posX, posY, width, height);

@@ -21,7 +21,6 @@ public final class CoinImpl implements Coin {
 
     private final CoinModel model;
     private final CoinView view;
-    private final GraphicsContext gc;
 
     /**
      * Constructs a CoinImpl with the given position, hitbox, and graphics context.
@@ -30,10 +29,9 @@ public final class CoinImpl implements Coin {
      * @param hitbox the hitbox of the coin
      * @param gc the graphics context for rendering
      */
-    public CoinImpl(final Pair<Double, Double> position, final HitboxImpl hitbox, final GraphicsContext gc) {
+    public CoinImpl(final Pair<Double, Double> position, final HitboxImpl hitbox) {
         this.model = new CoinModelImpl(position, hitbox);
-        this.view = new CoinViewImpl(this);
-        this.gc = gc;
+        this.view = new CoinViewImpl();
     }
 
     @Override
@@ -42,13 +40,13 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public void render() {
+    public void render(GraphicsContext gc) {
         if (model.isCollected()) {
             view.setVisible(false);
         } else {
             view.setVisible(true);
         }
-        this.view.renderCoin(gc);
+        this.view.renderCoin(gc, this.getModelData());
     }
     @Override
     public  List<Pair<Double, Double>> getModelData() {

@@ -116,8 +116,7 @@ public final class CoinGenerator {
                 } else {
                     coin = new CoinImpl(position,
                             new HitboxImpl(position,
-                                    new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))),
-                            canvas.getGraphicsContext2D());
+                            new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT))));
                 }
                 coinList.add(coin);
             }
@@ -140,7 +139,7 @@ public final class CoinGenerator {
             canvas.getGraphicsContext2D().clearRect(0, 0, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         }
         for (Coin coin : coinList) {
-            coin.render();
+            coin.render(canvas.getGraphicsContext2D());
         }
     }
 /**

@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
@@ -39,11 +40,11 @@ public final class PauseMenu extends GameMenuImpl {
         super(primaryStage, null);
         this.gameLoop = gameLoop;
         buttonsVBox = new VBox();
-        initializeGameMenu();
+        initializeGameMenu(primaryStage, null);
     }
 
     @Override
-    protected void initializeGameMenu() {
+    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
         buttonsVBox.setPrefWidth(GameInfo.getInstance().getScreenWidth());
         buttonsVBox.setPrefHeight(GameInfo.getInstance().getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);

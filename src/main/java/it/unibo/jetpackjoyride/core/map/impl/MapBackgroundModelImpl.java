@@ -11,8 +11,9 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public final class MapBackgroundModelImpl implements MapBackgroundModel {
 
-
-    private  static final  int OFFSET = 1;
+    private static final int IMAGE_STEP = 2;
+    private static final int TOTAL_IMAGE = 6;
+    private  static final  int OFFSET = 2;
 
     /**
      * the backgroung position and size.
@@ -21,6 +22,7 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
      private final GameInfo gameInfo;
      private double mapWidth;
      private double mapHeight;
+     private int currentImage = 0;
 
     /**
      * Constructor of the MapBackgroundModelImpl.
@@ -36,23 +38,22 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
 
     @Override
     public void updateBackgroundModel() {
-
         bgImageX1 -= GameInfo.MOVE_SPEED.get();
         bgImageX2 -= GameInfo.MOVE_SPEED.get();
-
-        if (isOutofMap(bgImageX1)) { //If the Backgroung Image is completely outside the map.
-            bgImageX1 = bgImageX2 + mapWidth - OFFSET; // then reset its position to behind the other.
-        }
-        if (isOutofMap(bgImageX2)) {
-            bgImageX2 = bgImageX1 + mapWidth - OFFSET;
-        }
-        updateSize();
-
     }
 
     @Override
     public Pair<Double, Double> getPosX() {
         return new Pair<>(this.bgImageX1, this.bgImageX2);
+    }
+
+    @Override 
+    public void setPositionX(int num) {
+        if (num == 0) {
+            this.bgImageX1 = bgImageX2 + mapWidth -OFFSET;
+        }else{
+            bgImageX2 = bgImageX1 + mapWidth - OFFSET;
+        }
     }
 
     @Override
@@ -66,11 +67,18 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
         this.bgImageX2 = mapWidth;
     }
 
-     /**
-     * Updates the size of the background based on the screen size.
-     * If the screen size has changed, this method adjusts the background accordingly.
-     */
-    private void updateSize() {
+    @Override
+    public void updateImage() {
+        this.currentImage = (currentImage + IMAGE_STEP) % TOTAL_IMAGE;
+    }
+
+    @Override
+    public int getIndexForImage() {
+        return this.currentImage;
+    }
+
+    @Override
+    public void updateSize() {
         double newWidth = gameInfo.getScreenWidth();
         double newHeight = gameInfo.getScreenHeight();
 
@@ -84,16 +92,5 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
             bgImageX2 = mapWidth * ratioX2;
 
         }
-
-    }
-
-    /**
-     * Checks if the given x-coordinate is outside the map area.
-     * 
-     * @param x The x-coordinate to check.
-     * @return True if the x-coordinate is outside the map area, false otherwise.
-     */
-    private boolean isOutofMap(final double x) {
-        return x <= -mapWidth;
     }
 }

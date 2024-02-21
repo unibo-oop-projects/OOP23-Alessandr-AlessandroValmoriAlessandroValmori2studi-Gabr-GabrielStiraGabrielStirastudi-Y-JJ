@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core.handler.entity;
 
 import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
@@ -35,7 +36,7 @@ public class EntityHandler {
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
         this.playerHandler = new PlayerMover(gameStatsHandler);
-        this.coinHandler = new CoinGenerator(playerHandler.getHitbox(), gameStatsHandler.getGameStatsModel());
+        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
 
         this.unlockedPowerUps = gameStatsHandler.getGameStatsModel().getUnlocked();
 
@@ -45,11 +46,13 @@ public class EntityHandler {
 
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
-        if (!playerHandler.move(isSpaceBarPressed)) {
-            this.coinHandler.setPlayerHitbox(Optional.empty());
-
+        playerHandler.update(isSpaceBarPressed);
+        if(!playerHandler.getModel().isAlive()){
+            coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
+    
+
         playerHandler.updateView(entityGroup);
 
         coinHandler.updatPosition();
@@ -66,13 +69,13 @@ public class EntityHandler {
 
         final var obstacleHit = this.obstacleHandler.update(entityGroup,
                 isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox())
-                        : playerHandler.getHitbox());
+                        : Optional.of(playerHandler.getModel().getHitbox()));
         if (obstacleHit.isPresent()) {
             if (this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
-                this.playerHandler.activate();
-                this.coinHandler.setPlayerHitbox(this.playerHandler.getHitbox());
+                this.playerHandler.getModel();
+                this.coinHandler.setPlayerHitbox(Optional.of(this.playerHandler.getModel().getHitbox()));
             } else {
                 this.playerHandler.hit(obstacleHit.get());
             }
@@ -80,8 +83,8 @@ public class EntityHandler {
 
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
-        if (this.pickUpHandler.update(entityGroup, playerHandler.getHitbox())) {
-            playerHandler.deactivate();
+        if (this.pickUpHandler.update(entityGroup, Optional.of(playerHandler.getModel().getHitbox()))) {
+            playerHandler.getModel().setEntityStatus(EntityStatus.INACTIVE);
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
 
             switch (pickUpPickedUp.getPickUpType()) {

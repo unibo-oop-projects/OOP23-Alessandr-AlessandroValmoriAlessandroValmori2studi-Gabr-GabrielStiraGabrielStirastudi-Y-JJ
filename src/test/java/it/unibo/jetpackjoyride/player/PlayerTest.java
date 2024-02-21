@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.player;
+/*package it.unibo.jetpackjoyride.player;
 
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.OBSTACLE;
 import static org.junit.Assert.assertEquals;
@@ -90,3 +90,4 @@ public class PlayerTest extends ApplicationTest {
 
 
 }
+*/

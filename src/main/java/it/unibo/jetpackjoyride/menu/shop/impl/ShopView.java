@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -9,7 +8,6 @@ import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -22,12 +20,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 /**
@@ -35,13 +32,6 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
  */
 public final class ShopView extends GameMenuImpl {
     // Constants related to image positioning
-
-    private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
-    private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
-    private List<BackToMenuObs> backList = new ArrayList<>();
-    private StackPane root = new StackPane();
-    private List<CharacterObs> charObsList = new ArrayList<>();
-
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
     private static final int IMAGE_DISTANCE = 30;
@@ -59,10 +49,8 @@ public final class ShopView extends GameMenuImpl {
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
     private static final String EQUIP_SHIELD_BUTTON_STYLE = "-fx-background-color: #0000ff; -fx-text-fill: white; -fx-font-size: 16;";
 
-    // Constants related to image positioning on the Y-axis
-    private final int cuddleImageYPos = (int) GameInfo.getInstance().getScreenHeight() / 8;
-
     // Other constants
+    private final int cuddleImageYPos = (int) GameInfo.getInstance().getScreenHeight() / 8;
 
     private final ShopController controller;
     private final Text moneyText;
@@ -76,11 +64,18 @@ public final class ShopView extends GameMenuImpl {
     private final Map<Button, Items> buttonMap = new HashMap<>();
     private final Map<Button, ImageView> imageMap = new HashMap<>();
 
+    private List<ShieldEquippedObs> equipObsList = new ArrayList<>();
+    private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
+    private List<BackToMenuObs> backList = new ArrayList<>();
+    private List<CharacterObs> charObsList = new ArrayList<>();
+
+    private StackPane root = new StackPane();
+
     /**
      * Constructor for ShopView.
      */
     public ShopView(final ShopController controller, final Stage primaryStage,
-            final GameStatsController gameStatsHandler) {
+                    final GameStatsController gameStatsHandler) {
         super(primaryStage, gameStatsHandler);
 
         this.controller = controller;
@@ -93,31 +88,29 @@ public final class ShopView extends GameMenuImpl {
         getStage().centerOnScreen();
         stageCloseAction();
 
-        // initializes the button map e la description map
         for (final var entry : Items.values()) {
             if (!entry.equals(Items.DUKE)) {
                 this.buttonMap.put(new Button(), entry);
             }
         }
 
-        // inizializza la imageMap e il description set
         for (final var entry : buttonMap.entrySet()) {
+
             this.descriptionsMap.put(entry.getKey(), new Text(entry.getValue().getDescription().get()));
             this.imageMap.put(entry.getKey(), new ImageView(new Image(
                     getClass().getClassLoader().getResource("shop/shop" + entry.getValue().name() + ".png")
                             .toExternalForm())));
 
         }
-        // posiziona la imageMap n
-        for (final var entry : imageMap.entrySet()) {
 
+       
+        for (final var entry : imageMap.entrySet()) {
             entry.getValue().setFitWidth(IMAGE_SIZE);
             entry.getValue().setFitHeight(IMAGE_SIZE);
             entry.getValue().setTranslateX(IMAGE_X_POS);
             entry.getValue().setTranslateY(
-                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
+                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (IMAGE_SIZE + IMAGE_DISTANCE)
                             + this.cuddleImageYPos);
-
         }
 
         for (final var entry : this.descriptionsMap.entrySet()) {
@@ -125,27 +118,26 @@ public final class ShopView extends GameMenuImpl {
             entry.getValue().setFill(Color.WHITE);
             entry.getValue().setTranslateX(DESCR_X_POS);
             entry.getValue().setTranslateY(
-                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
+                    (this.buttonMap.get(entry.getKey()).getOrder().get()) * (IMAGE_SIZE + IMAGE_DISTANCE)
                             + this.cuddleImageYPos);
         }
 
-        // posiziona la buttonMap
         for (final var entry : buttonMap.entrySet()) {
 
+         
+                            
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(BUTTON_STYLE);
             entry.getKey().setPrefWidth(BUTTON_WIDTH);
             entry.getKey().setPrefHeight(BUTTON_HEIGHT);
             entry.getKey().setTranslateX(BUY_BUTTON_X_POS);
             entry.getKey().setTranslateY(
-                    entry.getValue().getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
+                    entry.getValue().getOrder().get() * (IMAGE_SIZE + IMAGE_DISTANCE)
                             + BUY_BUTTON_Y_DISPLACEMENT + this.cuddleImageYPos);
             entry.getKey().setOnAction(e -> {
-               this.buyObsList.forEach(obs -> obs.onItemBought(entry.getValue()));
+                this.buyObsList.forEach(obs -> obs.onItemBought(entry.getValue()));
             });
         }
-
-        // inizializza e posiziona la description map
 
         final Button backButton = ButtonFactory.createButton("menu", e -> this.backList.forEach(obs -> obs.goBack()), BUTTON_WIDTH * 2,
                 30 * 2);
@@ -153,29 +145,21 @@ public final class ShopView extends GameMenuImpl {
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-        
-          shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
-          shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
-          shieldNum.setFill(Color.GREEN);
-          shieldNum.setTranslateX(SHIELD_COUNTER_X_POS);
-          shieldNum.setTranslateY(Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE) + this.cuddleImageYPos);
-          
-          
-          
-          
-          
-          equipShieldButton.setText("EQUIP");
-          equipShieldButton.setStyle(EQUIP_SHIELD_BUTTON_STYLE);
-          equipShieldButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-          equipShieldButton.setTranslateX(BUY_BUTTON_X_POS + BUTTON_WIDTH +
-          IMAGE_DISTANCE);
-          equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (this.IMAGE_SIZE + this.IMAGE_DISTANCE)
-          + this.cuddleImageYPos + BUY_BUTTON_Y_DISPLACEMENT);
-          equipShieldButton.setOnAction(e -> {
-          this.equipObsList.forEach(obs -> obs.toggleShieldEquipped());
-          
-          });
-         
+        shieldNum = new Text(String.valueOf(this.controller.getNumOfShields()));
+        shieldNum.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
+        shieldNum.setFill(Color.GREEN);
+        shieldNum.setTranslateX(SHIELD_COUNTER_X_POS);
+        shieldNum.setTranslateY(Items.SHIELD.getOrder().get() * (IMAGE_SIZE + IMAGE_DISTANCE) + this.cuddleImageYPos);
+
+        equipShieldButton.setText("EQUIP");
+        equipShieldButton.setStyle(EQUIP_SHIELD_BUTTON_STYLE);
+        equipShieldButton.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        equipShieldButton.setTranslateX(BUY_BUTTON_X_POS + BUTTON_WIDTH + IMAGE_DISTANCE);
+        equipShieldButton.setTranslateY(Items.SHIELD.getOrder().get() * (IMAGE_SIZE + IMAGE_DISTANCE)
+                + this.cuddleImageYPos + BUY_BUTTON_Y_DISPLACEMENT);
+        equipShieldButton.setOnAction(e -> {
+            this.equipObsList.forEach(obs -> obs.toggleShieldEquipped());
+        });
 
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
@@ -226,28 +210,30 @@ public final class ShopView extends GameMenuImpl {
     public void addBackToMenuObs(BackToMenuObs observer) {
         backList.add(observer);
     }
-    public void addCharObs(CharacterObs observer){
+
+    public void addCharObs(CharacterObs observer) {
         charObsList.add(observer);
     }
+
     public void removeBackToMenuObs(BackToMenuObs observer) {
         backList.remove(observer);
     }
-    
+
     public void removeBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.remove(observer);
     }
-    
+
     public void addEquipObserver(ShieldEquippedObs observer) {
         equipObsList.add(observer);
     }
-    
+
     public void removeEquipObs(ShieldEquippedObs observer) {
         equipObsList.remove(observer);
     }
-    public void removeCharObs(CharacterObs observer){
+
+    public void removeCharObs(CharacterObs observer) {
         charObsList.remove(observer);
     }
-    
 
     public void update() {
         if (this.controller.getUnlocked().contains(Items.DUKE)) {
@@ -278,7 +264,6 @@ public final class ShopView extends GameMenuImpl {
                 entry.getKey().setGraphic(imageView);
             }
         }
-
     }
 
     @Override
@@ -296,4 +281,6 @@ public final class ShopView extends GameMenuImpl {
             defaultCloseAction();
         });
     }
+
+
 }

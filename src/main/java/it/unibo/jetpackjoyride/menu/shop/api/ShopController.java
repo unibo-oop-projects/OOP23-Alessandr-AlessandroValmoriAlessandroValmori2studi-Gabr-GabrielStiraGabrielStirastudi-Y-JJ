@@ -1,8 +1,5 @@
 package it.unibo.jetpackjoyride.menu.shop.api;
 
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-
 import java.util.Set;
 import java.util.Optional;
 
@@ -74,7 +71,15 @@ public interface ShopController {
         }
     }
 
+    /**
+     * Shows the shop
+     */
+
     void showTheShop();
+
+    /**
+     * Updates the view component of the shop
+     */
     void updateView();
     
     /**
@@ -126,6 +131,11 @@ public interface ShopController {
      * Saves the game progress.
      */
     void save();
+
+    /**
+     * Unlocks an item
+     * @param item
+     */
 
     void unlock(Items item);
 }

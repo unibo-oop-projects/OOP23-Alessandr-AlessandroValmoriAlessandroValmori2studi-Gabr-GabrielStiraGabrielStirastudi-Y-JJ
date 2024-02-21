@@ -1,3 +1,14 @@
+package it.unibo.jetpackjoyride.core.entities.barry.impl;
+
+import java.util.Optional;
+
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.Pair;
+
 /**
  * BarryImpl class represents the implementation of the Barry interface,
  * which defines the behavior of the player character in the Jetpack Joyride game.
@@ -5,52 +16,26 @@
  * This class manages Barry's position, movement, and status, including walking,
  * falling, and propelling using a jetpack. It also handles hitbox-related operations.
  */
-package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
-import java.util.Optional;
-
-import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
-
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
-import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
-import it.unibo.jetpackjoyride.utilities.Pair;
-
-
-/**
- * BarryImpl class implements the Barry interface and provides the functionality
- * for controlling the player character, Barry, in the Jetpack Joyride game.
- */
 public final class BarryImpl implements Barry {
+    // Constants for gravity force and jump force
+    private static final double GRAVITY_FORCE = 0.6;
+    private static final double JUMP_FORCE = 1.2;
 
-    private static final double GRAVITYFORCE = 0.6; // gravity
-    private static final double JUMPFORCE = 1.2; // jetpack propulsion
-
-    private double speed; // can be negative or positive, negative goes up, positive down
-    // its standard value is 0, when Barry is walking
-
-    private double xPosition; // fixed x position
-    private double position; // variable y position
-
+    private double speed;
+    private double xPosition;
+    private double position;
     private double height;
     private double width;
-
     private double lowBound;
     private double upBound;
-
-    private BarryStatus status; // walking, falling ..
-    private BarryLifeStatus lifeStatus; // dead or alive
-
+    private BarryStatus status;
+    private BarryLifeStatus lifeStatus;
     private Optional<Hitbox> hitbox;
-
     private boolean hasShield;
-
     private boolean isActive;
-
     private int counter = 0;
-
-    private static final int DURATION=50;
+    private static final int DURATION = 50;
 
     /**
      * Constructs a new instance of BarryImpl.
@@ -58,7 +43,6 @@ public final class BarryImpl implements Barry {
      * hitbox, and game information.
      */
     public BarryImpl() {
-        // Initialize default values for Barry
         this.isActive = true;
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.status = BarryStatus.WALKING;
@@ -71,7 +55,6 @@ public final class BarryImpl implements Barry {
         this.speed = 0;
         this.hitbox = Optional.of(new HitboxImpl(this.getPosition(), new Pair<>(this.width / 17, this.height / 7)));
     }
-
     /**
      * Checks if Barry is falling and updates the position accordingly.
      *
@@ -84,10 +67,9 @@ public final class BarryImpl implements Barry {
                 this.speed = 0;
                 this.position = upBound;
             }
-            this.speed += this.GRAVITYFORCE;
+            this.speed += GRAVITY_FORCE;
             this.position += this.speed;
-            this.status = isAlive ?  BarryStatus.FALLING : this.status;
-
+            this.status = isAlive ? BarryStatus.FALLING : this.status;
             return true;
         }
 
@@ -96,7 +78,6 @@ public final class BarryImpl implements Barry {
         this.speed = 0;
         return false;
     }
-
     /**
      * Checks if Barry is propelling upwards and updates the position accordingly.
      *
@@ -108,7 +89,7 @@ public final class BarryImpl implements Barry {
                 this.speed = 0;
                 this.position = lowBound;
             }
-            this.speed -= this.JUMPFORCE;
+            this.speed -= JUMP_FORCE;
             this.position += this.speed;
             this.status = BarryStatus.PROPELLING;
             return true;
@@ -119,7 +100,6 @@ public final class BarryImpl implements Barry {
         this.status = BarryStatus.HEAD_DRAGGING;
         return false;
     }
-
     /**
      * Moves Barry based on the jumping condition.
      * If jumping is true, Barry propels upwards; otherwise, Barry falls.
@@ -132,25 +112,23 @@ public final class BarryImpl implements Barry {
     public boolean move(final boolean jumping) {
         if (this.lifeStatus.equals(BarryLifeStatus.DEAD)) {
             this.counter++;
-            if(counter < DURATION){
+            if (counter < DURATION) {
                 return true;
             }
             this.fall(false);
             return this.position < lowBound;
         }
-    
+
         if (jumping) {
             this.propel();
         } else {
             this.fall(true);
         }
-    
+
         this.hitbox.get().updateHitbox(getPosition(), 0.0);
         return true;
     }
-    
-
-    /**
+     /**
      * Gets the current status of Barry.
      *
      * @return the current Barry status
@@ -159,7 +137,6 @@ public final class BarryImpl implements Barry {
     public BarryStatus getBarryStatus() {
         return this.status;
     }
-
     /**
      * Gets the current position of Barry as a Pair of X and Y coordinates.
      *
@@ -169,7 +146,6 @@ public final class BarryImpl implements Barry {
     public Pair<Double, Double> getPosition() {
         return new Pair<>(this.xPosition, this.position);
     }
-
     /**
      * Gets the hitbox of Barry.
      *
@@ -179,8 +155,6 @@ public final class BarryImpl implements Barry {
     public Optional<Hitbox> getHitbox() {
         return this.hitbox;
     }
-
-   
     /**
      * Checks if Barry has a shield.
      *
@@ -190,7 +164,6 @@ public final class BarryImpl implements Barry {
     public boolean hasShield() {
         return hasShield;
     }
-
     /**
      * Checks if Barry is alive.
      *
@@ -200,7 +173,6 @@ public final class BarryImpl implements Barry {
     public boolean isAlive() {
         return this.lifeStatus.equals(BarryLifeStatus.ALIVE);
     }
-
     /**
      * Kills Barry based on the type of obstacle.
      * Updates Barry's hitbox and status accordingly.
@@ -210,25 +182,27 @@ public final class BarryImpl implements Barry {
     @Override
     public void kill(final ObstacleType type) {
         this.hitbox = Optional.empty();
-        this.lifeStatus= BarryLifeStatus.DEAD;
-        this.status = type.equals(ObstacleType.ZAPPER) ? BarryStatus.ZAPPED : 
-        type.equals(ObstacleType.LASER) ? BarryStatus.LASERED : 
-        type.equals(ObstacleType.MISSILE) ? BarryStatus.BURNED : BarryStatus.UNDEFINED;
+        this.lifeStatus = BarryLifeStatus.DEAD;
+        this.status = switch (type) {
+            case ZAPPER -> BarryStatus.ZAPPED;
+            case LASER -> BarryStatus.LASERED;
+            case MISSILE -> BarryStatus.BURNED;
+            default -> BarryStatus.UNDEFINED;
+        };
     }
-
     /**
      * Removes the shield from Barry.
      */
     @Override
     public void removeShield() {
-        this.hasShield=false;
+        this.hasShield = false;
     }
-    /**
+     /**
      * Sets the shield on Barry.
      */
     @Override
     public void setShieldOn() {
-        this.hasShield=true;
+        this.hasShield = true;
     }
     /**
      * Sets the life status of Barry.
@@ -246,7 +220,7 @@ public final class BarryImpl implements Barry {
      */
     @Override
     public void setActiveValue(final boolean value) {
-        this.isActive=value;
+        this.isActive = value;
     }
     /**
      * Checks if Barry is active.
@@ -265,15 +239,11 @@ public final class BarryImpl implements Barry {
      */
     @Override
     public void updateLimits(final double widthRatio, final double heightRatio) {
-       this.width =this.width * widthRatio;
-        this.height = this.height * heightRatio;
-        this.lowBound = this.lowBound*heightRatio;
-        this.upBound = this.upBound*heightRatio;
-        this.xPosition = this.xPosition* widthRatio;
-        this.position= this.position*heightRatio;
+        this.width *= widthRatio;
+        this.height *= heightRatio;
+        this.lowBound *= heightRatio;
+        this.upBound *= heightRatio;
+        this.xPosition *= widthRatio;
+        this.position *= heightRatio;
     }
-
-  
-
-    
 }

@@ -6,19 +6,15 @@
  * falling, and propelling using a jetpack. It also handles hitbox-related operations.
  */
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
-
-import java.util.Optional;
-
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.List;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
@@ -32,7 +28,6 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
     private PerformingAction performingAction;
     private boolean hasShield;
-    private GameStatsController gameStatsHandler;
     private BarryLifeStatus lifeStatus;
 
     private static final Double HIGH_BOUND = 80.0;
@@ -43,11 +38,10 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
 
    
-    public BarryImpl(final Movement movement, final Hitbox hitbox, GameStatsController gameStatsHandler) {
+    public BarryImpl(final Movement movement, final Hitbox hitbox) {
        
         super(EntityType.BARRY,movement, hitbox);
-        this.gameStatsHandler = gameStatsHandler;
-        this.hasShield = this.gameStatsHandler.getGameStatsModel().isShieldEquipped();
+        this.hasShield = false;
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.entityStatus = EntityStatus.ACTIVE;
         this.performingAction = PerformingAction.FALLING;

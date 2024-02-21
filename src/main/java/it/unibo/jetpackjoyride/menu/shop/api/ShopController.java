@@ -97,11 +97,7 @@ public interface ShopController {
      */
     void buy(Items item);
 
-    /**
-     * Toggles between equipping and unequipping the shield.
-     */
-    void toggleEquipUnequipShield();
-
+    
     /**
      * Retrieves the current balance of the player.
      *
@@ -109,19 +105,6 @@ public interface ShopController {
      */
     int retrieveBalance();
 
-    /**
-     * Retrieves the number of shields owned by the player.
-     *
-     * @return The number of shields owned by the player.
-     */
-    int getNumOfShields();
-
-    /**
-     * Checks if the shield is currently equipped.
-     *
-     * @return True if the shield is equipped, false otherwise.
-     */
-    boolean isShieldEquipped();
 
     /**
      * Retrieves the set of unlocked items.

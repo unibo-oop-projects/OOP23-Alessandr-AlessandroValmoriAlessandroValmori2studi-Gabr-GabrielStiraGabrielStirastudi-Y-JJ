@@ -135,7 +135,7 @@ public final class Movement {
      * @return The movement modifiers of the entity.
      */
     public List<MovementChangers> getMovementChangers() {
-        return this.listOfChangers;
+        return Collections.unmodifiableList(this.listOfChangers);
     }
 
     /**
@@ -326,7 +326,7 @@ public final class Movement {
         }
 
         public Builder setMovementChangers(final List<MovementChangers> newChangers) {
-            this.listOfChangers = newChangers;
+            this.listOfChangers = Collections.unmodifiableList(newChangers);
             return this;
         }
 

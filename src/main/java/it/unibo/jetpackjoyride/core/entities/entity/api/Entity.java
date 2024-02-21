@@ -15,7 +15,7 @@ public interface Entity {
      * Defines the types of entities in the game.
      */
     enum EntityType {
-        OBSTACLE, POWERUP, PICKUP
+        OBSTACLE, POWERUP, PICKUP, BARRY
     }
 
     /**

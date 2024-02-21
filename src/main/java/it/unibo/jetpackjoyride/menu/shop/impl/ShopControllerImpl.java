@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import java.util.Set;
 import java.util.HashSet;
-
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -14,11 +12,8 @@ import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import java.util.Deque;
-import java.util.LinkedList;
+
 
 /**
  * Controller class for the shop menu.
@@ -64,7 +59,7 @@ public final class ShopControllerImpl implements ShopController {
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
         ShieldEquippedObs shieldEquippedObs = new ShieldEquippedObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this, this.gameStatsHandler);
+        CharacterObs charObs = new CharacterImpl(this);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);

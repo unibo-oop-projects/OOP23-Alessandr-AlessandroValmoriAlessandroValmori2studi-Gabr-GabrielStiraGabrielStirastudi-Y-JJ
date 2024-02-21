@@ -111,7 +111,6 @@ public class EntityHandler {
                 .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
                 .collect(Collectors.toList());
         random = new Random().nextInt(listOfPossibleSpawns.size());
-
         this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
         final VehiclePickUp vehiclePickUp = (VehiclePickUp) this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
         vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(random));

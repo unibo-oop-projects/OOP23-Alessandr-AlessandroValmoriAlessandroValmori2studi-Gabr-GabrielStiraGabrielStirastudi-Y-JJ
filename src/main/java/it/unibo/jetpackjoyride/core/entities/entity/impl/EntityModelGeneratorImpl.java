@@ -32,7 +32,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
     private final static Pair<Double,Double> LILSTOMPERSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);
     private final static Pair<Double,Double> LILSTOMPERHITBOXDIMENSIONS = new Pair<>(160.0, 140.0);
 
-    private final static Pair<Double,Double> MRCUDDLESPAWNINGCOORDINATES = new Pair<>(200.0, 100.0);
+    private final static Pair<Double,Double> MRCUDDLESPAWNINGCOORDINATES = new Pair<>(200.0, 0.0);
     private final static Pair<Double,Double> MRCUDDLEHITBOXDIMENSIONS = new Pair<>(120.0, 70.0);
 
     private final static Pair<Double,Double> PROFITBIRDSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);

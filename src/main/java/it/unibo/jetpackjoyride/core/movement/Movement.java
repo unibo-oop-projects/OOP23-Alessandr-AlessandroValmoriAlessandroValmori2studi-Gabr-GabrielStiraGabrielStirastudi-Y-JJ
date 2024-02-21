@@ -8,7 +8,7 @@ import java.util.*;
 public final class Movement {
     private static final Double GRAVITYMODIFIER = 0.3;
     private static final Double INVERSEGRAVITYMODIFIER = -0.3;
-    private static final Double MAPBOUNDUP = 50.0;
+    private static final Double MAPBOUNDUP = 80.0;
     private static final Double MAPBOUNDDOWN = 630.0;
 
     record MovCharacterizing(Pair<Double,Double> pos, Pair<Double,Double> speed, Pair<Double,Double> acc, Pair<Double,Double> rot) {}
@@ -67,7 +67,7 @@ public final class Movement {
 
         /* GRAVITY */
         if (this.listOfChangers.contains(MovementChangers.GRAVITY)) {
-            modifiedPosition = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
+            modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
         }
 
         /* INVERSEGRAVITY */

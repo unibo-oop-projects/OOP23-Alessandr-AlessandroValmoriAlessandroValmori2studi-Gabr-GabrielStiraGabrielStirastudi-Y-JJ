@@ -1,5 +1,8 @@
 package it.unibo.jetpackjoyride.core.map.api;
 
+import java.util.List;
+
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.layout.Pane;
 
 /**
@@ -10,8 +13,9 @@ public interface MapBackgroundView {
 
    /**
      * Updates the background view of the map.
+     * @param modelData The data necessary for update view from model
      */
-    void updateBackgroundView();
+    void updateBackgroundView(List<Pair<Double, Double>> modelData);
 
     /**
      * A method to add the backgroung Node into the Game root.

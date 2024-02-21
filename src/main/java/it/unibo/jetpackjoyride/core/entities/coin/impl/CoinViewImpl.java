@@ -37,7 +37,7 @@ public final class CoinViewImpl implements CoinView {
    }
 
    @Override
-   public void renderCoin(final GraphicsContext gc, List<Pair<Double, Double>> modelData) {
+   public void renderCoin(final GraphicsContext gc, final List<Pair<Double, Double>> modelData) {
       double moveSpeed = GameInfo.MOVE_SPEED.get();
       double posX = modelData.get(POSITION).get1();
       double posY = modelData.get(POSITION).get2();

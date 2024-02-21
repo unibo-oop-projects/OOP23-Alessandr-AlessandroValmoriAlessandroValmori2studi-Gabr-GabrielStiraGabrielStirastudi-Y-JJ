@@ -2,9 +2,10 @@ package it.unibo.jetpackjoyride.core.map.impl;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 
-import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,32 +19,32 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
 
     private static final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
     private static final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
+    private static final int POSITION = 0;
+    private static final int SIZE = 1;
 
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
-    private final MapBackground controller;
 
     /**
      * Constructor of the MapBackgroundViewImpl.
      * 
-     * @param controller The controller for the map background, 
+     * @param data The data of background model, 
      * it gives the nesessary date for view to upadte.
      */
-    public MapBackgroungViewImpl(final MapBackground controller) {
+    public MapBackgroungViewImpl(final List<Pair<Double, Double>> data) {
         this.root = new Pane();
-        this.controller = controller;
-        loadBackgroungImage();
+        loadBackgroungImage(data);
     }
 
     @Override
-    public void updateBackgroundView() {
-        if (bgImageView1.getFitWidth() != controller.getSize().get1() 
-        || bgImageView1.getFitHeight() != controller.getSize().get2()) {
-            setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
-            setImageViewSize(bgImageView2, controller.getSize().get1(), controller.getSize().get2());
+    public void updateBackgroundView(final List<Pair<Double, Double>> data) {
+        if (bgImageView1.getFitWidth() != data.get(SIZE).get1() 
+        || bgImageView1.getFitHeight() != data.get(SIZE).get2()) {
+            setImageViewSize(bgImageView1, data.get(SIZE).get1(), data.get(SIZE).get2());
+            setImageViewSize(bgImageView2, data.get(SIZE).get1(), data.get(SIZE).get2());
         }
-        bgImageView1.setX(controller.getPosX().get1());
-        bgImageView2.setX(controller.getPosX().get2());
+        bgImageView1.setX(data.get(POSITION).get1());
+        bgImageView2.setX(data.get(POSITION).get2());
     }
 
     @Override
@@ -52,15 +53,16 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
     }
 
     /**
-    *  Loads the background images and initializes image views with proper sizes.
+    * Loads the background images and initializes image views with proper sizes.
+    * @param data The data necessary for create the ImageView
     */
-    private void loadBackgroungImage() {
+    private void loadBackgroungImage(final List<Pair<Double, Double>> data) {
 
         bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
         bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
 
-        setImageViewSize(bgImageView1, controller.getSize().get1(), controller.getSize().get2());
-        setImageViewSize(bgImageView2, controller.getSize().get1(), controller.getSize().get2());
+        setImageViewSize(bgImageView1, data.get(SIZE).get1(), data.get(SIZE).get2());
+        setImageViewSize(bgImageView2, data.get(SIZE).get1(), data.get(SIZE).get2());
 
         this.root.getChildren().addAll(bgImageView1, bgImageView2);
     }

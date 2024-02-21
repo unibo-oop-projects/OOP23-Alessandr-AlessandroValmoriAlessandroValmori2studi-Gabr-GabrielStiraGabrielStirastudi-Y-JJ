@@ -27,7 +27,6 @@ public final class CoinImpl implements Coin {
      *
      * @param position the position of the coin
      * @param hitbox the hitbox of the coin
-     * @param gc the graphics context for rendering
      */
     public CoinImpl(final Pair<Double, Double> position, final HitboxImpl hitbox) {
         this.model = new CoinModelImpl(position, hitbox);
@@ -40,7 +39,7 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public void render(GraphicsContext gc) {
+    public void render(final GraphicsContext gc) {
         if (model.isCollected()) {
             view.setVisible(false);
         } else {

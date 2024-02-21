@@ -49,15 +49,19 @@ public final class PauseMenu extends GameMenuImpl {
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(SPACE1);
         buttonsVBox.setStyle("-fx-background-color: rgb(0, 0, 0);");
-        Command continueCommand = new StartCommand(gameLoop, this);
+        Command continueCommand = new StartCommand(gameLoop);
         Button restartButton = ButtonFactory.createButton("back", 
         e -> { 
             continueCommand.execute(); 
-            this.buttonsVBox.setVisible(false); 
+            this.buttonsVBox.setVisible(false);
         }, RESTART_WIDTH, RESTART_HEIGHT);
 
-        Command pauseCommand = new PauseCommand(gameLoop, this);
-        pauseButton = ButtonFactory.createButton("Pause", e -> pauseCommand.execute(), PAUSE_BUTTON_SIZE, PAUSE_BUTTON_SIZE);
+        Command pauseCommand = new PauseCommand(gameLoop);
+        pauseButton = ButtonFactory.createButton("Pause", 
+        e -> { 
+            pauseCommand.execute(); 
+            this.buttonsVBox.setVisible(true);
+        }, PAUSE_BUTTON_SIZE, PAUSE_BUTTON_SIZE);
         pauseButton.setLayoutX(GameInfo.getInstance().getScreenWidth() - SPACE);
         pauseButton.setLayoutY(0);
 
@@ -106,10 +110,5 @@ public final class PauseMenu extends GameMenuImpl {
     */
     public void setButtonVBoxSizeY(final double newValue) {
         this.buttonsVBox.setPrefHeight(newValue);
-    }
-
-    @Override
-    public void setVisible(final boolean isVisible) {
-        this.buttonsVBox.setVisible(isVisible);
     }
 }

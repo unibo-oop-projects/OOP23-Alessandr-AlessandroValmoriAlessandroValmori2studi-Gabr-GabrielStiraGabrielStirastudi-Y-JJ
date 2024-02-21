@@ -1,7 +1,5 @@
 package it.unibo.jetpackjoyride;
 
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.menus.impl.StartMenu;
 import javafx.application.Application;
 import javafx.stage.Stage;

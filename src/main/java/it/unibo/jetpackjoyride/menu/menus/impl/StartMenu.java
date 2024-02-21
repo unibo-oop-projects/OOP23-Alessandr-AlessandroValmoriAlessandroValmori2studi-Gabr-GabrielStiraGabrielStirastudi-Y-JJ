@@ -31,7 +31,6 @@ public final class StartMenu extends GameMenuImpl {
      * Constructs a new StartMenu.
      * And it call back the constructor of the superclass
      * @param primaryStage        the primary stage
-     * @param gameStatsController the game statistics controller
      */
     public StartMenu(final Stage primaryStage) {
         super(primaryStage);
@@ -53,11 +52,12 @@ public final class StartMenu extends GameMenuImpl {
 
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
             this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
-            Command startCommand = new StartCommand(this.gameLoop.get(), this);
+            Command startCommand = new StartCommand(this.gameLoop.get());
+            this.removeListener();
             startCommand.execute();
             primaryStage.centerOnScreen();
         }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, primaryStage);
+        Command openShopCommand = new OpenShopCommand(shopController);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

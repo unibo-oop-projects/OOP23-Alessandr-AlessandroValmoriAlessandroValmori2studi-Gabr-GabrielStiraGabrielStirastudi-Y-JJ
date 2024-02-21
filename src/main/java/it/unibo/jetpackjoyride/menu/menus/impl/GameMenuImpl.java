@@ -1,7 +1,8 @@
-package it.unibo.jetpackjoyride.menu.menus;
+package it.unibo.jetpackjoyride.menu.menus.impl;
 
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +17,7 @@ import javafx.scene.image.ImageView;
  * Abstract class representing a basic game menu extensible.
  * @author yukai.zhou@studio.unibo.it
  */
-public abstract class GameMenu {
+public abstract class GameMenuImpl implements GameMenu {
     /**
     * Default width for buttons within the game menu.
     */
@@ -62,24 +63,20 @@ public abstract class GameMenu {
      * @param primaryStage      the primary stage
      * @param gameStatsController the game statistics controller
      */
-    public GameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
+    public GameMenuImpl(final Stage primaryStage, final GameStatsController gameStatsController) {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
          this.gameStatsController = gameStatsController;
     }
 
-    /**
-     * A method to show the game menu on Screen.
-     */
+    @Override
     public void showMenu() {
          this.stage.setScene(scene);
          this.stage.centerOnScreen();
     }
 
-    /**
-     * Removes the listeners attached to the scene.
-     */
+    @Override
     public void removeListener() {
         if (scene != null && widthListener != null) {
             scene.widthProperty().removeListener(widthListener);
@@ -89,22 +86,18 @@ public abstract class GameMenu {
         }
     }
 
-    /**
-     * A method to get the game statistics controller.
-     *
-     * @return the game statistics controller
-     */
+    @Override
     public GameStatsController getGameStatsHandler() {
         return this.gameStatsController;
     }
 
-    /**
-     * Gets the primary stage of the game menu.
-     * 
-     * @return The primary stage of the game menu.
-     */
+    @Override
     public Stage getStage() {
         return stage;
+    }
+
+    public void setVisible(final boolean isVisible) {
+        this.root.setVisible(isVisible);
     }
 
      /**

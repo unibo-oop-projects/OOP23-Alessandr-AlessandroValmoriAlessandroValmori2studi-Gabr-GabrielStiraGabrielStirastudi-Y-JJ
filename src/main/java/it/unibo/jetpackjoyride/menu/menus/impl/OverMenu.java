@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
@@ -40,20 +39,19 @@ public final class OverMenu extends GameMenuImpl {
      * @param gameStatsHandler  the game statistics handler
      */
     public OverMenu(final Stage primaryStage,
-                        final Scene gameScene,
-                        final GameStatsController gameStatsHandler) {
-        super(primaryStage, gameStatsHandler);
+                        final Scene gameScene) {
+        super(primaryStage);
         writableImage = 
         new WritableImage((int) gameScene.getWidth(), (int) gameScene.getHeight());
         gameScene.snapshot(writableImage);
         setMenuImage(writableImage);
-        shopController = new ShopControllerImpl(primaryStage, this, gameStatsHandler);
+        shopController = new ShopControllerImpl(primaryStage, this);
         buttonsVBox = new VBox();
-        initializeGameMenu(primaryStage, gameStatsHandler);
+        initializeGameMenu(primaryStage);
     }
 
     @Override
-    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
+    protected void initializeGameMenu(final Stage primaryStage) {
         buttonsVBox.setPrefWidth(GameInfo.getInstance().getScreenWidth());
         buttonsVBox.setPrefHeight(GameInfo.getInstance().getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
@@ -62,7 +60,7 @@ public final class OverMenu extends GameMenuImpl {
 
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
-            this.gameLoop = new GameLoop(primaryStage, gameStatsController); 
+            this.gameLoop = new GameLoop(primaryStage, shopController); 
             Command restartCommand = new RestartCommand(this.gameLoop, this); 
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);

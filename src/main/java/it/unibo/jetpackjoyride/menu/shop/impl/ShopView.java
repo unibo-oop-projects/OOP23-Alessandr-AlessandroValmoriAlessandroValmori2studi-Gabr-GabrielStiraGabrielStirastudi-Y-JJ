@@ -1,13 +1,11 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShieldEquippedObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
@@ -75,9 +73,8 @@ public final class ShopView extends GameMenuImpl {
     /**
      * Constructor for ShopView.
      */
-    public ShopView(final ShopController controller, final Stage primaryStage,
-                    final GameStatsController gameStatsHandler) {
-        super(primaryStage, gameStatsHandler);
+    public ShopView(final ShopController controller, final Stage primaryStage) {
+        super(primaryStage);
 
         this.controller = controller;
         this.root.setFocusTraversable(true);
@@ -85,7 +82,7 @@ public final class ShopView extends GameMenuImpl {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
             this.update();
         });
-        initializeGameMenu(primaryStage, gameStatsHandler);
+        initializeGameMenu(primaryStage);
         primaryStage.centerOnScreen();
         stageCloseAction(primaryStage);
 
@@ -268,7 +265,7 @@ public final class ShopView extends GameMenuImpl {
     }
 
     @Override
-    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
+    protected void initializeGameMenu(final Stage primaryStage) {
         root.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);

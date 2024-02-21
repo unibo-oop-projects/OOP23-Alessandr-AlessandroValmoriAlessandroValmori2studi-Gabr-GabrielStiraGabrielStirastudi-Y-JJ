@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 
 
 /**
@@ -70,6 +71,8 @@ public interface ShopController {
             return this.description;
         }
     }
+
+    GameStatsController getGameStatsController();
 
     /**
      * Shows the shop

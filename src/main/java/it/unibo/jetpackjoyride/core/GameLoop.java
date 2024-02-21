@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.impl.OverMenu;
 import it.unibo.jetpackjoyride.menu.menus.impl.PauseMenu;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -48,10 +49,10 @@ public final class GameLoop implements GameLoopControl {
      * @param stage               the primary stage for the game
      * @param gameStatsController the game statistics controller
      */
-    public GameLoop(final Stage stage, final GameStatsController gameStatsController) {
+    public GameLoop(final Stage stage, final ShopController shopController) {
         this.stage = stage;
         this.spacePressed = false;
-        this.gameStatsHandler = gameStatsController;
+        this.gameStatsHandler = shopController.getGameStatsController();
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();
@@ -186,7 +187,7 @@ public final class GameLoop implements GameLoopControl {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this.gameScene, gameStatsHandler);
+        OverMenu overMenu = new OverMenu(stage, this.gameScene);
         overMenu.showMenu();
     }
 }

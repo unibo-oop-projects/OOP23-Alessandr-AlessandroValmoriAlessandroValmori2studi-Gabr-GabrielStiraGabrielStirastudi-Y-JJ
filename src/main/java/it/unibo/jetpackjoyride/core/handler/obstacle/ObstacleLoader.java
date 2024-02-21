@@ -8,7 +8,6 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.stream.*;
 
@@ -23,22 +22,21 @@ public class ObstacleLoader {
     private final List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> totalPattern;
     private Integer interval;
     private Integer duration;
-    private Double screenSizeX;
-    private Double screenSizeY;
     private Map<Integer, PatternSelector> patternSelector;
     private Integer difficulty;
+    private Random random;
 
     public ObstacleLoader() {
         this.entityGenerator = new EntityControllerGeneratorImpl();
         this.totalPattern = new ArrayList<>();
         this.duration = 0;
         this.interval = 0;
+        random = new Random();
         this.loadPatterns();
+        
     }
 
     public void generatePattern(final Integer difficulty) {
-        this.screenSizeX = GameInfo.getInstance().getScreenWidth();
-        this.screenSizeY = GameInfo.getInstance().getScreenHeight();
         this.totalPattern.clear();
         this.duration = 0;
         this.interval = 0;
@@ -70,9 +68,8 @@ public class ObstacleLoader {
         this.duration = 25;
         final List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> listOfObstacles = new ArrayList<>();
 
-        final Integer random = new Random().nextInt(3);
-        var rand = this.difficulty * 3 - random;
-        this.patternSelector.get(50).pattern(listOfObstacles);
+        
+        this.patternSelector.get(this.difficulty * 3 - new Random().nextInt(3)).pattern(listOfObstacles);
        
         return listOfObstacles;
         //return List.of();
@@ -192,7 +189,7 @@ public class ObstacleLoader {
         this.patternSelector.put(14, (l) -> {
             this.duration = 35;
             for (int i = 0; i < 20; i++) {
-                l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, new Random().nextInt(81) + 10), new Pair<>(0.0,0.0), List.of()),
+                l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, random.nextInt(81) + 10), new Pair<>(0.0,0.0), List.of()),
                         1 + i));
             }
         });
@@ -261,8 +258,8 @@ public class ObstacleLoader {
         this.patternSelector.put(23, (l) -> {
             this.duration = 40;
             IntStream.range(0, 12).forEach(
-                    i -> l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 15 + new Random().nextInt(71)),
-                            new Pair<>(0.0, new Random().nextDouble(-3.0, 3.0))), 1 + i * 3)));
+                    i -> l.add(new Pair<>(this.singleZapper(this.mapYDivisor(105, 15 + random.nextInt(71)),
+                            new Pair<>(0.0, random.nextDouble(-3.0, 3.0))), 1 + i * 3)));
         });
         this.patternSelector.put(24, (l) -> {
             l.add(new Pair<>(this.singleMissile(this.mapYDivisor(95, 90), new Pair<>(0.0,0.0), List.of()), 1));

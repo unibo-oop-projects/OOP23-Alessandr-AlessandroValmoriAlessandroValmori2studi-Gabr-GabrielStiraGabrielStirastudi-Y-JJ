@@ -14,10 +14,7 @@ public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
     @Override
     public void onItemBought(Items item) {
-        
-        
         shopController.buy(item);
-        
         shopController.updateView();
     }
 }

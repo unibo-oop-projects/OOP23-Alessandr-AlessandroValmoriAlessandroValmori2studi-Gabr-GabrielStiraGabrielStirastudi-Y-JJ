@@ -41,9 +41,11 @@ public class PickUpHandler {
                 pickUpGroup.getChildren().add((Node) controller.getImageView());
             }
 
-            if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
+            if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.DEACTIVATED) ) {
                 pickUpGroup.getChildren().remove((Node) controller.getImageView());
+                if(controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)){
                 iterator.remove();
+                }
             }
         }
         return pickUpPickedUp;
@@ -54,6 +56,7 @@ public class PickUpHandler {
     }
 
     public List<GenericController<PickUp, PickUpView>> getAllPickUps() {
+        System.out.println(listOfControllers);
         return this.listOfControllers;
     }
 

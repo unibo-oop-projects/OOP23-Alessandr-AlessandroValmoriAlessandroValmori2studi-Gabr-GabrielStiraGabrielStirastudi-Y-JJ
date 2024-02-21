@@ -1,7 +1,5 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
-
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
@@ -62,7 +60,7 @@ public abstract class GameMenuImpl implements GameMenu {
      * @param primaryStage      the primary stage
      * @param gameStatsController the game statistics controller
      */
-    public GameMenuImpl(final Stage primaryStage, final GameStatsController gameStatsController) {
+    public GameMenuImpl(final Stage primaryStage) {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
@@ -94,7 +92,7 @@ public abstract class GameMenuImpl implements GameMenu {
      * @param primaryStage The stage use mainly to set the scene of menu
      * @param gameStatsController The gameStatsController use mainly to get the data of GameStats for shop and GameLoop
      */
-    protected abstract void initializeGameMenu(Stage primaryStage, GameStatsController gameStatsController);
+    protected abstract void initializeGameMenu(Stage primaryStage);
 
     /**
      * Adds buttons to the game menu.

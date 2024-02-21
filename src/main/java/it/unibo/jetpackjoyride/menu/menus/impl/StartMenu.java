@@ -1,7 +1,6 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
@@ -34,13 +33,13 @@ public final class StartMenu extends GameMenuImpl {
      * @param primaryStage        the primary stage
      * @param gameStatsController the game statistics controller
      */
-    public StartMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
-        super(primaryStage, gameStatsController);
+    public StartMenu(final Stage primaryStage) {
+        super(primaryStage);
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
-        shopController = new ShopControllerImpl(primaryStage, this, gameStatsController);
-        this.gameLoop = Optional.of(new GameLoop(primaryStage, gameStatsController)); 
-        initializeGameMenu(primaryStage, gameStatsController);
+        shopController = new ShopControllerImpl(primaryStage, this);
+        this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
+        initializeGameMenu(primaryStage);
         primaryStage.setMinHeight(GameInfo.getInstance().getDefaultHeight());
         primaryStage.setMinWidth(GameInfo.getInstance().getDefaultWidth());
         primaryStage.centerOnScreen();
@@ -48,12 +47,12 @@ public final class StartMenu extends GameMenuImpl {
     }
 
     @Override
-    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
+    protected void initializeGameMenu(final Stage primaryStage) {
         VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
-            this.gameLoop = Optional.of(new GameLoop(primaryStage, gameStatsController)); 
+            this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
             Command startCommand = new StartCommand(this.gameLoop.get(), this);
             startCommand.execute();
             primaryStage.centerOnScreen();

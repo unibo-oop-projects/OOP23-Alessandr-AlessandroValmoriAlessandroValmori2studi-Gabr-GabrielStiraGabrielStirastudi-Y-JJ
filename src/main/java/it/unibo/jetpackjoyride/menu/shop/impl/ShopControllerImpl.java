@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.Collections;
 import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -39,12 +40,11 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage   The primary stage of the application.
      * @param gameMenu       The game menu associated with the shop.
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu, 
-                            final GameStatsController gameStatsController) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
 
         this.gameMenu = gameMenu;
 
-        this.gameStatsHandler = gameStatsController;
+        this.gameStatsHandler = new GameStatsHandler();
 
         this.isShieldEquipped = this.gameStatsHandler.getGameStatsModel().isShieldEquipped();
 
@@ -54,7 +54,7 @@ public final class ShopControllerImpl implements ShopController {
 
         
 
-        this.view = new ShopView(this, primaryStage, gameStatsHandler);
+        this.view = new ShopView(this, primaryStage);
 
 
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
@@ -67,6 +67,10 @@ public final class ShopControllerImpl implements ShopController {
         this.view.addEquipObserver(shieldEquippedObs);
         this.view.addBackToMenuObs(backToMenuObs);
         this.view.addCharObs(charObs);
+    }
+
+    public GameStatsController getGameStatsController() {
+        return this.gameStatsHandler;
     }
 
     /**

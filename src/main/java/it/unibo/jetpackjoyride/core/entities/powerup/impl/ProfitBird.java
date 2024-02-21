@@ -7,7 +7,7 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 public class ProfitBird extends AbstractPowerUp{
     
     private final static Double BASEJUMPSPEED = 8.0;
-    private static final Double LANDINGHEIGHT = 600.0;
+    private static final Double LANDINGHEIGHT = 630.0;
     private Boolean intervalBewteenJumps;
 
     public ProfitBird(final Movement movement, final Hitbox hitbox) {

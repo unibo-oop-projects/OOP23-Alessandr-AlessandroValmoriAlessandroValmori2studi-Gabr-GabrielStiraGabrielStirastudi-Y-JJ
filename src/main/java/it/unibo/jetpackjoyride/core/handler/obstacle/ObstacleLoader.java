@@ -353,7 +353,7 @@ public class ObstacleLoader {
         this.patternSelector.put(50, (l) -> {
             this.duration = 30;
             
-            l.add(new Pair<>(this.singleZapper(this.mapYDivisor(1300, 400), new Pair<>(17.0,0.0)), 1));
+            l.add(new Pair<>(this.singleMissile(this.mapYDivisor(1300, 360),new Pair<>(0.0, Double.valueOf((this.difficulty+5)*2)), List.of(MovementChangers.BOUNCING)), 3));
         });
 
     }

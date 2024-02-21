@@ -41,8 +41,9 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
     private final static Pair<Double,Double> DUKEFISHRONSPAWNINGCOORDINATES = new Pair<>(200.0, 360.0);
     private final static Pair<Double,Double> DUKEFISHRONHITBOXDIMENSIONS = new Pair<>(150.0, 100.0);
     private final static Pair<Double,Double> DUKEFISHRONBASESPEED = new Pair<>(0.0, 10.0);
+    private final static Double DUKEROTATIONANGLE = 20.0;
 
-    private final static Pair<Double,Double> VEHICLEPICKUPSPAWNINGCOORDINATES = new Pair<>(1300.0, 360.0);
+    private final static Pair<Double,Double> VEHICLEPICKUPSPAWNINGCOORDINATES = new Pair<>(300.0, 360.0);
     private final static Pair<Double,Double> VEHICLEPICKUPHITBOXDIMENSIONS = new Pair<>(80.0, 80.0);
     private final static Pair<Double,Double> VEHICLEPICKUPBASESPEED = new Pair<>(-3.0, 0.0);
 
@@ -94,7 +95,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
                 powerUpModels.add(new ProfitBird(powerUpMovement, powerUpHitbox));
                 break;
             case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
-                powerUpMovement = new Movement.Builder().setPosition(DUKEFISHRONSPAWNINGCOORDINATES).setSpeed(DUKEFISHRONBASESPEED).setMovementChangers(List.of(MovementChangers.BOUNCING)).build();
+                powerUpMovement = new Movement.Builder().setPosition(DUKEFISHRONSPAWNINGCOORDINATES).setSpeed(DUKEFISHRONBASESPEED).setRotation(DUKEROTATIONANGLE,0.0).setMovementChangers(List.of(MovementChangers.BOUNCING)).build();
                 powerUpHitbox = new HitboxImpl(powerUpMovement.getRelativePosition(), DUKEFISHRONHITBOXDIMENSIONS);
                 powerUpModels.add(new DukeFishron(powerUpMovement, powerUpHitbox));
                 break;

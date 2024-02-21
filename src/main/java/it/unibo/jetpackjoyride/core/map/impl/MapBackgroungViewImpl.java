@@ -21,7 +21,6 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
 
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
-    private final Pane gameRoot;
     private final MapBackground controller;
 
     /**
@@ -31,8 +30,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
      * it gives the nesessary date for view to upadte.
      * @param gameRoot The main root of the Game
      */
-    public MapBackgroungViewImpl(final MapBackground controller, final Pane gameRoot) {
-        this.gameRoot = gameRoot;
+    public MapBackgroungViewImpl(final MapBackground controller) {
         this.root = new Pane();
         this.controller = controller;
         loadBackgroungImage();
@@ -50,7 +48,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
     }
 
     @Override
-    public void addNodeInRoot() {
+    public void addNodeInRoot(final Pane gameRoot) {
         gameRoot.getChildren().add(this.root);
     }
 

@@ -33,7 +33,7 @@ public final class MapBackgroundImpl implements MapBackground {
      */
     public MapBackgroundImpl(final Pane gameRoot) {
         model = new MapBackgroundModelImpl();
-        view = new MapBackgroungViewImpl(this, gameRoot);
+        view = new MapBackgroungViewImpl(this);
         gameInfo = GameInfo.getInstance();
           this.timeline = new Timeline(new KeyFrame(Duration.seconds(DURATION_SECONDS), e -> {
             if (GameInfo.MOVE_SPEED.get() == MAX_SPEED) {
@@ -45,8 +45,8 @@ public final class MapBackgroundImpl implements MapBackground {
     }
 
     @Override
-    public void setMapOnGameRoot() {
-            view.addNodeInRoot();
+    public void setMapOnGameRoot(final Pane root) {
+            view.addNodeInRoot(root);
     }
 
     @Override

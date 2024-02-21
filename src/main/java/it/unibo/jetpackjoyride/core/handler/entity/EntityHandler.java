@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
-import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
@@ -9,6 +8,7 @@ import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
+import it.unibo.jetpackjoyride.core.handler.player.BarryHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
@@ -23,7 +23,7 @@ public class EntityHandler {
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
-    private PlayerMover playerHandler;
+    private BarryHandler playerHandler;
     private CoinGenerator coinHandler;
 
     private Set<Items> unlockedPowerUps;
@@ -35,7 +35,7 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        this.playerHandler = new PlayerMover(gameStatsHandler);
+        this.playerHandler = new BarryHandler(gameStatsHandler);
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
 
         this.unlockedPowerUps = gameStatsHandler.getGameStatsModel().getUnlocked();
@@ -74,8 +74,9 @@ public class EntityHandler {
             if (this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
-                this.playerHandler.getModel();
+                this.playerHandler.getModel().setEntityStatus(EntityStatus.ACTIVE);
                 this.coinHandler.setPlayerHitbox(Optional.of(this.playerHandler.getModel().getHitbox()));
+
             } else {
                 this.playerHandler.hit(obstacleHit.get());
             }

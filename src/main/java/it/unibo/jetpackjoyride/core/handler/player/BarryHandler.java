@@ -35,22 +35,10 @@ public class BarryHandler {
     /**
      * Constructs a new PlayerMover instance.
      */
-    public BarryHandler(final GameStatsController gameStatsHandler) {
-      
-            
-                
-
-                Movement barryMovement = new Movement.Builder().setPosition(50.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-                Hitbox barryHitbox = new HitboxImpl(barryMovement.getRelativePosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7));
-        this.model = new BarryImpl(barryMovement,barryHitbox, gameStatsHandler);
-        if(gameStatsHandler.getGameStatsModel().isShieldEquipped()){
-            this.model.setShieldOn();
-            gameStatsHandler.getGameStatsModel().addShields(gameStatsHandler.getGameStatsModel().getNumOfShields()-1);
-            gameStatsHandler.getGameStatsModel().setShield(false);
-        }
-        
-        
-
+    public BarryHandler() {
+        Movement barryMovement = new Movement.Builder().setPosition(50.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getRelativePosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7));
+        this.model = new BarryImpl(barryMovement,barryHitbox);
         this.view = new BarryView();
     }
 

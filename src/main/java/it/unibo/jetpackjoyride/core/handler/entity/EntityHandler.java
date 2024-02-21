@@ -35,7 +35,7 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        this.playerHandler = new BarryHandler(gameStatsHandler);
+        this.playerHandler = new BarryHandler();
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
 
         this.unlockedPowerUps = gameStatsHandler.getGameStatsModel().getUnlocked();
@@ -105,19 +105,17 @@ public class EntityHandler {
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {
-        Integer random = new Random().nextInt(BASEPICKUPSPAWNCHANCE);
-        if (random != 0 || unlockedPowerUps.isEmpty()
+        Random rand = new Random();
+        if (rand.nextInt(BASEPICKUPSPAWNCHANCE) != 0 || unlockedPowerUps.isEmpty()
                 || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
             return;
         }
-
         final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream()
                 .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
                 .collect(Collectors.toList());
-        random = new Random().nextInt(listOfPossibleSpawns.size());
         this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
         final VehiclePickUp vehiclePickUp = (VehiclePickUp) this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
-        vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(random));
+        vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(rand.nextInt(listOfPossibleSpawns.size())));
     }
 
     private void spawnPowerUp(final PowerUpType powerUpType) {

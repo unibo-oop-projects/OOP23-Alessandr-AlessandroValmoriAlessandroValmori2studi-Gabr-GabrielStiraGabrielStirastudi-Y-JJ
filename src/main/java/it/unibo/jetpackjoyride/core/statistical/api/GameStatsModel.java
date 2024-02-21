@@ -62,31 +62,4 @@ public interface GameStatsModel extends Serializable {
      */
     void unlock(Set<Items> items);
 
-    /**
-     * A method to set whether a shield is equipped.
-     *
-     * @param isShieldEquipped true if a shield is equipped, false otherwise
-     */
-    void setShield(boolean isShieldEquipped);
-
-    /**
-     * A method to add shields to the player's inventory.
-     *
-     * @param num the number of shields to add
-     */
-    void addShields(int num);
-
-    /**
-     * A method to retrieve the number of shields in the player's inventory.
-     *
-     * @return the number of shields
-     */
-    int getNumOfShields();
-
-    /**
-     * A method to check if a shield is currently equipped.
-     *
-     * @return true if a shield is equipped, false otherwise
-     */
-    boolean isShieldEquipped();
 }

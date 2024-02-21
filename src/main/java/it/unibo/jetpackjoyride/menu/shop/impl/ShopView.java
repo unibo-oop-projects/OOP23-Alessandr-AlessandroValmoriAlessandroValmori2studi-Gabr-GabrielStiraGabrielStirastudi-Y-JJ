@@ -85,7 +85,7 @@ public final class ShopView extends GameMenuImpl {
 
         this.controller = controller;
 
-        scene.setOnKeyPressed(ev -> {
+        getScene().setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
             this.update();
         });
@@ -182,21 +182,21 @@ public final class ShopView extends GameMenuImpl {
         moneyText.setFill(Color.WHITE);
         moneyText.setTranslateY(BUTTON_HEIGHT * 2);
         moneyText.setTextAlignment(TextAlignment.RIGHT);
-        moneyText.setWrappingWidth(gameInfo.getScreenWidth() - BUTTON_HEIGHT);
+        moneyText.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
         displayEquipped = new Text();
         displayEquipped.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
         displayEquipped.setFill(Color.WHITE);
         displayEquipped.setTranslateY(this.cuddleImageYPos * 3);
         displayEquipped.setTextAlignment(TextAlignment.RIGHT);
-        displayEquipped.setWrappingWidth(gameInfo.getScreenWidth() - BUTTON_HEIGHT);
+        displayEquipped.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
         dukeUnlocked = new Text();
         dukeUnlocked.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
         dukeUnlocked.setFill(Color.YELLOWGREEN);
         dukeUnlocked.setTranslateY(500);
         dukeUnlocked.setTextAlignment(TextAlignment.RIGHT);
-        dukeUnlocked.setWrappingWidth(gameInfo.getScreenWidth() - BUTTON_HEIGHT);
+        dukeUnlocked.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
         root.getChildren().addAll(this.imageMap.values());
         root.getChildren().addAll(this.descriptionsMap.values());
@@ -216,7 +216,7 @@ public final class ShopView extends GameMenuImpl {
      * Sets the scene of the shop menu on Stage.
      */
     public void setSceneOnStage() {
-        this.getStage().setScene(this.scene);
+        this.getStage().setScene(this.getScene());
     }
 
     public void addBuyObs(ShopItemPurchaseObs observer) {

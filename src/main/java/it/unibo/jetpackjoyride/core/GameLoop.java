@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 /**
  * The GameLoop class manages the main game loop and manages different game stages.
  */
-public final class GameLoop implements GameLoopControl{
+public final class GameLoop implements GameLoopControl {
 
     private Scene gameScene;
     private GameInfo gameInfo;

@@ -31,7 +31,7 @@ public abstract class GameMenuImpl implements GameMenu {
     /**
     * The main scene for the game menu where all UI elements are placed.
     */
-    protected final Scene scene;
+    private final Scene scene;
 
     /**
     * The primary stage for the game menu, serving as the top-level JavaFX container.
@@ -51,7 +51,7 @@ public abstract class GameMenuImpl implements GameMenu {
     /**
     * Utility for accessing game information such as screen dimensions.
     */
-    protected  GameInfo gameInfo = GameInfo.getInstance();
+    private  GameInfo gameInfo = GameInfo.getInstance();
 
     private ChangeListener<Number> widthListener;
     private ChangeListener<Number> heightListener;
@@ -71,13 +71,13 @@ public abstract class GameMenuImpl implements GameMenu {
     }
 
     @Override
-    public void showMenu() {
+    public final void showMenu() {
          this.stage.setScene(scene);
          this.stage.centerOnScreen();
     }
 
     @Override
-    public void removeListener() {
+    public final void removeListener() {
         if (scene != null && widthListener != null) {
             scene.widthProperty().removeListener(widthListener);
         }
@@ -87,17 +87,23 @@ public abstract class GameMenuImpl implements GameMenu {
     }
 
     @Override
-    public GameStatsController getGameStatsHandler() {
+    public final GameStatsController getGameStatsHandler() {
         return this.gameStatsController;
     }
 
     @Override
-    public Stage getStage() {
+    public final Stage getStage() {
         return stage;
     }
 
+    @Override
+    public final Scene getScene() {
+        return scene;
+    }
+
+    @Override
     public void setVisible(final boolean isVisible) {
-        this.root.setVisible(isVisible);
+       
     }
 
      /**

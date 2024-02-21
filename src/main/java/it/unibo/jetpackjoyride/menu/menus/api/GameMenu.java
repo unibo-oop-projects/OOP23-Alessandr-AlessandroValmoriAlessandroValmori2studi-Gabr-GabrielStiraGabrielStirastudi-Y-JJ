@@ -1,8 +1,8 @@
 package it.unibo.jetpackjoyride.menu.menus.api;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 
 /**
  * This interface shows the main methods of GameMenu that provide  to the other class.
@@ -33,10 +33,17 @@ public interface GameMenu {
      */
     Stage getStage();
 
+     /**
+     * Gets the scene of the game menu.
+     * 
+     * @return The scene of the game menu.
+     */
+    Scene getScene();
+
     /**
      * Sets the visibility of the menu.
      *
      * @param isVisible whether the menu is visible
      */
-    void setVisible(final boolean isVisible);
+    void setVisible(boolean isVisible);
 }

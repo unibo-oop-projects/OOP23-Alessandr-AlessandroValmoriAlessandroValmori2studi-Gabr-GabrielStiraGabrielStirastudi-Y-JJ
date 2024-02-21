@@ -22,7 +22,7 @@ public final class GameInfo {
      * Nested static class to hold the singleton instance of GameInfo.
      * It use the lazy-load with the initialization-on-demand holder pattern.
      */
-    private static class LazyHolder {
+    private static final class LazyHolder {
         private static final GameInfo GAME_INFO = new GameInfo();
     }
 

@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.menu.buttoncommand.impl;
 import it.unibo.jetpackjoyride.core.GameLoopControl;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
-import javafx.stage.Stage;
 
 /**
  * A command to restart the game.
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 public final class RestartCommand implements Command {
 
     private final GameLoopControl gameLoop;
-    private final Stage stage;
     private final GameMenu menu;
 
     /**
@@ -22,9 +20,8 @@ public final class RestartCommand implements Command {
      * @param stage    the stage
      * @param menu     the game menu
      */
-    public RestartCommand(final GameLoopControl gameLoop, final Stage stage, final GameMenu menu) {
+    public RestartCommand(final GameLoopControl gameLoop, final GameMenu menu) {
         this.gameLoop = gameLoop;
-        this.stage = stage;
         this.menu = menu;
     }
 
@@ -33,6 +30,5 @@ public final class RestartCommand implements Command {
         menu.removeListener();
         gameLoop.resetLoop();
         gameLoop.startLoop();
-        stage.centerOnScreen();
     }
 }

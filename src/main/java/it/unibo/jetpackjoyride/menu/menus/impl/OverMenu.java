@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.RestartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,8 +54,8 @@ public final class OverMenu extends GameMenuImpl {
 
     @Override
     protected void initializeGameMenu() {
-        buttonsVBox.setPrefWidth(gameInfo.getScreenWidth());
-        buttonsVBox.setPrefHeight(gameInfo.getScreenHeight());
+        buttonsVBox.setPrefWidth(GameInfo.getInstance().getScreenWidth());
+        buttonsVBox.setPrefHeight(GameInfo.getInstance().getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
         buttonsVBox.setSpacing(SPACE);
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
@@ -62,7 +63,7 @@ public final class OverMenu extends GameMenuImpl {
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
             this.gameLoop = new GameLoop(getStage(), getGameStatsHandler()); 
-            Command restartCommand = new RestartCommand(this.gameLoop, getStage(), this); 
+            Command restartCommand = new RestartCommand(this.gameLoop, this); 
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
         Command openShopCommand = new OpenShopCommand(shopController, this.getStage());

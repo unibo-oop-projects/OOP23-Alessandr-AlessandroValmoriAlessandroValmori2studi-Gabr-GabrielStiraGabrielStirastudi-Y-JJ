@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.StartCommand;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopControllerImpl;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
@@ -40,8 +41,8 @@ public final class StartMenu extends GameMenuImpl {
         shopController = new ShopControllerImpl(primaryStage, this);
         this.gameLoop = Optional.of(new GameLoop(this.getStage(), getGameStatsHandler())); 
         initializeGameMenu();
-        primaryStage.setMinHeight(gameInfo.getDefaultHeight());
-        primaryStage.setMinWidth(gameInfo.getDefaultWidth());
+        primaryStage.setMinHeight(GameInfo.getInstance().getDefaultHeight());
+        primaryStage.setMinWidth(GameInfo.getInstance().getDefaultWidth());
         getStage().centerOnScreen();
         stageCloseAction();
     }
@@ -63,8 +64,8 @@ public final class StartMenu extends GameMenuImpl {
 
         buttonsRoot.getChildren().addAll(startButton, shopButton);
 
-        StackPane.setMargin(buttonsRoot, new Insets(this.scene.getHeight() / 2, 0, 0, 0));
-        scene.heightProperty().addListener((obs, oldVal, newVal) -> {
+        StackPane.setMargin(buttonsRoot, new Insets(this.getScene().getHeight() / 2, 0, 0, 0));
+        getScene().heightProperty().addListener((obs, oldVal, newVal) -> {
             StackPane.setMargin(buttonsRoot, new Insets(newVal.doubleValue() / 2, 0, 0, 0));
         });
 

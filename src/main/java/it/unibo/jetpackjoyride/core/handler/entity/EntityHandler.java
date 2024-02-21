@@ -26,7 +26,7 @@ public class EntityHandler {
     private BarryHandler playerHandler;
     private CoinGenerator coinHandler;
 
-    private Set<Items> unlockedPowerUps;
+    private Set<Items> unlockedItems;
 
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded;
@@ -38,8 +38,8 @@ public class EntityHandler {
         this.playerHandler = new BarryHandler();
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
 
-        this.unlockedPowerUps = gameStatsHandler.getGameStatsModel().getUnlocked();
-
+        this.unlockedItems = gameStatsHandler.getGameStatsModel().getUnlocked();
+        System.out.println(unlockedItems);
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
@@ -64,7 +64,7 @@ public class EntityHandler {
         }
 
         if (!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty()) {
-            this.spawnVehiclePickUp(this.unlockedPowerUps);
+            this.spawnShieldPickUp(this.unlockedItems);
         }
 
         final var obstacleHit = this.obstacleHandler.update(entityGroup,
@@ -97,11 +97,25 @@ public class EntityHandler {
                     this.coinHandler.setPlayerHitbox(
                             Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
                     break;
+                case SHIELD:
+                    System.out.println("SHIELD HAS BEEN TAKEN, BUT I DONT KNOW WHAT TO DO (for reference on where this println is done see the update method of entityHandler)");
                 default:
                     break;
             }
         }
         return true;
+    }
+
+    private void spawnShieldPickUp(final Set<Items> unlockedItems) {
+        Integer random = new Random().nextInt(BASEPICKUPSPAWNCHANCE);
+        if (random != 0 || unlockedItems.isEmpty()) {
+            return;
+        }
+
+        final boolean isShieldUnlocked = unlockedItems.stream().filter(i -> i.getCorresponding().isEmpty()).count() > 0;
+        if(isShieldUnlocked) {
+            this.pickUpHandler.spawnPickUp(PickUpType.SHIELD);
+        }
     }
 
     private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {

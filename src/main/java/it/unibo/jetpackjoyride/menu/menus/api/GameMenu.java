@@ -20,27 +20,6 @@ public interface GameMenu {
     void removeListener();
 
     /**
-     * A method to get the game statistics controller.
-     *
-     * @return the game statistics controller
-     */
-    GameStatsController getGameStatsHandler();
-
-     /**
-     * Gets the primary stage of the game menu.
-     * 
-     * @return The primary stage of the game menu.
-     */
-    Stage getStage();
-
-     /**
-     * Gets the scene of the game menu.
-     * 
-     * @return The scene of the game menu.
-     */
-    Scene getScene();
-
-    /**
      * Sets the visibility of the menu.
      *
      * @param isVisible whether the menu is visible

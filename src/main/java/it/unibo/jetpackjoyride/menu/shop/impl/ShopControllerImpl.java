@@ -38,12 +38,12 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage   The primary stage of the application.
      * @param gameMenu       The game menu associated with the shop.
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu, 
+                            final GameStatsController gameStatsController) {
 
-        
         this.gameMenu = gameMenu;
 
-        this.gameStatsHandler = gameMenu.getGameStatsHandler();
+        this.gameStatsHandler = gameStatsController;
 
         this.isShieldEquipped = this.gameStatsHandler.getGameStatsModel().isShieldEquipped();
 
@@ -53,7 +53,7 @@ public final class ShopControllerImpl implements ShopController {
 
         this.primaryStage = primaryStage;
 
-        this.view = new ShopView(this, primaryStage, gameMenu.getGameStatsHandler());
+        this.view = new ShopView(this, primaryStage, gameStatsHandler);
 
 
         ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);

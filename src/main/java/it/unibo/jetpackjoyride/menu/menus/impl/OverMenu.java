@@ -47,13 +47,13 @@ public final class OverMenu extends GameMenuImpl {
         new WritableImage((int) gameScene.getWidth(), (int) gameScene.getHeight());
         gameScene.snapshot(writableImage);
         setMenuImage(writableImage);
-        shopController = new ShopControllerImpl(primaryStage, this);
+        shopController = new ShopControllerImpl(primaryStage, this, gameStatsHandler);
         buttonsVBox = new VBox();
-        initializeGameMenu();
+        initializeGameMenu(primaryStage, gameStatsHandler);
     }
 
     @Override
-    protected void initializeGameMenu() {
+    protected void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController) {
         buttonsVBox.setPrefWidth(GameInfo.getInstance().getScreenWidth());
         buttonsVBox.setPrefHeight(GameInfo.getInstance().getScreenHeight());
         buttonsVBox.setAlignment(Pos.CENTER);
@@ -62,11 +62,11 @@ public final class OverMenu extends GameMenuImpl {
 
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
-            this.gameLoop = new GameLoop(getStage(), getGameStatsHandler()); 
+            this.gameLoop = new GameLoop(primaryStage, gameStatsController); 
             Command restartCommand = new RestartCommand(this.gameLoop, this); 
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController, this.getStage());
+        Command openShopCommand = new OpenShopCommand(shopController, primaryStage);
         Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 

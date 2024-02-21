@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Interface of the coin controller.
@@ -18,8 +19,9 @@ public interface Coin {
 
 /**
  * Renders the coin.
+ * @param gc The canvas's GraphicsContext use to paint
  */
-    void render();
+    void render(GraphicsContext gc);
 
 /**
  * Get the model of the coin.

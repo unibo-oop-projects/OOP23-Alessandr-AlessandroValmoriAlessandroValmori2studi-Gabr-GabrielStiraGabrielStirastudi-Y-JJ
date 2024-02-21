@@ -1,5 +1,8 @@
 package it.unibo.jetpackjoyride.core.entities.coin.api;
 
+import java.util.List;
+
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -11,9 +14,10 @@ public interface CoinView {
     /**
      * Renders the coin on the specified GraphicsContext.
      *
-     * @param gc the GraphicsContext on which to render the coin
+     * @param gc The GraphicsContext on which to render the coin
+     * @param modelData The data nacessary for update the view of coin
      */
-    void renderCoin(GraphicsContext gc);
+    void renderCoin(GraphicsContext gc, List<Pair<Double, Double>> modelData);
 
     /**
      * Sets the visibility of the coin.

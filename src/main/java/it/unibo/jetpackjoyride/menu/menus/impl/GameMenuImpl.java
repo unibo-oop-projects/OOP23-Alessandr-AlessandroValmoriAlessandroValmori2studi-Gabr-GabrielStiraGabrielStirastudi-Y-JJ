@@ -55,7 +55,6 @@ public abstract class GameMenuImpl implements GameMenu {
 
     private ChangeListener<Number> widthListener;
     private ChangeListener<Number> heightListener;
-    private final GameStatsController gameStatsController;
 
    /**
      * Constructs a new game menu.
@@ -67,7 +66,6 @@ public abstract class GameMenuImpl implements GameMenu {
          this.stage = primaryStage;
          this.root = new StackPane();
          this.scene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
-         this.gameStatsController = gameStatsController;
     }
 
     @Override
@@ -87,29 +85,15 @@ public abstract class GameMenuImpl implements GameMenu {
     }
 
     @Override
-    public final GameStatsController getGameStatsHandler() {
-        return this.gameStatsController;
-    }
-
-    @Override
-    public final Stage getStage() {
-        return stage;
-    }
-
-    @Override
-    public final Scene getScene() {
-        return scene;
-    }
-
-    @Override
     public void setVisible(final boolean isVisible) {
-       
+
     }
 
      /**
      * here can initializes specify funtion of the  menu.
+     * @param primaryStage The stage use mainly to set the scene of menu
      */
-    protected abstract void initializeGameMenu();
+    protected abstract void initializeGameMenu(final Stage primaryStage, final GameStatsController gameStatsController);
 
     /**
      * Adds buttons to the game menu.
@@ -138,9 +122,10 @@ public abstract class GameMenuImpl implements GameMenu {
 
     /**
      * The method can define the action to perform when the stage is closed.
+     * @param primaryStage The stage use to set specify close action on different  menu
      */
-    protected void stageCloseAction() {
-        stage.setOnCloseRequest(event -> {
+    protected void stageCloseAction(final Stage primaryStage) {
+        primaryStage.setOnCloseRequest(event -> {
             defaultCloseAction();
         });
     }

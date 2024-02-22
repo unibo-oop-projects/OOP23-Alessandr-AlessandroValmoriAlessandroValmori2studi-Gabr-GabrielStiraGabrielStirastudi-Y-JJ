@@ -38,7 +38,7 @@ public final class Missile extends AbstractObstacle {
 
                 this.movement = new Movement.Builder()
                     .setPosition(this.bufferMovement.getRealPosition().get1()-OUTOFBOUNDSSX, this.bufferMovement.getRealPosition().get2())
-                    .setSpeed(-5.0, this.bufferMovement.getSpeed().get2())
+                    .setSpeed(this.bufferMovement.getSpeed().get1(), this.bufferMovement.getSpeed().get2())
                     .setAcceleration(this.bufferMovement.getAcceleration())
                     .setRotation(this.bufferMovement.getRotation())
                     .setMovementChangers(this.bufferMovement.getMovementChangers())

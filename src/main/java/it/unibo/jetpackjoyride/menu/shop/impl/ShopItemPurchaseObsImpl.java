@@ -8,22 +8,22 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
     private ShopController shopController;
-    private ShopModel shopModel;
 
-    public ShopItemPurchaseObsImpl(ShopController shopController, ShopModel shopModel) {
+
+    public ShopItemPurchaseObsImpl(ShopController shopController) {
         this.shopController = shopController;
-        this.shopModel = shopModel;
+    
     }
 
     @Override
     public void onItemBought(Items item) {
         final var available = GameStats.getCoins();
 
-        if (!this.shopModel.getUnlocked().contains(item)) {
+        if (!this.shopController.getUnlocked().contains(item)) {
             if (item.getItemCost() > available) {
                 System.out.println("Not enough funds :(\n");
             } else {
-                this.shopModel.unlock(item);
+                this.shopController.unlock(item);
                 GameStats.updateCoins(-item.getItemCost());
             }
         }

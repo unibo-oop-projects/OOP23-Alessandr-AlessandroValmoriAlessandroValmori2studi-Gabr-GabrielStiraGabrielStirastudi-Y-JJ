@@ -58,7 +58,7 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public Integer checkCollision(Hitbox playHitbox) {
+    public Integer checkCollision(final Hitbox playHitbox) {
         if (model.geHitbox().isTouching(playHitbox)) {
             if (!model.isCollected()) {
                 model.setCollectedState(true);
@@ -69,7 +69,7 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public void setCollectedState(boolean isCollected) {
+    public void setCollectedState(final boolean isCollected) {
            this.model.setCollectedState(isCollected);
     }
 }

@@ -10,7 +10,6 @@ import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.player.BarryHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
@@ -40,7 +39,7 @@ public class EntityHandler {
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()));
 
         this.unlockedItems = shopController.getUnlocked();
-        System.out.println(unlockedItems);
+
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
@@ -128,7 +127,7 @@ public class EntityHandler {
                 || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
             return;
         }
-        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream()
+        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().peek(e -> System.out.println(e))
                 .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
                 .collect(Collectors.toList());
         this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);

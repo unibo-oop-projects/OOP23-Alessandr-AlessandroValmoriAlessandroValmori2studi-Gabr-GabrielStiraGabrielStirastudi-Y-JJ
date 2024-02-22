@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.menu.shop.impl.ShopModel;
+
 
 
 /**
@@ -73,7 +73,7 @@ public interface ShopController {
         }
     }
 
-    ShopModel getShopModel();
+   
 
     /**
      * Shows the shop
@@ -98,6 +98,7 @@ public interface ShopController {
     /**
      * Saves the game progress.
      */
-    void save();
 
+     void save();
+    
 }

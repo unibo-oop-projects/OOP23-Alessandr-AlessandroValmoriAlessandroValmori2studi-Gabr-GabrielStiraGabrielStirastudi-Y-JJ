@@ -118,7 +118,7 @@ public class EntityControllerGeneratorImpl {
                 break;
             case SHIELD: // Canon pickup existing in the original game
                 pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1)));
-                System.out.println(pickUp.getEntityModel().getEntityStatus());
+                //System.out.println(pickUp.getEntityModel().getEntityStatus());
                 break;
         
             default:

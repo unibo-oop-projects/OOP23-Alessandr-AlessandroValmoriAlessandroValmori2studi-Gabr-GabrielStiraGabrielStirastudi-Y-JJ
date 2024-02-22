@@ -90,38 +90,12 @@ public interface ShopController {
      */
     void backToMenu();
 
-    /**
-     * Purchases the specified item from the shop.
-     *
-     * @param item The item to purchase.
-     */
-    void buy(Items item);
-
     
-    /**
-     * Retrieves the current balance of the player.
-     *
-     * @return The current balance of the player.
-     */
-    int retrieveBalance();
 
-
-    /**
-     * Retrieves the set of unlocked items.
-     *
-     * @return The set of unlocked items.
-     */
-    Set<Items> getUnlocked();
 
     /**
      * Saves the game progress.
      */
     void save();
 
-    /**
-     * Unlocks an item
-     * @param item
-     */
-
-    void unlock(Items item);
 }

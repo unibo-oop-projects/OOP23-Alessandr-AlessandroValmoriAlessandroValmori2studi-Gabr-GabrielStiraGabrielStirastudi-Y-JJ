@@ -1,10 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
-
-import java.util.Set;
-import java.util.Collections;
-import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
@@ -15,7 +11,6 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.stage.Stage;
 
-
 /**
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
@@ -23,20 +18,16 @@ import javafx.stage.Stage;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
- 
+
     private final GameStatsController gameStatsHandler;
 
     private final GameMenuImpl gameMenu;
 
-   
-    private final Set<Items> unlockedItems;
-    
-
     /**
      * Constructs a new ShopControllerImpl instance.
      *
-     * @param primaryStage   The primary stage of the application.
-     * @param gameMenu       The game menu associated with the shop.
+     * @param primaryStage The primary stage of the application.
+     * @param gameMenu     The game menu associated with the shop.
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
 
@@ -44,17 +35,11 @@ public final class ShopControllerImpl implements ShopController {
 
         this.gameStatsHandler = new GameStatsHandler();
 
+        this.view = new ShopView(this, primaryStage, gameStatsHandler);
 
-        this.unlockedItems = new HashSet<>(this.gameStatsHandler.getGameStatsModel().getUnlocked());
-
-        
-
-        this.view = new ShopView(this, primaryStage);
-
-
-        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
+        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this, gameStatsHandler);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this);
+        CharacterObs charObs = new CharacterImpl(this, gameStatsHandler);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
@@ -76,27 +61,7 @@ public final class ShopControllerImpl implements ShopController {
         this.view.setSceneOnStage();
     }
 
-    @Override
-    public void buy(final Items item) {
 
-        final var available = this.gameStatsHandler.getGameStatsModel().getTotCoins();
-
-            if (!this.unlockedItems.contains(item)) {
-                if (item.getItemCost() > available) {
-                    System.out.println("Not enough funds :(\n");
-                } else {
-                    this.unlockedItems.add(item);
-                    this.gameStatsHandler.getGameStatsModel().updateCoins(-item.getItemCost());
-                }
-            }
-        this.view.update();
-
-    }
-
-    @Override
-    public int retrieveBalance() {
-        return this.gameStatsHandler.getGameStatsModel().getTotCoins();
-    }
 
     @Override
     public void backToMenu() {
@@ -104,23 +69,12 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
-   
-
-    @Override
-    public Set<Items> getUnlocked() {
-
-        return Collections.unmodifiableSet(this.unlockedItems);
-    }
-
+    
     @Override
     public void save() {
 
-        this.gameStatsHandler.getGameStatsModel().unlock(this.unlockedItems);
-
-        final String filename = "gameStats.data";
-
+        final String filename = "src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data";
         try {
-
             GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
             System.out.println("Game stats saved successfully.");
         } catch (IOException e) {
@@ -133,8 +87,5 @@ public final class ShopControllerImpl implements ShopController {
         this.view.update();
     }
 
-    @Override
-    public void unlock(Items item) {
-        this.unlockedItems.add(item);
-    }
+    
 }

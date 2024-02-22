@@ -22,10 +22,6 @@ public final class GameStatsHandler implements GameStatsController {
     /**
      * Constructs a new GameStatsHandler.
      */
-    public GameStatsHandler() {
-        System.out.println("GAME STATS CREATED");
-        loadDateFromFile();
-    }
 
     @Override
     public void getGameStatsView(GameStatsView view) {
@@ -38,31 +34,12 @@ public final class GameStatsHandler implements GameStatsController {
     }
     @Override
     public void updateView() {
-        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), GameStats.COINS.get()));
-    }
-     /**
-     * A method use to load the last statistical.
-     */
-    private void loadDateFromFile() {
-        try {
-            this.model = GameStatsIO.readFromFile("gameStats.data"); 
-            System.out.println("Game stats loaded successfully.");
-            System.out.println(GameStats.COINS.get());
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Failed to load game stats: " + e.getMessage());
-            this.model = new GameStats();
-        }
+        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), GameStats.getCoins()));
     }
 
     public void saveChanged() {
-        final String filename = "gameStats.data"; 
-
-        try {
             this.model.updateDate();
-            GameStatsIO.writeToFile(this.model, filename); 
-            System.out.println("Game stats saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
-        }
+            this.model.saveToFile(); 
     }
+        
 }

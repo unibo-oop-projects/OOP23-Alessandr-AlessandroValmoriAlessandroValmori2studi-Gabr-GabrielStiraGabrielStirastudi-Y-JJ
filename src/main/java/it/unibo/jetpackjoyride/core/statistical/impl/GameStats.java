@@ -4,37 +4,56 @@ import java.util.concurrent.atomic.AtomicInteger;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public final class GameStats implements GameStatsModel {
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
-    private static final long serialVersionUID = 9848324261L;
-    public static final AtomicInteger COINS = new AtomicInteger();
+
+public final class GameStats implements GameStatsModel {
+    private static final String FILE_PATH = "gameStats.txt";
+    private static AtomicInteger coins = new AtomicInteger();
 
     private int bestDistance;
-    private int currentDistance;
-    private int coins;
+    private int currentDistance; 
 
-    /**
-     * Constructs a new GameStats object with default values.
-     */
     public GameStats() {
-        this.bestDistance = 0;
-        this.currentDistance = 0;
-        this.coins = 1000;
-        GameStats.COINS.set(coins);
+        loadFromFile();
     }
 
-    /**
-     * A method to update the total number of coins.
-     *
-     * @param coins the number of coins to add
-     */
-    public static void updateCoins(final int num) {
-        GameStats.COINS.getAndUpdate(numOfcoins -> {
-            int newNumofCoins = numOfcoins +num;
-            return newNumofCoins >= 0 ? newNumofCoins : numOfcoins;
-        });
+    public synchronized void saveToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            writer.write(coins.get() + "\n"); 
+            writer.write(bestDistance + "\n"); 
+            writer.write(currentDistance + "\n");
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void loadFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            coins.set(Integer.parseInt(reader.readLine()));
+            bestDistance = Integer.parseInt(reader.readLine());
+            currentDistance = Integer.parseInt(reader.readLine());
+            System.out.println("GAME STATS CREATED");
+        } catch (IOException e) {
+            e.printStackTrace();
+            coins.set(1000);
+            bestDistance = 0;
+            currentDistance = 0;
+        }
+    }
+
+    public static void updateCoins(int num) {
+        coins.getAndUpdate(value -> Math.max(value + num, 0));
+    }
+
+    public static int getCoins() {
+        return coins.get();
+    }
     @Override
     public int getBestDistance() {
         return bestDistance;

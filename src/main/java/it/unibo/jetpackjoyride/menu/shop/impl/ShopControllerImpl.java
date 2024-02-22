@@ -70,7 +70,7 @@ public final class ShopControllerImpl implements ShopController {
         try {
             this.model = GameStatsIO.readShopFromFile("shop.data"); 
             System.out.println("Game Shop loaded successfully.");
-            System.out.println(GameStats.COINS.get());
+            System.out.println(GameStats.getCoins());
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Failed to load game stats: " + e.getMessage());
             this.model = new ShopModel();

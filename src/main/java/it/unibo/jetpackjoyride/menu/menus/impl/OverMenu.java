@@ -32,7 +32,7 @@ public final class OverMenu extends GameMenuImpl {
     private VBox buttonsVBox;
     private GameLoop gameLoop;
     private final ShopController shopController;
-     private final GameStatsController gameStatsController;
+    private GameStatsController gameStatsController;
     private WritableImage writableImage;
 
     /**
@@ -45,13 +45,13 @@ public final class OverMenu extends GameMenuImpl {
      * @throws ClassNotFoundException 
      */
     public OverMenu(final Stage primaryStage,
-                        final Scene gameScene) {
+                        final Scene gameScene, final GameStatsController gameStatsController) {
         super(primaryStage);
         writableImage = 
         new WritableImage((int) gameScene.getWidth(), (int) gameScene.getHeight());
         gameScene.snapshot(writableImage);
         setMenuImage(writableImage);
-        gameStatsController = new GameStatsHandler();
+        this.gameStatsController = gameStatsController;
         shopController = new ShopControllerImpl(primaryStage, this);
         buttonsVBox = new VBox();
         initializeGameMenu(primaryStage);

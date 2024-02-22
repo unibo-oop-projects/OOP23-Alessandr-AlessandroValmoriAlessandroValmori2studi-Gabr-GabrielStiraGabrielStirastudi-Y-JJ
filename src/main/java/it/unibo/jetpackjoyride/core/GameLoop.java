@@ -1,11 +1,12 @@
 package it.unibo.jetpackjoyride.core;
 
-import java.io.IOException;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsViewImpl;
 import it.unibo.jetpackjoyride.menu.menus.impl.OverMenu;
 import it.unibo.jetpackjoyride.menu.menus.impl.PauseMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
@@ -30,6 +31,7 @@ public final class GameLoop implements GameLoopControl {
 
     private GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
+    private GameStatsView gameStatsView;
 
 
     private EntityHandler entityHandler;
@@ -52,8 +54,9 @@ public final class GameLoop implements GameLoopControl {
     public GameLoop(final Stage stage, final ShopController shopController) {
         this.stage = stage;
         this.spacePressed = false;
-        this.gameStatsHandler = shopController.getGameStatsController();
+        this.gameStatsHandler = new GameStatsHandler();
         initializeScene();
+        entityHandler.initialize(shopController);
         this.initializeGameElements();
         setListenerForGameInfo();
         stage.centerOnScreen();
@@ -73,16 +76,16 @@ public final class GameLoop implements GameLoopControl {
 
         map = new MapBackgroundImpl(this.root);
         pauseMenu = new PauseMenu(this.stage, this);
+        gameStatsView = new GameStatsViewImpl();
+        gameStatsHandler.getGameStatsView(gameStatsView);
 
         entityHandler = new EntityHandler();
-        entityHandler.initialize(gameStatsHandler);
-
     }
 
     private void initializeGameElements() {
         map.setMapOnGameRoot(this.root);
         root.getChildren().add((Node) entityGroup);
-        gameStatsHandler.setScorePaneOnRoot(this.root);
+        gameStatsView.setNodeOnRoot(root);
         pauseMenu.setPauseButton(this.root);
         pauseMenu.setButtonVBox(this.root);
     }
@@ -111,7 +114,7 @@ public final class GameLoop implements GameLoopControl {
                 }
 
                 if (now - lastStatsupdate > statsUpdateInterval) {
-                    gameStatsHandler.updateModel();
+                    gameStatsHandler.updateCurrentDistance();
                     lastStatsupdate = now;
                 }
             }
@@ -173,15 +176,7 @@ public final class GameLoop implements GameLoopControl {
     }
 
     private void saveGame() {
-        final String filename = "src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data"; 
-
-        try {
-            this.gameStatsHandler.getGameStatsModel().updateDate();
-            GameStatsIO.writeToFile(this.gameStatsHandler.getGameStatsModel(), filename); 
-            System.out.println("Game stats saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
-        }
+        gameStatsHandler.saveChanged();
     }
 
     /**

@@ -8,7 +8,6 @@
 # output folders
 bin/
 build/
-*.data
 
 # files ignored by extension
 *.class

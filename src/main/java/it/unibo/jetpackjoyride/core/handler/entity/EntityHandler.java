@@ -10,7 +10,7 @@ import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.player.BarryHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 import java.util.*;
@@ -31,14 +31,15 @@ public class EntityHandler {
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded;
 
-    public void initialize(final GameStatsController gameStatsHandler) {
+    public void initialize(final ShopController shopController) {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
         this.playerHandler = new BarryHandler();
-        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
+        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()));
 
-        this.unlockedItems = gameStatsHandler.getGameStatsModel().getUnlocked();
+        this.unlockedItems = shopController.getUnlocked();
+
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
@@ -58,7 +59,7 @@ public class EntityHandler {
         coinHandler.renderCoin();
 
         if (!isCanvasAdded) {
-            entityGroup.getChildren().add(coinHandler.getCanvas());
+            coinHandler.addCoinsView(entityGroup);
             isCanvasAdded = true;
         }
 
@@ -126,7 +127,7 @@ public class EntityHandler {
                 || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
             return;
         }
-        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream()
+        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().peek(e -> System.out.println(e))
                 .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
                 .collect(Collectors.toList());
         this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);

@@ -17,13 +17,14 @@ import javafx.scene.layout.Pane;
  */
 public final class MapBackgroungViewImpl implements MapBackgroundView {
 
-    private static final String BACKGROUNG_IMAGE1_PATH = "background/Sector2.png";
-    private static final String BACKGROUNG_IMAGE2_PATH = "background/Sector3.png";
+    private static final int NUM_OF_IMAGES = 6;
     private static final int POSITION = 0;
     private static final int SIZE = 1;
 
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
+    private Image[] bgImages;
+    private int currentImage = 0;
 
     /**
      * Constructor of the MapBackgroundViewImpl.
@@ -32,7 +33,9 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
      * it gives the nesessary date for view to upadte.
      */
     public MapBackgroungViewImpl(final List<Pair<Double, Double>> data) {
+        this.bgImages = new Image[NUM_OF_IMAGES];
         this.root = new Pane();
+        loadBgImages();
         loadBackgroungImage(data);
     }
 
@@ -52,14 +55,32 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
         gameRoot.getChildren().add(this.root);
     }
 
+    @Override
+    public void changeImage(final int num, final int index) {
+            if (num == 0) {
+                this.bgImageView1.setImage(bgImages[index]);
+            } else {
+                this.bgImageView2.setImage(bgImages[index + 1]);
+            }
+    }
+
+    @Override
+    public boolean isChange(final int num, final int index) {
+            if (num == 0) {
+                return !bgImageView1.getImage().equals(bgImages[index]);
+            } else {
+                return !bgImageView2.getImage().equals(bgImages[index + 1]);
+            }
+    }
+
     /**
     * Loads the background images and initializes image views with proper sizes.
     * @param data The data necessary for create the ImageView
     */
     private void loadBackgroungImage(final List<Pair<Double, Double>> data) {
 
-        bgImageView1 = creatImageView(BACKGROUNG_IMAGE1_PATH);
-        bgImageView2 = creatImageView(BACKGROUNG_IMAGE2_PATH);
+        bgImageView1 = new ImageView(bgImages[currentImage]);
+        bgImageView2 = new ImageView(bgImages[currentImage + 1]);
 
         setImageViewSize(bgImageView1, data.get(SIZE).get1(), data.get(SIZE).get2());
         setImageViewSize(bgImageView2, data.get(SIZE).get1(), data.get(SIZE).get2());
@@ -67,31 +88,25 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
         this.root.getChildren().addAll(bgImageView1, bgImageView2);
     }
 
-    /**
-    * Creates an image view with the given image path.
-    * 
-    * @param path The path to the image.
-    * @return An ImageView object representing the image.
-    */
-    private ImageView creatImageView(final String path) {
-
-        try {
-            URL backgroundImageUrl = getClass().getClassLoader().getResource(path);
-            if (backgroundImageUrl == null) {
-                throw new FileNotFoundException("Backgroung Image was not found: " + path);
-            }
-            String url = backgroundImageUrl.toExternalForm();
-            Image backgroundImage = new Image(url);
-            ImageView backImageView = new ImageView(backgroundImage);
-            return backImageView;
-        } catch (FileNotFoundException e) {
-            System.err.println("Error message :" + e.getMessage());
-            return new ImageView();
-        }
-    }
-
     private void setImageViewSize(final ImageView bImageView, final double width, final double height) {
         bImageView.setFitWidth(width);
         bImageView.setFitHeight(height);
     }
+
+    private void loadBgImages() {
+        for (int i = 0; i < NUM_OF_IMAGES; i++) {
+           String path = "background/bg" + (i + 1) + ".png";
+           try {
+              URL bgImageUrl = getClass().getClassLoader().getResource(path);
+              if (bgImageUrl == null) {
+                 throw new FileNotFoundException("Coin Image was not found: " + path);
+              }
+              String url = bgImageUrl.toExternalForm();
+              Image bgImage = new Image(url);
+              bgImages[i] = bgImage;
+           } catch (FileNotFoundException e) {
+              System.err.println("Error message :" + e.getMessage());
+           }
+        }
+     }
 }

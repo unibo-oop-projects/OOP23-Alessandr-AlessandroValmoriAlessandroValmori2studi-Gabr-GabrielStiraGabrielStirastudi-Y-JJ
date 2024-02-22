@@ -20,6 +20,13 @@ public interface MapBackgroundModel {
      */
     Pair<Double, Double> getPosX();
 
+      /**
+     * A Method to set the x-coordinate position of the background model.
+     * 
+     * @param num The num representing which imageView need to be reset .
+     */
+    void setPositionX(int num);
+
     /**
      * A Method to get the size of the background model.
      * 
@@ -31,4 +38,22 @@ public interface MapBackgroundModel {
      * Resets the background position.
      */
     void reset();
+
+     /**
+     * Updates the size of the background based on the screen size.
+     * If the screen size has changed, this method adjusts the background accordingly.
+     */
+    void updateSize();
+
+      /**
+     * A Method to get the index use for image.
+     * 
+     * @return The number representing the image to be displayed.
+     */
+    int getIndexForImage();
+
+    /**
+     * Update the num of index for the next image to displayed.
+     */
+    void updateIndexForImage();
 }

@@ -7,6 +7,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 
 
+
 /**
  * The ShopController interface defines the operations for managing the shop in the game.
  * It provides methods for navigation, purchasing items, managing shields, and saving game progress.
@@ -72,7 +73,7 @@ public interface ShopController {
         }
     }
 
-    GameStatsController getGameStatsController();
+   
 
     /**
      * Shows the shop
@@ -91,11 +92,13 @@ public interface ShopController {
     void backToMenu();
 
     
+    Set<Items> getUnlocked();
 
-
+    void unlock(final Items item);
     /**
      * Saves the game progress.
      */
-    void save();
 
+     void save();
+    
 }

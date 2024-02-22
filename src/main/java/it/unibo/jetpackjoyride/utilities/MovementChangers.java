@@ -6,7 +6,5 @@ public enum MovementChangers {
     GRAVITY, // y speed is accelerated downwards
     INVERSEGRAVITY, // y speed is accelerated upwards
     BOUNDS, // x and y will only vary between specified limits
-    SPEDUP //lol
 
-    
 }

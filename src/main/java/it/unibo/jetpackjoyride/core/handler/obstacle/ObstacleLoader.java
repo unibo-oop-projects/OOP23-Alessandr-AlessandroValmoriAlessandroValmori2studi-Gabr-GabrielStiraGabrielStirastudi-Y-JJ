@@ -61,7 +61,7 @@ public class ObstacleLoader {
     }
 
     private Pair<Double, Double> mapYDivisor(final Integer xDivisor, final Integer yDivisor) {
-        return new Pair<Double, Double>(xDivisor*1.0,  yDivisor*1.0);
+        return new Pair<Double, Double>(xDivisor*1280.0/100.0,  yDivisor*720.0/100.0);
     }
 
     private List<Pair<GenericController<Obstacle, ObstacleView>, Integer>> patternSpawner() {

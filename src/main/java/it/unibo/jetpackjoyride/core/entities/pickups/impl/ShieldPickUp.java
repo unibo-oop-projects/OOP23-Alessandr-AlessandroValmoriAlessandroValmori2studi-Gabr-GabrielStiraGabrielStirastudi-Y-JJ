@@ -9,7 +9,7 @@ public class ShieldPickUp extends AbstractPickUp {
 
     public ShieldPickUp(final Movement movement, final Hitbox hitbox) {
         super(PickUpType.SHIELD, movement, hitbox);
-        this.entityStatus = EntityStatus.CHARGING;
+        this.entityStatus = EntityStatus.ACTIVE;
     }
 
 	@Override

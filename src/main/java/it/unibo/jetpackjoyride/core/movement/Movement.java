@@ -4,6 +4,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.*;
+import java.util.function.*;
 
 /**
  * The {@link Movement} class is one of the two elements which characterize every entity along with 
@@ -166,57 +167,48 @@ public final class Movement {
      * @param toModifyRotation    The rotation modified by the changers.
      * @return The modified movement characteristics (as a record).
      */
-    private MovCharacterizing applyModifiers(Pair<Double,Double> toModifyPosition, Pair<Double,Double> toModifySpeed,
-                                Pair<Double,Double> toModifyAcceleration, Pair<Double,Double> toModifyRotation) {
-        Pair<Double,Double> modifiedPosition = toModifyPosition;
-        Pair<Double,Double> modifiedSpeed = toModifySpeed;
-        Pair<Double,Double> modifiedAcceleration = toModifyAcceleration;
-        Pair<Double,Double> modifiedRotation = toModifyRotation;
+    private MovCharacterizing applyModifiers(Pair<Double, Double> toModifyPosition,
+                                         Pair<Double, Double> toModifySpeed,
+                                         Pair<Double, Double> toModifyAcceleration,
+                                         Pair<Double, Double> toModifyRotation) {
+        Pair<Double, Double> modifiedPosition = new Pair<>(toModifyPosition.get1(), toModifyPosition.get2());
+        Pair<Double, Double> modifiedSpeed = new Pair<>(toModifySpeed.get1(), toModifySpeed.get2());
+        Pair<Double, Double> modifiedAcceleration = new Pair<>(toModifyAcceleration.get1(), toModifyAcceleration.get2());
+        Pair<Double, Double> modifiedRotation = new Pair<>(toModifyRotation.get1(), toModifyRotation.get2());
 
-        /* GRAVITY */ /* The entity will be constantly accelerated downwards*/
-        if (this.listOfChangers.contains(MovementChangers.GRAVITY)) {
-            modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
-        }
-
-        /* INVERSEGRAVITY */ /* The entity will be constantly accelerated upwards*/
-        if (this.listOfChangers.contains(MovementChangers.INVERSEGRAVITY)) {
-            modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + INVERSEGRAVITYMODIFIER);
-        }
-        
-        if (this.listOfChangers.contains(MovementChangers.SPEDUP)) {
-            modifiedSpeed = new Pair<>(modifiedSpeed.get1() * PROPELLINGMODIFIER, modifiedSpeed.get2() + PROPELLINGMODIFIER);
-        }
-        
-
-        /* BOUNCING */ /* The entity has its speed and rotation inverted when touching one of the edges of the map*/
-        if (this.listOfChangers.contains(MovementChangers.BOUNCING)) {
-            if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
-                modifiedSpeed = new Pair<>(modifiedSpeed.get1(), Math.abs(modifiedSpeed.get2()));
-                modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
-            }
-            if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
-                modifiedSpeed = new Pair<>(modifiedSpeed.get1(), -Math.abs(modifiedSpeed.get2()));
-                modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
-            }
-        }
-
-        /* BOUNDS */ /* The entity can't go further that the limits of the map*/
-        if (this.listOfChangers.contains(MovementChangers.BOUNDS)) {
-            if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
-                modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDDOWN);
-                if (this.movementSpecifiers.speed().get2() > 0) {
-                    modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(), 0.0);
+    // Applying modifiers
+    for (MovementChangers changer : listOfChangers) {
+        switch (changer) {
+             /* GRAVITY */ /* The entity will be constantly accelerated downwards*/
+            case GRAVITY:
+                modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
+                break;
+                 /* INVERSEGRAVITY */ /* The entity will be constantly accelerated upwards*/
+            case INVERSEGRAVITY:
+                modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + INVERSEGRAVITYMODIFIER);
+                break;
+            case BOUNCING: /* BOUNCING */ /* The entity has its speed and rotation inverted when touching one of the edges of the map*/
+                if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
+                    modifiedSpeed = new Pair<>(modifiedSpeed.get1(), Math.abs(modifiedSpeed.get2()));
+                    modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
+                } else if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
+                    modifiedSpeed = new Pair<>(modifiedSpeed.get1(), -Math.abs(modifiedSpeed.get2()));
+                    modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(), this.movementSpecifiers.rot().get2());
                 }
-            }
-            if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
-                modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDUP);
-                if (this.movementSpecifiers.speed().get2() < 0) {
-                    modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(), 0.0);
+                break;
+            case BOUNDS: /* BOUNDS */ /* The entity can't go further that the limits of the map*/
+                if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
+                    modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDDOWN);
+                    modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(), Math.min(0.0, this.movementSpecifiers.speed().get2()));
+                } else if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
+                    modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDUP);
+                    modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(), Math.max(0.0, this.movementSpecifiers.speed().get2()));
                 }
-            }
+                break;
         }
-        return new MovCharacterizing(modifiedPosition, modifiedSpeed, modifiedAcceleration, modifiedRotation);
     }
+    return new MovCharacterizing(modifiedPosition, modifiedSpeed, modifiedAcceleration, modifiedRotation);
+}
 
     /**
      * Updates the movement of the object by applying simple uniform or accelerated rectilinear motion formulas.

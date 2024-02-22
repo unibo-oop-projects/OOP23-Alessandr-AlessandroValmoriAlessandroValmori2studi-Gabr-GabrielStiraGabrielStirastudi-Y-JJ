@@ -85,11 +85,12 @@ public class EntityHandler {
         this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
 
         if (this.pickUpHandler.update(entityGroup, Optional.of(playerHandler.getModel().getHitbox()))) {
-            playerHandler.getModel().setEntityStatus(EntityStatus.INACTIVE);
+            
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
 
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
+                playerHandler.getModel().setEntityStatus(EntityStatus.INACTIVE);
                     final VehiclePickUp vehiclePickUp = (VehiclePickUp) pickUpPickedUp;
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
@@ -98,7 +99,9 @@ public class EntityHandler {
                             Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
                     break;
                 case SHIELD:
-                    System.out.println("SHIELD HAS BEEN TAKEN, BUT I DONT KNOW WHAT TO DO (for reference on where this println is done see the update method of entityHandler)");
+                
+                    this.playerHandler.setBarryShield();
+                    
                 default:
                     break;
             }

@@ -1,10 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
-
-import java.util.Set;
-import java.util.Collections;
-import java.util.HashSet;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
@@ -77,7 +73,7 @@ public final class ShopControllerImpl implements ShopController {
     @Override
     public void save() {
 
-        final String filename = "gameStats.data";
+        final String filename = "src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data";
         try {
             GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
             System.out.println("Game stats saved successfully.");

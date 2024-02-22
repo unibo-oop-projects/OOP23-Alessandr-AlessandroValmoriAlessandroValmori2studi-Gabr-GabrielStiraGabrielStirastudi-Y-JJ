@@ -40,12 +40,8 @@ public class PickUpHandler {
                 pickUpGroup.getChildren().add((Node) controller.getImageView());
             }
 
-            if(controller.getEntityModel().getEntityStatus().equals(EntityStatus.DEACTIVATED)){
-               
-                pickUpGroup.getChildren().remove((Node) controller.getImageView());
-                }
-
             if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE) ) {
+                pickUpGroup.getChildren().remove((Node) controller.getImageView());
                 iterator.remove();
                 
             }

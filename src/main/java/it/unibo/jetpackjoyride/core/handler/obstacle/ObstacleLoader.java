@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
@@ -13,6 +14,7 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
+import java.io.InputStreamReader;
 
 import java.util.stream.*;
 
@@ -23,9 +25,7 @@ public class ObstacleLoader {
     private Integer interval;
     private Integer duration;
     private Integer difficulty;
-
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private static final String CHUNK_DATA = System.getProperty("user.dir") + FILE_SEPARATOR + "OOP23-JJ" + FILE_SEPARATOR + "src" + FILE_SEPARATOR + "main" + FILE_SEPARATOR + "java" + FILE_SEPARATOR + "it" + FILE_SEPARATOR + "unibo" + FILE_SEPARATOR + "jetpackjoyride" + FILE_SEPARATOR + "utilities" + FILE_SEPARATOR + "files" + FILE_SEPARATOR + "chunkdata.txt";
+    final InputStream in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chunkdata.txt"));
 
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
@@ -47,9 +47,7 @@ public class ObstacleLoader {
         this.attributes.put("OBSTACLE_ROTATIONY", 9);
         this.attributes.put("OBSTACLE_TICKTIME", 10);
 
-        System.out.println(CHUNK_DATA);
-
-        if(!readFromFile(CHUNK_DATA)) {
+        if(!readFromFile()) {
             System.out.println("Randomic generation of obstacles instead");
         }
 
@@ -61,18 +59,18 @@ public class ObstacleLoader {
         this.difficulty = 0;
     }
 
-    private boolean readFromFile(String filename){
+    private boolean readFromFile(){
         final List<Pair<Obstacle,Integer>> obstaclesOfInstance = new ArrayList<>();
         Integer patternNumber=0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            String line;
             while ((line = reader.readLine()) != null) {
                 if(!line.equals("")) {
                     String[] parts = line.split(",");
 
                     if(parts.length != this.attributes.keySet().size()) {
-                        throw new InvalidDataFormatException("Something went wrong while trying to read the file "+filename);
+                        throw new InvalidDataFormatException("Something went wrong while trying to read the file "+in);
                     }
 
                     patternNumber = Integer.parseInt(parts[this.attributes.get("PATTERN_NUMBER")]);

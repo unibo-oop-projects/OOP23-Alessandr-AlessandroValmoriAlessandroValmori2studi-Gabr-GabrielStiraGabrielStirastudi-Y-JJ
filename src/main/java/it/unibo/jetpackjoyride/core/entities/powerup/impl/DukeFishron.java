@@ -28,7 +28,7 @@ public class DukeFishron extends AbstractPowerUp{
                     this.movement = new Movement.Builder()
 					    .setAcceleration(this.movement.getAcceleration())
 					    .setSpeed(this.movement.getSpeed().get1(), -this.movement.getSpeed().get2())
-					    .setPosition(this.movement.getRealPosition())
+					    .setPosition(this.movement.getPosition())
 					    .setRotation((this.movement.getSpeed().get2() > 0 ? -1.0 : 1.0 )*(Math.abs(this.movement.getRotation().get1())), this.movement.getRotation().get2())
 					    .setMovementChangers(this.movement.getMovementChangers()).build();
                     this.intervalBewteenJumps = false;
@@ -52,7 +52,7 @@ public class DukeFishron extends AbstractPowerUp{
             this.movement = new Movement.Builder()
 					    .setAcceleration(this.movement.getAcceleration())
 					    .setSpeed(this.movement.getSpeed().get1(), this.movement.getSpeed().get2()*(this.timerForRage.equals(DEFAULTENRAGETIMER) ? RAGESPEEDMODIFIER :  1/RAGESPEEDMODIFIER))
-					    .setPosition(this.movement.getRealPosition())
+					    .setPosition(this.movement.getPosition())
 					    .setRotation(this.movement.getRotation())
 					    .setMovementChangers(this.movement.getMovementChangers()).build();
         }

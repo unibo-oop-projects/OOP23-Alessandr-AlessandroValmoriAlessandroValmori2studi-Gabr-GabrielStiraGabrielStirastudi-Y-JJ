@@ -64,7 +64,7 @@ public class EntityHandler {
         }
 
         if (!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty()) {
-            this.spawnShieldPickUp(this.unlockedItems);
+            this.spawnVehiclePickUp(this.unlockedItems);
         }
 
         final var obstacleHit = this.obstacleHandler.update(entityGroup,

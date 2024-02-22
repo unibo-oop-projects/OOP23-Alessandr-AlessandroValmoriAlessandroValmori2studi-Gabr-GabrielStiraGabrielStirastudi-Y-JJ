@@ -37,7 +37,7 @@ public class BarryHandler {
      */
     public BarryHandler() {
         Movement barryMovement = new Movement.Builder().setPosition(100.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-        Hitbox barryHitbox = new HitboxImpl(barryMovement.getRelativePosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7));
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7));
         this.model = new BarryImpl(barryMovement,barryHitbox);
         this.view = new BarryView();
     }

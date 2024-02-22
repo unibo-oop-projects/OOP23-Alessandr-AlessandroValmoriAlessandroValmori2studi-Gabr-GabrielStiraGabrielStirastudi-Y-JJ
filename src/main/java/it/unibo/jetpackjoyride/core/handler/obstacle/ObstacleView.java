@@ -30,8 +30,9 @@ public final class ObstacleView implements GenericView{
         final Obstacle obstacle = (Obstacle)entity;
         Double width;
         Double height;
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final GameInfo infoResolution = GameInfo.getInstance();
+        final Double screenSizeX = infoResolution.getScreenWidth();
+        final Double screenSizeY = infoResolution.getScreenHeight();
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
@@ -130,8 +131,11 @@ public final class ObstacleView implements GenericView{
                 break;
         }
 
-        imageView.setX(obstacle.getEntityMovement().getRelativePosition().get1() - width / 2);
-        imageView.setY(obstacle.getEntityMovement().getRelativePosition().get2() - height / 2);
+        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
+
+        imageView.setX(obstacle.getEntityMovement().getPosition().get1()*scaleX - width / 2);
+        imageView.setY(obstacle.getEntityMovement().getPosition().get2()*scaleY - height / 2);
         imageView.setRotate(obstacle.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

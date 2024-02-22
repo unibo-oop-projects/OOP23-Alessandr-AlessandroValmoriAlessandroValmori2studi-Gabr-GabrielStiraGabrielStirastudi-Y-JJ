@@ -82,7 +82,7 @@ public abstract class AbstractEntity implements Entity {
     public void setEntityStatus(final EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
         if(entityStatus.equals(EntityStatus.ACTIVE)) {
-            this.hitbox.updateHitbox(this.movement.getRelativePosition(), this.movement.getRotation().get1() + this.movement.getRotation().get2());
+            this.hitbox.updateHitbox(this.movement.getPosition(), this.movement.getRotation().get1());
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class AbstractEntity implements Entity {
         this.movement = this.movement.update(); //Updates the movement of the entity (position, speed, rotation, etc...)
         
         if (this.entityStatus.equals(EntityStatus.ACTIVE)) { //Updates the hitbox of the entity if the entity is ACTIVE
-            this.hitbox.updateHitbox(this.movement.getRelativePosition(), this.movement.getRotation().get1());
+            this.hitbox.updateHitbox(this.movement.getPosition(), this.movement.getRotation().get1());
         }//(Could have done it even without the if statement, but updating the hitbox when the entity is not active is useless)
     }
 

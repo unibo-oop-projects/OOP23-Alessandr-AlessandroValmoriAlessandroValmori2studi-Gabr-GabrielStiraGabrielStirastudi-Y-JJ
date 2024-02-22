@@ -84,12 +84,15 @@ public final class BarryView {
             this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
             animationFrame = 0;
         }
-        final double width = infoResolution.getScreenWidth() / 8;
-        final double height = infoResolution.getScreenHeight() / 10;
 
+        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
 
-        imageView.setX(barry.getEntityMovement().getRelativePosition().get1() - width / 2);
-        imageView.setY(barry.getEntityMovement().getRelativePosition().get2() - height / 2);
+        final double width = infoResolution.getScreenWidth() / 8 * scaleX;
+        final double height = infoResolution.getScreenHeight() / 10 * scaleY;
+
+        imageView.setX(barry.getEntityMovement().getPosition().get1()*scaleX - width / 2);
+        imageView.setY(barry.getEntityMovement().getPosition().get2()*scaleY - height / 2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
@@ -97,8 +100,8 @@ public final class BarryView {
         imageView.setImage(this.images.get(animationFrame));
         animationFrame = (animationFrame + 1) % images.size();
 
-        shieldImageView.setX(barry.getEntityMovement().getRelativePosition().get1() - width / 2);
-        shieldImageView.setY(barry.getEntityMovement().getRelativePosition().get2() - height / 2);
+        shieldImageView.setX(barry.getEntityMovement().getPosition().get1() - width / 2);
+        shieldImageView.setY(barry.getEntityMovement().getPosition().get2() - height / 2);
 
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);

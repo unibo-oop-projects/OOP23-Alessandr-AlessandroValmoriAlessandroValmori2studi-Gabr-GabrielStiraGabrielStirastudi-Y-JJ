@@ -60,6 +60,6 @@ public interface GameStatsModel extends Serializable {
      *
      * @param items the items to unlock
      */
-    void unlock(Set<Items> items);
+    void unlock(Items item);
 
 }

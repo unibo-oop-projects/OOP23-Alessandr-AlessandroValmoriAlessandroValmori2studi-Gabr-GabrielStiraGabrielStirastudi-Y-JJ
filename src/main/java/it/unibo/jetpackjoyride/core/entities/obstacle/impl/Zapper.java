@@ -6,16 +6,25 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 
 public final class Zapper extends AbstractObstacle {
     private static final Double OUTOFBOUNDSSX = -100.0;
+    private static final Double SPAWNINGXCOORDINATE = 1350.0;
+
     public Zapper(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.ZAPPER, movement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
+
+        this.movement = new Movement.Builder()
+        .setPosition(SPAWNINGXCOORDINATE, this.movement.getRealPosition().get2())
+        .setSpeed(this.movement.getSpeed())
+        .setAcceleration(this.movement.getAcceleration())
+        .setRotation(this.movement.getRotation())
+        .setMovementChangers(this.movement.getMovementChangers())
+        .build();
     }
 
     @Override
-    protected void updateStatus(final boolean isSpaceBarPressed) {
+    public void updateStatus(final boolean isSpaceBarPressed) {
         if (this.movement.getRealPosition().get1() < OUTOFBOUNDSSX) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
-        System.out.println(" hitbox " + this.hitbox.getHitboxDimensions());
     }
 }

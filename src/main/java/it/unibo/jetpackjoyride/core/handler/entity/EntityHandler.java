@@ -39,7 +39,6 @@ public class EntityHandler {
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
 
         this.unlockedItems = gameStatsHandler.getGameStatsModel().getUnlocked();
-        System.out.println(unlockedItems);
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }

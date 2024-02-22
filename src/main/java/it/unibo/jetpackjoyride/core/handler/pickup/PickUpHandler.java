@@ -34,7 +34,6 @@ public class PickUpHandler {
                 && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
                 pickUpPickedUp = true;
                 controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
-                
             }
 
             if (!pickUpGroup.getChildren().contains((Node) controller.getImageView())) {

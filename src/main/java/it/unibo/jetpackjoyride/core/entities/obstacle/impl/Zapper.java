@@ -16,6 +16,6 @@ public final class Zapper extends AbstractObstacle {
         if (this.movement.getRealPosition().get1() < OUTOFBOUNDSSX) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
-        System.out.println(" hitbox " + this.hitbox.getHitboxDimensions());
+        //System.out.println(" hitbox " + this.hitbox.getHitboxDimensions());
     }
 }

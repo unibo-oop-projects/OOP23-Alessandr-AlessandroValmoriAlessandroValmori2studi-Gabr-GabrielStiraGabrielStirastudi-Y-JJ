@@ -20,7 +20,7 @@ public final class GameStats implements GameStatsModel {
         this.bestDistance = 0;
         this.currentDistance = 0;
         this.coins = 1000;
-        GameStats.COINS.set(coins);
+        GameStats.COINS.set(this.coins);
     }
 
     /**
@@ -31,7 +31,7 @@ public final class GameStats implements GameStatsModel {
     public static void updateCoins(final int num) {
         GameStats.COINS.getAndUpdate(numOfcoins -> {
             int newNumofCoins = numOfcoins +num;
-            return newNumofCoins >= 0 ? newNumofCoins : numOfcoins;
+            return newNumofCoins;
         });
     }
 

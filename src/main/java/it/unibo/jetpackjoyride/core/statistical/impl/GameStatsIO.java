@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
-import it.unibo.jetpackjoyride.menu.shop.impl.ShopModel;
+
 
 /**
  * A class that provide the salve and load method.
@@ -47,9 +47,5 @@ public final class GameStatsIO {
         }
     }
 
-    public static ShopModel readShopFromFile(final String filename) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
-            return (ShopModel) in.readObject();
-        }
-    }
+    
 }

@@ -68,13 +68,13 @@ public final class ShopView extends GameMenuImpl {
     /**
      * Constructor for ShopView.
      */
-    public ShopView(final ShopController controller, final Stage primaryStage, ShopModel shopModel) {
+    public ShopView(final ShopController controller, final Stage primaryStage) {
         super(primaryStage);
         this.controller = controller;
         this.root.setFocusTraversable(true);
         this.root.setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
-            this.update(shopModel);
+            
         });
         initializeGameMenu(primaryStage);
         primaryStage.centerOnScreen();
@@ -162,7 +162,7 @@ public final class ShopView extends GameMenuImpl {
                 moneyText,
                 dukeUnlocked
                 );
-        this.update(shopModel);
+        this.update();
     }
 
     /**
@@ -197,15 +197,15 @@ public final class ShopView extends GameMenuImpl {
         charObsList.remove(observer);
     }
 
-    public void update(ShopModel shopModel) {
+    public void update() {
        
         this.moneyText.setText("Money: $" + GameStats.COINS.get());
 
-        if(shopModel.getUnlocked().contains(Items.DUKE)){
+        if(controller.getUnlocked().contains(Items.DUKE)){
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
         }
         for (final var entry : this.buttonMap.entrySet()) {
-            if (shopModel.getUnlocked().contains(entry.getValue())) {
+            if (controller.getUnlocked().contains(entry.getValue())) {
                 
                 final Image image = new Image(
                         getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());

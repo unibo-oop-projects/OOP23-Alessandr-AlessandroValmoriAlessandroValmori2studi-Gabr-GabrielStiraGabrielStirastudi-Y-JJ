@@ -2,6 +2,8 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.util.Deque;
 import java.util.LinkedList;
+
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
@@ -10,19 +12,21 @@ import javafx.scene.input.KeyCode;
 public class CharacterImpl implements CharacterObs{
 
     private ShopController shopController;
+    private GameStatsController gameStatsController;
     private final Deque<String> characters;
     private static final String PASSWORD = "TRUFFLEWORM";
     private static final int PW_LEN = PASSWORD.length(); 
     
 
-    public CharacterImpl(ShopController shopController){
+    public CharacterImpl(ShopController shopController, GameStatsController gameStatsController){
         this.shopController = shopController;
+        this.gameStatsController = gameStatsController;
         this.characters = new LinkedList<>();
     }
 
     @Override
     public void type(KeyCode code) {
-        if (!this.shopController.getUnlocked().contains(Items.DUKE)) {
+        if (!this.gameStatsController.getGameStatsModel().getUnlocked().contains(Items.DUKE)) {
             final StringBuilder sb = new StringBuilder();
            
             characters.addLast(code.getChar());
@@ -35,7 +39,9 @@ public class CharacterImpl implements CharacterObs{
                 final String concatenatedString = sb.toString();
                 if (concatenatedString.equals(PASSWORD)) {
                     
-                    this.shopController.unlock(Items.DUKE);
+                    this.gameStatsController.getGameStatsModel().unlock(Items.DUKE);
+
+                    this.shopController.updateView();
                 }
             }
         }

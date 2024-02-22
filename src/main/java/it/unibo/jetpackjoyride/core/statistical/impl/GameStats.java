@@ -16,15 +16,11 @@ public final class GameStats implements GameStatsModel {
     private int totCoins;
     private int currentDistance;
     private Set<Items> unlockedSet = new HashSet<>();
-    private boolean isShieldEquipped;
-    private int numOfShields;
 
     /**
      * Constructs a new GameStats object with default values.
      */
     public GameStats() {
-        this.numOfShields = 0;
-        this.isShieldEquipped = false;
         this.bestDistance = 0;
         this.currentDistance = 0;
         this.totCoins = 1000;
@@ -73,8 +69,8 @@ public final class GameStats implements GameStatsModel {
     }
 
     @Override
-    public void unlock(final Set<Items> items) {
-        this.unlockedSet.addAll(items);
+    public void unlock(final Items item) {
+        this.unlockedSet.add(item);
     }
 
 

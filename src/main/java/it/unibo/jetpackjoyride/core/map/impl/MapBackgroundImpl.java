@@ -47,7 +47,7 @@ public final class MapBackgroundImpl implements MapBackground {
             } else {
                 gameInfo.setMoveSpeed(GameInfo.MOVE_SPEED.incrementAndGet());
                 counter++;
-                System.out.println(counter);
+               // System.out.println(counter);
             }
         }));
     }

@@ -1,17 +1,18 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
-
 import java.io.IOException;
-import java.util.Set;
-
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.stage.Stage;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.util.*;
+import java.io.InputStreamReader;
 
 /**
  * Controller class for the shop menu.
@@ -20,8 +21,10 @@ import javafx.stage.Stage;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
-    private ShopModel model;
-
+    private final String SHOP_DATA_PATH = "files/shopdata.txt";
+    private Set<Items> unlockedSet = new HashSet<>();
+    
+    
     private final GameMenu gameMenu;
 
     /**
@@ -33,14 +36,14 @@ public final class ShopControllerImpl implements ShopController {
      * @throws ClassNotFoundException 
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
-
+        
         this.gameMenu = gameMenu;
-        loadDateFromFile();
-        this.view = new ShopView(this, primaryStage, model);
+        readFromFile();
+        this.view = new ShopView(this, primaryStage);
 
-        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this, model);
+        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this, model);
+        CharacterObs charObs = new CharacterImpl(this);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
@@ -66,48 +69,61 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
-    private void loadDateFromFile() {
-        try {
-            this.model = GameStatsIO.readShopFromFile("shop.data"); 
-            System.out.println("Game Shop loaded successfully.");
-            System.out.println(GameStats.COINS.get());
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Failed to load game stats: " + e.getMessage());
-            this.model = new ShopModel();
+    private boolean readFromFile() {
+    
+        final InputStream in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(SHOP_DATA_PATH));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
+                    for(var item : Items.values()){
+                        if(item.toString().equals(line.trim())){
+                            this.unlockedSet.add(item);
+                        }
+                    }
+                }
+            }
+      
+            return true; // Return true if reading was successful
+        } catch (IOException e) {
+            System.err.println("Failed to read from file: " + e.getMessage());
+            return false; // Return false if reading failed
         }
     }
 
     
-    @Override
-    public void save() {
-          final String filename = "shop.data"; 
 
-        try {
-            GameStatsIO.writeToFile(this.model, filename); 
-            System.out.println("Game Shop saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
-        }
-    }
+    
+    
 
     @Override
     public void updateView() {
-        this.view.update(this.model);
+        this.view.update();
     }
 
-    @Override
-    public ShopModel getShopModel() {
-         return this.model;
-    }
+    
 
     @Override
     public Set<Items> getUnlocked() {
-         return this.model.getUnlocked();
+         return Collections.unmodifiableSet(this.unlockedSet);
     }
 
     @Override
     public void unlock(Items item) {
-        this.model.unlock(item);
+        this.unlockedSet.add(item);
+    }
+
+    @Override
+    public void save() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SHOP_DATA_PATH))) {
+            for (var item : this.unlockedSet) {
+                writer.write(item.toString()); // Write the word
+                writer.newLine(); // Write a newline character
+            }
+            System.out.println("Words saved to file successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save words to file: " + e.getMessage());
+        }
     }
  
 }

@@ -46,10 +46,10 @@ public class PickUpView implements GenericView {
                         animationCounter++;
                         break;
                     case DEACTIVATED:
-                        System.out.println("YAAAAAAAAAAAA");
                         width = screenSizeX;
                         height = screenSizeY / 3;
                         animationLenght = 4;
+
                         switch (vehiclePickUp.getVehicleSpawn()) {
                             case LILSTOMPER:
                                 animationFrame = 8 + animationCounter / animationLenght % 3;
@@ -84,17 +84,16 @@ public class PickUpView implements GenericView {
                     height = screenSizeY / 9;
                     animationLenght = 2;
                     break;
-
                     case DEACTIVATED:
                     width = 0.0;
                     height = 0.0;
                     break;
-
                     default:
                     width = 0.0;
                     height = 0.0;
                     break;
                 }
+                break;
             default:
                 width = 0.0;
                 height = 0.0;

@@ -55,5 +55,5 @@ public interface MapBackgroundModel {
     /**
      * Update the num of index for the next image to displayed.
      */
-    void updateImage();
+    void updateIndexForImage();
 }

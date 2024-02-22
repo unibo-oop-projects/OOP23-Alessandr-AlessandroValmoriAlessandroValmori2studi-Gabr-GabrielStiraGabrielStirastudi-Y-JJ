@@ -95,7 +95,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
 
     private void loadBgImages() {
         for (int i = 0; i < NUM_OF_IMAGES; i++) {
-           String path = "background/bg" + (i+1) + ".png";
+           String path = "background/bg" + (i + 1) + ".png";
            try {
               URL bgImageUrl = getClass().getClassLoader().getResource(path);
               if (bgImageUrl == null) {

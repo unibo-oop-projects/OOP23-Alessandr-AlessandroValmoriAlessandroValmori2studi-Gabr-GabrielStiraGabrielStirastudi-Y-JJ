@@ -13,7 +13,7 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
 
     private static final int IMAGE_STEP = 2;
     private static final int TOTAL_IMAGE = 6;
-    private  static final  int OFFSET = 2;
+    private static final int OFFSET = 2;
 
     /**
      * the backgroung position and size.
@@ -48,11 +48,11 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
     }
 
     @Override 
-    public void setPositionX(int num) {
+    public void setPositionX(final int num) {
         if (num == 0) {
-            this.bgImageX1 = bgImageX2 + mapWidth -OFFSET;
-        }else{
-            bgImageX2 = bgImageX1 + mapWidth - OFFSET;
+            this.bgImageX1 = bgImageX2 + mapWidth - OFFSET;
+        } else {
+            this.bgImageX2 = bgImageX1 + mapWidth - OFFSET;
         }
     }
 
@@ -68,7 +68,7 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
     }
 
     @Override
-    public void updateImage() {
+    public void updateIndexForImage() {
         this.currentImage = (currentImage + IMAGE_STEP) % TOTAL_IMAGE;
     }
 

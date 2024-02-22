@@ -93,7 +93,7 @@ public final class MapBackgroundImpl implements MapBackground {
             timeline.play();
         }
         if (counter == TIMES_FOR_CHANGE) {
-               model.updateImage(); 
+               model.updateIndexForImage(); 
                counter = 0;
         }
         this.model.updateBackgroundModel();

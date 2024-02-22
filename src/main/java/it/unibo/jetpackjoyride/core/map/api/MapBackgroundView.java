@@ -23,7 +23,6 @@ public interface MapBackgroundView {
      */
     void addNodeInRoot(Pane gameRoot);
 
-    
     /**
      * A method to add the backgroung Node into the Game root.
      * @param num The number representing which imageView need to set a new image

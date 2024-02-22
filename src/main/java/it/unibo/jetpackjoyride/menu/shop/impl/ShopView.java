@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -52,6 +53,8 @@ public final class ShopView extends GameMenuImpl {
     private final Text moneyText;
 
     private final Text dukeUnlocked;
+
+    private GameStatsController gameStatsController;
   
 
     private final Map<Button, Text> descriptionsMap = new HashMap<>();
@@ -67,9 +70,9 @@ public final class ShopView extends GameMenuImpl {
     /**
      * Constructor for ShopView.
      */
-    public ShopView(final ShopController controller, final Stage primaryStage) {
+    public ShopView(final ShopController controller, final Stage primaryStage, GameStatsController gameStatsController) {
         super(primaryStage);
-
+        this.gameStatsController = gameStatsController;
         this.controller = controller;
         this.root.setFocusTraversable(true);
         this.root.setOnKeyPressed(ev -> {
@@ -198,14 +201,15 @@ public final class ShopView extends GameMenuImpl {
     }
 
     public void update() {
-        if (this.controller.getUnlocked().contains(Items.DUKE)) {
+       
+        this.moneyText.setText("Money: $" + this.gameStatsController.getGameStatsModel().getTotCoins());
+
+        if(this.gameStatsController.getGameStatsModel().getUnlocked().contains(Items.DUKE)){
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
         }
-        this.moneyText.setText("Money: $" + this.controller.retrieveBalance());
-
-        
         for (final var entry : this.buttonMap.entrySet()) {
-            if (this.controller.getUnlocked().contains(entry.getValue())) {
+            if (this.gameStatsController.getGameStatsModel().getUnlocked().contains(entry.getValue())) {
+                
                 final Image image = new Image(
                         getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());
                 final ImageView imageView = new ImageView(image);

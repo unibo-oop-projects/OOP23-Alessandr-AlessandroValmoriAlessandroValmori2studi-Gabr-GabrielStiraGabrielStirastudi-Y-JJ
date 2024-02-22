@@ -6,7 +6,6 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
-import javafx.scene.layout.Pane;
 
 
 /**
@@ -22,25 +21,22 @@ public final class GameStatsHandler implements GameStatsController {
      * Constructs a new GameStatsHandler.
      */
     public GameStatsHandler() {
-        System.out.println("GAME STATS CREATED");
         loadDateFromFile();
-        this.view =  new GameStatsViewImpl();
     }
 
     @Override
-    public void updateModel() {
+    public void getGameStatsView(GameStatsView view) {
+        this.view = view;
+    }
+
+    @Override
+    public void updateCurrentDistance() {
         model.addDistance();
     }
     @Override
     public void updateView() {
-        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), model.getTotCoins()));
+        view.updateDataView(List.of(model.getcurrentDistance(), model.getBestDistance(), GameStats.COINS.get()));
     }
-
-    @Override
-    public GameStatsModel getGameStatsModel() {
-        return this.model;
-    }
-
      /**
      * A method use to load the last statistical.
      */
@@ -48,15 +44,22 @@ public final class GameStatsHandler implements GameStatsController {
         try {
             this.model = GameStatsIO.readFromFile("gameStats.data"); 
             System.out.println("Game stats loaded successfully.");
-            System.out.println(this.model.getTotCoins());
+            System.out.println(GameStats.COINS.get());
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Failed to load game stats: " + e.getMessage());
             this.model = new GameStats();
         }
     }
 
-    @Override
-    public void setScorePaneOnRoot(final Pane root) {
-          this.view.setNodeOnRoot(root);
+    public void saveChanged() {
+        final String filename = "gameStats.data"; 
+
+        try {
+            this.model.updateDate();
+            GameStatsIO.writeToFile(this.model, filename); 
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save game stats: " + e.getMessage());
+        }
     }
 }

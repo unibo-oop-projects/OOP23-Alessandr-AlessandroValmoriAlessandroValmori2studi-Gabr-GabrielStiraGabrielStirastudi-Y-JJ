@@ -1,30 +1,30 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 
 public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
     private ShopController shopController;
-    private GameStatsController gameStatsController;
+    private ShopModel shopModel;
 
-    public ShopItemPurchaseObsImpl(ShopController shopController, GameStatsController gameStatsController) {
+    public ShopItemPurchaseObsImpl(ShopController shopController, ShopModel shopModel) {
         this.shopController = shopController;
-        this.gameStatsController = gameStatsController;
+        this.shopModel = shopModel;
     }
 
     @Override
     public void onItemBought(Items item) {
-        final var available = this.gameStatsController.getGameStatsModel().getTotCoins();
+        final var available = GameStats.COINS.get();
 
-        if (!this.gameStatsController.getGameStatsModel().getUnlocked().contains(item)) {
+        if (!this.shopModel.getUnlocked().contains(item)) {
             if (item.getItemCost() > available) {
                 System.out.println("Not enough funds :(\n");
             } else {
-                this.gameStatsController.getGameStatsModel().unlock(item);
-                this.gameStatsController.getGameStatsModel().updateCoins(-item.getItemCost());
+                this.shopModel.unlock(item);
+                GameStats.updateCoins(-item.getItemCost());
             }
         }
         shopController.updateView();

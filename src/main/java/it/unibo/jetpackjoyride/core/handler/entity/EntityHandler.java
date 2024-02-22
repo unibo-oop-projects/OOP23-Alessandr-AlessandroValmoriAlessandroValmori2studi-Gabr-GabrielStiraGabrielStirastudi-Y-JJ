@@ -11,6 +11,7 @@ import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.player.BarryHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 import java.util.*;
@@ -31,14 +32,14 @@ public class EntityHandler {
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded;
 
-    public void initialize(final GameStatsController gameStatsHandler) {
+    public void initialize(final ShopController shopController) {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
         this.playerHandler = new BarryHandler();
-        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()), gameStatsHandler.getGameStatsModel());
+        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()));
 
-        this.unlockedItems = gameStatsHandler.getGameStatsModel().getUnlocked();
+        this.unlockedItems = shopController.getUnlocked();
         System.out.println(unlockedItems);
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
@@ -59,7 +60,7 @@ public class EntityHandler {
         coinHandler.renderCoin();
 
         if (!isCanvasAdded) {
-            entityGroup.getChildren().add(coinHandler.getCanvas());
+            coinHandler.addCoinsView(entityGroup);
             isCanvasAdded = true;
         }
 

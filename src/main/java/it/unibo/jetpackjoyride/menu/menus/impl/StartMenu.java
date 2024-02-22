@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
@@ -15,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -26,16 +30,20 @@ public final class StartMenu extends GameMenuImpl {
 
     private Optional<GameLoop> gameLoop = Optional.empty();
     private final ShopController shopController;
+    private final GameStatsController gameStatsController;
 
     /**
      * Constructs a new StartMenu.
      * And it call back the constructor of the superclass
      * @param primaryStage        the primary stage
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public StartMenu(final Stage primaryStage) {
         super(primaryStage);
         Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
+        gameStatsController = new GameStatsHandler();
         shopController = new ShopControllerImpl(primaryStage, this);
         this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
         initializeGameMenu(primaryStage);
@@ -51,6 +59,7 @@ public final class StartMenu extends GameMenuImpl {
         buttonsRoot.setAlignment(Pos.CENTER);
 
         Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
+            gameStatsController.saveChanged();
             this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
             Command startCommand = new StartCommand(this.gameLoop.get());
             this.removeListener();

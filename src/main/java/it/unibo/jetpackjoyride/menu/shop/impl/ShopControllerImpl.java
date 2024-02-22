@@ -1,13 +1,10 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+
 import java.io.IOException;
-
 import java.util.Set;
-import java.util.Collections;
-import java.util.HashSet;
 
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -23,8 +20,7 @@ import javafx.stage.Stage;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
-
-    private final GameStatsController gameStatsHandler;
+    private ShopModel model;
 
     private final GameMenu gameMenu;
 
@@ -33,27 +29,23 @@ public final class ShopControllerImpl implements ShopController {
      *
      * @param primaryStage The primary stage of the application.
      * @param gameMenu     The game menu associated with the shop.
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
 
         this.gameMenu = gameMenu;
+        loadDateFromFile();
+        this.view = new ShopView(this, primaryStage, model);
 
-        this.gameStatsHandler = new GameStatsHandler();
-
-        this.view = new ShopView(this, primaryStage, gameStatsHandler);
-
-        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this, gameStatsHandler);
+        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this, model);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this, gameStatsHandler);
+        CharacterObs charObs = new CharacterImpl(this, model);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
         this.view.addBackToMenuObs(backToMenuObs);
         this.view.addCharObs(charObs);
-    }
-
-    public GameStatsController getGameStatsController() {
-        return this.gameStatsHandler;
     }
 
     /**
@@ -74,14 +66,25 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
+    private void loadDateFromFile() {
+        try {
+            this.model = GameStatsIO.readShopFromFile("shop.data"); 
+            System.out.println("Game Shop loaded successfully.");
+            System.out.println(GameStats.COINS.get());
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Failed to load game stats: " + e.getMessage());
+            this.model = new ShopModel();
+        }
+    }
+
     
     @Override
     public void save() {
+          final String filename = "shop.data"; 
 
-        final String filename = "gameStats.data";
         try {
-            GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
-            System.out.println("Game stats saved successfully.");
+            GameStatsIO.writeToFile(this.model, filename); 
+            System.out.println("Game Shop saved successfully.");
         } catch (IOException e) {
             System.err.println("Failed to save game stats: " + e.getMessage());
         }
@@ -89,8 +92,22 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void updateView() {
-        this.view.update();
+        this.view.update(this.model);
     }
 
-    
+    @Override
+    public ShopModel getShopModel() {
+         return this.model;
+    }
+
+    @Override
+    public Set<Items> getUnlocked() {
+         return this.model.getUnlocked();
+    }
+
+    @Override
+    public void unlock(Items item) {
+        this.model.unlock(item);
+    }
+ 
 }

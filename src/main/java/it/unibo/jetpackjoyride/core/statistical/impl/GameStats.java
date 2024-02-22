@@ -6,7 +6,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class GameStats implements GameStatsModel {
 
-    private static final long serialVersionUID = 48181123264L;
+    private static final long serialVersionUID = 9848324261L;
     public static final AtomicInteger COINS = new AtomicInteger();
 
     private int bestDistance;

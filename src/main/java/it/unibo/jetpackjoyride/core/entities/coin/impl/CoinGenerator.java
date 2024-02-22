@@ -11,7 +11,6 @@ import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;

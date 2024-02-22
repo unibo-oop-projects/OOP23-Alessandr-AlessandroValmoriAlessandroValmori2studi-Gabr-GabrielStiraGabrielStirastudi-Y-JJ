@@ -35,8 +35,10 @@ public class VehiclePickUp extends AbstractPickUp {
         }
 
 		if(this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
+			if(this.animationTimer.equals(0)) {
+				this.movement = new Movement.Builder().setPosition(BANNERSPAWNINGCOORDINATES).build();
+			}
 			this.animationTimer++;
-			this.movement = new Movement.Builder().setPosition(BANNERSPAWNINGCOORDINATES).build();
 		}
 		if(this.animationTimer.equals(ANIMATIONDURATION)) {
 			this.entityStatus = EntityStatus.INACTIVE;

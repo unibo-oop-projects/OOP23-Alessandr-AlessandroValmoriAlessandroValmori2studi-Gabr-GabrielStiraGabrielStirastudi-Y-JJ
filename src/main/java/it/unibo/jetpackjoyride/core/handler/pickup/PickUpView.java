@@ -2,9 +2,6 @@ package it.unibo.jetpackjoyride.core.handler.pickup;
 
 import java.util.List;
 
-import javax.sound.midi.Soundbank;
-
-import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
@@ -49,6 +46,7 @@ public class PickUpView implements GenericView {
                         animationCounter++;
                         break;
                     case DEACTIVATED:
+                        System.out.println("YAAAAAAAAAAAA");
                         width = screenSizeX;
                         height = screenSizeY / 3;
                         animationLenght = 4;
@@ -77,8 +75,9 @@ public class PickUpView implements GenericView {
                         height = 0.0;
                         break;
                 }
+                break;
 
-                case SHIELD:
+            case SHIELD:
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
                     width = screenSizeX / 15;
@@ -89,7 +88,6 @@ public class PickUpView implements GenericView {
                     case DEACTIVATED:
                     width = 0.0;
                     height = 0.0;
-                    System.out.println("DEACTIVATEDDDDDDDDDDDD");
                     break;
 
                     default:
@@ -97,8 +95,6 @@ public class PickUpView implements GenericView {
                     height = 0.0;
                     break;
                 }
-
-                break;
             default:
                 width = 0.0;
                 height = 0.0;

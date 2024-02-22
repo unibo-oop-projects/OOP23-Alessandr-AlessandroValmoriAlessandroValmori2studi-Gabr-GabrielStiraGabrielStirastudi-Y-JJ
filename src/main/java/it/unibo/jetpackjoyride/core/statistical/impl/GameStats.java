@@ -4,56 +4,41 @@ import java.util.concurrent.atomic.AtomicInteger;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 
 public final class GameStats implements GameStatsModel {
-    private static final String FILE_PATH = "gameStats.txt";
+
     private static AtomicInteger coins = new AtomicInteger();
 
     private int bestDistance;
     private int currentDistance; 
 
     public GameStats() {
-        loadFromFile();
+        GameStatsIO.loadFromFile(this, GameStatsIO.FILE_PATH);
     }
 
-    public synchronized void saveToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            writer.write(coins.get() + "\n"); 
-            writer.write(bestDistance + "\n"); 
-            writer.write(currentDistance + "\n");
-            System.out.println("Game stats saved successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            coins.set(Integer.parseInt(reader.readLine()));
-            bestDistance = Integer.parseInt(reader.readLine());
-            currentDistance = Integer.parseInt(reader.readLine());
-            System.out.println("GAME STATS CREATED");
-        } catch (IOException e) {
-            e.printStackTrace();
-            coins.set(1000);
-            bestDistance = 0;
-            currentDistance = 0;
-        }
-    }
-
-    public static void updateCoins(int num) {
+    public static void updateCoins(final int num) {
         coins.getAndUpdate(value -> Math.max(value + num, 0));
     }
 
     public static int getCoins() {
         return coins.get();
     }
+
+    @Override
+    public void setCoins(final int num) {
+        coins.set(num);
+    }
+
+    @Override
+    public void setCurrentDistance(final int distance) {
+         currentDistance = distance;
+    }
+
+    @Override
+    public void setBestDistance(final int distance) {
+         bestDistance = distance;
+    }
+
     @Override
     public int getBestDistance() {
         return bestDistance;

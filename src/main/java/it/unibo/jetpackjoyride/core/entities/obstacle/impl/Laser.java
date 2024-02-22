@@ -8,10 +8,19 @@ public final class Laser extends AbstractObstacle {
     private final static Integer TIMEFORCHARGING = 100;
     private final static Integer LASERDURATION = 150;
     private final static Integer TIMEFORDECHARGING = 80;
+    private final static Double SPAWNINGXCOORDINATE = 640.0;
 
     public Laser(final Movement movement, final Hitbox hitbox) {
         super(ObstacleType.LASER, movement, hitbox);
         this.entityStatus = EntityStatus.CHARGING;
+
+        this.movement = new Movement.Builder()
+                .setPosition(SPAWNINGXCOORDINATE, this.movement.getRealPosition().get2())
+                .setSpeed(this.movement.getSpeed())
+                .setAcceleration(this.movement.getAcceleration())
+                .setRotation(this.movement.getRotation())
+                .setMovementChangers(this.movement.getMovementChangers())
+                .build();
     }
 
     @Override

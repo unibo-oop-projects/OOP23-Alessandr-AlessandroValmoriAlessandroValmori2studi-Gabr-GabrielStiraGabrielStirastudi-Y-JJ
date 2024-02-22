@@ -1,13 +1,10 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 
 /**
@@ -22,6 +19,9 @@ public final class GameStatsHandler implements GameStatsController {
     /**
      * Constructs a new GameStatsHandler.
      */
+    public GameStatsHandler() {
+        model = new GameStats();
+    }
 
     @Override
     public void getGameStatsView(GameStatsView view) {
@@ -39,7 +39,7 @@ public final class GameStatsHandler implements GameStatsController {
 
     public void saveChanged() {
             this.model.updateDate();
-            this.model.saveToFile(); 
+            GameStatsIO.saveToFile(model, GameStatsIO.FILE_PATH);
     }
         
 }

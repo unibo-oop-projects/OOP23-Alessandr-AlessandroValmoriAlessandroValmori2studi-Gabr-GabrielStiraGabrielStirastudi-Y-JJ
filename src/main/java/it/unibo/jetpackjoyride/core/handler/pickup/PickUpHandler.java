@@ -59,7 +59,7 @@ public class PickUpHandler {
     }
 
     public List<GenericController<PickUp, PickUpView>> getAllPickUps() {
-        System.out.println(listOfControllers);
+        //System.out.println(listOfControllers);
         return this.listOfControllers;
     }
 

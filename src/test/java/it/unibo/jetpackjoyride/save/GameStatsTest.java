@@ -6,9 +6,6 @@ import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -20,7 +17,6 @@ public class GameStatsTest {
 
     private GameStatsModel gameStats;
     private GameStatsModel readStats;
-    private static final String TEST_FILE = "game_stats_test.data";
 
     /**
      * Test important method to update coins.
@@ -31,7 +27,7 @@ public class GameStatsTest {
         int initialCoins = GameStats.getCoins();
         int coinsToAdd = 100;
         GameStats.updateCoins(coinsToAdd);
-        assertEquals(initialCoins + coinsToAdd,GameStats.getCoins());
+        assertEquals(initialCoins + coinsToAdd, GameStats.getCoins());
     }
 
     /**
@@ -46,4 +42,20 @@ public class GameStatsTest {
         assertEquals(initialBestDistance + GameInfo.MOVE_SPEED.get(), gameStats.getBestDistance());
     }
 
+    /**
+     * Test method to read and write game stats to file.
+     */
+    @Test
+    public void testReadAndWriteToFile() {
+        gameStats = new GameStats();
+        // Write to file
+            GameStatsIO.saveToFile(gameStats, GameStatsIO.FILE_PATH_TEST);
+        // Read from file
+            readStats = new GameStats();
+            GameStatsIO.loadFromFile(readStats, GameStatsIO.FILE_PATH_TEST);
+            assertNotNull(readStats);
+            assertEquals(GameStats.getCoins(), GameStats.getCoins());
+            assertEquals(gameStats.getBestDistance(), readStats.getBestDistance());
+
+    }
 }

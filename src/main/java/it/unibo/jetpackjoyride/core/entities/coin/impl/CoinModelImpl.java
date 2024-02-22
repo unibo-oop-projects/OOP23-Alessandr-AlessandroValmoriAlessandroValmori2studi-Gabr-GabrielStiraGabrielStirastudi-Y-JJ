@@ -52,7 +52,7 @@ public final class CoinModelImpl implements CoinModel {
     }
 
     @Override
-    public void setPosition(final Pair<Double,Double> position) {
+    public void setPosition(final Pair<Double, Double> position) {
         this.position = position;
         this.coinHitbox.updateHitbox(position, 0.0);
     }

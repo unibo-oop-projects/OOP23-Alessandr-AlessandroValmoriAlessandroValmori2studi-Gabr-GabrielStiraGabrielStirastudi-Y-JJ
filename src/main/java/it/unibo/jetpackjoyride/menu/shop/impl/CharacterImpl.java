@@ -12,21 +12,21 @@ import javafx.scene.input.KeyCode;
 public class CharacterImpl implements CharacterObs{
 
     private ShopController shopController;
-    private ShopModel shopModel;
+    
     private final Deque<String> characters;
     private static final String PASSWORD = "TRUFFLEWORM";
     private static final int PW_LEN = PASSWORD.length(); 
     
 
-    public CharacterImpl(ShopController shopController, ShopModel shopModel){
+    public CharacterImpl(ShopController shopController){
         this.shopController = shopController;
-        this.shopModel = shopModel;
+        
         this.characters = new LinkedList<>();
     }
 
     @Override
     public void type(KeyCode code) {
-        if (!this.shopModel.getUnlocked().contains(Items.DUKE)) {
+        if (!this.shopController.getUnlocked().contains(Items.DUKE)) {
             final StringBuilder sb = new StringBuilder();
            
             characters.addLast(code.getChar());
@@ -39,7 +39,7 @@ public class CharacterImpl implements CharacterObs{
                 final String concatenatedString = sb.toString();
                 if (concatenatedString.equals(PASSWORD)) {
                     
-                    this.shopModel.unlock(Items.DUKE);
+                    this.shopController.unlock(Items.DUKE);
 
                     this.shopController.updateView();
                 }

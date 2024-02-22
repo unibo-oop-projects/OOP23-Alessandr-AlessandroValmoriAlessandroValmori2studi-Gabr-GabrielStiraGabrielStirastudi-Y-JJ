@@ -1,11 +1,9 @@
 package it.unibo.jetpackjoyride.core.statistical.api;
 
-import java.io.Serializable;
-
 /**
  * An interface representing the model for game statistics.
  */
-public interface GameStatsModel extends Serializable {
+public interface GameStatsModel  {
 
     /**
      * A method to retrieve the best distance reached.
@@ -21,7 +19,6 @@ public interface GameStatsModel extends Serializable {
      */
     int getcurrentDistance();
 
-
     /**
      * A method to add distance to the current distance.
      */
@@ -32,4 +29,21 @@ public interface GameStatsModel extends Serializable {
      */
     void updateDate();
 
+    /**
+     * A method to set the coins number.
+     * @param num The num to set for coins
+     */
+    void setCoins(int num);
+
+     /**
+     * A method to set the new distance.
+     * @param distance The set a new value for current distance
+     */
+    void setCurrentDistance(int distance);
+
+     /**
+     * A method to set the new distance.
+     * @param distance The set a new value for current distance
+     */
+    void setBestDistance(int distance);
 }

@@ -183,7 +183,7 @@ public final class GameLoop implements GameLoopControl {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this.gameScene);
+        OverMenu overMenu = new OverMenu(stage, this.gameScene, this.gameStatsHandler);
         overMenu.showMenu();
     }
 }

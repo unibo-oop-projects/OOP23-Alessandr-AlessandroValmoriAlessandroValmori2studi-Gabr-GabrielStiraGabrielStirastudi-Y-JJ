@@ -44,7 +44,7 @@ public class ObstacleLoader {
         this.attributes.put("OBSTACLE_ROTATIONY", 9);
         this.attributes.put("OBSTACLE_TICKTIME", 10);
 
-        if(!readFromFile("src/main/java/it/unibo/jetpackjoyride/utilities/files/chunkdata.data")) {
+        if(!readFromFile("src/main/java/it/unibo/jetpackjoyride/utilities/files/chunkdata.txt")) {
             System.out.println("Randomic generation of obstacles instead");
         }
 

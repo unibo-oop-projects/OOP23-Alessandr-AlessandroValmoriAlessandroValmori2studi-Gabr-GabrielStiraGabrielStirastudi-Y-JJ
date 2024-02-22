@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
+
 public class ShopModel implements Serializable {
 
     private static final long serialVersionUID = 12368531123264L;

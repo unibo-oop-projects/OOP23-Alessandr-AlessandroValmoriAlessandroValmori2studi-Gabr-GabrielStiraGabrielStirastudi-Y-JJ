@@ -28,10 +28,10 @@ public class GameStatsTest {
     @Test
     public void testUpdateCoins() {
         gameStats = new GameStats();
-        int initialCoins = GameStats.COINS.get();
+        int initialCoins = GameStats.getCoins();
         int coinsToAdd = 100;
         GameStats.updateCoins(coinsToAdd);
-        assertEquals(initialCoins + coinsToAdd,GameStats.COINS.get());
+        assertEquals(initialCoins + coinsToAdd,GameStats.getCoins());
     }
 
     /**
@@ -46,26 +46,4 @@ public class GameStatsTest {
         assertEquals(initialBestDistance + GameInfo.MOVE_SPEED.get(), gameStats.getBestDistance());
     }
 
-    /**
-     * Test method to read and write game stats to file.
-     */
-    @Test
-    public void testReadAndWriteToFile() {
-        gameStats = new GameStats();
-        // Write to file
-        try {
-            GameStatsIO.writeToFile(gameStats, TEST_FILE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Read from file
-        try {
-            readStats = GameStatsIO.readFromFile(TEST_FILE);
-            assertNotNull(readStats);
-            assertEquals(GameStats.COINS.get(), GameStats.COINS.get());
-            assertEquals(gameStats.getBestDistance(), readStats.getBestDistance());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 }

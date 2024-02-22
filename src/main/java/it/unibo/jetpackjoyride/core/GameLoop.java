@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.menu.menus.impl.PauseMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -60,6 +61,11 @@ public final class GameLoop implements GameLoopControl {
         this.initializeGameElements();
         setListenerForGameInfo();
         stage.centerOnScreen();
+        stage.setOnCloseRequest(event -> {
+            endLoop();
+            shopController.save();
+            Platform.exit();
+        });
     }
 
     private void initializeScene() {
@@ -183,7 +189,7 @@ public final class GameLoop implements GameLoopControl {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this.gameScene);
+        OverMenu overMenu = new OverMenu(stage, this.gameScene, this.gameStatsHandler);
         overMenu.showMenu();
     }
 }

@@ -1,11 +1,11 @@
 package it.unibo.jetpackjoyride.core.statistical.api;
 
-import java.io.Serializable;
-
 /**
  * An interface representing the model for game statistics.
  */
-public interface GameStatsModel extends Serializable {
+public interface GameStatsModel  {
+
+    void saveToFile();
 
     /**
      * A method to retrieve the best distance reached.

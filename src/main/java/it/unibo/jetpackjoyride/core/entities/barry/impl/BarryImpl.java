@@ -119,7 +119,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
             if(!isSpaceBarPressed){
                 this.performingAction = PerformingAction.FALLING;
             }
-            if(this.movement.getRealPosition().get2() <= HIGH_BOUND){
+            if(this.movement.getPosition().get2() <= HIGH_BOUND){
                 this.performingAction = PerformingAction.HEAD_DRAGGING;
             }
             break;
@@ -129,7 +129,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
                 this.performingAction = PerformingAction.PROPELLING;
                 
             }
-            if(this.movement.getRealPosition().get2() >= LOW_BOUND){
+            if(this.movement.getPosition().get2() >= LOW_BOUND){
                 this.performingAction = PerformingAction.WALKING;
             }
             break;
@@ -148,7 +148,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
         final boolean isPropelling = this.performingAction.equals(PerformingAction.PROPELLING) || this.performingAction.equals(PerformingAction.HEAD_DRAGGING);
         this.movement = new Movement.Builder()
-        .setPosition(this.movement.getRealPosition())
+        .setPosition(this.movement.getPosition())
         .setSpeed(this.movement.getSpeed())
         .setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), this.movement.getAcceleration().get2()*100.0))
         .setRotation(this.movement.getSpeed().get2()*2, 0.0)

@@ -30,7 +30,7 @@ public class VehiclePickUp extends AbstractPickUp {
 
 	@Override
 	protected void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.movement.getRealPosition().get1() < OUTOFBOUNDSSX) {
+        if (this.movement.getPosition().get1() < OUTOFBOUNDSSX) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
 
@@ -47,7 +47,7 @@ public class VehiclePickUp extends AbstractPickUp {
 			this.movement = new Movement.Builder()
 					.setAcceleration(this.movement.getAcceleration())
 					.setSpeed(this.movement.getSpeed())
-					.setPosition(this.movement.getRealPosition())
+					.setPosition(this.movement.getPosition())
 					.setRotation(this.movement.getRotation())
 					.setMovementChangers(this.movement.getMovementChangers().contains(MovementChangers.GRAVITY) ? List.of(MovementChangers.INVERSEGRAVITY) : List.of(MovementChangers.GRAVITY)).build();
 

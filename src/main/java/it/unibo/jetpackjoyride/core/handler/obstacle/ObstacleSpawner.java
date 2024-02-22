@@ -27,7 +27,6 @@ public final class ObstacleSpawner {
             this.obstacleLoader.generatePattern(difficulty);
         }
         final List<Obstacle> models = this.obstacleLoader.getInstanceOfPattern();
-        
         return IntStream.range(0, models.size()).mapToObj(i -> this.entityControllersGenerator.generateObstacleController(models.get(i).getObstacleType(), models.get(i).getEntityMovement())).collect(Collectors.toList());
     }
 }

@@ -25,24 +25,21 @@ public final class Missile extends AbstractObstacle {
         this.entityStatus = EntityStatus.CHARGING;
 
         this.bufferMovement = new Movement.Builder()
-                    .setPosition(newMovement.getRealPosition())
+                    .setPosition(newMovement.getPosition())
                     .setSpeed(newMovement.getSpeed())
                     .setAcceleration(newMovement.getAcceleration())
                     .setRotation(newMovement.getRotation())
                     .setMovementChangers(newMovement.getMovementChangers())
                     .build();
 
-                    System.out.println(this.bufferMovement.getSpeed());
-
-        this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.bufferMovement.getRealPosition().get2())
+        this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.bufferMovement.getPosition().get2())
                 .setRotation(this.bufferMovement.getRotation())
                 .build();
+
     }
 
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-        System.out.println(this.bufferMovement.getSpeed());
-        System.out.println(this.lifetimeAfterDeactivation);
 
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
@@ -50,8 +47,8 @@ public final class Missile extends AbstractObstacle {
                 this.entityStatus = EntityStatus.ACTIVE;
 
                 this.movement = new Movement.Builder()
-                    .setPosition(OUTOFBOUNDSDX, this.bufferMovement.getRealPosition().get2())
-                    .setSpeed(this.bufferMovement.getSpeed())
+                    .setPosition(OUTOFBOUNDSDX, this.bufferMovement.getPosition().get2())
+                    .setSpeed(-10.0,0.0)
                     .setAcceleration(this.bufferMovement.getAcceleration())
                     .setRotation(this.bufferMovement.getRotation())
                     .setMovementChangers(this.bufferMovement.getMovementChangers())
@@ -59,14 +56,14 @@ public final class Missile extends AbstractObstacle {
             }
         }
 
-        if(this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAYBEFOREDESTRUCTION || this.movement.getRealPosition().get1() < OUTOFBOUNDSSX || this.lifetimeAfterDeactivation < 0) {
+        if(this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAYBEFOREDESTRUCTION || this.movement.getPosition().get1() < OUTOFBOUNDSSX || this.lifetimeAfterDeactivation < 0) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
 
         if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.movement = new Movement.Builder()
-                .setPosition(this.movement.getRealPosition())
+                .setPosition(this.movement.getPosition())
                 .setSpeed(this.movement.getSpeed().get1()/5, 0.0)
                 .build();
             }

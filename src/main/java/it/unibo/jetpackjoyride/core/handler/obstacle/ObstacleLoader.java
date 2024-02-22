@@ -29,7 +29,7 @@ public class ObstacleLoader {
     private final static Integer MAXTICKFOROBSTACLESPAWN = 20;
     private final static Double YMAPDIMENSIONS = 720.0;
 
-    final InputStream in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chunkdata.txt"));
+    private InputStream in;
     private final Map<String, Integer> attributes;
     private final EntityModelGenerator entityGenerator;
     private final Map<Integer,List<Pair<Obstacle,Integer>>> allObstacles;
@@ -45,19 +45,24 @@ public class ObstacleLoader {
         this.interval = 0;
         this.difficulty = 1;
 
-        this.attributes.put("PATTERN_NUMBER", 0);
-        this.attributes.put("OBSTACLE_TYPE", 1);
-        this.attributes.put("OBSTACLE_POSITIONX", 2);
-        this.attributes.put("OBSTACLE_POSITIONY", 3);
-        this.attributes.put("OBSTACLE_SPEEDX", 4);
-        this.attributes.put("OBSTACLE_SPEEDY", 5);
-        this.attributes.put("OBSTACLE_ACCELERATIONX", 6);
-        this.attributes.put("OBSTACLE_ACCELERATIONY", 7);
-        this.attributes.put("OBSTACLE_ROTATIONX", 8);
-        this.attributes.put("OBSTACLE_ROTATIONY", 9);
-        this.attributes.put("OBSTACLE_TICKTIME", 10);
-
-        if(!readFromFile()) {
+        try {
+            in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chuntkdata.txt"));
+            
+            this.attributes.put("PATTERN_NUMBER", 0);
+            this.attributes.put("OBSTACLE_TYPE", 1);
+            this.attributes.put("OBSTACLE_POSITIONX", 2);
+            this.attributes.put("OBSTACLE_POSITIONY", 3);
+            this.attributes.put("OBSTACLE_SPEEDX", 4);
+            this.attributes.put("OBSTACLE_SPEEDY", 5);
+            this.attributes.put("OBSTACLE_ACCELERATIONX", 6);
+            this.attributes.put("OBSTACLE_ACCELERATIONY", 7);
+            this.attributes.put("OBSTACLE_ROTATIONX", 8);
+            this.attributes.put("OBSTACLE_ROTATIONY", 9);
+            this.attributes.put("OBSTACLE_TICKTIME", 10);
+            
+            this.readFromFile();
+        }
+        catch(Exception e) {
             this.allObstacles.clear();
             this.randomBasedObstacleGeneration();
         }
@@ -67,7 +72,7 @@ public class ObstacleLoader {
     private void randomBasedObstacleGeneration() {
         this.duration = 30;
         Random random = new Random();
-        for(int i=0; i<MAXNUMBEROFPATTERNS; i++) {
+        for(int i=1; i<=MAXNUMBEROFPATTERNS; i++) {
             //Pattern number i has a random number of obstacles ranging 3 to 8
             final List<Pair<Obstacle,Integer>> obstaclesOfInstance = new ArrayList<>();
             final int numberOfObstacles = MINOBSTACLESFORINSTANCE + random.nextInt(MAXOBSTACLESFORINSTANCE);
@@ -75,16 +80,19 @@ public class ObstacleLoader {
                 final int typeOfObstacle = random.nextInt(TYPESOFOBSTACLES);
                 Obstacle obstacle;
                 ObstacleType obstacleType;
-                Movement movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).build();
+                Movement movement;
                 try {
                     switch (typeOfObstacle) {
                         case 0:
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
                             obstacleType = ObstacleType.MISSILE;
                             break;
                         case 1:
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
                             obstacleType = ObstacleType.ZAPPER;
                             break;
                         case 2:
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).build();
                             obstacleType = ObstacleType.LASER;
                             break;
                         default:
@@ -92,18 +100,18 @@ public class ObstacleLoader {
                     }
                     obstacle = this.entityGenerator.generateObstacle(obstacleType, movement);
                 } catch (Exception e) {
+                    movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
                     obstacle = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement);
                 }
                 obstaclesOfInstance.add(new Pair<>(obstacle, 1 + random.nextInt(MAXTICKFOROBSTACLESPAWN)));
             }
             this.allObstacles.put(i, obstaclesOfInstance);
         }
+        System.out.println(this.allObstacles);
     }
 
     public void generatePattern(final Integer difficulty) {
-        this.duration = 0;
         this.interval = 0;
-        this.difficulty = 0;
     }
 
     private boolean readFromFile(){

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sound.midi.Soundbank;
 
+import it.unibo.jetpackjoyride.Game;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
@@ -32,8 +33,9 @@ public class PickUpView implements GenericView {
         final PickUp pickUp = (PickUp) entity;
         Double width;
         Double height;
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final GameInfo infoResolution = GameInfo.getInstance();
+        final Double screenSizeX = infoResolution.getScreenWidth();
+        final Double screenSizeY = infoResolution.getScreenHeight();
 
         switch (pickUp.getPickUpType()) {
             case VEHICLE:
@@ -104,8 +106,11 @@ public class PickUpView implements GenericView {
 
         }
 
-        imageView.setX(pickUp.getEntityMovement().getRelativePosition().get1() - width / 2);
-        imageView.setY(pickUp.getEntityMovement().getRelativePosition().get2() - height / 2);
+        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
+
+        imageView.setX(pickUp.getEntityMovement().getPosition().get1()*scaleX - width / 2);
+        imageView.setY(pickUp.getEntityMovement().getPosition().get2()*scaleY - height / 2);
         imageView.setRotate(pickUp.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

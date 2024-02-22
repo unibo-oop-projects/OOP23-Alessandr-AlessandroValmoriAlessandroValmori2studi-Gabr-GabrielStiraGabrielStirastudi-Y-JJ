@@ -42,7 +42,7 @@ public class ProfitBird extends AbstractPowerUp{
                     this.performingAction = PerformingAction.JUMPING;
                     this.intervalBewteenJumps = false;
                 }
-                if(this.movement.getRealPosition().get2() >= LANDINGHEIGHT) {
+                if(this.movement.getPosition().get2() >= LANDINGHEIGHT) {
                     this.performingAction = PerformingAction.WALKING;
                 }
                 break;
@@ -57,7 +57,7 @@ public class ProfitBird extends AbstractPowerUp{
         this.movement = new Movement.Builder()
 			.setAcceleration(this.movement.getAcceleration())
 			.setSpeed(this.movement.getSpeed().get1(), this.performingAction.equals(PerformingAction.JUMPING) ? -BASEJUMPSPEED : this.movement.getSpeed().get2())
-			.setPosition(this.movement.getRealPosition())
+			.setPosition(this.movement.getPosition())
 			.setRotation(this.movement.getSpeed().get2(),0.0)
 			.setMovementChangers(this.movement.getMovementChangers()).build();
     }

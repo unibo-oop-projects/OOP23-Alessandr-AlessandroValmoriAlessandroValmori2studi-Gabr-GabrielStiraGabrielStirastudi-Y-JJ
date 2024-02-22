@@ -19,7 +19,7 @@ public final class MrCuddlesGenerator {
         for (int i = MRCUDDLESLENGHT - 1; i >= 0; i--) {
 
             final Movement delayedMovement = new Movement.Builder()
-                .setPosition(powerUpMovement.getRealPosition().get1() - DISTANCEBETWEENPIECES * i - (i != 0 ? DISTANCEFROMHEAD : 0), powerUpMovement.getRealPosition().get2())
+                .setPosition(powerUpMovement.getPosition().get1() - DISTANCEBETWEENPIECES * i - (i != 0 ? DISTANCEFROMHEAD : 0), powerUpMovement.getPosition().get2())
                 .setSpeed(powerUpMovement.getSpeed())
                 .setAcceleration(powerUpMovement.getAcceleration())
                 .setRotation(powerUpMovement.getRotation())

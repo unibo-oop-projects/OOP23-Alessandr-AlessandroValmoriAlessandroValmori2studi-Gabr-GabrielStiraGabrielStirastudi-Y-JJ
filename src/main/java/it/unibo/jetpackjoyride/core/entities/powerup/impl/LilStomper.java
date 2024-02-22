@@ -37,7 +37,7 @@ public final class LilStomper extends AbstractPowerUp {
                     this.movement = new Movement.Builder()
 					    .setAcceleration(this.movement.getAcceleration())
 					    .setSpeed(this.movement.getSpeed().get1(), (-this.loadJump * TICKJUMPHEITGHSPEED - BASEJUMPHEIGHTSPEED))
-					    .setPosition(this.movement.getRealPosition())
+					    .setPosition(this.movement.getPosition())
 					    .setRotation(this.movement.getRotation())
 					    .setMovementChangers(this.movement.getMovementChangers()).build();
 
@@ -56,7 +56,7 @@ public final class LilStomper extends AbstractPowerUp {
                     this.performingAction = PerformingAction.GLIDING;
                 }
 
-                if (this.movement.getRealPosition().get2() > LANDINGHEIGHT) {
+                if (this.movement.getPosition().get2() > LANDINGHEIGHT) {
                     this.performingAction = PerformingAction.LANDING;
                     this.loadJump = -RECOVERTICKSAFTERLANDING;
                 }
@@ -66,14 +66,14 @@ public final class LilStomper extends AbstractPowerUp {
                     this.movement = new Movement.Builder()
 					    .setAcceleration(this.movement.getAcceleration())
 					    .setSpeed(this.movement.getSpeed().get1(), DESCENDINGBASESPEED)
-					    .setPosition(this.movement.getRealPosition())
+					    .setPosition(this.movement.getPosition())
 					    .setRotation(this.movement.getRotation())
 					    .setMovementChangers(this.movement.getMovementChangers()).build();
                 } else {
                     this.performingAction = PerformingAction.DESCENDING;
                 }
 
-                if (this.movement.getRealPosition().get2() > LANDINGHEIGHT) {
+                if (this.movement.getPosition().get2() > LANDINGHEIGHT) {
                     this.performingAction = PerformingAction.LANDING;
                     this.loadJump = -RECOVERTICKSAFTERLANDING;
                 }

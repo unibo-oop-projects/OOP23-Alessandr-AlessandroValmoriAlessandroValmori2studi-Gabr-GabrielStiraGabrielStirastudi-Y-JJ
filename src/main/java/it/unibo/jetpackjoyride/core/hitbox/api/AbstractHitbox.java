@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.core.hitbox.api;
 
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.Polygon;
 import java.awt.geom.*;
@@ -9,12 +8,10 @@ import java.util.*;
 
 public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double, Double>> hitbox;
-    private Pair<Double, Double> screenLastSize;
     private Pair<Double, Double> hitboxDimensions;
     private Pair<Double, Double> hitboxPosition;
 
     public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions) {
-        this.screenLastSize = new Pair<>(GameInfo.getInstance().getScreenWidth(),GameInfo.getInstance().getScreenHeight());
         this.hitboxPosition = hitboxStartingPos;    
         this.hitboxDimensions = hitboxDimensions;
         this.createHitbox(hitboxStartingPos);
@@ -50,16 +47,6 @@ public abstract class AbstractHitbox implements Hitbox {
     @Override
     public void updateHitbox(final Pair<Double, Double> newPosition, final Double angle) {
         this.hitboxPosition = newPosition;
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
-        final Pair<Double, Double> currentScreenSize = new Pair<>(screenSizeX, screenSizeY);
-
-        if(!this.screenLastSize.equals(currentScreenSize)) {
-            final Double xChange = currentScreenSize.get1() / this.screenLastSize.get1();
-            final Double yChange = currentScreenSize.get2() / this.screenLastSize.get2();
-            this.screenLastSize = currentScreenSize;
-            this.hitboxDimensions = new Pair<>(this.hitboxDimensions.get1()*xChange, this.hitboxDimensions.get2()*yChange);
-        }
         this.createHitbox(newPosition);
 
         final Set<Pair<Double, Double>> newHitbox = new HashSet<>();

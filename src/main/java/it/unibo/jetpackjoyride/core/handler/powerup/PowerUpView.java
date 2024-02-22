@@ -34,8 +34,9 @@ public final class PowerUpView implements GenericView {
         final PowerUp powerUp = (PowerUp)entity;
         Double width;
         Double height;
-        final Double screenSizeX = GameInfo.getInstance().getScreenWidth();
-        final Double screenSizeY = GameInfo.getInstance().getScreenHeight();
+        final GameInfo infoResolution = GameInfo.getInstance();
+        final Double screenSizeX = infoResolution.getScreenWidth();
+        final Double screenSizeY = infoResolution.getScreenHeight();
         animationFrame = 0;
 
         switch (powerUp.getPowerUpType()) {
@@ -183,8 +184,11 @@ public final class PowerUpView implements GenericView {
                 break;
         }
 
-        imageView.setX(powerUp.getEntityMovement().getRelativePosition().get1() - width / 2);
-        imageView.setY(powerUp.getEntityMovement().getRelativePosition().get2() - height / 2);
+        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
+
+        imageView.setX(powerUp.getEntityMovement().getPosition().get1()*scaleX - width / 2);
+        imageView.setY(powerUp.getEntityMovement().getPosition().get2()*scaleY - height / 2);
         imageView.setRotate(powerUp.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);

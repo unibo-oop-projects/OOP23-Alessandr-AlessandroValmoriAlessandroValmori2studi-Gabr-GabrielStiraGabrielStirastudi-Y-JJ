@@ -1,10 +1,8 @@
 package it.unibo.jetpackjoyride.core.movement;
 
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.*;
-import java.util.function.*;
 
 /**
  * The {@link Movement} class is one of the two elements which characterize every entity along with 
@@ -36,9 +34,6 @@ public final class Movement {
      * Defines what coordinate could be considered as the upper bound of the map.
      */
 
-     private static final Double PROPELLINGMODIFIER = -0.7;
-
-
     private static final Double MAPBOUNDUP = 80.0;
     /**
      * Defines what coordinate could be considerated as the lower bound of the map.
@@ -61,11 +56,6 @@ public final class Movement {
      */
     private final List<MovementChangers> listOfChangers;
 
-    /**
-     * Defines the position of the entity scaled depending on the screen size.
-     */
-    private Pair<Double, Double> relativePosition;
-
      /**
      * Constructor used to create the instance of the class Movement.
      *
@@ -79,19 +69,9 @@ public final class Movement {
      */
     private Movement(final Pair<Double, Double> position, final Pair<Double, Double> speed, 
                      final Pair<Double, Double> acceleration, final Pair<Double, Double> rotation, 
-                     final  List<MovementChangers> listOfChangers, final Pair<Double, Double> relativePosition) {
+                     final  List<MovementChangers> listOfChangers) {
         this.movementSpecifiers = new MovCharacterizing(position, speed, acceleration, rotation);
         this.listOfChangers = listOfChangers;
-        this.relativePosition = relativePosition;
-    }
-
-    /**
-     * Gets the relative position of the entity.
-     *
-     * @return The relative position of the entity.
-     */
-    public Pair<Double, Double> getRelativePosition() {
-        return this.relativePosition;
     }
 
     /**
@@ -99,7 +79,7 @@ public final class Movement {
      *
      * @return The real position of the entity.
      */
-    public Pair<Double, Double> getRealPosition() {
+    public Pair<Double, Double> getPosition() {
         return this.movementSpecifiers.pos();
     }
 
@@ -137,23 +117,6 @@ public final class Movement {
      */
     public List<MovementChangers> getMovementChangers() {
         return Collections.unmodifiableList(this.listOfChangers);
-    }
-
-    /**
-     * Adapts the given modified position to the screen size.
-     * This method scales the position based on the current screen resolution.
-     * If this wasn't done and the real position would be used, the entity would not 
-     * move as if the new screen sizes were their new bounds to delimit the edges of 
-     * what the player considers to be the map.
-     *
-     * @param modifiedPosition The modified position of the object.
-     */
-    private void adaptToScreenSize(final Pair<Double,Double> modifiedPosition) {
-        final GameInfo infoResolution = GameInfo.getInstance();
-        final Double xScaling = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
-        final Double yScaling = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
-
-        this.relativePosition = new Pair<>(modifiedPosition.get1()*xScaling, modifiedPosition.get2()*yScaling);
     }
 
     /**
@@ -229,15 +192,12 @@ public final class Movement {
         modifiedPosition = new Pair<>(modifiedPosition.get1() + modifiedSpeed.get1(), modifiedPosition.get2() + modifiedSpeed.get2());
 
         modifiedRotation = new Pair<>(modifiedRotation.get1() + modifiedRotation.get2(), modifiedRotation.get2());
-
-        this.adaptToScreenSize(modifiedPosition);
         
         return new Builder().setPosition(modifiedPosition)
                             .setSpeed(modifiedSpeed)
                             .setAcceleration(modifiedAcceleration)
                             .setRotation(modifiedRotation)
                             .setMovementChangers(listOfChangers)
-                            .setRelativePosition(this.relativePosition)
                             .build();
     }
 
@@ -273,8 +233,6 @@ public final class Movement {
         private Pair<Double, Double> acceleration = DEFAULT;
         private Pair<Double, Double> rotation = DEFAULT;
         private List<MovementChangers> listOfChangers = List.of();
-
-        private Pair<Double, Double> relativePosition = DEFAULT;
         private boolean consumed;
 
         public Builder setPosition(final Double x, final Double y) {
@@ -322,17 +280,12 @@ public final class Movement {
             return this;
         }
 
-        public Builder setRelativePosition(final Pair<Double,Double> relativePosition) {
-            this.relativePosition = relativePosition;
-            return this;
-        }
-
         public final Movement build() {
             if (consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }
             consumed = true;
-            return new Movement(position, speed, acceleration, rotation, listOfChangers, relativePosition);
+            return new Movement(position, speed, acceleration, rotation, listOfChangers);
         }
     }
 }

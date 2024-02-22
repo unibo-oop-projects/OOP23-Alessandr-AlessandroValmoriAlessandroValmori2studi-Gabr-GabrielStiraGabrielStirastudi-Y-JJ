@@ -8,12 +8,12 @@ public final class Zapper extends AbstractObstacle {
     private static final Double OUTOFBOUNDSSX = -100.0;
     private static final Double SPAWNINGXCOORDINATE = 1350.0;
 
-    public Zapper(final Movement movement, final Hitbox hitbox) {
-        super(ObstacleType.ZAPPER, movement, hitbox);
+    public Zapper(final Movement newMovement, final Hitbox hitbox) {
+        super(ObstacleType.ZAPPER, newMovement, hitbox);
         this.entityStatus = EntityStatus.ACTIVE;
 
         this.movement = new Movement.Builder()
-        .setPosition(SPAWNINGXCOORDINATE, this.movement.getRealPosition().get2())
+        .setPosition(SPAWNINGXCOORDINATE, this.movement.getPosition().get2())
         .setSpeed(this.movement.getSpeed())
         .setAcceleration(this.movement.getAcceleration())
         .setRotation(this.movement.getRotation())
@@ -23,7 +23,7 @@ public final class Zapper extends AbstractObstacle {
 
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.movement.getRealPosition().get1() < OUTOFBOUNDSSX) {
+        if (this.movement.getPosition().get1() < OUTOFBOUNDSSX) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
     }

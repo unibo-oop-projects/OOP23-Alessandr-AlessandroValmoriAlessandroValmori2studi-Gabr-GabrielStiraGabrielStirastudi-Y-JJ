@@ -39,7 +39,7 @@ public final class MrCuddles extends AbstractPowerUp {
         }
 
         this.movement = new Movement.Builder()
-                .setPosition(this.movement.getRealPosition())
+                .setPosition(this.movement.getPosition())
                 .setSpeed(this.movement.getSpeed())
                 .setAcceleration(this.movement.getAcceleration())
                 .setRotation(this.movement.getSpeed().get2()*2, 0.0)

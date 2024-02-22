@@ -24,6 +24,9 @@ public class ObstacleLoader {
     private Integer duration;
     private Integer difficulty;
 
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String CHUNK_DATA = System.getProperty("user.dir") + FILE_SEPARATOR + "OOP23-JJ" + FILE_SEPARATOR + "src" + FILE_SEPARATOR + "main" + FILE_SEPARATOR + "java" + FILE_SEPARATOR + "it" + FILE_SEPARATOR + "unibo" + FILE_SEPARATOR + "jetpackjoyride" + FILE_SEPARATOR + "utilities" + FILE_SEPARATOR + "files" + FILE_SEPARATOR + "chunkdata.txt";
+
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
         this.entityGenerator = new EntityModelGeneratorImpl();
@@ -44,7 +47,9 @@ public class ObstacleLoader {
         this.attributes.put("OBSTACLE_ROTATIONY", 9);
         this.attributes.put("OBSTACLE_TICKTIME", 10);
 
-        if(!readFromFile("src/main/java/it/unibo/jetpackjoyride/utilities/files/chunkdata.txt")) {
+        System.out.println(CHUNK_DATA);
+
+        if(!readFromFile(CHUNK_DATA)) {
             System.out.println("Randomic generation of obstacles instead");
         }
 
@@ -105,6 +110,7 @@ public class ObstacleLoader {
                 }
             }
         } catch (IOException e) {
+            System.out.println("YAAAAAAAAAAAAAAAAA");
             return false;
         }
         catch (InvalidDataFormatException e) {

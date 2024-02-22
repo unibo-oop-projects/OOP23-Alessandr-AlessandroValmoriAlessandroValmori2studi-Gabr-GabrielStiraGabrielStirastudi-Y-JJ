@@ -1,6 +1,10 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
+import java.io.IOException;
+
 import it.unibo.jetpackjoyride.core.GameLoop;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
@@ -28,6 +32,7 @@ public final class OverMenu extends GameMenuImpl {
     private VBox buttonsVBox;
     private GameLoop gameLoop;
     private final ShopController shopController;
+     private final GameStatsController gameStatsController;
     private WritableImage writableImage;
 
     /**
@@ -36,6 +41,8 @@ public final class OverMenu extends GameMenuImpl {
      *
      * @param primaryStage      the primary stage
      * @param gameScene          the game scene
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     public OverMenu(final Stage primaryStage,
                         final Scene gameScene) {
@@ -44,6 +51,7 @@ public final class OverMenu extends GameMenuImpl {
         new WritableImage((int) gameScene.getWidth(), (int) gameScene.getHeight());
         gameScene.snapshot(writableImage);
         setMenuImage(writableImage);
+        gameStatsController = new GameStatsHandler();
         shopController = new ShopControllerImpl(primaryStage, this);
         buttonsVBox = new VBox();
         initializeGameMenu(primaryStage);
@@ -59,6 +67,7 @@ public final class OverMenu extends GameMenuImpl {
 
         Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
+            gameStatsController.saveChanged();
             this.gameLoop = new GameLoop(primaryStage, shopController); 
             Command restartCommand = new RestartCommand(this.gameLoop);
             this.removeListener();

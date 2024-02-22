@@ -11,11 +11,12 @@ import it.unibo.jetpackjoyride.core.entities.coin.api.Coin;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinShapeFactory;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.util.Duration;
 import java.util.Optional;
@@ -39,7 +40,6 @@ public final class CoinGenerator {
     private final List<Coin> reusableCoin = new ArrayList<>();
     private final CoinShapeFactory coinShapeFactory;
     private final GameInfo gameInfo;
-    private final GameStatsModel gameStatsModel;
     private final int initialSpeed = GameInfo.MOVE_SPEED.get();
     private final Random random = new Random();
 
@@ -51,10 +51,9 @@ public final class CoinGenerator {
      * @param playeHitbox    the hitbox use to check collision
      * @param gameStatsModel the game statistics infomation
      */
-    public CoinGenerator(final Optional<Hitbox> playeHitbox, final GameStatsModel gameStatsModel) {
+    public CoinGenerator(final Optional<Hitbox> playeHitbox) {
         this.gameInfo = GameInfo.getInstance();
         this.playeHitbox = playeHitbox;
-        this.gameStatsModel = gameStatsModel;
         this.canvas = new Canvas(gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         this.coinShapeFactory = new CoinShapeFactoryImpl();
         timeline = new Timeline(new KeyFrame(Duration.seconds(3), e -> generateCoin()));
@@ -93,12 +92,12 @@ public final class CoinGenerator {
     }
 
     /**
-     * A method to get the canvas containing the coins.
+     * A method to add the canvas containing the coins into a Group.
      *
-     * @return the canvas containing the coins
+     * @param gorup The group which containing all elements
      */
-    public Canvas getCanvas() {
-        return this.canvas;
+    public void addCoinsView(Group group) {
+          group.getChildren().add(this.canvas);
     }
 
     /**
@@ -145,7 +144,7 @@ public final class CoinGenerator {
 /**
 * Updates the position of the coins.
 */
-    public void updatPosition() {
+    public void updatPosition( ) {
 
         updateNewPos();
         if (this.playeHitbox.isPresent()) {
@@ -198,7 +197,7 @@ public final class CoinGenerator {
      * only coins that cross half of the screen will be checked. 
      * If a collision occurs, updates the game statistics accordingly.
      */
-    private void checkCollision() {
+    private void checkCollision( ) {
         List<Coin> sortedList = coinList.stream()
                 .filter(p -> p.getModelData().get(POSITION).get1() < gameInfo.getScreenWidth() / 2)
                 .sorted(Comparator.comparingDouble(p -> p.getModelData().get(POSITION).get1()))
@@ -206,7 +205,7 @@ public final class CoinGenerator {
 
         for (Coin coin : sortedList) {
              if (playeHitbox.isPresent()) {
-                gameStatsModel.updateCoins(coin.checkCollision(playeHitbox.get()));
+                GameStats.updateCoins(coin.checkCollision(playeHitbox.get()));
              }
         }
     }

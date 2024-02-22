@@ -28,10 +28,10 @@ public class GameStatsTest {
     @Test
     public void testUpdateCoins() {
         gameStats = new GameStats();
-        int initialCoins = gameStats.getTotCoins();
+        int initialCoins = GameStats.COINS.get();
         int coinsToAdd = 100;
-        gameStats.updateCoins(coinsToAdd);
-        assertEquals(initialCoins + coinsToAdd, gameStats.getTotCoins());
+        GameStats.updateCoins(coinsToAdd);
+        assertEquals(initialCoins + coinsToAdd,GameStats.COINS.get());
     }
 
     /**
@@ -62,7 +62,7 @@ public class GameStatsTest {
         try {
             readStats = GameStatsIO.readFromFile(TEST_FILE);
             assertNotNull(readStats);
-            assertEquals(gameStats.getTotCoins(), readStats.getTotCoins());
+            assertEquals(GameStats.COINS.get(), GameStats.COINS.get());
             assertEquals(gameStats.getBestDistance(), readStats.getBestDistance());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

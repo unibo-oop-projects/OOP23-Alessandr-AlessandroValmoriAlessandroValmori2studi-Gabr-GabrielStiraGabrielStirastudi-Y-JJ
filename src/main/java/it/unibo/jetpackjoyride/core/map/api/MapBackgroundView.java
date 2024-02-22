@@ -22,4 +22,20 @@ public interface MapBackgroundView {
      * @param gameRoot The main root of GameLoop, use to add nodes
      */
     void addNodeInRoot(Pane gameRoot);
+
+    /**
+     * A method to add the backgroung Node into the Game root.
+     * @param num The number representing which imageView need to set a new image
+     * @param index The index representing the image to set for imageView
+     */
+    void changeImage(int num, int index);
+
+    /**
+    * Determines whether the current image in a specified image view 
+    * differs from a reference image in the background images array.
+    * @param num   Identifies the image view (0 for the first, any other value for the second).
+    * @param index Index of the reference image in the background images array. For the second image view, it uses index + 1.
+    * @return true if the current image differs from the reference image, false otherwise.
+    */
+    boolean isChange(int num, int index);
 }

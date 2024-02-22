@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
+import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
+import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
@@ -54,9 +55,6 @@ public final class ShopView extends GameMenuImpl {
 
     private final Text dukeUnlocked;
 
-    private GameStatsController gameStatsController;
-  
-
     private final Map<Button, Text> descriptionsMap = new HashMap<>();
     private final Map<Button, Items> buttonMap = new HashMap<>();
     private final Map<Button, ImageView> imageMap = new HashMap<>();
@@ -70,14 +68,13 @@ public final class ShopView extends GameMenuImpl {
     /**
      * Constructor for ShopView.
      */
-    public ShopView(final ShopController controller, final Stage primaryStage, GameStatsController gameStatsController) {
+    public ShopView(final ShopController controller, final Stage primaryStage) {
         super(primaryStage);
-        this.gameStatsController = gameStatsController;
         this.controller = controller;
         this.root.setFocusTraversable(true);
         this.root.setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
-            this.update();
+            
         });
         initializeGameMenu(primaryStage);
         primaryStage.centerOnScreen();
@@ -202,13 +199,13 @@ public final class ShopView extends GameMenuImpl {
 
     public void update() {
        
-        this.moneyText.setText("Money: $" + this.gameStatsController.getGameStatsModel().getTotCoins());
+        this.moneyText.setText("Money: $" + GameStats.COINS.get());
 
-        if(this.gameStatsController.getGameStatsModel().getUnlocked().contains(Items.DUKE)){
+        if(controller.getUnlocked().contains(Items.DUKE)){
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
         }
         for (final var entry : this.buttonMap.entrySet()) {
-            if (this.gameStatsController.getGameStatsModel().getUnlocked().contains(entry.getValue())) {
+            if (controller.getUnlocked().contains(entry.getValue())) {
                 
                 final Image image = new Image(
                         getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());
@@ -238,6 +235,4 @@ public final class ShopView extends GameMenuImpl {
             defaultCloseAction();
         });
     }
-
-
 }

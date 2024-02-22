@@ -1,21 +1,17 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
-import java.util.Set;
-
-
-import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class GameStats implements GameStatsModel {
 
-    private static final long serialVersionUID = 48181123264L;
+    private static final long serialVersionUID = 9848324261L;
+    public static final AtomicInteger COINS = new AtomicInteger();
 
     private int bestDistance;
-    private int totCoins;
     private int currentDistance;
-    private Set<Items> unlockedSet = new HashSet<>();
+    private int coins;
 
     /**
      * Constructs a new GameStats object with default values.
@@ -23,17 +19,20 @@ public final class GameStats implements GameStatsModel {
     public GameStats() {
         this.bestDistance = 0;
         this.currentDistance = 0;
-        this.totCoins = 1000;
+        this.coins = 1000;
+        GameStats.COINS.set(this.coins);
     }
 
-    @Override
-    public int getTotCoins() {
-        return this.totCoins;
-    }
-
-    @Override
-    public void updateCoins(final int coin) {
-        this.totCoins = totCoins + coin;
+    /**
+     * A method to update the total number of coins.
+     *
+     * @param coins the number of coins to add
+     */
+    public static void updateCoins(final int num) {
+        GameStats.COINS.getAndUpdate(numOfcoins -> {
+            int newNumofCoins = numOfcoins +num;
+            return newNumofCoins;
+        });
     }
 
     @Override
@@ -62,16 +61,4 @@ public final class GameStats implements GameStatsModel {
     public int getcurrentDistance() {
         return this.currentDistance;
     }
-
-    @Override
-    public Set<Items> getUnlocked() {
-        return this.unlockedSet;
-    }
-
-    @Override
-    public void unlock(final Items item) {
-        this.unlockedSet.add(item);
-    }
-
-
 }

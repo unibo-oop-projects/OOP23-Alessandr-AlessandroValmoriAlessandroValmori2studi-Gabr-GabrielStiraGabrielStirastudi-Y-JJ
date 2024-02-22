@@ -1,15 +1,18 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
-import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
+import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.stage.Stage;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.util.*;
+import java.io.InputStreamReader;
 
 /**
  * Controller class for the shop menu.
@@ -18,37 +21,34 @@ import javafx.stage.Stage;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
-
-    private final GameStatsController gameStatsHandler;
-
-    private final GameMenuImpl gameMenu;
+    private final String SHOP_DATA_PATH = "files/shopdata.txt";
+    private Set<Items> unlockedSet = new HashSet<>();
+    
+    
+    private final GameMenu gameMenu;
 
     /**
      * Constructs a new ShopControllerImpl instance.
      *
      * @param primaryStage The primary stage of the application.
      * @param gameMenu     The game menu associated with the shop.
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
-
+    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
+        
         this.gameMenu = gameMenu;
+        readFromFile();
+        this.view = new ShopView(this, primaryStage);
 
-        this.gameStatsHandler = new GameStatsHandler();
-
-        this.view = new ShopView(this, primaryStage, gameStatsHandler);
-
-        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this, gameStatsHandler);
+        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
         BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this, gameStatsHandler);
+        CharacterObs charObs = new CharacterImpl(this);
 
         // Register observers with ShopView
         this.view.addBuyObs(shopItemPurchaseObs);
         this.view.addBackToMenuObs(backToMenuObs);
         this.view.addCharObs(charObs);
-    }
-
-    public GameStatsController getGameStatsController() {
-        return this.gameStatsHandler;
     }
 
     /**
@@ -69,18 +69,32 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
+    private boolean readFromFile() {
     
-    @Override
-    public void save() {
-
-        final String filename = "src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data";
-        try {
-            GameStatsIO.writeToFile(gameStatsHandler.getGameStatsModel(), filename);
-            System.out.println("Game stats saved successfully.");
+        final InputStream in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(SHOP_DATA_PATH));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
+                    for(var item : Items.values()){
+                        if(item.toString().equals(line.trim())){
+                            this.unlockedSet.add(item);
+                        }
+                    }
+                }
+            }
+      
+            return true; // Return true if reading was successful
         } catch (IOException e) {
-            System.err.println("Failed to save game stats: " + e.getMessage());
+            System.err.println("Failed to read from file: " + e.getMessage());
+            return false; // Return false if reading failed
         }
     }
+
+    
+
+    
+    
 
     @Override
     public void updateView() {
@@ -88,4 +102,28 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     
+
+    @Override
+    public Set<Items> getUnlocked() {
+         return Collections.unmodifiableSet(this.unlockedSet);
+    }
+
+    @Override
+    public void unlock(Items item) {
+        this.unlockedSet.add(item);
+    }
+
+    @Override
+    public void save() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SHOP_DATA_PATH))) {
+            for (var item : this.unlockedSet) {
+                writer.write(item.toString()); // Write the word
+                writer.newLine(); // Write a newline character
+            }
+            System.out.println("Words saved to file successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to save words to file: " + e.getMessage());
+        }
+    }
+ 
 }

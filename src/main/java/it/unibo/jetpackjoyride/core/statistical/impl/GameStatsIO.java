@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
+
 
 /**
  * A class that provide the salve and load method.
@@ -25,9 +27,9 @@ public final class GameStatsIO {
      * @param filename the name of the file
      * @throws IOException if an I/O error occurs
      */
-    public static void writeToFile(final GameStatsModel stats, final String filename) throws IOException {
+    public static void writeToFile(final Serializable object, final String filename) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
-            out.writeObject(stats);
+            out.writeObject(object);
         }
     }
 
@@ -44,4 +46,6 @@ public final class GameStatsIO {
             return (GameStatsModel) in.readObject();
         }
     }
+
+    
 }

@@ -46,9 +46,8 @@ public final class GameStatsHandler implements GameStatsController {
      */
     private void loadDateFromFile() {
         try {
-            this.model = GameStatsIO.readFromFile("gameStats.data"); 
+            this.model = GameStatsIO.readFromFile("src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data"); 
             System.out.println("Game stats loaded successfully.");
-            System.out.println(this.model.getTotCoins());
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Failed to load game stats: " + e.getMessage());
             this.model = new GameStats();

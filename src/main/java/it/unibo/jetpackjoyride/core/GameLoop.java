@@ -173,7 +173,7 @@ public final class GameLoop implements GameLoopControl {
     }
 
     private void saveGame() {
-        final String filename = "gameStats.data"; 
+        final String filename = "src/main/java/it/unibo/jetpackjoyride/utilities/files/gameStats.data"; 
 
         try {
             this.gameStatsHandler.getGameStatsModel().updateDate();

@@ -199,7 +199,7 @@ public final class ShopView extends GameMenuImpl {
 
     public void update() {
        
-        this.moneyText.setText("Money: $" + GameStats.COINS.get());
+        this.moneyText.setText("Money: $" + GameStats.getCoins());
 
         if(controller.getUnlocked().contains(Items.DUKE)){
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");

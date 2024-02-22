@@ -1,51 +1,39 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 
+public class GameStatsIO {
+    public static final String FILE_PATH = "files/gameStats.txt";
+    public static final String FILE_PATH_TEST = "files/gameStats_test.txt";
 
-/**
- * A class that provide the salve and load method.
- * @author yukai.zhou@studio.unibo.it
- */
-public final class GameStatsIO {
-
-    private GameStatsIO() {
-
-    }
-
-    /**
-     * Save the game statistics to a file.
-     *
-     * @param stats    the game statistics to save
-     * @param filename the name of the file
-     * @throws IOException if an I/O error occurs
-     */
-    public static void writeToFile(final Serializable object, final String filename) throws IOException {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
-            out.writeObject(object);
+    public static void saveToFile(GameStatsModel gameStats, final String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(GameStats.getCoins() + "\n");
+            writer.write(gameStats.getBestDistance() + "\n");
+            writer.write(gameStats.getcurrentDistance() + "\n");
+            System.out.println("Game stats saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    /**
-     * Loads the game statistics from a file.
-     *
-     * @param filename the name of the file
-     * @return the game statistics load from the file
-     * @throws IOException            if an I/O error occurs
-     * @throws ClassNotFoundException if the class of a serialized object cannot be found
-     */
-    public static GameStatsModel readFromFile(final String filename) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
-            return (GameStatsModel) in.readObject();
+    public static void loadFromFile(GameStatsModel gameStats, final String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            gameStats.setCoins(Integer.parseInt(reader.readLine()));
+            gameStats.setBestDistance(Integer.parseInt(reader.readLine()));
+            gameStats.setCurrentDistance(Integer.parseInt(reader.readLine()));
+            System.out.println("Game stats loaded successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            gameStats.setCoins(1000);
+            gameStats.setBestDistance(0);
+            gameStats.setCurrentDistance(0);
         }
     }
-
-    
 }

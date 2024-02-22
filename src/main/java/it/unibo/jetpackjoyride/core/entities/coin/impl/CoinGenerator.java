@@ -49,7 +49,6 @@ public final class CoinGenerator {
      * Constructor of the CoinGenerator .
      *
      * @param playeHitbox    the hitbox use to check collision
-     * @param gameStatsModel the game statistics infomation
      */
     public CoinGenerator(final Optional<Hitbox> playeHitbox) {
         this.gameInfo = GameInfo.getInstance();
@@ -94,9 +93,9 @@ public final class CoinGenerator {
     /**
      * A method to add the canvas containing the coins into a Group.
      *
-     * @param gorup The group which containing all elements
+     * @param group The group which containing all elements
      */
-    public void addCoinsView(Group group) {
+    public void addCoinsView(final Group group) {
           group.getChildren().add(this.canvas);
     }
 
@@ -144,7 +143,7 @@ public final class CoinGenerator {
 /**
 * Updates the position of the coins.
 */
-    public void updatPosition( ) {
+    public void updatPosition() {
 
         updateNewPos();
         if (this.playeHitbox.isPresent()) {
@@ -197,7 +196,7 @@ public final class CoinGenerator {
      * only coins that cross half of the screen will be checked. 
      * If a collision occurs, updates the game statistics accordingly.
      */
-    private void checkCollision( ) {
+    private void checkCollision() {
         List<Coin> sortedList = coinList.stream()
                 .filter(p -> p.getModelData().get(POSITION).get1() < gameInfo.getScreenWidth() / 2)
                 .sorted(Comparator.comparingDouble(p -> p.getModelData().get(POSITION).get1()))

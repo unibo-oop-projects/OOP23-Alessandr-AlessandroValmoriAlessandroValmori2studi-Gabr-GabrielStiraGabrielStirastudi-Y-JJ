@@ -4,35 +4,39 @@ import java.util.concurrent.atomic.AtomicInteger;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
+
 public final class GameStats implements GameStatsModel {
 
-    private static final long serialVersionUID = 9848324261L;
-    public static final AtomicInteger COINS = new AtomicInteger();
+    private static AtomicInteger coins = new AtomicInteger();
 
     private int bestDistance;
-    private int currentDistance;
-    private int coins;
+    private int currentDistance; 
 
-    /**
-     * Constructs a new GameStats object with default values.
-     */
     public GameStats() {
-        this.bestDistance = 0;
-        this.currentDistance = 0;
-        this.coins = 1000;
-        GameStats.COINS.set(this.coins);
+        GameStatsIO.loadFromFile(this, GameStatsIO.FILE_PATH);
     }
 
-    /**
-     * A method to update the total number of coins.
-     *
-     * @param coins the number of coins to add
-     */
     public static void updateCoins(final int num) {
-        GameStats.COINS.getAndUpdate(numOfcoins -> {
-            int newNumofCoins = numOfcoins +num;
-            return newNumofCoins;
-        });
+        coins.getAndUpdate(value -> Math.max(value + num, 0));
+    }
+
+    public static int getCoins() {
+        return coins.get();
+    }
+
+    @Override
+    public void setCoins(final int num) {
+        coins.set(num);
+    }
+
+    @Override
+    public void setCurrentDistance(final int distance) {
+         currentDistance = distance;
+    }
+
+    @Override
+    public void setBestDistance(final int distance) {
+         bestDistance = distance;
     }
 
     @Override

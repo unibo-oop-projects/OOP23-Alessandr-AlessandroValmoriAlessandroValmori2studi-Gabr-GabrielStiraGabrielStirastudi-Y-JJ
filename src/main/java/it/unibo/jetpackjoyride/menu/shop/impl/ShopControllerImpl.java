@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.Collections;
 import java.util.HashSet;
+
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsIO;
-import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
+import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
@@ -26,7 +27,7 @@ public final class ShopControllerImpl implements ShopController {
  
     private final GameStatsController gameStatsHandler;
 
-    private final GameMenuImpl gameMenu;
+    private final GameMenu gameMenu;
 
    
     private final Set<Items> unlockedItems;
@@ -38,7 +39,7 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage   The primary stage of the application.
      * @param gameMenu       The game menu associated with the shop.
      */
-    public ShopControllerImpl(final Stage primaryStage, final GameMenuImpl gameMenu) {
+    public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
 
         this.gameMenu = gameMenu;
 

@@ -13,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.*;
 import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileReader;
 
 /**
  * Controller class for the shop menu.
@@ -21,7 +23,7 @@ import java.io.InputStreamReader;
 public final class ShopControllerImpl implements ShopController {
 
     private final ShopView view;
-    private final String SHOP_DATA_PATH = "files/shopdata.txt";
+    private final String SHOP_DATA_PATH = System.getProperty("user.home")+File.separator + "jetpackJoyride"+File.separator +"shopdata.txt";
     private Set<Items> unlockedSet = new HashSet<>();
     
     
@@ -69,10 +71,10 @@ public final class ShopControllerImpl implements ShopController {
         gameMenu.showMenu();
     }
 
-    private boolean readFromFile() {
+    private void readFromFile() {
     
-        final InputStream in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(SHOP_DATA_PATH));
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(SHOP_DATA_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
@@ -84,10 +86,10 @@ public final class ShopControllerImpl implements ShopController {
                 }
             }
       
-            return true; // Return true if reading was successful
+           
         } catch (IOException e) {
             System.err.println("Failed to read from file: " + e.getMessage());
-            return false; // Return false if reading failed
+           
         }
     }
 
@@ -115,6 +117,11 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void save() {
+        File file = new File(SHOP_DATA_PATH);
+        File parentDir = file.getParentFile();
+        if (!new File(SHOP_DATA_PATH).getParentFile().exists()){
+            parentDir.mkdirs();
+        } 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SHOP_DATA_PATH))) {
             for (var item : this.unlockedSet) {
                 writer.write(item.toString()); // Write the word
@@ -122,7 +129,7 @@ public final class ShopControllerImpl implements ShopController {
             }
             System.out.println("Words saved to file successfully.");
         } catch (IOException e) {
-            System.err.println("Failed to save words to file: " + e.getMessage());
+            
         }
     }
  

@@ -10,7 +10,7 @@ import java.io.IOException;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 
 public class GameStatsIO {
-    public static final String FILE_PATH = "files/gameStats.txt";
+    public static final String FILE_PATH = "gameStats.txt";
     public static final String FILE_PATH_TEST = "gameStats_test.txt";
 
     private GameStatsIO() {

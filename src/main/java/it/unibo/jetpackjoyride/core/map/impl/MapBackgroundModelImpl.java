@@ -78,19 +78,14 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
     }
 
     @Override
-    public void updateSize() {
-        double newWidth = gameInfo.getScreenWidth();
-        double newHeight = gameInfo.getScreenHeight();
+    public void setMapSize(final double width, final double height) {
+        this.mapWidth = width;
+        this.mapHeight = height;
+    }
 
-        if (newWidth != mapWidth || newHeight != mapHeight) {
-            double ratioX1 = bgImageX1 / mapWidth;
-            double ratioX2 = bgImageX2 / mapWidth;
-            mapWidth = newWidth;
-            mapHeight = newHeight;
-
-            bgImageX1 = mapWidth * ratioX1;
-            bgImageX2 = mapWidth * ratioX2;
-
-        }
+    @Override
+    public void correctBackgroundPos(final double widthRatio, final double widthRatio1) {
+        this.bgImageX1 = this.mapWidth * widthRatio;
+        this.bgImageX2 = this.mapWidth * widthRatio1;
     }
 }

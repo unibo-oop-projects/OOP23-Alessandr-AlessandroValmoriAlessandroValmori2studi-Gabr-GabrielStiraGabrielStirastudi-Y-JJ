@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.buttoncommand.api.Command;
 import it.unibo.jetpackjoyride.menu.buttoncommand.impl.OpenShopCommand;
@@ -41,6 +40,7 @@ public final class OverMenu extends GameMenuImpl {
      *
      * @param primaryStage      the primary stage
      * @param gameScene          the game scene
+     * @param gameStatsController the gameStatsController uses for shop
      * @throws IOException 
      * @throws ClassNotFoundException 
      */

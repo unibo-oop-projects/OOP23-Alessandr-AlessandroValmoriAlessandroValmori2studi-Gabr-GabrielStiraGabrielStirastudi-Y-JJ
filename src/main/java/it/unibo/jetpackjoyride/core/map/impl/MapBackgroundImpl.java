@@ -35,9 +35,8 @@ public final class MapBackgroundImpl implements MapBackground {
 
     /**
      * Constructor of the MapBackgroundImpl.
-     * @param gameRoot the main Root of the Game
      */
-    public MapBackgroundImpl(final Pane gameRoot) {
+    public MapBackgroundImpl() {
         model = new MapBackgroundModelImpl();
         view = new MapBackgroungViewImpl(this.getModelData());
         gameInfo = GameInfo.getInstance();
@@ -109,10 +108,26 @@ public final class MapBackgroundImpl implements MapBackground {
                 view.changeImage(BGIMAGE_TWO, model.getIndexForImage());
             }
         }
-        model.updateSize();
+        updateSize();
     } 
 
     private boolean isOutofMap(final double x) {
         return x <= -model.getSize().get1();
+    }
+
+     /**
+     * Updates the size of the background based on the screen size.
+     * If the screen size has changed, this method adjusts the background accordingly.
+     */
+    private void updateSize() {
+        double newWidth = gameInfo.getScreenWidth();
+        double newHeight = gameInfo.getScreenHeight();
+        if (newWidth != model.getSize().get1() || newHeight != model.getSize().get2()) {
+            double ratioX1 = model.getPosX().get1() / model.getSize().get1();
+            double ratioX2 = model.getPosX().get2() / model.getSize().get1();
+
+            model.setMapSize(newWidth, newHeight);
+            model.correctBackgroundPos(ratioX1, ratioX2);
+        }
     }
 }

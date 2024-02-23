@@ -39,12 +39,6 @@ public interface MapBackgroundModel {
      */
     void reset();
 
-     /**
-     * Updates the size of the background based on the screen size.
-     * If the screen size has changed, this method adjusts the background accordingly.
-     */
-    void updateSize();
-
       /**
      * A Method to get the index use for image.
      * 
@@ -56,4 +50,18 @@ public interface MapBackgroundModel {
      * Update the num of index for the next image to displayed.
      */
     void updateIndexForImage();
+
+   /**
+     * A Method to set the map's size, and should be called when the Screen Size changes.
+     * @param width The new width of the map.
+     * @param height The new height of the map.
+     */
+    void setMapSize(double width, double height);
+
+    /**
+     * A Method to corrects the map position based on the given width ratios.
+     * @param widthRatio The ratio by which the width of the background should be adjusted.
+     * @param widthRatio1 Another width ratio, for the second map Image.
+     */
+    void correctBackgroundPos(double widthRatio, double widthRatio1);
 }

@@ -13,7 +13,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;;
 /**
  * Test class for MapBackgroundImpl.
  * @author yukai.zhou@studio.unibo.it
@@ -32,7 +32,7 @@ public final class MapBackgroundImplTest extends ApplicationTest {
 
     @Override
     public void start(final Stage stage) {
-        mapBackground = new MapBackgroundImpl(null);
+        mapBackground = new MapBackgroundImpl();
         root = new Pane();
         stage.setScene(new Scene(root, WIDTH_DEFALUT, HEIGHT_DEFALUT));
         stage.show();
@@ -70,6 +70,11 @@ public final class MapBackgroundImplTest extends ApplicationTest {
             mapBackground.updateBackground();
             assertEquals(x1 - GameInfo.MOVE_SPEED.get(), mapBackground.getModelData().get(POSITION).get1());
             assertEquals(x2 - GameInfo.MOVE_SPEED.get(), mapBackground.getModelData().get(POSITION).get2());
+
+            x1 = mapBackground.getModelData().get(POSITION).get1();
+            x2 = mapBackground.getModelData().get(POSITION).get2();
+            assertTrue(x1 < x2 ? x1 + mapBackground.getModelData().get(SIZE).get1() >= x2 : 
+                        x2 + mapBackground.getModelData().get(SIZE).get1() >= x1);
         });
     }
 

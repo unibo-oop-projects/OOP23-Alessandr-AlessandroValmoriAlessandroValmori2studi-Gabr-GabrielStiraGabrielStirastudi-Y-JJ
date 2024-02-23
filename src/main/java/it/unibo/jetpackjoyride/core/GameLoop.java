@@ -74,10 +74,9 @@ public final class GameLoop implements GameLoopControl {
 
         setupTimer();
 
-        map = new MapBackgroundImpl(this.root);
+        map = new MapBackgroundImpl();
         pauseMenu = new PauseMenu(this.stage, this);
         gameStatsView = new GameStatsViewImpl();
-        gameStatsHandler.getGameStatsView(gameStatsView);
 
         entityHandler = new EntityHandler();
     }
@@ -103,7 +102,7 @@ public final class GameLoop implements GameLoopControl {
                 if (now - lastUpdate > nSecPerFrame) {
 
                     map.updateBackground();
-                    gameStatsHandler.updateView();
+                    gameStatsView.updateDataView(gameStatsHandler.dataForView());
 
 
                         if (!entityHandler.update(entityGroup, spacePressed)) {

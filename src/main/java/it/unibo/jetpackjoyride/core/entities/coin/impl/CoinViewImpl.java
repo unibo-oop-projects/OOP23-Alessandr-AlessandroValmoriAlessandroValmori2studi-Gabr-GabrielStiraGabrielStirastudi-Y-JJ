@@ -41,10 +41,10 @@ public final class CoinViewImpl implements CoinView {
    public void renderCoin(final GraphicsContext gc, final List<Pair<Double, Double>> modelData) {
       double canvasWidth = gc.getCanvas().getWidth();
       double canvasHeight = gc.getCanvas().getHeight();
-    
+
       double minScreenWidth = GameInfo.getInstance().getDefaultHeight();
       double minScreenHeight = GameInfo.getInstance().getDefaultHeight();
-  
+
       double widthRatio = canvasWidth / minScreenWidth;
       double heightRatio = canvasHeight / minScreenHeight;
       double minRatio = Math.min(widthRatio, heightRatio);

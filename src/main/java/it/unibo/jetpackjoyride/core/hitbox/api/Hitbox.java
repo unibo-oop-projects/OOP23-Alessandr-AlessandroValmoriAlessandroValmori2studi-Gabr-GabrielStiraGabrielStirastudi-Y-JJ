@@ -31,6 +31,8 @@ public interface Hitbox {
 
   Pair<Double, Double> getHitboxDimensions();
 
+  Double getHitboxRotation();
+
   Set<Pair<Double, Double>> getHitboxVertex();
 
   

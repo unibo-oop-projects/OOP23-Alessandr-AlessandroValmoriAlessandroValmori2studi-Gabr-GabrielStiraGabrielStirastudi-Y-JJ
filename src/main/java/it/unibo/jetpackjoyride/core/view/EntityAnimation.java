@@ -1,20 +1,20 @@
 package it.unibo.jetpackjoyride.core.view;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.utilities.Pair;
-import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import javafx.scene.image.Image;
 
 public class EntityAnimation {
@@ -31,15 +31,29 @@ public class EntityAnimation {
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
     private final List<Image> pickupImages;
+    private final List<Image> barryImages;
 
-    record InfoAnimation(Double dimensions, Double duration) {}
+    private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
+    private static final int NUM_COPIES = 7;
 
-    private final Map<Pair<EntityStatus,PerformingAction>, InfoAnimation> barryAnimationMapper;
+    private final Map<PerformingAction, Integer> framesPerAnimation = new HashMap<>() {
+        {
+            put(PerformingAction.WALKING, 4);
+            put(PerformingAction.BURNED, 4);
+            put(PerformingAction.LASERED, 4);
+            put(PerformingAction.ZAPPED, 4);
+            put(PerformingAction.FALLING, 2);
+            put(PerformingAction.PROPELLING, 2);
+            put(PerformingAction.HEAD_DRAGGING, 2);
+        }
+    };
 
     public EntityAnimation() {
         this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
-        this.powerupImages = new ArrayList<>(); // 0-23 LILSTOMPER | 24-29 MRCUDDLE | 30-41 PROFITBIRD | 42-53 DUKEFISHRON
+        this.powerupImages = new ArrayList<>(); // 0-23 LILSTOMPER | 24-29 MRCUDDLE | 30-41 PROFITBIRD | 42-53
+                                                // DUKEFISHRON
         this.pickupImages = new ArrayList<>(); // 0-20 VEHICLEPICKUP
+        this.barryImages = new ArrayList<>(); // 0-21 BARRY
 
         // MISSILE 20 total
         obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
@@ -47,7 +61,7 @@ public class EntityAnimation {
         obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
         // LASER 16 total
         obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
-        
+
         // LILSTOMPER 24 total
         powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
         // MRCUDDLE 6 total
@@ -61,68 +75,211 @@ public class EntityAnimation {
         pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
         // VEHICLEPICKUP
         pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
+
+        pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/player/barry_"));
     }
 
-    public List<Image> loadAnimationFor(final Entity entity) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if(!line.equals("") && !line.equals("END_OF_PATTERNS")) {
-                    String[] parts = line.split(",");
+    private void buildMap() {
+        for (final var entry : framesPerAnimation.entrySet()) {
+            final List<Image> images = new ArrayList<>();
+            for (int i = 0; i < entry.getValue(); i++) {
+                final String imagePath = getClass().getClassLoader()
+                        .getResource("sprites/entities/player/barry" + entry.getKey().toString() + (i + 1) + ".png")
+                        .toExternalForm();
 
-                    if(parts.length != this.attributes.keySet().size()) {
-                        throw new InvalidDataFormatException("Invalid formatting in file: " + in);
-                    }
-
-                    patternNumber = Integer.parseInt(parts[this.attributes.get("PATTERN_NUMBER")]);
-
-                    final String obstacleType = parts[this.attributes.get("OBSTACLE_TYPE")];
-                    Double xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONX")]);
-                    Double yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONY")]);
-                    final Pair<Double,Double> pos = new Pair<>(xCoordinate, yCoordinate);
-                    xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDX")]);
-                    yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDY")]);
-                    final Pair<Double,Double> speed = new Pair<>(xCoordinate, yCoordinate);
-                    xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONX")]);
-                    yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONY")]);
-                    final Pair<Double,Double> acc = new Pair<>(xCoordinate, yCoordinate);
-                    xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ROTATIONX")]);
-                
-                    if(parts[this.attributes.get("OBSTACLE_ROTATIONY")].startsWith("RANDOM")) {
-                        String toExtract = parts[this.attributes.get("OBSTACLE_ROTATIONY")];
-                        String integersString = toExtract.substring(toExtract.indexOf('(') + 1, toExtract.indexOf(')')).replaceAll(";","").trim();
-
-                        yCoordinate = Double.parseDouble(integersString);
-                    } else {
-                        yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ROTATIONY")]);
-                    }
-                    final Pair<Double,Double> rot = new Pair<>(xCoordinate, yCoordinate);
-                    final Integer tickTimeSpawn = Integer.parseInt(parts[this.attributes.get("OBSTACLE_TICKTIME")]);
-
-                    final Movement obstacleMovement = new Movement.Builder().setPosition(pos).setSpeed(speed).setAcceleration(acc).setRotation(rot).build();
-                    obstaclesOfInstance.add(new Pair<>(this.entityGenerator.generateObstacle(ObstacleType.valueOf(obstacleType), obstacleMovement),tickTimeSpawn));
-                }
-                else {
-                    this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));
-                    obstaclesOfInstance.clear();
-                }
+                images.add(new Image(imagePath));
             }
-        } catch (Exception e) {
-            return false;
+            this.statusMap.put(entry.getKey(), new ArrayList<>(images));
         }
-        return true;
+    }
 
+    public List<Image> loadImages(final Entity entity) {
+        switch (entity.getEntityType()) {
+            case BARRY:
+                this.buildMap();
+                this.statusMap.values().stream().map(l -> this.barryImages.addAll(l));
+                return barryImages;
+            case OBSTACLE:
+                return obstacleImages;
+            case POWERUP:
+                return powerupImages;
+            case PICKUP:
+                return pickupImages;
+            default:
+                return List.of();
+        }
+    }
+
+    public AnimationInfo loadAnimationInfosFor(final Entity entity) {
+        switch (entity.getEntityType()) {
+            case BARRY:
+                Barry barry = (Barry) entity;
+                switch (barry.getPerformingAction()) {
+                    case WALKING:
+                        return new AnimationInfo(0, 3, NUM_COPIES, true);
+                    case BURNED:
+                        return new AnimationInfo(4, 7, NUM_COPIES, true);
+                    case LASERED:
+                        return new AnimationInfo(8, 11, NUM_COPIES, true);
+                    case ZAPPED:
+                        return new AnimationInfo(12, 15, NUM_COPIES, true);
+                    case FALLING:
+                        return new AnimationInfo(16, 17, NUM_COPIES, true);
+                    case PROPELLING:
+                        return new AnimationInfo(18, 19, NUM_COPIES, true);
+                    case HEAD_DRAGGING:
+                        return new AnimationInfo(20, 21, NUM_COPIES, true);
+                    default:
+                        return new AnimationInfo(0, 0, 0, false);
+                }
+            case OBSTACLE:
+                Obstacle obstacle = (Obstacle) entity;
+                switch (obstacle.getObstacleType()) {
+                    case MISSILE:
+                        Missile missile = (Missile) obstacle;
+                        switch (obstacle.getEntityStatus()) {
+                            case CHARGING:
+                                if (missile.getLifetime() > 100) {
+                                    return new AnimationInfo(3, 4, 4, true);
+                                } else {
+                                    return new AnimationInfo(0, 2, 4, true);
+                                }
+                            case ACTIVE:
+                                return new AnimationInfo(5, 11, 4, true);
+                            case DEACTIVATED:
+                                return new AnimationInfo(12, 19, 4, true);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    case ZAPPER:
+                        switch (obstacle.getEntityStatus()) {
+                            case ACTIVE:
+                                return new AnimationInfo(0, 4, 7, true);
+                            case DEACTIVATED:
+                                return new AnimationInfo(5, 19, 4, false);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    case LASER:
+                        switch (obstacle.getEntityStatus()) {
+                            case CHARGING:
+                                return new AnimationInfo(11, 0, 8, true);
+                            case ACTIVE:
+                                return new AnimationInfo(12, 15, 8, true);
+                            case DEACTIVATED:
+                                return new AnimationInfo(0, 11, 8, true);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    default:
+                        return new AnimationInfo(0, 0, 0, false);
+                }
+            case POWERUP:
+                PowerUp powerUp = (PowerUp) entity;
+                switch (powerUp.getPowerUpType()) {
+                    case LILSTOMPER:
+                        switch (powerUp.getPerformingAction()) {
+                            case WALKING:
+                                return new AnimationInfo(0, 0, 7, true);
+                            case ASCENDING:
+                                return new AnimationInfo(6, 12, 4, false);
+                            case DESCENDING:
+                                return new AnimationInfo(17, 18, 6, false);
+                            case GLIDING:
+                                return new AnimationInfo(13, 16, 6, true);
+                            case LANDING:
+                                return new AnimationInfo(18, 23, 4, false);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    case MRCUDDLES:
+                        if (powerUp.getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                            switch (powerUp.getPerformingAction()) {
+                                case ASCENDING:
+                                    return new AnimationInfo(0, 0, 5, true);
+                                case DESCENDING:
+                                    return new AnimationInfo(1, 4, 5, false);
+                                default:
+                                    return new AnimationInfo(0, 0, 0, false);
+                            }
+                        } else {
+                            return new AnimationInfo(5, 5, 1, false);
+                        }
+                    case PROFITBIRD:
+
+                        switch (powerUp.getPerformingAction()) {
+                            case WALKING:
+                                return new AnimationInfo(0, 2, 7, true);
+                            case JUMPING:
+                                return new AnimationInfo(3, 3, 1, false);
+                            case ASCENDING:
+                                return new AnimationInfo(4, 11, 1, false);
+                            case DESCENDING:
+                                return new AnimationInfo(3, 3, 1, false);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    case DUKEFISHRON:
+                        switch (powerUp.getPerformingAction()) {
+                            case ASCENDING:
+                                return new AnimationInfo(0, 5, 6, true);
+                            case DESCENDING:
+                                return new AnimationInfo(6, 11, 6, true);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    default:
+                        return new AnimationInfo(0, 0, 0, false);
+                }
+            case PICKUP:
+                final PickUp pickUp = (PickUp) entity;
+                switch (pickUp.getPickUpType()) {
+                    case VEHICLE:
+                        final VehiclePickUp vehiclePickUp = (VehiclePickUp) pickUp;
+                        switch (pickUp.getEntityStatus()) {
+                            case ACTIVE:
+                                return new AnimationInfo(0, 7, 4, true);
+                            case DEACTIVATED:
+                                switch (vehiclePickUp.getVehicleSpawn()) {
+                                    case LILSTOMPER:
+                                        return new AnimationInfo(8, 10, 4, true);
+                                    case MRCUDDLES:
+                                        return new AnimationInfo(11, 13, 4, true);
+                                    case PROFITBIRD:
+                                        return new AnimationInfo(14, 16, 4, true);
+                                    case DUKEFISHRON:
+                                        return new AnimationInfo(17, 19, 4, true);
+                                    default:
+                                        return new AnimationInfo(0, 0, 0, false);
+                                }
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    case SHIELD:
+                        switch (pickUp.getEntityStatus()) {
+                            case ACTIVE:
+                                return new AnimationInfo(0, 0, 1, false);
+                            case DEACTIVATED:
+                                return new AnimationInfo(0, 0, 0, false);
+                            default:
+                                return new AnimationInfo(0, 0, 0, false);
+                        }
+                    default:
+                        return new AnimationInfo(0, 0, 0, false);
+                }
+            default:
+                return new AnimationInfo(0, 0, 0, false);
+        }
     }
 
     private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
         try {
-            return IntStream.range(0, numberOfImages).mapToObj(i -> new Image(getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm())).toList();
+            return IntStream.range(0, numberOfImages)
+                    .mapToObj(i -> new Image(
+                            getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
+                    .toList();
         } catch (Exception e) {
             return List.of();
         }
-    } 
-
-    private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
-        return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
     }
 }

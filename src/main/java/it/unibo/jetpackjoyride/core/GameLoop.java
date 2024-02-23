@@ -104,11 +104,12 @@ public final class GameLoop implements GameLoopControl {
                     map.updateBackground();
                     gameStatsView.updateDataView(gameStatsHandler.dataForView());
 
-
-                        if (!entityHandler.update(entityGroup, spacePressed)) {
+                        entityController.update();
+                        /*if (!entityHandler.update(entityGroup, spacePressed)) {
+                            
                             showGameOverMenu();
                             endLoop();
-                        }
+                        }*/
                     lastUpdate = now;
                 }
 

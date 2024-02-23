@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
@@ -28,6 +29,8 @@ public class EntityHandler {
 
     private Set<Items> unlockedItems;
 
+    private List<Entity> listOfEntities;
+
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded;
 
@@ -37,6 +40,8 @@ public class EntityHandler {
         this.pickUpHandler = new PickUpHandler();
         this.playerHandler = new BarryHandler();
         this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()));
+
+        this.listOfEntities = new ArrayList<>();
 
         this.unlockedItems = shopController.getUnlocked();
 
@@ -51,7 +56,6 @@ public class EntityHandler {
             coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
-    
 
         playerHandler.updateView(entityGroup);
 
@@ -107,6 +111,10 @@ public class EntityHandler {
             }
         }
         return true;
+    }
+
+    public List<Entity> getAllEntities() {
+        return this.listOfEntities;
     }
 
     private void spawnShieldPickUp(final Set<Items> unlockedItems) {

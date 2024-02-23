@@ -15,7 +15,7 @@ import java.util.*;
 public final class ObstacleHandler {
     private final static Double MINIMUMSPAWNTIME = 0.25;
     private ObstacleLoader obstacleLoader;
-    private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
+    private List<Obstacle> listOfControllers;
     private Timeline timeline;
 
     public void initialize() {
@@ -81,6 +81,9 @@ public final class ObstacleHandler {
 
         }
     }
+
+    getObstacles
+
 
     public void deactivateAllObstacles() {
         synchronized (this.listOfControllers) {

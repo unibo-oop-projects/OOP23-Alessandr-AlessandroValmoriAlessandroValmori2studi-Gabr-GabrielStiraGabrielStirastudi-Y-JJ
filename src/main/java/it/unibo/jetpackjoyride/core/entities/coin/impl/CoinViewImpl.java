@@ -21,6 +21,7 @@ public final class CoinViewImpl implements CoinView {
    private static final int NUM_OF_FRAMES = 35;
    private static final int NUM_OF_COIN_IMAGES = 7;
    private static final int NUM_OF_FRAMES_FOR_IMAGE = 5;
+   private static final double CLEAN_RATIO = 1.5;
 
    private Image[] coinFrames;
    private int currentCoinframe = 0;
@@ -38,17 +39,30 @@ public final class CoinViewImpl implements CoinView {
 
    @Override
    public void renderCoin(final GraphicsContext gc, final List<Pair<Double, Double>> modelData) {
+      double canvasWidth = gc.getCanvas().getWidth();
+      double canvasHeight = gc.getCanvas().getHeight();
+    
+      double minScreenWidth = GameInfo.getInstance().getDefaultHeight();
+      double minScreenHeight = GameInfo.getInstance().getDefaultHeight();
+  
+      double widthRatio = canvasWidth / minScreenWidth;
+      double heightRatio = canvasHeight / minScreenHeight;
+      double minRatio = Math.min(widthRatio, heightRatio);
       double moveSpeed = GameInfo.MOVE_SPEED.get();
-      double posX = modelData.get(POSITION).get1();
-      double posY = modelData.get(POSITION).get2();
-      double width = modelData.get(SIZE).get1();
-      double height = modelData.get(SIZE).get2();
-      if (isOnScreen) {
-         gc.clearRect(posX + moveSpeed, posY, width, height);
-         gc.drawImage(coinFrames[currentCoinframe], posX, posY, width, height);
+
+      double size = modelData.get(SIZE).get1() * minRatio;
+
+      double posX = modelData.get(POSITION).get1() * minRatio;
+      double posY = modelData.get(POSITION).get2() * minRatio;
+      boolean isOutofScreen = !(posX + size <= canvasWidth && posY + size <= canvasHeight && posX >= 0 && posY >= 0);
+
+
+      if (isOnScreen && !isOutofScreen) {
+         gc.clearRect(posX + moveSpeed, posY, size * CLEAN_RATIO, size * CLEAN_RATIO);
+         gc.drawImage(coinFrames[currentCoinframe], posX, posY, size, size);
          updateFrame();
       } else {
-         gc.clearRect(posX + moveSpeed, posY, width, height);
+         gc.clearRect(posX + moveSpeed, posY, size * CLEAN_RATIO, size * CLEAN_RATIO);
       }
    }
 

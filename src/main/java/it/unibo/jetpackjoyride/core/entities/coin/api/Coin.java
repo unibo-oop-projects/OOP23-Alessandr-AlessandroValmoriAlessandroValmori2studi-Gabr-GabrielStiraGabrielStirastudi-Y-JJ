@@ -37,6 +37,8 @@ public interface Coin {
  */
     void setPosition(Pair<Double, Double> position);
 
+    void setDimensions();
+
 /**
  * Set the collected state of the coin.
  *

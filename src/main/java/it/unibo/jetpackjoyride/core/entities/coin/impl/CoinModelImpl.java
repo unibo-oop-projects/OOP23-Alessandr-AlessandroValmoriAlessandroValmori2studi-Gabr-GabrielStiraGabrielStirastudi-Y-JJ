@@ -15,16 +15,15 @@ public final class CoinModelImpl implements CoinModel {
     private static final double COIN_HEIGHT = 30;
 
     private Pair<Double, Double> position;
-    private HitboxImpl coinHitbox;
+    private Hitbox coinHitbox;
     private boolean isCollected;
-
     /**
      * Constructs a CoinModelImpl with the given position and hitbox.
      *
      * @param position the initial position of the coin
      * @param hitbox   the hitbox of the coin
      */
-    public CoinModelImpl(final Pair<Double, Double> position, final HitboxImpl hitbox) {
+    public CoinModelImpl(final Pair<Double, Double> position, final Hitbox hitbox) {
             this.position = position;
             this.coinHitbox = hitbox;
             this.isCollected = false;
@@ -62,8 +61,9 @@ public final class CoinModelImpl implements CoinModel {
         return this.coinHitbox;
     }
 
+
     @Override
     public Pair<Double, Double> getSize() {
         return new Pair<Double, Double>(COIN_WIDTH, COIN_HEIGHT);
-    }
+    } 
 }

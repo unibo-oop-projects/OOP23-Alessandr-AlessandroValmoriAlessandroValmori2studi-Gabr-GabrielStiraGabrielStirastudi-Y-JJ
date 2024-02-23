@@ -39,13 +39,13 @@ public class EntityController {
                 entityGroup.getChildren().remove((Node) entityView.getImageView());
                 this.listEntityModels.remove(entity);
             }
+
+            this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
+        }
+        private List<Image> calculateView(Entity entity) {
+            return animation.loadAniationFor(entity);
         }
     }
-
-    private List<Image> calculateView(Entity entity) {
-        return animation.loadAniationFor(entity);
-    }
-}
 
 
 

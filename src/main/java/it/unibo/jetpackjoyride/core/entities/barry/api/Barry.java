@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.barry.api;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public interface Barry extends Entity{
      *
      * @param type The type of obstacle that killed Barry.
      */
-    void kill (ObstacleType type);
+   void hit(ObstacleType obstacleType);
 
     /**
      * Sets the life status of Barry.

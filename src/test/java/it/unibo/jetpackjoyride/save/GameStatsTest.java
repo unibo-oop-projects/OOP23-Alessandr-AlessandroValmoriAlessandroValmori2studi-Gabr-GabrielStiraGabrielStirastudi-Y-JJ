@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class GameStatsTest {
 
+    private static final int DEFALUT_MOVESPEED = 5;
+
     private GameStatsModel gameStats;
     private GameStatsModel readStats;
 
@@ -34,12 +36,12 @@ public class GameStatsTest {
      * Test important method to set best distance.
      */
     @Test
-    public void testSetBestDistance() {
+    public void testSetCurrentDistance() {
         gameStats = new GameStats();
-        int initialBestDistance = gameStats.getBestDistance();
+        int initialDistance = gameStats.getcurrentDistance();
+        GameInfo.MOVE_SPEED.set(DEFALUT_MOVESPEED);
         gameStats.addDistance();
-        gameStats.updateDate();
-        assertEquals(initialBestDistance + GameInfo.MOVE_SPEED.get(), gameStats.getBestDistance());
+        assertEquals(initialDistance + DEFALUT_MOVESPEED, gameStats.getcurrentDistance());
     }
 
     /**
@@ -49,10 +51,10 @@ public class GameStatsTest {
     public void testReadAndWriteToFile() {
         gameStats = new GameStats();
         // Write to file
-            GameStatsIO.saveToFile(gameStats, GameStatsIO.FILE_PATH_TEST);
+            GameStatsIO.saveToFile(gameStats, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH_TEST));
         // Read from file
             readStats = new GameStats();
-            GameStatsIO.loadFromFile(readStats, GameStatsIO.FILE_PATH_TEST);
+            GameStatsIO.loadFromFile(readStats, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH_TEST));
             assertNotNull(readStats);
             assertEquals(GameStats.getCoins(), GameStats.getCoins());
             assertEquals(gameStats.getBestDistance(), readStats.getBestDistance());

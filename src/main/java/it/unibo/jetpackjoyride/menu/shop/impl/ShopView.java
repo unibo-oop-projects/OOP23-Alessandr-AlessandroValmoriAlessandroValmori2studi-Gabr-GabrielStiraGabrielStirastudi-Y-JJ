@@ -232,6 +232,7 @@ public final class ShopView extends GameMenuImpl {
     protected void stageCloseAction(final Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> {
             this.controller.save();
+            System.out.println("closing window");
             defaultCloseAction();
         });
     }

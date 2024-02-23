@@ -41,11 +41,8 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
 
     @Override
     public void updateBackgroundView(final List<Pair<Double, Double>> data) {
-        if (bgImageView1.getFitWidth() != data.get(SIZE).get1() 
-        || bgImageView1.getFitHeight() != data.get(SIZE).get2()) {
-            setImageViewSize(bgImageView1, data.get(SIZE).get1(), data.get(SIZE).get2());
-            setImageViewSize(bgImageView2, data.get(SIZE).get1(), data.get(SIZE).get2());
-        }
+        setImageViewSize(bgImageView1, data.get(SIZE).get1(), data.get(SIZE).get2());
+        setImageViewSize(bgImageView2, data.get(SIZE).get1(), data.get(SIZE).get2());
         bgImageView1.setX(data.get(POSITION).get1());
         bgImageView2.setX(data.get(POSITION).get2());
     }

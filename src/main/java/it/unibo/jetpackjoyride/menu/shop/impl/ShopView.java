@@ -78,7 +78,6 @@ public final class ShopView extends GameMenuImpl {
         });
         initializeGameMenu(primaryStage);
         primaryStage.centerOnScreen();
-        stageCloseAction(primaryStage);
 
         for (final var entry : Items.values()) {
             if (!entry.equals(Items.DUKE)) {
@@ -226,13 +225,5 @@ public final class ShopView extends GameMenuImpl {
         final Image menuImage = new Image(getClass().getClassLoader().getResource("shop/shopbg.png").toExternalForm());
         setMenuImage(menuImage);
         addButtons(root);
-    }
-
-    @Override
-    protected void stageCloseAction(final Stage primaryStage) {
-        primaryStage.setOnCloseRequest(event -> {
-            this.controller.save();
-            defaultCloseAction();
-        });
     }
 }

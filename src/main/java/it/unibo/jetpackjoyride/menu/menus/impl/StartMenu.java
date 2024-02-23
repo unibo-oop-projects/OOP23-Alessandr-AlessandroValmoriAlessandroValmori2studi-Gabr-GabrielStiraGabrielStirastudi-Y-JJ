@@ -86,6 +86,7 @@ public final class StartMenu extends GameMenuImpl {
             if (this.gameLoop.isPresent()) {
             this.gameLoop.get().endLoop();
             }
+            this.shopController.save();
             defaultCloseAction();
         });
     }

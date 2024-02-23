@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.statistical.api;
 
+import java.util.List;
+
 /**
  * An interface representing a controller for game statistics.
  * @author yukai.zhou@studio.unibo.it
@@ -11,16 +13,11 @@ public interface GameStatsController {
     void updateCurrentDistance();
 
     /**
-     * Updates the view.
+     * Gives the data for the view to update.
+     * @return A List that containg the date of model for view
      */
-    void updateView();
+    List<Integer> dataForView(); 
 
-     /**
-     * A method to get the view of GameStats.
-     *
-     * @param view The view of GameStats
-     */
-    void getGameStatsView(GameStatsView view);
     /**
      * Saves the game statistics.
      */

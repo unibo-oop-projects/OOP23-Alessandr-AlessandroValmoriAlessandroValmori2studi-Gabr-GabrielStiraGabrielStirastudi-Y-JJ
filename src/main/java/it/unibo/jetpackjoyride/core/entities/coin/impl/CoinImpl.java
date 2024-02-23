@@ -59,11 +59,6 @@ public final class CoinImpl implements Coin {
     }
 
     @Override
-    public void setDimensions() {
-        
-    }
-
-    @Override
     public Integer checkCollision(final Hitbox playHitbox) {
         if (model.geHitbox().isTouching(playHitbox)) {
             if (!model.isCollected()) {

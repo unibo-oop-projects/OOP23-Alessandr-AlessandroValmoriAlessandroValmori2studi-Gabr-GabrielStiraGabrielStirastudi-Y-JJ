@@ -91,11 +91,6 @@ public final class ShopControllerImpl implements ShopController {
         }
     }
 
-    
-
-    
-    
-
     @Override
     public void updateView() {
         this.view.update();

@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.menus.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.application.Platform;
@@ -15,6 +16,8 @@ import javafx.scene.image.ImageView;
  * Abstract class representing a basic game menu extensible.
  * @author yukai.zhou@studio.unibo.it
  */
+@SuppressFBWarnings(value = "EI2", 
+justification = "Stage object is shared across menus to facilitate menu switching, considered an acceptable risk")
 public abstract class GameMenuImpl implements GameMenu {
     /**
     * Default width for buttons within the game menu.

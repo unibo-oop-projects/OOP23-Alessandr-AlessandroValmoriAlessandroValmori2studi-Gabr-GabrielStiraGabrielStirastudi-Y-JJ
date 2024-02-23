@@ -57,8 +57,6 @@ public class EntityHandler {
             return false;
         }
 
-        playerHandler.updateView(entityGroup);
-
         coinHandler.updatPosition();
         coinHandler.renderCoin();
 
@@ -71,9 +69,8 @@ public class EntityHandler {
             this.spawnVehiclePickUp(this.unlockedItems);
         }
 
-        final var obstacleHit = this.obstacleHandler.update(entityGroup,
-                isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox())
-                        : Optional.of(playerHandler.getModel().getHitbox()));
+        final var obstacleHit = this.obstacleHandler.update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()): Optional.of(playerHandler.getModel().getHitbox()));
+        
         if (obstacleHit.isPresent()) {
             if (this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();

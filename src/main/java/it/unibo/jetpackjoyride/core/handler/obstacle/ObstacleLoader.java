@@ -37,13 +37,13 @@ public class ObstacleLoader {
     private Integer interval;
     private Integer duration;
     private Integer difficulty;
-    private final EntityControllerGeneratorImpl entityControllersGenerator;
-
+    private final EntityModelGenerator entityModelGenerator;
+    
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
         this.entityGenerator = new EntityModelGeneratorImpl();
         this.allObstacles = new HashMap<>();
-        this.entityControllersGenerator = new EntityControllerGeneratorImpl();
+        this.entityModelGenerator = new EntityModelGeneratorImpl();
         this.duration = 0;
         this.interval = 0;
         this.difficulty = 1;
@@ -169,7 +169,7 @@ public class ObstacleLoader {
         return true;
     }
 
-    public List<GenericController<Obstacle,ObstacleView>> getInstanceOfPattern() {
+    public List<Obstacle> getInstanceOfPattern() {
         if (this.isInSamePattern()) {
             this.difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
             
@@ -188,10 +188,8 @@ public class ObstacleLoader {
             if(models.size()>0) {
                 System.out.println(models.get(0).getEntityMovement().getPosition());
             }
-
-            return IntStream.range(0, models.size())
-            .mapToObj(i -> this.entityControllersGenerator.generateObstacleController(models.get(i)))
-            .collect(Collectors.toList());
+            //TODO dwefeer
+            return models;
         } else {
             this.interval = 0;
         }

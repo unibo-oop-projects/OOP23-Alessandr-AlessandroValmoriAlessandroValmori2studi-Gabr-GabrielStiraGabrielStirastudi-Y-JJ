@@ -3,56 +3,44 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import javafx.scene.Group;
-import javafx.scene.Node;
 
 public final class PowerUpHandler {
-    private final List<GenericController<PowerUp,PowerUpView>> listOfControllers;
+    private final List<PowerUp> listOfPowerUp;
     private final EntityModelGenerator entityModelGenerator;
-    private final EntityControllerGeneratorImpl entityControllerGenerator;
 
     public PowerUpHandler() {
-        this.listOfControllers = new ArrayList<>();
-        entityControllerGenerator = new EntityControllerGeneratorImpl();
+        this.listOfPowerUp = new ArrayList<>();
         this.entityModelGenerator = new EntityModelGeneratorImpl();
     }
 
-    public void update(final Group powerUpGroup, final boolean isSpaceBarPressed) {
-        final var iterator = listOfControllers.iterator();
+    public void update(final boolean isSpaceBarPressed) {
+        final var iterator = listOfPowerUp.iterator();
         while (iterator.hasNext()) {
-            final var controller = iterator.next();
+            final var model = iterator.next();
 
-            controller.update(isSpaceBarPressed);
+            model.update(isSpaceBarPressed);
 
-            if (!powerUpGroup.getChildren().contains((Node) controller.getImageView())) {
-                powerUpGroup.getChildren().add((Node) controller.getImageView());
-            }
-
-            if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
-                powerUpGroup.getChildren().remove((Node) controller.getImageView());
+            if (model.getEntityStatus().equals(EntityStatus.INACTIVE)) {
                 iterator.remove();
             }
         }
     }
 
     public void spawnPowerUp(final PowerUpType powerUpType) {
-        final List<PowerUp> listOfPowerUp = this.entityModelGenerator.generatePowerUp(powerUpType);
-        final List<GenericController<PowerUp, PowerUpView>> powerup = entityControllerGenerator.generatePowerUpControllers(listOfPowerUp);
-        listOfControllers.addAll(powerup);
+        final List<PowerUp> powerup = this.entityModelGenerator.generatePowerUp(powerUpType);
+        this.listOfPowerUp.addAll(powerup);
     }
 
-    public List<GenericController<PowerUp, PowerUpView>> getAllPowerUps() {
-        return this.listOfControllers;
+    public List<PowerUp> getAllPowerUps() {
+        return this.listOfPowerUp;
     }
 
     public void destroyAllPowerUps() {
-        this.listOfControllers.forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.INACTIVE));
+        this.listOfPowerUp.forEach(model -> model.setEntityStatus(EntityStatus.INACTIVE));
     }
 }

@@ -83,6 +83,13 @@ public interface Entity {
     void setEntityStatus(EntityStatus entityStatus);
 
     /**
+     * Sets the class which handles the movement characteristics of the entity
+     *
+     * @param newMovement The new movement of the entity.
+     */
+    void setEntityMovement(Movement newMovement);
+
+    /**
      * Updates the entity.
      *
      * @param isSpaceBarPressed Is used for entities which interact with the player directly. 

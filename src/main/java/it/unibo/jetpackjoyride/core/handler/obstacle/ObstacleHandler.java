@@ -3,32 +3,29 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.util.Duration;
 import java.util.*;
 
 public final class ObstacleHandler {
     private final static Double MINIMUMSPAWNTIME = 0.25;
     private ObstacleLoader obstacleLoader;
-    private List<Obstacle> listOfControllers;
+    private List<Obstacle> listOfObstacles;
     private Timeline timeline;
 
     public void initialize() {
 
-        this.listOfControllers = new ArrayList<>();
+        this.listOfObstacles = new ArrayList<>();
         this.obstacleLoader = new ObstacleLoader();
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(MINIMUMSPAWNTIME), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     private void generate() {
-        synchronized (this.listOfControllers) {
-            this.listOfControllers.addAll(obstacleLoader.getInstanceOfPattern());
+        synchronized (this.listOfObstacles) {
+            this.listOfObstacles.addAll(obstacleLoader.getInstanceOfPattern());
         }
     }
 
@@ -40,29 +37,23 @@ public final class ObstacleHandler {
         timeline.play();
     }
 
-    public Optional<ObstacleType> update(final Group obstacleGroup, final Optional<Hitbox> playerHitbox) {
-        synchronized (this.listOfControllers) {
+    public Optional<ObstacleType> update(final Optional<Hitbox> playerHitbox) {
+        synchronized (this.listOfObstacles) {
 
-            var iterator = listOfControllers.iterator();
+            var iterator = listOfObstacles.iterator();
             Optional<ObstacleType> obstacleHitPlayer = Optional.empty();
             
                 while (iterator.hasNext()) {
-                    final var controller = iterator.next();
+                    final var model = iterator.next();
 
-                    controller.update(false);
-                    if (playerHitbox.isPresent() && controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
-                    && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
-                        final Obstacle obstacleHit = (Obstacle) controller.getEntityModel();
-                        obstacleHitPlayer = Optional.of(obstacleHit.getObstacleType());
-                        controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
-                    }
-                    
-                    if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
-                        obstacleGroup.getChildren().add((Node) controller.getImageView());
+                    model.update(false);
+                    if (playerHitbox.isPresent() && model.getHitbox().isTouching(playerHitbox.get())
+                    && model.getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                        obstacleHitPlayer = Optional.of(model.getObstacleType());
+                        model.setEntityStatus(EntityStatus.DEACTIVATED);
                     }
 
-                    if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE)) {
-                        obstacleGroup.getChildren().remove((Node) controller.getImageView());
+                    if (model.getEntityStatus().equals(EntityStatus.INACTIVE)) {
                         iterator.remove();
                     }
                 }
@@ -70,10 +61,10 @@ public final class ObstacleHandler {
                 // Deactivate all obstacles on screen if one hit the player (give the player a
                 // brief moment of grace time)
                 if (obstacleHitPlayer.isPresent()) {
-                    iterator = listOfControllers.iterator();
+                    iterator = listOfObstacles.iterator();
                     while (iterator.hasNext()) {
-                        final var controller = iterator.next();
-                        controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
+                        final var model = iterator.next();
+                        model.setEntityStatus(EntityStatus.DEACTIVATED);
                     }
                 }
             
@@ -82,13 +73,9 @@ public final class ObstacleHandler {
         }
     }
 
-    getObstacles
-
-
     public void deactivateAllObstacles() {
-        synchronized (this.listOfControllers) {
-            this.listOfControllers
-                .forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED));
+        synchronized (this.listOfObstacles) {
+            this.listOfObstacles.forEach(model -> model.setEntityStatus(EntityStatus.DEACTIVATED));
         }
     }
 }

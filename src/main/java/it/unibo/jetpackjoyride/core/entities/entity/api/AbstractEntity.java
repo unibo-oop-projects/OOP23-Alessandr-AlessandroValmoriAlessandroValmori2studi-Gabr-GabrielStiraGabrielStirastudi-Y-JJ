@@ -84,6 +84,22 @@ public abstract class AbstractEntity implements Entity {
     }
 
     /**
+     * Sets the movement of the entity.
+     *
+     * @param newMovement The new moveemnt of the entity.
+     */
+    @Override
+    public void setEntityMovement(final Movement newMovement) {
+        this.movement = new Movement.Builder()
+                .setPosition(newMovement.getPosition())
+                .setSpeed(newMovement.getSpeed())
+                .setAcceleration(newMovement.getAcceleration())
+                .setRotation(newMovement.getRotation())
+                .setMovementChangers(newMovement.getMovementChangers())
+                .build();
+    }
+
+    /**
      * Gets the status of the entity.
      *
      * @return The status of the entity.

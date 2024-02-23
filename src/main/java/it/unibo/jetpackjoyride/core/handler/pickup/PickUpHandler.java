@@ -4,61 +4,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import java.util.Optional;
 
 
 public class PickUpHandler {
-    private final List<GenericController<PickUp,PickUpView>> listOfControllers;
-    private final EntityControllerGeneratorImpl entityControllerGenerator;
+    private final List<PickUp> listOfPickUp;
     private final EntityModelGeneratorImpl entityModelGenerator;
 
     public PickUpHandler() {
-        this.listOfControllers = new ArrayList<>();
-        this.entityControllerGenerator = new EntityControllerGeneratorImpl();
+        this.listOfPickUp = new ArrayList<>();
         this.entityModelGenerator = new EntityModelGeneratorImpl();
     }
 
-    public boolean update(final Group pickUpGroup, final Optional<Hitbox> playerHitbox) {
-        final var iterator = listOfControllers.iterator();
+    public boolean update(final Optional<Hitbox> playerHitbox) {
+        final var iterator = listOfPickUp.iterator();
         boolean pickUpPickedUp = false;
         while (iterator.hasNext()) {
-            final var controller = iterator.next();
+            final var model = iterator.next();
 
-            controller.update(false);
-            if (playerHitbox.isPresent() && controller.getEntityModel().getHitbox().isTouching(playerHitbox.get())
-                && controller.getEntityModel().getEntityStatus().equals(EntityStatus.ACTIVE)) {
+            model.update(false);
+            if (playerHitbox.isPresent() && model.getHitbox().isTouching(playerHitbox.get())
+                && model.getEntityStatus().equals(EntityStatus.ACTIVE)) {
                 pickUpPickedUp = true;
-                controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
+                model.setEntityStatus(EntityStatus.DEACTIVATED);
             }
 
-            if (!pickUpGroup.getChildren().contains((Node) controller.getImageView())) {
-                pickUpGroup.getChildren().add((Node) controller.getImageView());
-            }
-
-            if (controller.getEntityModel().getEntityStatus().equals(EntityStatus.INACTIVE) ) {
-                pickUpGroup.getChildren().remove((Node) controller.getImageView());
+            if (model.getEntityStatus().equals(EntityStatus.INACTIVE) ) {
                 iterator.remove();
-                
             }
         }
         return pickUpPickedUp;
     }
 
     public void spawnPickUp(final PickUpType pickUpType) {
-        final PickUp pickUp = entityModelGenerator.generatePickUp(pickUpType);
-        listOfControllers.add(entityControllerGenerator.generatePickUpController(pickUp));
+        listOfPickUp.add(entityModelGenerator.generatePickUp(pickUpType));
     }
 
-    public List<GenericController<PickUp, PickUpView>> getAllPickUps() {
-        return this.listOfControllers;
+    public List<PickUp> getAllPickUps() {
+        return this.listOfPickUp;
     }
 
 }

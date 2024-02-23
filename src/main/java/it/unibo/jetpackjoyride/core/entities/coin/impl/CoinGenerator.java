@@ -103,7 +103,7 @@ public final class CoinGenerator {
      * The method use to generating coins.
      */
     private void generateCoin() {
-        if (generateOrNot()) {
+        if (true) {
             List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
             for (Pair<Double, Double> position : shapes) {
                 Coin coin;
@@ -145,7 +145,6 @@ public final class CoinGenerator {
 */
     public void updatPosition() {
 
-        updateNewPos();
         if (this.playeHitbox.isPresent()) {
             checkCollision();
         }

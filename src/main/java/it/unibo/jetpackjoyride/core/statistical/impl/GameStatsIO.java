@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.core.statistical.impl;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,11 +10,25 @@ import java.io.IOException;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 
 public class GameStatsIO {
-    public static final String FILE_PATH = "files/gameStats.txt";
-    public static final String FILE_PATH_TEST = "files/gameStats_test.txt";
+    public static final String FILE_PATH = "gameStats.txt";
+    public static final String FILE_PATH_TEST = "gameStats_test.txt";
 
-    public static void saveToFile(GameStatsModel gameStats, final String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+    private GameStatsIO() {
+
+    }
+
+    public static final String getFilePath(final String filePath) {
+        String directory = System.getProperty("user.home") + File.separator + "jetpackJoyride";
+        return directory + File.separator + filePath;
+    }
+
+    public static void saveToFile(final GameStatsModel gameStats, final String filePath) {
+        File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (!new File(filePath).getParentFile().exists()){
+            parentDir.mkdirs();
+        } 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(GameStats.getCoins() + "\n");
             writer.write(gameStats.getBestDistance() + "\n");
             writer.write(gameStats.getcurrentDistance() + "\n");

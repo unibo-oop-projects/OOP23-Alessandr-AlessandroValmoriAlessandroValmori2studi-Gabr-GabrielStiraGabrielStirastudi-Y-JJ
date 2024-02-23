@@ -49,12 +49,18 @@ public final class CoinImpl implements Coin {
     }
     @Override
     public  List<Pair<Double, Double>> getModelData() {
-        return List.of(model.getPosition(), model.getSize());
+        return List.of(model.getPosition(), model.getSize(), 
+        model.geHitbox().getHitboxPosition(), model.geHitbox().getHitboxPosition());
     }
 
     @Override
     public void setPosition(final Pair<Double, Double> position) {
         this.model.setPosition(position);
+    }
+
+    @Override
+    public void setDimensions() {
+        
     }
 
     @Override

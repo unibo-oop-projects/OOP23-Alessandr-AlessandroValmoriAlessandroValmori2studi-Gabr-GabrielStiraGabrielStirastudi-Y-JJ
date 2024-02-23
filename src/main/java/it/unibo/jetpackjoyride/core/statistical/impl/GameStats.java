@@ -13,7 +13,7 @@ public final class GameStats implements GameStatsModel {
     private int currentDistance; 
 
     public GameStats() {
-        GameStatsIO.loadFromFile(this, GameStatsIO.FILE_PATH);
+        GameStatsIO.loadFromFile(this, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH));
     }
 
     public static void updateCoins(final int num) {

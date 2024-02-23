@@ -39,7 +39,7 @@ public final class GameStatsHandler implements GameStatsController {
 
     public void saveChanged() {
             this.model.updateDate();
-            GameStatsIO.saveToFile(model, GameStatsIO.FILE_PATH);
+            GameStatsIO.saveToFile(model, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH));
     }
         
 }

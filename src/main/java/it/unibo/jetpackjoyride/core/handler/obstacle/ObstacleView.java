@@ -31,8 +31,8 @@ public final class ObstacleView implements GenericView{
         Double width;
         Double height;
         final GameInfo infoResolution = GameInfo.getInstance();
-        final Double screenSizeX = infoResolution.getScreenWidth();
-        final Double screenSizeY = infoResolution.getScreenHeight();
+        final Double screenSizeX = infoResolution.getDefaultWidth();
+        final Double screenSizeY = infoResolution.getDefaultHeight();
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:

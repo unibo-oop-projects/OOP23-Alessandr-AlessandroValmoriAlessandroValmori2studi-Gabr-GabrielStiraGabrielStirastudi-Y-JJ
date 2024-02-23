@@ -1,15 +1,15 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -21,13 +21,14 @@ import java.io.InputStreamReader;
 import java.util.stream.*;
 
 public class ObstacleLoader {
-    private final static Integer MAXNUMBEROFPATTERNS = 30;
-    private final static Integer MINOBSTACLESFORINSTANCE = 3;
-    private final static Integer MAXOBSTACLESFORINSTANCE = 3;
-    private final static Integer TYPESOFOBSTACLES = 3;
-    private final static Integer TIMEOFLAZYNESS = 10;
-    private final static Integer MAXTICKFOROBSTACLESPAWN = 20;
-    private final static Double YMAPDIMENSIONS = 720.0;
+    private final static Integer MAX_NUMBER_OF_PATTERNS = 30;
+    private final static Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
+    private final static Integer MAX_OBSTACLES_FOR_INSTANCE = 3;
+    private final static Integer TYPES_OF_OBSTACLES = 3;
+    private final static Integer TIME_OF_LAZYNESS = 3;
+    private final static Double DEFAULT_SPEED_OF_UNKOWN_OBSTACLE = 5.0;
+    private final static Integer MAX_TICK_FOR_OBSTACLE_SPAWN = 20;
+    private final static Double Y_MAP_DIMENSION = 720.0;
 
     private InputStream in;
     private final Map<String, Integer> attributes;
@@ -36,17 +37,19 @@ public class ObstacleLoader {
     private Integer interval;
     private Integer duration;
     private Integer difficulty;
+    private final EntityControllerGeneratorImpl entityControllersGenerator;
 
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
         this.entityGenerator = new EntityModelGeneratorImpl();
         this.allObstacles = new HashMap<>();
+        this.entityControllersGenerator = new EntityControllerGeneratorImpl();
         this.duration = 0;
         this.interval = 0;
         this.difficulty = 1;
 
         try {
-            in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chuntkdata.txt"));
+            in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chunkdata.txt"));
             
             this.attributes.put("PATTERN_NUMBER", 0);
             this.attributes.put("OBSTACLE_TYPE", 1);
@@ -72,46 +75,45 @@ public class ObstacleLoader {
     private void randomBasedObstacleGeneration() {
         this.duration = 30;
         Random random = new Random();
-        for(int i=1; i<=MAXNUMBEROFPATTERNS; i++) {
+
+        for(int i=1; i<=MAX_NUMBER_OF_PATTERNS; i++) {
             //Pattern number i has a random number of obstacles ranging 3 to 8
             final List<Pair<Obstacle,Integer>> obstaclesOfInstance = new ArrayList<>();
-            final int numberOfObstacles = MINOBSTACLESFORINSTANCE + random.nextInt(MAXOBSTACLESFORINSTANCE);
+            final int numberOfObstacles = MIN_OBSTACLES_FOR_INSTANCE + random.nextInt(MAX_OBSTACLES_FOR_INSTANCE);
             for(int j=0; j<numberOfObstacles; j++) {
-                final int typeOfObstacle = random.nextInt(TYPESOFOBSTACLES);
-                Obstacle obstacle;
+                final int typeOfObstacle = random.nextInt(TYPES_OF_OBSTACLES);
+                final Obstacle obstacle;
                 ObstacleType obstacleType;
                 Movement movement;
                 try {
                     switch (typeOfObstacle) {
                         case 0:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION)).setSpeed(-(5.0+i/5), 0.0).build();
                             obstacleType = ObstacleType.MISSILE;
                             break;
                         case 1:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION)).setSpeed(-(5.0+i/5), 0.0).build();
                             obstacleType = ObstacleType.ZAPPER;
                             break;
                         case 2:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).build();
+                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION)).build();
                             obstacleType = ObstacleType.LASER;
                             break;
                         default:
-                            throw new NotImplementedObjectException("Tried to spawn an unknown obstacle in ObstacleLoader. A missile will be spawned instead.");
+                            throw new NotImplementedObjectException("Tried to spawn an unknown obstacle in ObstacleLoader. A missile will be generated instead.");
                     }
-                    obstacle = this.entityGenerator.generateObstacle(obstacleType, movement);
-                } catch (Exception e) {
-                    movement = new Movement.Builder().setPosition(0.0, random.nextDouble(YMAPDIMENSIONS)).setSpeed(-(5.0+i/5), 0.0).build();
-                    obstacle = this.entityGenerator.generateObstacle(ObstacleType.MISSILE, movement);
+                } catch (NotImplementedObjectException e) {
+                    movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION)).setSpeed(-(DEFAULT_SPEED_OF_UNKOWN_OBSTACLE+i/DEFAULT_SPEED_OF_UNKOWN_OBSTACLE), 0.0).build();
+                    obstacleType = ObstacleType.MISSILE;
                 }
-                obstaclesOfInstance.add(new Pair<>(obstacle, 1 + random.nextInt(MAXTICKFOROBSTACLESPAWN)));
+    
+                obstacle = this.entityGenerator.generateObstacle(obstacleType, movement);
+
+                obstaclesOfInstance.add(new Pair<>(obstacle, 1 + random.nextInt(MAX_TICK_FOR_OBSTACLE_SPAWN)));
             }
             this.allObstacles.put(i, obstaclesOfInstance);
-        }
-        System.out.println(this.allObstacles);
-    }
+        }    
 
-    public void generatePattern(final Integer difficulty) {
-        this.interval = 0;
     }
 
     private boolean readFromFile(){
@@ -125,7 +127,7 @@ public class ObstacleLoader {
                     String[] parts = line.split(",");
 
                     if(parts.length != this.attributes.keySet().size()) {
-                        throw new InvalidDataFormatException("Something went wrong while trying to read the file "+in);
+                        throw new InvalidDataFormatException("Invalid formatting in file: " + in);
                     }
 
                     patternNumber = Integer.parseInt(parts[this.attributes.get("PATTERN_NUMBER")]);
@@ -158,34 +160,46 @@ public class ObstacleLoader {
                 }
                 else {
                     this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));
-                    this.duration = obstaclesOfInstance.get(obstaclesOfInstance.size()-1).get2() + TIMEOFLAZYNESS;
                     obstaclesOfInstance.clear();
                 }
             }
-        } catch (IOException e) {
-            return false;
-        }
-        catch (InvalidDataFormatException e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    public List<Obstacle> getInstanceOfPattern() {
-        this.interval++;
-        if (!this.hasFinished()) {
+    public List<GenericController<Obstacle,ObstacleView>> getInstanceOfPattern() {
+        if (this.isInSamePattern()) {
             this.difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
+            
+            if(this.interval == 0) {
+                this.duration = this.allObstacles.get(this.difficulty).stream().map(p -> p.get2()).mapToInt(i->i).max().getAsInt() + TIME_OF_LAZYNESS;
+            }
 
-            return this.allObstacles.get(this.difficulty).stream()
+            final List<Obstacle> models = new ArrayList<>();
+            models.addAll(this.allObstacles.get(this.difficulty).stream()
                         .filter(p -> p.get2().equals(this.interval))
                         .map(p -> p.get1())
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()));
+
+            this.interval++;
+
+            if(models.size()>0) {
+                System.out.println(models.get(0).getEntityMovement().getPosition());
+            }
+
+            return IntStream.range(0, models.size())
+            .mapToObj(i -> this.entityControllersGenerator.generateObstacleController(models.get(i)))
+            .collect(Collectors.toList());
+        } else {
+            this.interval = 0;
         }
         return List.of();
     }
 
-    public boolean hasFinished() {
-        return this.duration.equals(this.interval);
+    public boolean isInSamePattern() {
+        return this.interval <= this.duration;
     }
 
 }

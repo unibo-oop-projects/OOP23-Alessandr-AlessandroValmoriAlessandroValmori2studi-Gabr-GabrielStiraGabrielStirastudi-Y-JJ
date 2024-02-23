@@ -3,18 +3,13 @@ package it.unibo.jetpackjoyride.core.entities.entity.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
-import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
-import it.unibo.jetpackjoyride.core.movement.Movement;
 import javafx.scene.image.Image;
 
 public class EntityControllerGeneratorImpl {
@@ -31,10 +26,8 @@ public class EntityControllerGeneratorImpl {
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
     private final List<Image> pickupImages;
-    private final EntityModelGenerator entityModelFactory;
 
     public EntityControllerGeneratorImpl() {
-        this.entityModelFactory = new EntityModelGeneratorImpl();
         this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
         this.powerupImages = new ArrayList<>(); // 0-23 LILSTOMPER | 24-29 MRCUDDLE | 30-41 PROFITBIRD | 42-53 DUKEFISHRON
         this.pickupImages = new ArrayList<>(); // 0-20 VEHICLEPICKUP
@@ -62,74 +55,89 @@ public class EntityControllerGeneratorImpl {
         
     }
 
-    public GenericController<Obstacle, ObstacleView> generateObstacleController(final ObstacleType obstacleType, final Movement obstacleMovement) {
-        final Obstacle obstacleModel = this.entityModelFactory.generateObstacle(obstacleType, obstacleMovement);
-        final GenericController<Obstacle, ObstacleView> obstacle;
-        
-        switch (obstacleType) {
-            case MISSILE: //Canon obstacle existing in the original game
-                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages,0,MISSILESPRITES-1)));
-                break;
-            case ZAPPER: //Canon obstacle existing in the original game
-                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages,MISSILESPRITES, MISSILESPRITES+ZAPPERSPRITES-1)));
-                break;
-            case LASER: //Canon obstacle existing in the original game
-                obstacle = new GenericController<>(obstacleModel, new ObstacleView(this.takeImages(this.obstacleImages, MISSILESPRITES+ZAPPERSPRITES, MISSILESPRITES+ZAPPERSPRITES+LASERSPRITES-1)));
-                break;
-            default:
-                throw new IllegalArgumentException("EntityControllerGenerator could not generate the obstacle controller");
-        }
+    public GenericController<Obstacle, ObstacleView> generateObstacleController(final Obstacle obstacle) {
+        GenericController<Obstacle, ObstacleView> obstacleController;
 
-        return obstacle;
-    }
-
-    public List<GenericController<PowerUp, PowerUpView>> generatePowerUpControllers(final PowerUpType powerUpType) {
-        final List<PowerUp> powerUpModel = new ArrayList<>(this.entityModelFactory.generatePowerUp(powerUpType));
-        final List<GenericController<PowerUp, PowerUpView>> powerUp = new ArrayList<>();
-        
-        switch (powerUpType) {
-            case LILSTOMPER: //Canon powerup existing in the original game
-                powerUp.add(new GenericController<>(powerUpModel.get(0), new PowerUpView(this.takeImages(this.powerupImages, 0,LILSTOMPERSPRITES-1))));
-                break;
-            case MRCUDDLES: //Canon powerup existing in the original game
-                for (final var powerUpInstance : powerUpModel) {
-                    powerUp.add(new GenericController<>(powerUpInstance, new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES-1))));
-                }
-                break;
-            case PROFITBIRD: //Canon powerup existing in the original game
-                powerUp.add(new GenericController<>(powerUpModel.get(0), new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES-1))));
-                break;
-            case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
-                powerUp.add(new GenericController<>(powerUpModel.get(0),  new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES+DUKEFISHRONSPRITES-1))));
-                break;
-            default:
-            throw new IllegalArgumentException("EntityControllerGenerator could not generate the powerup controller");
-        }
-        return powerUp;
-    }
-
-    public GenericController<PickUp, PickUpView> generatePickUpController(final PickUpType pickUpType) {
-        final PickUp pickUpModel = this.entityModelFactory.generatePickUp(pickUpType);
-        final GenericController<PickUp, PickUpView> pickUp;
-
-        switch (pickUpType) {
-            case VEHICLE: // Canon pickup existing in the original game
-                pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1)));
-                break;
-            case SHIELD: // Canon pickup existing in the original game
-                pickUp = new GenericController<>(pickUpModel, new PickUpView(this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1)));
-                //System.out.println(pickUp.getEntityModel().getEntityStatus());
-                break;
-        
-            default:
-            throw new IllegalArgumentException("EntityControllerGenerator could not generate the pickup controller");
+        try {
+            switch (obstacle.getObstacleType()) {
+                case MISSILE: //Canon obstacle existing in the original game
+                    obstacleController = new GenericController<>(obstacle, new ObstacleView(this.takeImages(this.obstacleImages,0,MISSILESPRITES-1)));
+                    break;
+                case ZAPPER: //Canon obstacle existing in the original game
+                    obstacleController = new GenericController<>(obstacle, new ObstacleView(this.takeImages(this.obstacleImages,MISSILESPRITES, MISSILESPRITES+ZAPPERSPRITES-1)));
+                    break;
+                case LASER: //Canon obstacle existing in the original game
+                    obstacleController = new GenericController<>(obstacle, new ObstacleView(this.takeImages(this.obstacleImages, MISSILESPRITES+ZAPPERSPRITES, MISSILESPRITES+ZAPPERSPRITES+LASERSPRITES-1)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("EntityControllerGenerator could not generate the obstacle controller.");
+            }
             
+        } catch (Exception e) {
+            obstacleController = new GenericController<>(obstacle, new ObstacleView(this.takeImages(this.obstacleImages,0,MISSILESPRITES-1)));
         }
-        return pickUp;
+        
+        return obstacleController;
+    }
+
+    public List<GenericController<PowerUp, PowerUpView>> generatePowerUpControllers(final List<PowerUp> powerUp) {
+       List<GenericController<PowerUp, PowerUpView>> powerUpControllers = new ArrayList<>();
+        
+        try {
+            switch (powerUp.get(0).getPowerUpType()) {
+                case LILSTOMPER: //Canon powerup existing in the original game
+                    powerUpControllers.add(new GenericController<>(powerUp.get(0), new PowerUpView(this.takeImages(this.powerupImages, 0,LILSTOMPERSPRITES-1))));
+                    break;
+                case MRCUDDLES: //Canon powerup existing in the original game
+                    for (final var powerUpInstance : powerUp) {
+                        powerUpControllers.add(new GenericController<>(powerUpInstance, new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES-1))));
+                    }
+                    break;
+                case PROFITBIRD: //Canon powerup existing in the original game
+                    powerUpControllers.add(new GenericController<>(powerUp.get(0), new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES-1))));
+                    break;
+                case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
+                    powerUpControllers.add(new GenericController<>(powerUp.get(0),  new PowerUpView(this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES+DUKEFISHRONSPRITES-1))));
+                    break;
+                default:
+                throw new IllegalArgumentException("EntityControllerGenerator could not generate the powerup controller");
+            }
+            
+        } catch (Exception e) {
+            powerUpControllers.add(new GenericController<>(powerUp.get(0), new PowerUpView(this.takeImages(this.powerupImages, 0,LILSTOMPERSPRITES-1))));
+        }
+        return powerUpControllers;
+    }
+
+    public GenericController<PickUp, PickUpView> generatePickUpController(final PickUp pickUp) {
+        GenericController<PickUp, PickUpView> pickUpController;
+
+        try {
+            switch (pickUp.getPickUpType()) {
+                case VEHICLE: // Canon pickup existing in the original game
+                pickUpController = new GenericController<>(pickUp, new PickUpView(this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1)));
+                    break;
+                case SHIELD: // Canon pickup existing in the original game
+                pickUpController = new GenericController<>(pickUp, new PickUpView(this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1)));
+                    //System.out.println(pickUp.getEntityModel().getEntityStatus());
+                    break;
+            
+                default:
+                throw new IllegalArgumentException("EntityControllerGenerator could not generate the pickup controller");
+                
+            }
+        } catch (Exception e) {
+            pickUpController = new GenericController<>(pickUp, new PickUpView(this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1)));
+        }
+        return pickUpController;
     }
 
     private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
-        return IntStream.range(0, numberOfImages).mapToObj(i -> new Image(getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm())).toList();
+        try {
+            return IntStream.range(0, numberOfImages).mapToObj(i -> new Image(getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm())).toList();
+        } catch (Exception e) {
+            return List.of();
+        }
     } 
 
     private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {

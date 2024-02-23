@@ -5,6 +5,7 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
@@ -16,11 +17,13 @@ import java.util.Optional;
 
 public class PickUpHandler {
     private final List<GenericController<PickUp,PickUpView>> listOfControllers;
-    private final EntityControllerGeneratorImpl entityGenerator;
+    private final EntityControllerGeneratorImpl entityControllerGenerator;
+    private final EntityModelGeneratorImpl entityModelGenerator;
 
     public PickUpHandler() {
         this.listOfControllers = new ArrayList<>();
-        entityGenerator = new EntityControllerGeneratorImpl();
+        this.entityControllerGenerator = new EntityControllerGeneratorImpl();
+        this.entityModelGenerator = new EntityModelGeneratorImpl();
     }
 
     public boolean update(final Group pickUpGroup, final Optional<Hitbox> playerHitbox) {
@@ -50,11 +53,11 @@ public class PickUpHandler {
     }
 
     public void spawnPickUp(final PickUpType pickUpType) {
-        listOfControllers.add(entityGenerator.generatePickUpController(pickUpType));
+        final PickUp pickUp = entityModelGenerator.generatePickUp(pickUpType);
+        listOfControllers.add(entityControllerGenerator.generatePickUpController(pickUp));
     }
 
     public List<GenericController<PickUp, PickUpView>> getAllPickUps() {
-        //System.out.println(listOfControllers);
         return this.listOfControllers;
     }
 

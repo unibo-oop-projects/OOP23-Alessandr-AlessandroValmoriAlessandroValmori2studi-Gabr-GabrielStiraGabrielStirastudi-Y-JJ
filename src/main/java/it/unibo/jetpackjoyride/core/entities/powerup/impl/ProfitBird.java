@@ -13,7 +13,7 @@ public class ProfitBird extends AbstractPowerUp{
     public ProfitBird(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.PROFITBIRD, movement, hitbox);
         this.intervalBewteenJumps = true;
-        this.performingAction = PerformingAction.WALKING;
+        this.performingAction = PerformingAction.DESCENDING;
     }
 
     @Override

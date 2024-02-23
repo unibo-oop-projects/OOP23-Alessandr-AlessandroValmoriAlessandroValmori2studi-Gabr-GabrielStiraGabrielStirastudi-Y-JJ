@@ -3,6 +3,8 @@ package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.MovementChangers;
+import java.util.List;
 
 public final class Missile extends AbstractObstacle {
     private static final Double OUTOFBOUNDSSX = -100.0;
@@ -17,41 +19,37 @@ public final class Missile extends AbstractObstacle {
      * Movement characteristics of the entity when spawned (needed for entities which need to know what
      * their movement was initially).
      */
-    private Movement bufferMovement;
+    private Movement movementBuffer;
 
     public Missile(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, newMovement, hitbox);
         this.lifetimeAfterDeactivation = DELAYBEFOREDESTRUCTION + DELAYBEFOREACTIVATING;
         this.entityStatus = EntityStatus.CHARGING;
 
-        this.bufferMovement = new Movement.Builder()
-                    .setPosition(newMovement.getPosition())
-                    .setSpeed(newMovement.getSpeed())
-                    .setAcceleration(newMovement.getAcceleration())
-                    .setRotation(newMovement.getRotation())
-                    .setMovementChangers(newMovement.getMovementChangers())
-                    .build();
+        this.movementBuffer = new Movement.Builder()
+        .setPosition(newMovement.getPosition())
+        .setSpeed(newMovement.getSpeed())
+        .setAcceleration(newMovement.getAcceleration())
+        .setRotation(newMovement.getRotation()).setMovementChangers(newMovement.getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
 
-        this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.bufferMovement.getPosition().get2())
-                .setRotation(this.bufferMovement.getRotation())
+        this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, newMovement.getPosition().get2())
+                .setRotation(newMovement.getRotation())
                 .build();
-
     }
 
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.entityStatus = EntityStatus.ACTIVE;
 
                 this.movement = new Movement.Builder()
-                    .setPosition(OUTOFBOUNDSDX, this.bufferMovement.getPosition().get2())
-                    .setSpeed(-10.0,0.0)
-                    .setAcceleration(this.bufferMovement.getAcceleration())
-                    .setRotation(this.bufferMovement.getRotation())
-                    .setMovementChangers(this.bufferMovement.getMovementChangers())
+                    .setPosition(OUTOFBOUNDSDX, this.movementBuffer.getPosition().get2())
+                    .setSpeed(this.movementBuffer.getSpeed())
+                    .setAcceleration(this.movementBuffer.getAcceleration())
+                    .setRotation(this.movementBuffer.getRotation())
+                    .setMovementChangers(this.movementBuffer.getMovementChangers())
                     .build();
             }
         }

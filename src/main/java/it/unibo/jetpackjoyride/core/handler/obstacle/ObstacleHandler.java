@@ -14,20 +14,22 @@ import java.util.*;
 
 public final class ObstacleHandler {
     private final static Double MINIMUMSPAWNTIME = 0.25;
-    private ObstacleSpawner obstacleSpawner;
+    private ObstacleLoader obstacleLoader;
     private List<GenericController<Obstacle, ObstacleView>> listOfControllers;
     private Timeline timeline;
 
     public void initialize() {
 
         this.listOfControllers = new ArrayList<>();
-        this.obstacleSpawner = new ObstacleSpawner();
+        this.obstacleLoader = new ObstacleLoader();
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(MINIMUMSPAWNTIME), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     private void generate() {
-        this.listOfControllers.addAll(obstacleSpawner.generateChunk());
+        synchronized (this.listOfControllers) {
+            this.listOfControllers.addAll(obstacleLoader.getInstanceOfPattern());
+        }
     }
 
     public void over() {
@@ -40,6 +42,7 @@ public final class ObstacleHandler {
 
     public Optional<ObstacleType> update(final Group obstacleGroup, final Optional<Hitbox> playerHitbox) {
         synchronized (this.listOfControllers) {
+
             var iterator = listOfControllers.iterator();
             Optional<ObstacleType> obstacleHitPlayer = Optional.empty();
             
@@ -54,8 +57,6 @@ public final class ObstacleHandler {
                         controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED);
                     }
                     
-                
-
                     if (!obstacleGroup.getChildren().contains((Node) controller.getImageView())) {
                         obstacleGroup.getChildren().add((Node) controller.getImageView());
                     }
@@ -82,7 +83,9 @@ public final class ObstacleHandler {
     }
 
     public void deactivateAllObstacles() {
-        this.listOfControllers
+        synchronized (this.listOfControllers) {
+            this.listOfControllers
                 .forEach(controller -> controller.getEntityModel().setEntityStatus(EntityStatus.DEACTIVATED));
+        }
     }
 }

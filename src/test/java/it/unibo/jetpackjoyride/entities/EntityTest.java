@@ -24,14 +24,13 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 public class EntityTest{
-
     private final static Pair<Double,Double> ZEROPAIR = new Pair<>(0.0,0.0);
     private final static Pair<Double,Double> ONEHUNDREDPAIR = new Pair<>(100.0,100.0);
     private final static Pair<Double,Double> FIVEHUNDREDPAIR = new Pair<>(500.0,500.0);
+
     private EntityModelGeneratorImpl entityFactory;
 
     @org.junit.Before
@@ -42,15 +41,15 @@ public class EntityTest{
 
     @org.junit.Test
     public void testingAllEntitites() {
-        Movement entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        Movement entityMovement = new Movement.Builder().build();
         Hitbox entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity obstacle = new Missile(entityMovement, entityHitbox);
 
-        entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        entityMovement = new Movement.Builder().build();
         entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity powerUp = new LilStomper(entityMovement, entityHitbox);
 
-        entityMovement = new Movement(ZEROPAIR, ZEROPAIR, ZEROPAIR, ZEROPAIR, List.of());
+        entityMovement = new Movement.Builder().build();
         entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR);
         Entity pickUp = new VehiclePickUp(entityMovement, entityHitbox);
 
@@ -75,13 +74,13 @@ public class EntityTest{
                             new Pair<>(550.0, 550.0),
                             new Pair<>(450.0, 550.0)), entity.getHitbox().getHitboxVertex());
         
-        assertEquals(entity.getEntityMovement().getCurrentPosition(), ZEROPAIR);
+        assertEquals(entity.getEntityMovement().getPosition(), ZEROPAIR);
         assertEquals(entity.getEntityMovement().getAcceleration(), ZEROPAIR);
         assertEquals(entity.getEntityMovement().getSpeed(), ZEROPAIR);
         assertEquals(entity.getEntityMovement().getRotation(), ZEROPAIR);
         assertEquals(entity.getEntityMovement().getMovementChangers(), List.of());
 
-        entity.getEntityMovement().setCurrentPosition(FIVEHUNDREDPAIR);
+        entity.getEntityMovement().(FIVEHUNDREDPAIR);
         assertEquals(entity.getEntityMovement().getCurrentPosition(), FIVEHUNDREDPAIR);
         entity.getEntityMovement().setSpeed(new Pair<>(1.0, 2.0));
         assertEquals(entity.getEntityMovement().getSpeed(), new Pair<>(1.0, 2.0));

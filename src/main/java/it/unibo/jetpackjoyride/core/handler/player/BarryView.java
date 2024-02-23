@@ -88,8 +88,8 @@ public final class BarryView {
         final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
         final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
 
-        final double width = infoResolution.getScreenWidth() / 8 * scaleX;
-        final double height = infoResolution.getScreenHeight() / 10 * scaleY;
+        final double width = infoResolution.getDefaultWidth() / 8 * scaleX;
+        final double height = infoResolution.getDefaultHeight() / 5 * scaleY;
 
         imageView.setX(barry.getEntityMovement().getPosition().get1()*scaleX - width / 2);
         imageView.setY(barry.getEntityMovement().getPosition().get2()*scaleY - height / 2);

@@ -17,6 +17,10 @@ public class GenericController<T extends Entity,V extends GenericView> {
         this.view.updateView(model);
     }
 
+    /*public void setEntityStatus(final EntityStatus newEntityStatus) {
+        this.model.setEntityStatus(newEntityStatus);
+    }*/
+
     public ImageView getImageView() {
         return this.view.getImageView();
     }

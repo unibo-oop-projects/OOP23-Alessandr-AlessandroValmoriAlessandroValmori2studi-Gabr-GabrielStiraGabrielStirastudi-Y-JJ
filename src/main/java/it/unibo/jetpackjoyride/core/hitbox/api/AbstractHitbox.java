@@ -10,8 +10,10 @@ public abstract class AbstractHitbox implements Hitbox {
     private Set<Pair<Double, Double>> hitbox;
     private Pair<Double, Double> hitboxDimensions;
     private Pair<Double, Double> hitboxPosition;
+    private Double hitboxRotation;
 
-    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions) {
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions, final Double hitboxRotation) {
+        this.hitboxRotation = hitboxRotation;
         this.hitboxPosition = hitboxStartingPos;    
         this.hitboxDimensions = hitboxDimensions;
         this.createHitbox(hitboxStartingPos);
@@ -30,8 +32,7 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
     }
 
-    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor,
-            final Double angle) {
+    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor, final Double angle) {
         final AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 
@@ -46,6 +47,7 @@ public abstract class AbstractHitbox implements Hitbox {
 
     @Override
     public void updateHitbox(final Pair<Double, Double> newPosition, final Double angle) {
+        this.hitboxRotation = angle;
         this.hitboxPosition = newPosition;
         this.createHitbox(newPosition);
 
@@ -85,9 +87,15 @@ public abstract class AbstractHitbox implements Hitbox {
     public boolean isTouching(final Hitbox otherHitbox) {
         return this.isTouchingHelper(this, otherHitbox) || this.isTouchingHelper(otherHitbox, this);
     }
+
     @Override
     public Pair<Double, Double> getHitboxPosition() {
         return this.hitboxPosition;
+    }
+
+    @Override
+    public Double getHitboxRotation() {
+        return this.hitboxRotation;
     }
 
     @Override

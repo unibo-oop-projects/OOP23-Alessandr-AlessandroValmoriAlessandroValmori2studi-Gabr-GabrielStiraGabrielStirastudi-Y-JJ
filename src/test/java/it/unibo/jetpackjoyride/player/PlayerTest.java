@@ -114,7 +114,7 @@ public class PlayerTest {
         for (int i = 0; i < 110; i++) {
             barry.update(false);
             zapper.update(false);
-            System.out.println(zapper.getEntityMovement().getPosition());
+            
             if (zapper.getHitbox().isTouching(barry.getHitbox())) {
                 hasTouched = true;
             }

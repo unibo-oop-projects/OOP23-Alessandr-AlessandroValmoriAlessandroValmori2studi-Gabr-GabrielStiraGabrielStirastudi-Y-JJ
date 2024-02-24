@@ -56,6 +56,7 @@ public final class PowerUpView extends AbstractEntityView {
 
     @Override
     protected void animateFrames(Entity entity) {
+        @SuppressWarnings("unchecked")
         final PowerUp powerUp = (PowerUp)entity;
 
         switch (powerUp.getPowerUpType()) {

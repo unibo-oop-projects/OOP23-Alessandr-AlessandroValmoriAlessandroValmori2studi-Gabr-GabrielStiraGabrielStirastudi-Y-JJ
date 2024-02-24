@@ -11,10 +11,14 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.util.Set;
 import java.util.Collections;
 import java.util.HashSet;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 /**
  * Controller class for the shop menu.
@@ -72,8 +76,8 @@ public final class ShopControllerImpl implements ShopController {
      * not exist, the unlocked set field of this class is initialized
      */
     private void readFromFile() {
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(SHOP_DATA_PATH))) {
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
@@ -112,7 +116,7 @@ public final class ShopControllerImpl implements ShopController {
         if (!file.getParentFile().exists()) {
             parentDir.mkdirs();
         }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SHOP_DATA_PATH))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
             for (var item : this.unlockedSet) {
                 writer.write(item.toString()); // Write the word
                 writer.newLine(); // Write a newline character

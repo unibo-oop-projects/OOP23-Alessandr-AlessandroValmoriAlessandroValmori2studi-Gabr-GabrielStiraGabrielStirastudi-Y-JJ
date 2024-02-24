@@ -58,6 +58,7 @@ public class EntityImageLoader {
     public List<Image> loadImages(final Entity entity) {
         switch (entity.getEntityType()) {
             case OBSTACLE:
+                @SuppressWarnings("unchecked")
                 Obstacle obstacle = (Obstacle)entity;
                 switch (obstacle.getObstacleType()) {
                     case MISSILE:
@@ -70,6 +71,7 @@ public class EntityImageLoader {
                         break;
                 }
             case POWERUP:
+                @SuppressWarnings("unchecked")
                 PowerUp powerUp = (PowerUp)entity;
                 switch (powerUp.getPowerUpType()) {
                     case LILSTOMPER:
@@ -84,6 +86,7 @@ public class EntityImageLoader {
                         break;
                 }
             case PICKUP:
+                @SuppressWarnings("unchecked")
                 PickUp pickUp = (PickUp)entity;
                 switch (pickUp.getPickUpType()) {
                     case VEHICLE:

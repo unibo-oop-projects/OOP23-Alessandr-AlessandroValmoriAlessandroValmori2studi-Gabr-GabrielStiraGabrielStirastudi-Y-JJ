@@ -93,7 +93,6 @@ public class PickUpView implements EntityView {
                         height = 0.0;
                         break;
                 }
-                break;
             default:
                 width = 0.0;
                 height = 0.0;
@@ -115,8 +114,8 @@ public class PickUpView implements EntityView {
     }
 
     @Override
-    public ImageView getImageView() {
-        return imageView;
+    public List<ImageView> getImageView() {
+        return List.of(imageView);
     }
 
 }

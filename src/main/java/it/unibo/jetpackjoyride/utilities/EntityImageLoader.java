@@ -3,8 +3,11 @@ package it.unibo.jetpackjoyride.utilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import javafx.scene.image.Image;
 
 public class EntityImageLoader {
@@ -53,18 +56,53 @@ public class EntityImageLoader {
     }
 
 
-    public List<Image> loadImages(final EntityType entityType) {
-        switch (entityType) {
+    public List<Image> loadImages(final Entity entity) {
+        switch (entity.getEntityType()) {
             case OBSTACLE:
-                return obstacleImages;
+                Obstacle obstacle = (Obstacle)entity;
+                switch (obstacle.getObstacleType()) {
+                    case MISSILE:
+                        return this.takeImages(this.obstacleImages,0,MISSILESPRITES-1);
+                    case ZAPPER: 
+                        return this.takeImages(this.obstacleImages,MISSILESPRITES, MISSILESPRITES+ZAPPERSPRITES-1);
+                    case LASER: 
+                        return this.takeImages(this.obstacleImages, MISSILESPRITES+ZAPPERSPRITES, MISSILESPRITES+ZAPPERSPRITES+LASERSPRITES-1);
+                    default:
+                        break;
+                }
             case POWERUP:
-                return powerupImages;
+                PowerUp powerUp = (PowerUp)entity;
+                switch (powerUp.getPowerUpType()) {
+                    case LILSTOMPER:
+                        return this.takeImages(this.powerupImages, 0,LILSTOMPERSPRITES-1);
+                    case MRCUDDLES:
+                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES-1);
+                    case PROFITBIRD:
+                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES-1);
+                    case DUKEFISHRON:
+                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES+DUKEFISHRONSPRITES-1);
+                    default:
+                        break;
+                }
             case PICKUP:
+                PickUp pickUp = (PickUp)entity;
+                switch (pickUp.getPickUpType()) {
+                    case VEHICLE:
+                        return this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1);
+                    case SHIELD:
+                        return this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1);
+                    default:
+                        break;
+                }
                 return pickupImages;
             case BARRY:
             default:
                 return List.of();
         }
+    }
+
+    private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
+        return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
     }
 
     private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {

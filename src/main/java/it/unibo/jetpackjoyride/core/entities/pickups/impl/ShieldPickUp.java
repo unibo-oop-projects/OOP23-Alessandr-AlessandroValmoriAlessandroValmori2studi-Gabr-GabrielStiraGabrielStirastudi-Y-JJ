@@ -14,10 +14,9 @@ public class ShieldPickUp extends AbstractPickUp {
 
 	@Override
 	protected void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.movement.getPosition().get1() < OUTOFBOUNDSSX) {
+        if (this.movement.getPosition().get1() < OUTOFBOUNDSSX || this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
             this.entityStatus = EntityStatus.INACTIVE;
         }
-
 	}
 
 }

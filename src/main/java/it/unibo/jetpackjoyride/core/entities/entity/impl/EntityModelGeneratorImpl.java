@@ -3,6 +3,8 @@ package it.unibo.jetpackjoyride.core.entities.entity.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
@@ -22,6 +24,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectException;
@@ -208,5 +211,20 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
         }
         
         return pickUpModel;
+    }
+
+    /**
+     * Generates the Barry entity.
+     *
+     * @return An instance of {@link Barry}.
+     */
+    @Override
+    public Barry generateBarry() {
+        Movement barryMovement = new Movement.Builder().setPosition(100.0, 630.0)
+                .setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(),
+                new Pair<>(GameInfo.getInstance().getDefaultWidth() / 17, GameInfo.getInstance().getScreenHeight() / 7),
+                0.0);
+        return new BarryImpl(barryMovement, barryHitbox);
     }
 }

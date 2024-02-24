@@ -4,7 +4,9 @@ import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
@@ -22,7 +24,6 @@ import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import javafx.scene.Group;
 
@@ -32,7 +33,7 @@ public class EntityHandler {
     private PickUpHandler pickUpHandler;
     private Barry player;
     private CoinGenerator coinHandler;
-
+    private EntityModelGenerator entityGenerator;
     private Set<Items> unlockedItems;
 
     private Set<Entity> listOfEntities;
@@ -44,17 +45,11 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        Movement barryMovement = new Movement.Builder().setPosition(100.0, 630.0)
-                .setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(),
-                new Pair<>(GameInfo.getInstance().getDefaultWidth() / 17, GameInfo.getInstance().getScreenHeight() / 7),
-                0.0);
-        this.player = new BarryImpl(barryMovement, barryHitbox);
+        this.entityGenerator = new EntityModelGeneratorImpl();
+        this.player = this.entityGenerator.generateBarry();
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
         this.listOfEntities = new HashSet<>();
-
         this.unlockedItems = shopController.getUnlocked();
-
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
@@ -75,7 +70,7 @@ public class EntityHandler {
             isCanvasAdded = true;
         }
 
-        if (!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty() && !this.unlockedItems.isEmpty()) {
+        if (!this.isUsingPowerUp && !this.player.hasShield() && this.pickUpHandler.getAllPickUps().isEmpty() && !this.unlockedItems.isEmpty()) {
             this.spawnPickUp(this.unlockedItems);
         }
 

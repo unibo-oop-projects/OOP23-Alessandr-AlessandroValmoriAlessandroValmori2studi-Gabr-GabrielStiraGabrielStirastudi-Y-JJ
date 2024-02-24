@@ -1,23 +1,22 @@
 package it.unibo.jetpackjoyride.core.handler.player;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
+
+/**
+ * @author alessandro.valmori2@studio.unibo.it
+ */
 /**
  * The BarryView class represents the view of the Barry entity.
  * It is responsible for updating the visual representation of the Barry entity
@@ -32,6 +31,9 @@ public final class BarryView implements EntityView {
     private final GameInfo infoResolution;
     private PerformingAction oldAction;
     private List<ImageView> imageViewCouple;
+    private static final double BARRY_WIDTH = 75.0;
+    private static final double BARRY_HEIGHT = 100.0;
+
 
     private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
     private static final int NUM_COPIES = 7;
@@ -89,8 +91,8 @@ public final class BarryView implements EntityView {
         final double scaleX = infoResolution.getScreenWidth() / infoResolution.getDefaultWidth();
         final double scaleY = infoResolution.getScreenHeight() / infoResolution.getDefaultHeight();
 
-        final double width = infoResolution.getDefaultWidth() / 17 * scaleX;
-        final double height = infoResolution.getDefaultHeight() / 7 * scaleY;
+        final double width = BARRY_WIDTH * scaleX;
+        final double height = BARRY_HEIGHT * scaleY;
 
         imageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
         imageView.setY(barry.getEntityMovement().getPosition().get2()* scaleY - height / 2);

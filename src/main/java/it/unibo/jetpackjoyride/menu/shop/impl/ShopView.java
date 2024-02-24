@@ -25,47 +25,58 @@ import java.util.Map;
 import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 /**
- * The view class for the shop menu.
+ * The view class for the shop menu, it extends {@link GameMenuImpl},
+ * because of some common functionalities, such as background rescaling
  */
 public final class ShopView extends GameMenuImpl {
-    // Constants related to image positioning
+    /** Constants related to image positioning*/
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
     private static final int IMAGE_DISTANCE = 30;
 
-    // Constants related to button positioning
+    /**Constants related to button positioning */
     private static final int BUY_BUTTON_X_POS = 210;
     private static final int BUTTON_WIDTH = 80;
     private static final int BUTTON_HEIGHT = 80;
     private static final int BUY_BUTTON_Y_DISPLACEMENT = (IMAGE_SIZE - BUTTON_HEIGHT) / 2;
 
-    // Constants related to text and font
+    /** Constants related to text and font*/
     private static final int FONT_SIZE = 20;
     private static final int SHIELD_COUNTER_X_POS = BUY_BUTTON_X_POS + 2 * BUTTON_WIDTH + 2 * IMAGE_DISTANCE;
     private static final int DESCR_X_POS = SHIELD_COUNTER_X_POS + IMAGE_DISTANCE;
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
     
 
-    // Other constants
+    /** Y position of the mrcuddles image, used as a reference for the rest
+     * of the components
+    */
     private final int cuddleImageYPos = (int) GameInfo.getInstance().getScreenHeight() / 8;
 
+    /**The shop controller associated with this view class */
     private final ShopController controller;
+    /**The text section that displays the coin balance */
     private final Text moneyText;
-
+    /**The text section that appears when the right password is typed
+     * alerting that {@link DukeFishron} has been unlocked
+     */
     private final Text dukeUnlocked;
-
+    /**The map that associates a button to a item description */
     private final Map<Button, Text> descriptionsMap = new HashMap<>();
+    /**The map that associates a button to its corresponding item */
     private final Map<Button, Items> buttonMap = new HashMap<>();
+    /**A map that associates a button to its corresponding Image*/
     private final Map<Button, ImageView> imageMap = new HashMap<>();
-
+    /** The lists of the observers subscribed to this class */
     private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
     private List<BackToMenuObs> backList = new ArrayList<>();
     private List<CharacterObs> charObsList = new ArrayList<>();
-
+    /**The root of the scene */
     private StackPane root = new StackPane();
 
     /**
-     * Constructor for ShopView.
+     * Constructor for ShopView
+     * @param controller
+     * @param primaryStage
      */
     public ShopView(final ShopController controller, final Stage primaryStage) {
         super(primaryStage);
@@ -85,15 +96,12 @@ public final class ShopView extends GameMenuImpl {
         }
 
         for (final var entry : buttonMap.entrySet()) {
-
             this.descriptionsMap.put(entry.getKey(), new Text(entry.getValue().getDescription().get()));
             this.imageMap.put(entry.getKey(), new ImageView(new Image(
                     getClass().getClassLoader().getResource("shop/shop" + entry.getValue().name() + ".png")
                             .toExternalForm())));
-
         }
 
-       
         for (final var entry : imageMap.entrySet()) {
             entry.getValue().setFitWidth(IMAGE_SIZE);
             entry.getValue().setFitHeight(IMAGE_SIZE);
@@ -113,9 +121,7 @@ public final class ShopView extends GameMenuImpl {
         }
 
         for (final var entry : buttonMap.entrySet()) {
-
-         
-                            
+     
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(BUTTON_STYLE);
             entry.getKey().setPrefWidth(BUTTON_WIDTH);
@@ -143,7 +149,6 @@ public final class ShopView extends GameMenuImpl {
         moneyText.setTextAlignment(TextAlignment.RIGHT);
         moneyText.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
-     
         dukeUnlocked = new Text();
         dukeUnlocked.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
         dukeUnlocked.setFill(Color.YELLOWGREEN);
@@ -154,12 +159,10 @@ public final class ShopView extends GameMenuImpl {
         root.getChildren().addAll(this.imageMap.values());
         root.getChildren().addAll(this.descriptionsMap.values());
         root.getChildren().addAll(this.buttonMap.keySet());
-
         root.getChildren().addAll(
                 backButton,
                 moneyText,
-                dukeUnlocked
-                );
+                dukeUnlocked);
         this.update();
     }
 
@@ -169,7 +172,9 @@ public final class ShopView extends GameMenuImpl {
     public void setSceneOnStage() {
          this.showMenu();
     }
-
+    /**Methods created for observers that allow subscribing and unsubscribing to 
+     * this observable
+     */
     public void addBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
     }
@@ -194,7 +199,7 @@ public final class ShopView extends GameMenuImpl {
     public void removeCharObs(CharacterObs observer) {
         charObsList.remove(observer);
     }
-
+    /**The graphical update method of this view class */
     public void update() {
        
         this.moneyText.setText("Money: $" + GameStats.getCoins());

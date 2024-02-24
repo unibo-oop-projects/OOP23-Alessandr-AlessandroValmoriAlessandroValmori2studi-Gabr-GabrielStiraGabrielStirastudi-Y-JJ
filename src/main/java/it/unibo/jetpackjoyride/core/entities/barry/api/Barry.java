@@ -8,6 +8,10 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import java.util.Optional;
 
 /**
+ * @author alessandro.valmori2@studio.unibo.it
+ */
+
+/**
  * The Barry interface defines the behavior of the player character, Barry, in the Jetpack Joyride game.
  * It provides methods for managing Barry's position, movement, status, hitbox, and shield.
  */
@@ -27,37 +31,39 @@ public interface Barry extends Entity{
         ALIVE, DEAD
     }
 
- 
+    /**Checks if Barry has a shield */
     boolean hasShield();
 
-    PerformingAction getPerformingAction();
+    /**
+     * Retrieves the current performing action
+     * @return
+     */
 
+    PerformingAction getPerformingAction();
     /**
      * Checks if Barry is alive.
      *
      * @return True if Barry is alive, false otherwise.
      */
     boolean isAlive();
-
     /**
      * Removes the shield from Barry.
      */
     void removeShield();
-
     /**
      * Sets the shield on Barry.
      */
     void setShieldOn();
-
     /**
-     * Kills Barry based on the type of obstacle.
-     *
-     * @param type The type of obstacle that killed Barry.
+     * A method used to communicate to the player that it has been hit, and
+     * by what
+     * @param type The type of obstacle that hit Barry.
      */
    void hit(ObstacleType obstacleType);
 
     /**
-     * Sets the life status of Barry.
+     * Sets the life status of Barry to either DEAD
+     * or ALIVE
      *
      * @param lifeStatus The life status of Barry.
      */

@@ -45,7 +45,7 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        Movement barryMovement = new Movement.Builder().setPosition(100.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
         Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
         this.player = new BarryImpl(barryMovement, barryHitbox);
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
@@ -120,7 +120,11 @@ public class EntityHandler {
         this.listOfEntities.addAll(this.powerUpHandler.getAllPowerUps());
         this.listOfEntities.addAll(this.pickUpHandler.getAllPickUps());
         this.listOfEntities.addAll(this.obstacleHandler.getAllObstacles());
+        if(!this.player.getEntityStatus().equals(EntityStatus.INACTIVE)){
         this.listOfEntities.add(this.player);
+        }else{
+            this.listOfEntities.remove(player);
+        }
         return true;
     }
 

@@ -29,11 +29,9 @@ public final class Movement {
      * Defines how much the speed will be increased upwards.
      */
     private static final Double INVERSEGRAVITYMODIFIER = -0.3;
-
     /**
      * Defines what coordinate could be considered as the upper bound of the map.
      */
-
     private static final Double MAPBOUNDUP = 80.0;
     /**
      * Defines what coordinate could be considerated as the lower bound of the map.
@@ -91,7 +89,6 @@ public final class Movement {
     public Pair<Double, Double> getSpeed() {
         return this.movementSpecifiers.speed();
     }
-
     /**
      * Gets the accelerationof the entity.
      *
@@ -118,7 +115,6 @@ public final class Movement {
     public List<MovementChangers> getMovementChangers() {
         return Collections.unmodifiableList(this.listOfChangers);
     }
-
     /**
      * Applies the modifiers to the movement depending on what the listOfChangers contains.
      * Since the possible modifiers are few and a correct order has to be followed when 

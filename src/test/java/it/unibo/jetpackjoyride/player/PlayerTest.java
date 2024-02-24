@@ -107,7 +107,7 @@ public class PlayerTest  {
         this.barry = new BarryImpl(barryMovement, barryHitbox);
         this.barry.update(true);
 
-        this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder())
+        //this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder())
     }
 
 

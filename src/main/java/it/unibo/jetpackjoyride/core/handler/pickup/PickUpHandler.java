@@ -7,17 +7,30 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
+import java.util.Random;
+import java.util.Set;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.HashSet;
+
 import java.util.Optional;
 
 
 public class PickUpHandler {
+    private final static Integer BASEPICKUPSPAWNCHANCE = 100;
     private final List<PickUp> listOfPickUp;
     private final EntityModelGeneratorImpl entityModelGenerator;
+    private final Random random;
 
     public PickUpHandler() {
         this.listOfPickUp = new ArrayList<>();
         this.entityModelGenerator = new EntityModelGeneratorImpl();
+        random = new Random();
     }
 
     public boolean update(final Optional<Hitbox> playerHitbox) {
@@ -40,9 +53,36 @@ public class PickUpHandler {
         return pickUpPickedUp;
     }
 
-    public void spawnPickUp(final PickUpType pickUpType) {
-        listOfPickUp.add(entityModelGenerator.generatePickUp(pickUpType));
+    public void spawnPickUp(final Set<Items> unlockedItems) {
+        if(random.nextInt(BASEPICKUPSPAWNCHANCE) != 0) {
+            return;
+        }
+
+        final List<PickUpType> setOfPossiblePickUps = new ArrayList<>();
+        if(unlockedItems.stream().filter(p -> p.getCorresponding().isEmpty()).findAny().isPresent()) {
+            //Shield
+            setOfPossiblePickUps.add(PickUpType.SHIELD);
+        }
+        if(unlockedItems.stream().filter(p -> p.getCorresponding().isPresent()).findAny().isPresent()) {
+            //Powerup
+            setOfPossiblePickUps.add(PickUpType.VEHICLE);
+        }
+
+        Collections.shuffle(setOfPossiblePickUps);
+        final PickUpType newTypeOfPickup = setOfPossiblePickUps.get(0);
+
+        listOfPickUp.add(entityModelGenerator.generatePickUp(newTypeOfPickup));
+
+        if(newTypeOfPickup.equals(PickUpType.VEHICLE)) {
+            final List<PowerUpType> allPowerUpUnlocked = unlockedItems.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).toList();
+            final PowerUpType powerUpSpawned = allPowerUpUnlocked.get(random.nextInt(allPowerUpUnlocked.size()));
+
+            listOfPickUp.stream().filter(p -> p.getPickUpType().equals(PickUpType.VEHICLE)).forEach(p -> { final VehiclePickUp vehiclePickUp = (VehiclePickUp)p; vehiclePickUp.setVehicleSpawn(powerUpSpawned);});
+        }
     }
+
+
+
 
     public List<PickUp> getAllPickUps() {
         return this.listOfPickUp;

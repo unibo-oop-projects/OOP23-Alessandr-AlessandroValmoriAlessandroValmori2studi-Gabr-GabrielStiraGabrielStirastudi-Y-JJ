@@ -116,10 +116,16 @@ public class EntityHandler {
                     break;
             }
         }
+
+        this.listOfEntities.clear();
         this.listOfEntities.addAll(this.powerUpHandler.getAllPowerUps());
         this.listOfEntities.addAll(this.pickUpHandler.getAllPickUps());
         this.listOfEntities.addAll(this.obstacleHandler.getAllObstacles());
+        if(!this.player.getEntityStatus().equals(EntityStatus.INACTIVE)){
         this.listOfEntities.add(this.player);
+        }else{
+            this.listOfEntities.remove(player);
+        }
         return true;
     }
 

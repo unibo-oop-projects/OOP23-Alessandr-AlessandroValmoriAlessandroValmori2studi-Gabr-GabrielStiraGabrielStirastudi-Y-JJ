@@ -14,7 +14,7 @@ public class EntityImageLoader {
     private final static Integer MISSILESPRITES = 20;
     private final static Integer ZAPPERSPRITES = 20;
     private final static Integer LASERSPRITES = 16;
-    private final static Integer LILSTOMPERSPRITES = 24;
+    private final static Integer LILSTOMPERSPRITES = 25;
     private final static Integer MRCUDDLESPRITES = 6;
     private final static Integer PROFITBIRDSPRITES = 12;
     private final static Integer DUKEFISHRONSPRITES = 12;
@@ -27,8 +27,7 @@ public class EntityImageLoader {
 
     public EntityImageLoader() {
         this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
-        this.powerupImages = new ArrayList<>(); // 0-23 LILSTOMPER | 24-29 MRCUDDLE | 30-41 PROFITBIRD | 42-53
-                                                // DUKEFISHRON
+        this.powerupImages = new ArrayList<>(); // 0-24 LILSTOMPER | 25-30 MRCUDDLE | 31-42 PROFITBIRD | 43-54 DUKEFISHRON
         this.pickupImages = new ArrayList<>(); // 0-20 VEHICLEPICKUP
 
         // MISSILE 20 total
@@ -38,7 +37,7 @@ public class EntityImageLoader {
         // LASER 16 total
         obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
 
-        // LILSTOMPER 24 total
+        // LILSTOMPER 25 total
         powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
         // MRCUDDLE 6 total
         powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));

@@ -71,8 +71,8 @@ public final class ObstacleView extends AbstractEntityView {
                         if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS && animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                             this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
                                     / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES);
-                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED + 1 < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
-                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED + 1 < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED  < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED  < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
                         } else { 
                             if(animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                                 this.animationCounter[0] = MISSILE_WARNING_FIRST_TICKS;

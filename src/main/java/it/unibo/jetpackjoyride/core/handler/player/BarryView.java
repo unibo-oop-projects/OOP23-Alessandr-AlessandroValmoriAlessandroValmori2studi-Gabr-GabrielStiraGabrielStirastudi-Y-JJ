@@ -13,6 +13,7 @@ import java.util.Map;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -22,7 +23,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  * It is responsible for updating the visual representation of the Barry entity
  * based on its state.
  */
-public final class BarryView {
+public final class BarryView implements EntityView {
 
     private final ImageView imageView;
     private final ImageView shieldImageView;
@@ -30,12 +31,9 @@ public final class BarryView {
     private int animationFrame;
     private final GameInfo infoResolution;
     private PerformingAction oldAction;
-  
-   
+    private List<ImageView> imageViewCouple;
 
-
-
-     private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
+    private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
     private static final int NUM_COPIES = 7;
 
     private final Map<PerformingAction, Integer> framesPerAnimation = new HashMap<>() {
@@ -50,7 +48,6 @@ public final class BarryView {
         }
     };
 
-    
     /**
      * Constructs a new BarryView instance with the given list of images.
      *
@@ -58,15 +55,16 @@ public final class BarryView {
      *               Barry entity.
      */
     public BarryView() {
-        
+
         shieldImageView = new ImageView(new Image("sprites/entities/player/barrySHIELD.png"));
         this.imageView = new ImageView();
         this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
         this.oldAction = PerformingAction.WALKING;
-        
+
         this.buildMap();
         this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
+        this.imageViewCouple = new ArrayList<>();
     }
 
     /**
@@ -76,8 +74,9 @@ public final class BarryView {
      * @param barry The Barry entity whose view needs to be updated.
      */
 
-     
-    public void update(Group root, final Barry barry) {
+    @Override
+    public void updateView(final Entity entity) {
+        final Barry barry = (Barry) entity;
 
         if (barry.getPerformingAction() != this.oldAction) {
             this.oldAction = barry.getPerformingAction();
@@ -85,14 +84,14 @@ public final class BarryView {
             animationFrame = 0;
         }
 
-        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
-        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
+        final double scaleX = infoResolution.getScreenWidth() / infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight() / infoResolution.getDefaultHeight();
 
         final double width = infoResolution.getDefaultWidth() / 8 * scaleX;
         final double height = infoResolution.getDefaultHeight() / 5 * scaleY;
 
-        imageView.setX(barry.getEntityMovement().getPosition().get1()*scaleX - width / 2);
-        imageView.setY(barry.getEntityMovement().getPosition().get2()*scaleY - height / 2);
+        imageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
+        imageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
@@ -106,29 +105,18 @@ public final class BarryView {
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);
 
-      
-
-         final Node imageView = (Node) this.imageView;
-         final Node shieldImageView = (Node) this.shieldImageView;
-
         if (barry.getEntityStatus().equals(EntityStatus.ACTIVE)) {
-            if (!root.getChildren().contains(imageView)) {
-                root.getChildren().add(imageView);
+            this.imageViewCouple.add(imageView);
+            if (barry.hasShield()) {
+                this.imageViewCouple.add(shieldImageView);
+
+            } else if (!barry.hasShield()) {
+                this.imageViewCouple.remove(this.imageViewCouple.size() - 1);
+
             }
-            if (barry.hasShield() && !root.getChildren().contains(shieldImageView)) {
-                root.getChildren().add(shieldImageView);
-               
-            } else if (!barry.hasShield() && root.getChildren().contains(shieldImageView)) {
-                root.getChildren().remove(shieldImageView);
-                
-            }
-        } else {
-            root.getChildren().removeAll(imageView, shieldImageView);
+
         }
-
     }
-
-  
 
     private void buildMap() {
         for (final var entry : framesPerAnimation.entrySet()) {
@@ -144,7 +132,9 @@ public final class BarryView {
         }
     }
 
-   
-
+    @Override
+    public List<ImageView> getImageView() {
+        return List.of(imageView);
+    }
 
 }

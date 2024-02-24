@@ -80,20 +80,19 @@ public class PickUpView implements EntityView {
             case SHIELD:
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
-                    width = screenSizeX / 15;
-                    height = screenSizeY / 9;
-                    animationLenght = 2;
-                    break;
+                        width = screenSizeX / 15;
+                        height = screenSizeY / 9;
+                        animationLenght = 2;
+                        break;
                     case DEACTIVATED:
-                    width = 0.0;
-                    height = 0.0;
-                    break;
+                        width = 0.0;
+                        height = 0.0;
+                        break;
                     default:
-                    width = 0.0;
-                    height = 0.0;
-                    break;
+                        width = 0.0;
+                        height = 0.0;
+                        break;
                 }
-                break;
             default:
                 width = 0.0;
                 height = 0.0;
@@ -101,11 +100,11 @@ public class PickUpView implements EntityView {
 
         }
 
-        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
-        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
+        final double scaleX = infoResolution.getScreenWidth() / infoResolution.getDefaultWidth();
+        final double scaleY = infoResolution.getScreenHeight() / infoResolution.getDefaultHeight();
 
-        imageView.setX(pickUp.getEntityMovement().getPosition().get1()*scaleX - width / 2);
-        imageView.setY(pickUp.getEntityMovement().getPosition().get2()*scaleY - height / 2);
+        imageView.setX(pickUp.getEntityMovement().getPosition().get1() * scaleX - width / 2);
+        imageView.setY(pickUp.getEntityMovement().getPosition().get2() * scaleY - height / 2);
         imageView.setRotate(pickUp.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);
@@ -115,8 +114,8 @@ public class PickUpView implements EntityView {
     }
 
     @Override
-    public ImageView getImageView() {
-        return imageView;
+    public List<ImageView> getImageView() {
+        return List.of(imageView);
     }
 
 }

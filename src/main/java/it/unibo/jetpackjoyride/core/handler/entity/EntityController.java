@@ -17,13 +17,11 @@ import javafx.scene.Node;
 public class EntityController {
     private EntityHandler entityHandler;
     private EntityImageLoader imageLoader = new EntityImageLoader();
-    private BarryView barryView;
     private Map<Entity,EntityView> modelViewMapper;
 
     public EntityController(ShopController shop) {
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);
-        this.barryView = new BarryView();
         this.modelViewMapper = new HashMap<>();
     }
 
@@ -37,7 +35,7 @@ public class EntityController {
                 final EntityView entityView;
                     switch (entity.getEntityType()) {
                         case BARRY:
-                            entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
+                            entityView = new BarryView();
                             break;
                         case OBSTACLE:
                             entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
@@ -54,7 +52,7 @@ public class EntityController {
                     }
 
                     this.modelViewMapper.put(entity, entityView);
-                    entityGroup.getChildren().add((Node) entityView.getImageView());
+                    entityGroup.getChildren().addAll(entityView.getImageView());
             }
 
             this.modelViewMapper.get(entity).updateView(entity);
@@ -64,7 +62,7 @@ public class EntityController {
                 .filter(p -> !this.entityHandler.getAllEntities().contains(p.getKey())).map(p -> p.getValue()).toList();
 
         this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
-        entityGroup.getChildren().removeAll(entityViews.stream().map(v -> (Node) v.getImageView()).toList());
+        entityGroup.getChildren().removeAll(entityViews.stream().flatMap(v ->  v.getImageView().stream().map(e -> (Node)e)).toList());
         return true;
     }
 

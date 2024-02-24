@@ -15,14 +15,10 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 import java.util.List;
 
 

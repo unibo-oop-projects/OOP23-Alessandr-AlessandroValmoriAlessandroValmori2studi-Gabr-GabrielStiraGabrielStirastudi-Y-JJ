@@ -138,15 +138,15 @@ public class EntityTest{
         /* Even if a zapper is spawned with a selected Xposition, it will be ignored 
         (other characteristics such as speed, acceleration, rotation, etc.. will not be ignored) 
         This is to prevent zappers from spawning "inside the screen" when they normally should spawn
-        out of the screen bounds. The same applies for example to Missiles. */
+        out of the screen bounds. The same applies for example to Missiles.*/
         zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setPosition(FIVEHUNDREDPAIR).build());
         assertNotEquals(FIVEHUNDREDPAIR, zapper.getEntityMovement().getPosition());
-        /* This does not prevent from deciding the Yposition coordinate tho */
+        /* This does not prevent from deciding the Yposition coordinate though*/
         assertTrue(zapper.getEntityMovement().getPosition().get2().equals(500.0));
 
         /* Also, since this rule is applied only when using the generator (which is basically the only way
          missiles are generated in this software) and creating a new Zapper, we can change the position and "bypass"
-         the rule by using the setMovement method and providing the wanted position */
+         the rule by using the setMovement method and providing the wanted position*/
 
         zapper.setEntityMovement(new Movement.Builder().setPosition(FIVEHUNDREDPAIR).build());
 

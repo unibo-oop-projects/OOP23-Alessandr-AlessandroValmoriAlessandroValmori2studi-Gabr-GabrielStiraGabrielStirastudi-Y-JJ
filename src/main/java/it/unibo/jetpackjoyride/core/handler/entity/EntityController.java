@@ -3,6 +3,8 @@ package it.unibo.jetpackjoyride.core.handler.entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
@@ -34,9 +36,18 @@ public class EntityController {
                 final EntityView entityView = this.viewImagesLoader(entity);
                     
                 this.modelViewMapper.put(entity, entityView);
-                entityGroup.getChildren().addAll(entityView.getImageView());
+               
+                entityGroup.getChildren().add(entityView.getImageView());
             }
-
+            if(entity instanceof BarryImpl){
+                var shield = ((BarryView) this.modelViewMapper.get(entity)).getShieldImageView();
+                if((((BarryImpl) entity).hasShield()) &&  !entityGroup.getChildren().contains(shield)){
+                    entityGroup.getChildren().add(shield);
+                }
+                else if(entityGroup.getChildren().contains(shield) && !(((BarryImpl) entity).hasShield())){
+                    entityGroup.getChildren().remove(shield);
+                }
+            }
             this.modelViewMapper.get(entity).updateView(entity);
         }
 
@@ -44,7 +55,7 @@ public class EntityController {
                 .filter(p -> !this.entityHandler.getAllEntities().contains(p.getKey())).map(p -> p.getValue()).toList();
 
         this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
-        entityGroup.getChildren().removeAll(entityViews.stream().flatMap(v ->  v.getImageView().stream().map(e -> (Node)e)).toList());
+        entityGroup.getChildren().removeAll(entityViews.stream().map(e -> (Node)e.getImageView()).toList());
         return true;
     }
 

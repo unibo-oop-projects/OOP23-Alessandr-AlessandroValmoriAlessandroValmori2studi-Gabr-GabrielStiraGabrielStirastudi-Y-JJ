@@ -23,7 +23,7 @@ public class ObstacleLoader {
     private final static Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer MAX_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer TYPES_OF_OBSTACLES = 3;
-    private final static Integer TIME_OF_LAZYNESS = 25;
+    private final static Integer TIME_OF_LAZYNESS = 30;
     private final static Double DEFAULT_SPEED_OF_UNKOWN_OBSTACLE = 5.0;
     private final static Integer MAX_TICK_FOR_OBSTACLE_SPAWN = 20;
     private final static Double Y_MAP_DIMENSION = 720.0;
@@ -73,7 +73,7 @@ public class ObstacleLoader {
     }
 
     private void randomBasedObstacleGeneration() {
-        this.duration = 30;
+        this.duration = TIME_OF_LAZYNESS;
 
         for(int i=1; i<=MAX_NUMBER_OF_PATTERNS; i++) {
             //Pattern number i has a random number of obstacles ranging 3 to 8

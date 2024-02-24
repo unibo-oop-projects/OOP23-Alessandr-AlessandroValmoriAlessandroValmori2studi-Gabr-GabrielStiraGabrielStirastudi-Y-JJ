@@ -7,146 +7,160 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public final class ObstacleView implements EntityView {
-    private final ImageView imageView;
-    private final List<Image> images;
-    private int animationFrame;
+public final class ObstacleView extends AbstractEntityView {
+    private final static Double MISSILE_WARNING_X_DIMENSION = 80.0;
+    private final static Double MISSILE_WARNING_Y_DIMENSION = 60.0;
+    private final static Double MISSILE_WARNING_DIMENSION_CHANGE = 15.0;
+    private final static Integer MISSILE_WARNING_ANIMATION_LENGHT = 4;
+    private final static Integer MISSILE_WARNING_FIRST_NUM_SPRITES = 3;
+    private final static Integer MISSILE_WARNING_SECOND_NUM_SPRITES = 2;
+    private final static Integer MISSILE_WARNING_FIRST_TICKS = 90;
+    private final static Integer MISSILE_WARNING_SECOND_TICKS = 100;
+
+    private final static Double MISSILE_X_DIMENSION = 160.0;
+    private final static Double MISSILE_Y_DIMENSION = 45.0;
+    private final static Integer MISSILE_ANIMATION_LENGHT = 4;
+    private final static Integer MISSILE_NUM_SPRITES = 7;
+
+    private final static Double MISSILE_EXPLOSION_X_DIMENSION = 160.0;
+    private final static Double MISSILE_EXPLOSION_Y_DIMENSION = 160.0;
+    private final static Integer MISSILE_EXPLOSION_ANIMATION_LENGHT = 7;
+    private final static Integer MISSILE_EXPLOSION_NUM_SPRITES = 8;
+
+    private final static Double ZAPPER_X_DIMENSION = 215.0;
+    private final static Double ZAPPER_Y_DIMENSION = 90.0;
+    private final static Integer ZAPPER_ANIMATION_LENGHT = 6;
+    private final static Integer ZAPPER_NUM_SPRITES = 4;
+
+    private final static Integer ZAPPER_BROKEN_ANIMATION_LENGHT = 4;
+    private final static Integer ZAPPER_BROKEN_NUM_SPRITES = 16;
+
+    private final static Double LASER_X_DIMENSION = 1150.0;
+    private final static Double LASER_Y_DIMENSION = 30.0;
+    private final static Integer LASER_ANIMATION_LENGHT = 8;
+
+    private final static Integer LASER_CHARGING_NUM_SPRITES = 12;
+
+    private final static Integer LASER_BEAM_NUM_SPRITES = 4;
+
     private int animationLenght;
     private int[] animationCounter;
 
     public ObstacleView(final List<Image> images) {
-        this.images = images;
-        this.imageView = new ImageView();
-        this.animationFrame = 0;
+        super(images);
         this.animationCounter = new int[3]; // 0 counter for charging, 1 counter for active, 2 counter for deactivated
         this.animationLenght = 1;
     }
 
     @Override
-    public void updateView(final Entity entity) {
-        final Obstacle obstacle = (Obstacle)entity;
-        Double width;
-        Double height;
-        final GameInfo infoResolution = GameInfo.getInstance();
-        final Double screenSizeX = infoResolution.getDefaultWidth();
-        final Double screenSizeY = infoResolution.getDefaultHeight();
+    protected void animateFrames(final Entity entity) {
+        final Obstacle obstacle = (Obstacle) entity;
 
         switch (obstacle.getObstacleType()) {
             case MISSILE:
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        width = screenSizeX / 16;
-                        height = screenSizeY / 12;
-                        animationLenght = 4;
-                        animationFrame = (animationCounter[0]) / animationLenght % 3;
-                        if(animationCounter[0] > 90) {
-                            animationFrame = 3 + ((animationCounter[0]) / animationLenght % 2);
-                            width+=15;
-                            height+=15;
+                        this.width = MISSILE_WARNING_X_DIMENSION;
+                        this.height = MISSILE_WARNING_Y_DIMENSION;
+                        this.animationLenght = MISSILE_WARNING_ANIMATION_LENGHT;
+                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght
+                                % MISSILE_WARNING_FIRST_NUM_SPRITES;
+
+                        if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS) {
+                            this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
+                                    / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES);
+                            this.width += MISSILE_WARNING_DIMENSION_CHANGE;
+                            this.height += MISSILE_WARNING_DIMENSION_CHANGE;
+                        } else { 
+                            if(animationCounter[0] > MISSILE_WARNING_FIRST_TICKS && animationCounter[0] < MISSILE_WARNING_SECOND_TICKS) {
+                                this.animationCounter[0] = MISSILE_WARNING_FIRST_TICKS;
+                                this.width = MISSILE_WARNING_X_DIMENSION;
+                                this.height = MISSILE_WARNING_Y_DIMENSION;
+                            }  
                         }
-                        if(animationCounter[0] == 100) {
-                            width = screenSizeX / 16;
-                            height = screenSizeY / 12;
-                            animationCounter[0] = 90;
-                        }
-                        animationCounter[0]++;
+                        this.animationCounter[0]++;
                         break;
                     case ACTIVE:
-                        width = screenSizeX / 8;
-                        height = screenSizeY / 16;
-                        animationLenght = 4;
-                        animationFrame = 5 + ((animationCounter[1]) / animationLenght % 7);
-                        animationCounter[1]++;
+                        this.width = MISSILE_X_DIMENSION;
+                        this.height = MISSILE_Y_DIMENSION;
+                        this.animationLenght = MISSILE_ANIMATION_LENGHT;
+                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES + ((animationCounter[1]) / animationLenght % MISSILE_NUM_SPRITES);
+                        this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        width = screenSizeX / 8;
-                        height = screenSizeY / 5;
-                        animationLenght = 7;
-                        animationFrame = 12 + ((animationCounter[2]) / animationLenght % 8);
-                        animationCounter[2]++;
+                        this.width = MISSILE_EXPLOSION_X_DIMENSION;
+                        this.height = MISSILE_EXPLOSION_Y_DIMENSION;
+                        this.animationLenght = MISSILE_EXPLOSION_ANIMATION_LENGHT;
+                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES + MISSILE_NUM_SPRITES + ((animationCounter[2]) / animationLenght % MISSILE_EXPLOSION_NUM_SPRITES);
+                        this.animationCounter[2]++;
                         break;
                     default:
-                        animationFrame = 0;
-                        width = 0.0;
-                        height = 0.0;
+                        this.animationFrame = 0;
+                        this.width = 0.0;
+                        this.height = 0.0;
                         break;
                 }
 
                 break;
             case ZAPPER:
-                width = screenSizeX / 6;
-                height = screenSizeY / 8;
+                this.width = ZAPPER_X_DIMENSION;
+                this.height = ZAPPER_Y_DIMENSION;
 
                 switch (obstacle.getEntityStatus()) {
                     case ACTIVE:
-                        animationLenght = 6;
-                        animationFrame = (animationCounter[1]) / animationLenght % 4;
-                        animationCounter[1]++;
+                        this.animationLenght = ZAPPER_ANIMATION_LENGHT;
+                        this.animationFrame = (this.animationCounter[1]) / this.animationLenght % ZAPPER_NUM_SPRITES;
+                        this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        animationLenght = 4;
-                        animationFrame = 3 + ((animationCounter[2]) / animationLenght % 17);
-                        if (animationFrame != 19) {
-                            animationCounter[2]++;
+                        this.animationLenght = ZAPPER_BROKEN_ANIMATION_LENGHT;
+                        this.animationFrame = ZAPPER_NUM_SPRITES + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES);
+                        System.out.println(this.animationFrame);
+                        if (this.animationFrame != ZAPPER_NUM_SPRITES + ZAPPER_BROKEN_NUM_SPRITES - 1) {
+                            this.animationCounter[2]++;
                         }
                         break;
                     default:
-                        animationFrame = 0;
-                        width = 0.0;
-                        height = 0.0;
+                        this.animationFrame = 0;
+                        this.width = 0.0;
+                        this.height = 0.0;
                         break;
                 }
                 break;
             case LASER:
-                width = screenSizeX - screenSizeX / 8;
-                height = screenSizeY / 24;
-                animationLenght = 8;
+                this.width = LASER_X_DIMENSION;
+                this.height = LASER_Y_DIMENSION;
+                this.animationLenght = LASER_ANIMATION_LENGHT;
 
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        animationFrame = (animationCounter[0]) / animationLenght % 12;
-                        animationCounter[0]++;
+                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES;
+                        this.animationCounter[0]++;
                         break;
                     case ACTIVE:
-                        animationFrame = 12 + ((animationCounter[1]) / animationLenght % 4);
-                        animationCounter[1]++;
+                        this.animationFrame = LASER_CHARGING_NUM_SPRITES + ((this.animationCounter[1]) / this.animationLenght % LASER_BEAM_NUM_SPRITES);
+                        this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        animationFrame = 11 + ((-animationCounter[2]) / animationLenght % 12);
-                        animationCounter[2]++;
+                        this.animationFrame = LASER_CHARGING_NUM_SPRITES - 1 + ((-animationCounter[2]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES);
+                        this.animationCounter[2]++;
                         break;
                     default:
-                        animationFrame = 0;
-                        width = 0.0;
-                        height = 0.0;
+                        this.animationFrame = 0;
+                        this.width = 0.0;
+                        this.height = 0.0;
                         break;
                 }
                 break;
             default:
-                width = 0.0;
-                height = 0.0;
+                this.width = 0.0;
+                this.height = 0.0;
                 break;
         }
 
-        final double scaleX = infoResolution.getScreenWidth()/infoResolution.getDefaultWidth();
-        final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
-
-        imageView.setX(obstacle.getEntityMovement().getPosition().get1()*scaleX - width / 2);
-        imageView.setY(obstacle.getEntityMovement().getPosition().get2()*scaleY - height / 2);
-        imageView.setRotate(obstacle.getEntityMovement().getRotation().get1());
-
-        imageView.setFitWidth(width);
-        imageView.setFitHeight(height);
-
-        imageView.setImage(images.get(animationFrame));
     }
-
-    @Override
-    public ImageView getImageView() {
-        return imageView;
-    }
-
 }

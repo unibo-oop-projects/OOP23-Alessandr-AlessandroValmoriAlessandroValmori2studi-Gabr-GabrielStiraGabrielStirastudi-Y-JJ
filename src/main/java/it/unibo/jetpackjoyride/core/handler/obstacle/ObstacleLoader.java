@@ -154,7 +154,8 @@ public class ObstacleLoader {
                     final Integer tickTimeSpawn = Integer.parseInt(parts[this.attributes.get("OBSTACLE_TICKTIME")]);
 
                     final Movement obstacleMovement = new Movement.Builder().setPosition(pos).setSpeed(speed).setAcceleration(acc).setRotation(rot).build();
-                    obstaclesOfInstance.add(new Pair<>(this.entityGenerator.generateObstacle(ObstacleType.valueOf(obstacleType), obstacleMovement),tickTimeSpawn));
+                    final Obstacle obstacle = this.entityGenerator.generateObstacle(ObstacleType.valueOf(obstacleType), obstacleMovement);
+                    obstaclesOfInstance.add(new Pair<>(obstacle,tickTimeSpawn));
                 }
                 else {
                     this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));

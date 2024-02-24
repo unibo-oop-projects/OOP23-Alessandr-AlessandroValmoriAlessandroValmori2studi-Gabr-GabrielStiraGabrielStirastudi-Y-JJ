@@ -23,7 +23,6 @@ public class EntityController {
     public EntityController(ShopController shop) {
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);
-        this.barryView = new BarryView();
         this.modelViewMapper = new HashMap<>();
     }
 
@@ -37,8 +36,7 @@ public class EntityController {
                 final EntityView entityView;
                     switch (entity.getEntityType()) {
                         case BARRY:
-                            entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
-                            break;
+                            this.barryView = new BarryView();
                         case OBSTACLE:
                             entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
                             break;
@@ -54,6 +52,8 @@ public class EntityController {
                     }
 
                     this.modelViewMapper.put(entity, entityView);
+
+                    this.barryView.update(entityGroup, null);
                     entityGroup.getChildren().add((Node) entityView.getImageView());
             }
 

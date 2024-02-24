@@ -73,8 +73,8 @@ public final class MapBackgroundImplTest extends ApplicationTest {
 
             x1 = mapBackground.getModelData().get(POSITION).get1();
             x2 = mapBackground.getModelData().get(POSITION).get2();
-            assertTrue(x1 < x2 ? x1 + mapBackground.getModelData().get(SIZE).get1() >= x2 : 
-                        x2 + mapBackground.getModelData().get(SIZE).get1() >= x1);
+            assertTrue(x1 < x2 ? x1 + mapBackground.getModelData().get(SIZE).get1() >= x2 
+                        : x2 + mapBackground.getModelData().get(SIZE).get1() >= x1);
         });
     }
 

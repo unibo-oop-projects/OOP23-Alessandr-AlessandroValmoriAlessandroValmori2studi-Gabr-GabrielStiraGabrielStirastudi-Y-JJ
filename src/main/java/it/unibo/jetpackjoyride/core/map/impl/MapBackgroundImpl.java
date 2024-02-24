@@ -26,6 +26,7 @@ public final class MapBackgroundImpl implements MapBackground {
     private static final int BGIMAGE_ONE = 0;
     private static final int BGIMAGE_TWO = 1;
     private static final int TIMES_FOR_CHANGE = 10;
+    private static final double EPSILON = 0.000001;
 
     private final MapBackgroundModel model;
     private final MapBackgroundView view;
@@ -122,7 +123,8 @@ public final class MapBackgroundImpl implements MapBackground {
     private void updateSize() {
         double newWidth = gameInfo.getScreenWidth();
         double newHeight = gameInfo.getScreenHeight();
-        if (newWidth != model.getSize().get1() || newHeight != model.getSize().get2()) {
+        if (Math.abs(newWidth - model.getSize().get1()) > EPSILON 
+        || Math.abs(newHeight - model.getSize().get2()) > EPSILON) {
             double ratioX1 = model.getPosX().get1() / model.getSize().get1();
             double ratioX2 = model.getPosX().get2() / model.getSize().get1();
 

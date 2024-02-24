@@ -174,7 +174,7 @@ public class ObstacleLoader {
     public Set<Obstacle> getInstanceOfPattern() {
         if (this.isInSamePattern()) {
             this.difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
-            
+
             this.difficulty = (this.difficulty*PATTERN_VARIETY_MODIFIER - random.nextInt(PATTERN_VARIETY_MODIFIER)) % (MAX_NUMBER_OF_PATTERNS+1) ;
             if(this.interval == 0) {
                 this.duration = this.allObstacles.get(this.difficulty).stream().map(p -> p.get2()).mapToInt(i->i).max().getAsInt() + TIME_OF_LAZYNESS;

@@ -1,93 +1,131 @@
-/*package it.unibo.jetpackjoyride.player;
+package it.unibo.jetpackjoyride.player;
 
 import static it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType.OBSTACLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 
-import org.testfx.framework.junit5.ApplicationTest;
-
-import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.BarryStatus;
-import it.unibo.jetpackjoyride.core.entities.barry.impl.PlayerMover;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStatsHandler;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.MovementChangers;
+import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import java.util.List;
 
 
 
-public class PlayerTest extends ApplicationTest {
+public class PlayerTest  {
 
-    private PlayerMover playermover;
-    private GameStatsController gameStatsController;
+    private EntityModelGeneratorImpl entityFactory;
 
-    
-    @Override
-    public void start(Stage stage) {
-        this.gameStatsController = new GameStatsHandler();
-        this.playermover = new PlayerMover(this.gameStatsController);
+    private Barry barry;
+    private final static Pair<Double,Double> ZEROPAIR = new Pair<>(0.0,0.0);
+    private final static Pair<Double,Double> ONEHUNDREDPAIR = new Pair<>(100.0,100.0);
+    private final static Pair<Double,Double> FIVEHUNDREDPAIR = new Pair<>(500.0,500.0);
+
+
+    @org.junit.Before
+    public void init() {
+        this.entityFactory = new EntityModelGeneratorImpl();
     }
 
     @Test
     public void testPlayerInitialization(){
-      assertTrue(this.playermover.getModel().isActive());
-      assertTrue(this.playermover.getModel().isAlive());
-      assertEquals(this.playermover.getModel().getBarryStatus(), BarryStatus.WALKING);
-      
-
+        Movement barryMovement = new Movement.Builder().setPosition(100.0, 630.0).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+      assertTrue(this.barry.isAlive());
+      assertEquals(this.barry.getEntityStatus(), EntityStatus.ACTIVE);
+      assertEquals(this.barry.getPerformingAction(), PerformingAction.WALKING);
+      assertFalse(this.barry.hasShield());
     }
     @Test 
     public void testPlayerHit(){
-        this.playermover.setBarryShield();
-        var status = this.playermover.getModel().getBarryStatus();
-        this.playermover.hit(ObstacleType.ZAPPER);
-        assertEquals(this.playermover.getModel().getBarryStatus(), status);
-        assertTrue(this.playermover.getModel().isAlive());
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.setShieldOn();
+        var status = this.barry.getPerformingAction();
+        this.barry.hit(ObstacleType.ZAPPER);
+        assertEquals(this.barry.getPerformingAction(), status);
+        assertTrue(this.barry.isAlive());
         
-      this.playermover.hit(ObstacleType.MISSILE);
-      assertFalse(this.playermover.getModel().isAlive());
-      assertEquals(this.playermover.getModel().getBarryStatus(), BarryStatus.BURNED);
+      this.barry.hit(ObstacleType.MISSILE);
+      assertFalse(this.barry.isAlive());
+      assertEquals(this.barry.getPerformingAction(), PerformingAction.BURNED);
     }
 
     @Test 
     public void testPlayerHit2(){
-        this.playermover.hit(ObstacleType.ZAPPER);
-        assertFalse(this.playermover.getModel().isAlive());
-        assertEquals(BarryStatus.ZAPPED, this.playermover.getModel().getBarryStatus());
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.hit(ObstacleType.ZAPPER);
+        assertFalse(this.barry.isAlive());
+        assertEquals(PerformingAction.ZAPPED, this.barry.getPerformingAction());
     }
 
     @Test 
     public void testPlayerMove(){
-        this.playermover.move(true);
-        assertEquals(BarryStatus.PROPELLING, this.playermover.getModel().getBarryStatus());
-        this.playermover.move(true);
-        this.playermover.move(false);
-        assertEquals(BarryStatus.FALLING, this.playermover.getModel().getBarryStatus());
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.update(true);
+        assertEquals(PerformingAction.PROPELLING, this.barry.getPerformingAction());
+        this.barry.update(true);
+        this.barry.update(false);
+        assertEquals(PerformingAction.FALLING, this.barry.getPerformingAction());
         for(int i =0 ; i<10; i++){
-            this.playermover.move(false);
+            this.barry.update(false);
         }
  
-        assertEquals(BarryStatus.WALKING, this.playermover.getModel().getBarryStatus());
+        assertEquals(PerformingAction.WALKING, this.barry.getPerformingAction());
         
         for(int i =0 ; i<100; i++){
-            this.playermover.move(true);
+            this.barry.update(true);
         }
-        assertEquals(BarryStatus.HEAD_DRAGGING, this.playermover.getModel().getBarryStatus());
+        assertEquals(PerformingAction.HEAD_DRAGGING, this.barry.getPerformingAction());
+    }
+
+    @Test 
+    public void testPlayerObstacleCollision(){
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.update(true);
+
+        this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder())
+    }
+
+
+    @Test 
+    public void testPickupCollision(){
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.update(true);
     }
 
     @Test
-    public void testDeactivation(){
-        this.playermover.deactivate();
-        assertFalse(this.playermover.getModel().isActive());
+    public void testShieldPickup(){
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.barry = new BarryImpl(barryMovement, barryHitbox);
+        this.barry.update(true);
     }
-
     
 
-
-
-
 }
-*/

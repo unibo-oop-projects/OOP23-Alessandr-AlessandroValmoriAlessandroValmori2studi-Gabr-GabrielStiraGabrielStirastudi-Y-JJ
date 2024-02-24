@@ -4,10 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
 import java.util.Set;
-
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;

@@ -120,7 +120,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
                     throw new NotImplementedObjectException("EntityModelGenerator could not generate the obstacle. A missile will be generated instead.");
             }
         } catch (NotImplementedObjectException e) {
-            obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS, 0.0);
+            obstacleHitbox = new HitboxImpl(newMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS, 0.0);
             obstacleModel = new Missile(newMovement, obstacleHitbox);
         }
 

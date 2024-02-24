@@ -5,6 +5,7 @@ import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectExceptio
 
 import java.util.List;
 
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
@@ -48,6 +49,13 @@ public interface EntityModelGenerator {
      * @return The generated pickup.
      */
     PickUp generatePickUp(PickUpType pickUpType);
+
+    /**
+     * Generates Barry.
+     *
+     * @return The generated Barry entity.
+     */
+    Barry generateBarry();
 
         /* Since one of the goals was to create a clone of the game as similar as 
      * possible to the original one, the choice of returning one or more entities

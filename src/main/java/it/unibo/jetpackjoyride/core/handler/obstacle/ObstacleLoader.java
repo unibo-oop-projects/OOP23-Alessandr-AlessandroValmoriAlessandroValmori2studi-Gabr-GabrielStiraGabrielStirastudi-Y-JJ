@@ -23,7 +23,7 @@ public class ObstacleLoader {
     private final static Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer MAX_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer TYPES_OF_OBSTACLES = 3;
-    private final static Integer TIME_OF_LAZYNESS = 3;
+    private final static Integer TIME_OF_LAZYNESS = 10;
     private final static Double DEFAULT_SPEED_OF_UNKOWN_OBSTACLE = 5.0;
     private final static Integer MAX_TICK_FOR_OBSTACLE_SPAWN = 20;
     private final static Double Y_MAP_DIMENSION = 720.0;
@@ -35,13 +35,11 @@ public class ObstacleLoader {
     private Integer interval;
     private Integer duration;
     private Integer difficulty;
-    private final EntityModelGenerator entityModelGenerator;
     
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
         this.entityGenerator = new EntityModelGeneratorImpl();
         this.allObstacles = new HashMap<>();
-        this.entityModelGenerator = new EntityModelGeneratorImpl();
         this.duration = 0;
         this.interval = 0;
         this.difficulty = 1;

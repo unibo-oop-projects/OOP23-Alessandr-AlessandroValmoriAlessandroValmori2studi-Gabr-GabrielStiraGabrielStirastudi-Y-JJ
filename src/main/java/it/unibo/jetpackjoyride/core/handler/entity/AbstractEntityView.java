@@ -29,12 +29,12 @@ public abstract class AbstractEntityView implements EntityView{
         final double scaleY = infoResolution.getScreenHeight()/infoResolution.getDefaultHeight();
 
 
+        imageView.setX((entity.getEntityMovement().getPosition().get1() - width / 2)*scaleX);
+        imageView.setY((entity.getEntityMovement().getPosition().get2() - height / 2)*scaleY);
+        imageView.setRotate(entity.getEntityMovement().getRotation().get1());
+
         final double width = this.width * scaleX;
         final double height = this.height * scaleY;
-
-        imageView.setX(entity.getEntityMovement().getPosition().get1()*scaleX - width / 2);
-        imageView.setY(entity.getEntityMovement().getPosition().get2()*scaleY - height / 2);
-        imageView.setRotate(entity.getEntityMovement().getRotation().get1());
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);

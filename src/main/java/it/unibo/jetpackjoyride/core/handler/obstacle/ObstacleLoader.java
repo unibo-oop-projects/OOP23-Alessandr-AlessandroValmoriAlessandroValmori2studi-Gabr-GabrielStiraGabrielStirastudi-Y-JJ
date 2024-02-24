@@ -5,11 +5,9 @@ import java.io.InputStream;
 import java.util.*;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityControllerGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericController;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;

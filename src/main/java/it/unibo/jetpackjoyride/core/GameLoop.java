@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
 
-import it.unibo.jetpackjoyride.core.handler.obstacle.EntityController;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;

@@ -7,10 +7,10 @@ import java.util.List;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-public final class ObstacleView implements GenericView{
+public final class ObstacleView implements EntityView {
     private final ImageView imageView;
     private final List<Image> images;
     private int animationFrame;

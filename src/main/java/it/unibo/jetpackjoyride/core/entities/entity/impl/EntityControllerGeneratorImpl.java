@@ -1,4 +1,4 @@
-package it.unibo.jetpackjoyride.core.entities.entity.impl;
+/*package it.unibo.jetpackjoyride.core.entities.entity.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,3 +144,4 @@ public class EntityControllerGeneratorImpl {
         return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
     }
 }
+*/

@@ -12,12 +12,12 @@ import java.util.*;
 public final class ObstacleHandler {
     private final static Double MINIMUMSPAWNTIME = 0.25;
     private ObstacleLoader obstacleLoader;
-    private List<Obstacle> listOfObstacles;
+    private Set<Obstacle> listOfObstacles;
     private Timeline timeline;
 
     public void initialize() {
 
-        this.listOfObstacles = new ArrayList<>();
+        this.listOfObstacles = new HashSet<>();
         this.obstacleLoader = new ObstacleLoader();
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(MINIMUMSPAWNTIME), e -> generate()));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -71,6 +71,10 @@ public final class ObstacleHandler {
             return obstacleHitPlayer;
 
         }
+    }
+
+    public Set<Obstacle> getAllObstacles() {
+        return this.listOfObstacles;
     }
 
     public void deactivateAllObstacles() {

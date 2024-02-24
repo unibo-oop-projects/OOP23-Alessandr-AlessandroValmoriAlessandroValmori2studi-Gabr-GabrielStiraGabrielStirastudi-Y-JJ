@@ -95,26 +95,33 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
     public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
         Hitbox obstacleHitbox;
         Obstacle obstacleModel;
+        final Movement newMovement = new Movement.Builder()
+                .setPosition(obstacleMovement.getPosition())
+                .setSpeed(obstacleMovement.getPosition())
+                .setAcceleration(obstacleMovement.getAcceleration())
+                .setRotation(obstacleMovement.getRotation())
+                .setMovementChangers(obstacleMovement.getMovementChangers())
+                .build();
         try {
             switch (obstacleType) {
                 case MISSILE: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS,obstacleMovement.getRotation().get1());
-                    obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
+                    obstacleHitbox = new HitboxImpl(newMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS,newMovement.getRotation().get1());
+                    obstacleModel = new Missile(newMovement, obstacleHitbox);
                     break;
                 case ZAPPER: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), ZAPPER_HITBOX_DIMENSIONS,obstacleMovement.getRotation().get1());
-                    obstacleModel = new Zapper(obstacleMovement, obstacleHitbox);
+                    obstacleHitbox = new HitboxImpl(newMovement.getPosition(), ZAPPER_HITBOX_DIMENSIONS,newMovement.getRotation().get1());
+                    obstacleModel = new Zapper(newMovement, obstacleHitbox);
                     break;
                 case LASER: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), LASER_HITBOX_DIMENSIONS, obstacleMovement.getRotation().get1());
-                    obstacleModel = new Laser(obstacleMovement, obstacleHitbox);
+                    obstacleHitbox = new HitboxImpl(newMovement.getPosition(), LASER_HITBOX_DIMENSIONS, newMovement.getRotation().get1());
+                    obstacleModel = new Laser(newMovement, obstacleHitbox);
                     break;
                 default:
                     throw new NotImplementedObjectException("EntityModelGenerator could not generate the obstacle. A missile will be generated instead.");
             }
         } catch (NotImplementedObjectException e) {
             obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS, 0.0);
-            obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
+            obstacleModel = new Missile(newMovement, obstacleHitbox);
         }
 
         return obstacleModel;

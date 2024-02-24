@@ -13,7 +13,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
 import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectException;
-
+import java.nio.charset.Charset;
 import java.io.InputStreamReader;
 
 import java.util.stream.*;
@@ -23,7 +23,7 @@ public class ObstacleLoader {
     private final static Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer MAX_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer TYPES_OF_OBSTACLES = 3;
-    private final static Integer TIME_OF_LAZYNESS = 30;
+    private final static Integer TIME_OF_LAZYNESS = 10;
     private final static Double DEFAULT_SPEED_OF_UNKOWN_OBSTACLE = 5.0;
     private final static Integer MAX_TICK_FOR_OBSTACLE_SPAWN = 20;
     private final static Double Y_MAP_DIMENSION = 720.0;
@@ -37,6 +37,7 @@ public class ObstacleLoader {
     private Integer duration;
     private Integer difficulty;
     private Random random;
+    private String filePath;
     
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
@@ -46,9 +47,10 @@ public class ObstacleLoader {
         this.duration = 0;
         this.interval = 0;
         this.difficulty = 1;
+        this.filePath = "files/chunkdata.txt";
 
         try {
-            in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream("files/chunkdata.txt"));
+            in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(this.filePath));
             
             this.attributes.put("PATTERN_NUMBER", 0);
             this.attributes.put("OBSTACLE_TYPE", 1);
@@ -119,14 +121,13 @@ public class ObstacleLoader {
         final List<Pair<Obstacle,Integer>> obstaclesOfInstance = new ArrayList<>();
         Integer patternNumber=0;
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.defaultCharset()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if(!line.equals("") && !line.equals("END_OF_PATTERNS")) {
                     final String[] parts = line.split(",");
 
                     if(parts.length != this.attributes.keySet().size()) {
-                        System.out.println("pattern number: " + patternNumber);
                         throw new InvalidDataFormatException("Invalid formatting in file: " + in);
                     }
 
@@ -167,7 +168,7 @@ public class ObstacleLoader {
                 }
             }
         } catch (Exception e) {
-            throw new InvalidDataFormatException("Invalid formatting in file: " + in);
+            throw new InvalidDataFormatException("Invalid formatting in file: " + this.filePath);
         }
     }
 
@@ -182,7 +183,7 @@ public class ObstacleLoader {
 
             this.interval++;
             
-            return this.allObstacles.get(1).stream()
+            return this.allObstacles.get(3).stream()
                         .filter(p -> p.get2().equals(this.interval))
                         .map(p -> p.get1())
                         .map(p -> this.entityGenerator.generateObstacle(p.getObstacleType(), p.getEntityMovement()))

@@ -74,7 +74,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
     /**
      * Define the dimensions of barry's hitbox
      */
-    private static final Pair<Double, Double> BARRY_HITBOX_DIMENSIONS = new Pair<>(160.0, 170.0);
+    private static final Pair<Double, Double> BARRY_HITBOX_DIMENSIONS = new Pair<>(75.0, 100.0);
 
     /*
      * Define more movement characteristics of some powerups.

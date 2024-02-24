@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
-import it.unibo.jetpackjoyride.core.handler.entity.EntityHandler;
+
+import it.unibo.jetpackjoyride.core.handler.obstacle.EntityController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -34,7 +35,7 @@ public final class GameLoop implements GameLoopControl {
     private GameStatsView gameStatsView;
 
 
-    private EntityHandler entityHandler;
+    private EntityController entityController;
 
     private static final int FPS = 70;
     private final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
@@ -55,8 +56,8 @@ public final class GameLoop implements GameLoopControl {
         this.stage = stage;
         this.spacePressed = false;
         this.gameStatsHandler = new GameStatsHandler();
+        this.entityController = new EntityController(shopController);
         initializeScene();
-        entityHandler.initialize(shopController);
         this.initializeGameElements();
         setListenerForGameInfo();
         stage.centerOnScreen();
@@ -77,8 +78,6 @@ public final class GameLoop implements GameLoopControl {
         map = new MapBackgroundImpl();
         pauseMenu = new PauseMenu(this.stage, this);
         gameStatsView = new GameStatsViewImpl();
-
-        entityHandler = new EntityHandler();
     }
 
     private void initializeGameElements() {
@@ -104,12 +103,11 @@ public final class GameLoop implements GameLoopControl {
                     map.updateBackground();
                     gameStatsView.updateDataView(gameStatsHandler.dataForView());
 
-                        entityController.update();
-                        /*if (!entityHandler.update(entityGroup, spacePressed)) {
-                            
+                        entityController.update(entityGroup, spacePressed);
+                        if (!entityController.update(entityGroup, spacePressed)) {
                             showGameOverMenu();
                             endLoop();
-                        }*/
+                        }
                     lastUpdate = now;
                 }
 
@@ -126,7 +124,7 @@ public final class GameLoop implements GameLoopControl {
      */
     public void startLoop() {
         stage.setScene(gameScene);
-        entityHandler.start();
+        entityController.start();
         timer.start();
         this.stage.centerOnScreen();
     }
@@ -135,7 +133,7 @@ public final class GameLoop implements GameLoopControl {
      * Stop the game loop.
      */
     public void stopLoop() {
-        entityHandler.stop();
+        entityController.stop();
         timer.stop();
     }
 
@@ -157,7 +155,7 @@ public final class GameLoop implements GameLoopControl {
             root.getChildren().clear();
             entityGroup.getChildren().clear();
             map.reset();
-            entityHandler.reset();
+            entityController.reset();
         }
         initializeGameElements();
     }

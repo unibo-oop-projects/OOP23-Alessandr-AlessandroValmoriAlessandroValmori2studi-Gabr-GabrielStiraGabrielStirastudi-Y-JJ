@@ -56,7 +56,7 @@ public final class BarryView implements EntityView {
      */
     public BarryView() {
 
-        shieldImageView = new ImageView(new Image("sprites/entities/player/barrySHIELD.png"));
+        this.shieldImageView = new ImageView(new Image("sprites/entities/player/barrySHIELD.png"));
         this.imageView = new ImageView();
         this.infoResolution = GameInfo.getInstance();
         this.animationFrame = 0;
@@ -65,6 +65,8 @@ public final class BarryView implements EntityView {
         this.buildMap();
         this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
         this.imageViewCouple = new ArrayList<>();
+        this.imageViewCouple.add(imageView);
+      
     }
 
     /**
@@ -87,11 +89,11 @@ public final class BarryView implements EntityView {
         final double scaleX = infoResolution.getScreenWidth() / infoResolution.getDefaultWidth();
         final double scaleY = infoResolution.getScreenHeight() / infoResolution.getDefaultHeight();
 
-        final double width = infoResolution.getDefaultWidth() / 8 * scaleX;
-        final double height = infoResolution.getDefaultHeight() / 5 * scaleY;
+        final double width = infoResolution.getDefaultWidth() / 17 * scaleX;
+        final double height = infoResolution.getDefaultHeight() / 7 * scaleY;
 
         imageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
-        imageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
+        imageView.setY(barry.getEntityMovement().getPosition().get2()* scaleY - height / 2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
@@ -99,23 +101,11 @@ public final class BarryView implements EntityView {
         imageView.setImage(this.images.get(animationFrame));
         animationFrame = (animationFrame + 1) % images.size();
 
-        shieldImageView.setX(barry.getEntityMovement().getPosition().get1() - width / 2);
-        shieldImageView.setY(barry.getEntityMovement().getPosition().get2() - height / 2);
+        shieldImageView.setX(barry.getEntityMovement().getPosition().get1()* scaleX - width / 2);
+        shieldImageView.setY(barry.getEntityMovement().getPosition().get2()* scaleY - height / 2);
 
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);
-
-        if (barry.getEntityStatus().equals(EntityStatus.ACTIVE)) {
-            this.imageViewCouple.add(imageView);
-            if (barry.hasShield()) {
-                this.imageViewCouple.add(shieldImageView);
-
-            } else if (!barry.hasShield()) {
-                this.imageViewCouple.remove(this.imageViewCouple.size() - 1);
-
-            }
-
-        }
     }
 
     private void buildMap() {
@@ -133,8 +123,12 @@ public final class BarryView implements EntityView {
     }
 
     @Override
-    public List<ImageView> getImageView() {
-        return List.of(imageView);
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public ImageView getShieldImageView(){
+        return this.shieldImageView;
     }
 
 }

@@ -23,10 +23,11 @@ public class ObstacleLoader {
     private final static Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer MAX_OBSTACLES_FOR_INSTANCE = 3;
     private final static Integer TYPES_OF_OBSTACLES = 3;
-    private final static Integer TIME_OF_LAZYNESS = 3;
+    private final static Integer TIME_OF_LAZYNESS = 25;
     private final static Double DEFAULT_SPEED_OF_UNKOWN_OBSTACLE = 5.0;
     private final static Integer MAX_TICK_FOR_OBSTACLE_SPAWN = 20;
     private final static Double Y_MAP_DIMENSION = 720.0;
+    private final static Integer PATTERN_VARIETY_MODIFIER = 3;
 
     private InputStream in;
     private final Map<String, Integer> attributes;
@@ -35,13 +36,13 @@ public class ObstacleLoader {
     private Integer interval;
     private Integer duration;
     private Integer difficulty;
-    private final EntityModelGenerator entityModelGenerator;
+    private Random random;
     
     public ObstacleLoader() {
         this.attributes = new HashMap<>();
         this.entityGenerator = new EntityModelGeneratorImpl();
         this.allObstacles = new HashMap<>();
-        this.entityModelGenerator = new EntityModelGeneratorImpl();
+        this.random = new Random();
         this.duration = 0;
         this.interval = 0;
         this.difficulty = 1;
@@ -62,6 +63,7 @@ public class ObstacleLoader {
             this.attributes.put("OBSTACLE_TICKTIME", 10);
             
             this.readFromFile();
+
         }
         catch(Exception e) {
             this.allObstacles.clear();
@@ -72,7 +74,6 @@ public class ObstacleLoader {
 
     private void randomBasedObstacleGeneration() {
         this.duration = 30;
-        Random random = new Random();
 
         for(int i=1; i<=MAX_NUMBER_OF_PATTERNS; i++) {
             //Pattern number i has a random number of obstacles ranging 3 to 8
@@ -114,7 +115,7 @@ public class ObstacleLoader {
 
     }
 
-    private boolean readFromFile(){
+    private void readFromFile() throws InvalidDataFormatException{
         final List<Pair<Obstacle,Integer>> obstaclesOfInstance = new ArrayList<>();
         Integer patternNumber=0;
 
@@ -122,24 +123,29 @@ public class ObstacleLoader {
             String line;
             while ((line = reader.readLine()) != null) {
                 if(!line.equals("") && !line.equals("END_OF_PATTERNS")) {
-                    String[] parts = line.split(",");
+                    final String[] parts = line.split(",");
 
                     if(parts.length != this.attributes.keySet().size()) {
+                        System.out.println("pattern number: " + patternNumber);
                         throw new InvalidDataFormatException("Invalid formatting in file: " + in);
                     }
 
                     patternNumber = Integer.parseInt(parts[this.attributes.get("PATTERN_NUMBER")]);
 
                     final String obstacleType = parts[this.attributes.get("OBSTACLE_TYPE")];
+
                     Double xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONX")]);
                     Double yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONY")]);
                     final Pair<Double,Double> pos = new Pair<>(xCoordinate, yCoordinate);
+
                     xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDX")]);
                     yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDY")]);
                     final Pair<Double,Double> speed = new Pair<>(xCoordinate, yCoordinate);
+
                     xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONX")]);
                     yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONY")]);
                     final Pair<Double,Double> acc = new Pair<>(xCoordinate, yCoordinate);
+
                     xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ROTATIONX")]);
                 
                     if(parts[this.attributes.get("OBSTACLE_ROTATIONY")].startsWith("RANDOM")) {
@@ -152,9 +158,8 @@ public class ObstacleLoader {
                     }
                     final Pair<Double,Double> rot = new Pair<>(xCoordinate, yCoordinate);
                     final Integer tickTimeSpawn = Integer.parseInt(parts[this.attributes.get("OBSTACLE_TICKTIME")]);
-
-                    final Movement obstacleMovement = new Movement.Builder().setPosition(pos).setSpeed(speed).setAcceleration(acc).setRotation(rot).build();
-                    obstaclesOfInstance.add(new Pair<>(this.entityGenerator.generateObstacle(ObstacleType.valueOf(obstacleType), obstacleMovement),tickTimeSpawn));
+     
+                    obstaclesOfInstance.add(new Pair<>(this.entityGenerator.generateObstacle(ObstacleType.valueOf(obstacleType), new Movement.Builder().setPosition(pos).setSpeed(speed).setAcceleration(acc).setRotation(rot).build()),tickTimeSpawn));
                 }
                 else {
                     this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));
@@ -162,15 +167,15 @@ public class ObstacleLoader {
                 }
             }
         } catch (Exception e) {
-            return false;
+            throw new InvalidDataFormatException("Invalid formatting in file: " + in);
         }
-        return true;
     }
 
     public Set<Obstacle> getInstanceOfPattern() {
         if (this.isInSamePattern()) {
             this.difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
-            
+
+            this.difficulty = (this.difficulty*PATTERN_VARIETY_MODIFIER - random.nextInt(PATTERN_VARIETY_MODIFIER)) % (MAX_NUMBER_OF_PATTERNS+1) ;
             if(this.interval == 0) {
                 this.duration = this.allObstacles.get(this.difficulty).stream().map(p -> p.get2()).mapToInt(i->i).max().getAsInt() + TIME_OF_LAZYNESS;
             }

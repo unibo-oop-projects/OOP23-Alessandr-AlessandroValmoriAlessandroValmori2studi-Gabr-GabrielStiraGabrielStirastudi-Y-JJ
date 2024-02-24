@@ -145,8 +145,8 @@ public final class ObstacleView implements EntityView {
     }
 
     @Override
-    public List<ImageView> getImageView() {
-        return List.of(imageView);
+    public ImageView getImageView() {
+        return imageView;
     }
 
 }

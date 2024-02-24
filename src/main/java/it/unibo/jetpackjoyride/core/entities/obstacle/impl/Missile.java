@@ -27,19 +27,24 @@ public final class Missile extends AbstractObstacle {
         this.entityStatus = EntityStatus.CHARGING;
 
         this.movementBuffer = new Movement.Builder()
-        .setPosition(newMovement.getPosition())
-        .setSpeed(newMovement.getSpeed())
-        .setAcceleration(newMovement.getAcceleration())
-        .setRotation(newMovement.getRotation()).setMovementChangers(newMovement.getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
-
-        this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, newMovement.getPosition().get2())
-                .setRotation(newMovement.getRotation())
-                .build();
+        .setPosition(this.movement.getPosition())
+        .setSpeed(this.movement.getSpeed())
+        .setAcceleration(this.movement.getAcceleration())
+        .setRotation(this.movement.getRotation()).setMovementChangers(this.movement.getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
     }
 
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
+
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
+            /*Since at the beginning the missile has to be shown as a warning, 
+            a buffer for the correct movement is used and its movement is initially set to a static one */
+            if(this.lifetime.equals(1)) { 
+                this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.movement.getPosition().get2())
+                .setRotation(this.movement.getRotation())
+                .build();
+            }
+
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.entityStatus = EntityStatus.ACTIVE;

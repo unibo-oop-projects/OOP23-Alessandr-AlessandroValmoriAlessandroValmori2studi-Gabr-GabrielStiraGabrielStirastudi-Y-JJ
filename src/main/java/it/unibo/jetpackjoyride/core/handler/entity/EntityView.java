@@ -7,5 +7,5 @@ import java.util.List;
 public interface EntityView {
     void updateView(Entity entity);
 
-    List<ImageView> getImageView();
+    ImageView getImageView();
 }

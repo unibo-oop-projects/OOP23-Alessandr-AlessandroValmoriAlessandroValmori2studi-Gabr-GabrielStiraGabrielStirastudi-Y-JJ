@@ -22,6 +22,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  * It is responsible for updating the visual representation of the Barry entity
  * based on its state.
  */
+@SuppressWarnings("unchecked")
 public final class BarryView implements EntityView {
 
     private final ImageView imageView;
@@ -80,6 +81,7 @@ public final class BarryView implements EntityView {
 
     @Override
     public void updateView(final Entity entity) {
+        @SuppressWarnings("unchecked")
         final Barry barry = (Barry) entity;
 
         if (barry.getPerformingAction() != this.oldAction) {

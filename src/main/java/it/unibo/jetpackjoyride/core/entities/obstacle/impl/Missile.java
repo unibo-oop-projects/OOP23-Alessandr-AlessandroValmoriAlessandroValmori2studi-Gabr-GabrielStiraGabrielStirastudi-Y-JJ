@@ -37,7 +37,9 @@ public final class Missile extends AbstractObstacle {
     protected void updateStatus(final boolean isSpaceBarPressed) {
 
         if(this.entityStatus.equals(EntityStatus.CHARGING)) {
-            if(this.lifetime.equals(1)) {
+            /*Since at the beginning the missile has to be shown as a warning, 
+            a buffer for the correct movement is used and its movement is initially set to a static one */
+            if(this.lifetime.equals(1)) { 
                 this.movement = new Movement.Builder().setPosition(WARNINGSPAWNINGX, this.movement.getPosition().get2())
                 .setRotation(this.movement.getRotation())
                 .build();

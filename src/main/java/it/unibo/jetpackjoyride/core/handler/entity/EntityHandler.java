@@ -36,7 +36,7 @@ public class EntityHandler {
 
     private Set<Items> unlockedItems;
 
-    private List<Entity> listOfEntities;
+    private Set<Entity> listOfEntities;
 
     private boolean isUsingPowerUp;
     private boolean isCanvasAdded;
@@ -50,7 +50,7 @@ public class EntityHandler {
         this.player = new BarryImpl(barryMovement, barryHitbox);
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
 
-        this.listOfEntities = new ArrayList<>();
+        this.listOfEntities = new HashSet<>();
 
         this.unlockedItems = shopController.getUnlocked();
 
@@ -116,10 +116,14 @@ public class EntityHandler {
                     break;
             }
         }
+        this.listOfEntities.addAll(this.powerUpHandler.getAllPowerUps());
+        this.listOfEntities.addAll(this.pickUpHandler.getAllPickUps());
+        this.listOfEntities.addAll(this.obstacleHandler.getAllObstacles());
+        this.listOfEntities.add(this.player);
         return true;
     }
 
-    public List<Entity> getAllEntities() {
+    public Set<Entity> getAllEntities() {
         return this.listOfEntities;
     }
 

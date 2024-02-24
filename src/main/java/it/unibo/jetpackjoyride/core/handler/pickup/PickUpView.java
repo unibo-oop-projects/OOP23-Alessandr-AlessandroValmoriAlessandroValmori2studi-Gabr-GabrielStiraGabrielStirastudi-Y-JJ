@@ -5,12 +5,12 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
-import it.unibo.jetpackjoyride.core.handler.generic.GenericView;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class PickUpView implements GenericView {
+public class PickUpView implements EntityView {
 
     private final ImageView imageView;
     private final List<Image> images;

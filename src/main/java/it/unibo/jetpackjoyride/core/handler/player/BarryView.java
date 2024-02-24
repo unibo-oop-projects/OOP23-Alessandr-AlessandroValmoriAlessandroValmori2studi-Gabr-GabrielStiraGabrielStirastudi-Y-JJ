@@ -14,6 +14,7 @@ import java.util.Map;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 /**
@@ -76,7 +77,6 @@ public final class BarryView {
      */
 
      
-
     public void update(Group root, final Barry barry) {
 
         if (barry.getPerformingAction() != this.oldAction) {

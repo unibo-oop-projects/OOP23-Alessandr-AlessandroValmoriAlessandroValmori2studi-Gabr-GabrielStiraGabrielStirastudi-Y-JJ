@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpView;
 import it.unibo.jetpackjoyride.core.handler.player.BarryView;
@@ -17,7 +16,6 @@ import javafx.scene.Node;
 public class EntityController {
     private EntityHandler entityHandler;
     private EntityImageLoader imageLoader = new EntityImageLoader();
-    private BarryView barryView;
     private Map<Entity,EntityView> modelViewMapper;
 
     public EntityController(ShopController shop) {
@@ -33,28 +31,10 @@ public class EntityController {
 
         for (final Entity entity : this.entityHandler.getAllEntities()) {
             if (!this.modelViewMapper.containsKey(entity)) {
-                final EntityView entityView;
-                    switch (entity.getEntityType()) {
-                        case BARRY:
-                            this.barryView = new BarryView();
-                        case OBSTACLE:
-                            entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
-                            break;
-                        case POWERUP:
-                            entityView = new PowerUpView(this.imageLoader.loadImages(EntityType.POWERUP));
-                            break;
-                        case PICKUP:
-                            entityView = new PickUpView(this.imageLoader.loadImages(EntityType.PICKUP));
-                            break;
-                        default:
-                            entityView = new ObstacleView(this.imageLoader.loadImages(EntityType.OBSTACLE));
-                            break;
-                    }
-
-                    this.modelViewMapper.put(entity, entityView);
-
-                    this.barryView.update(entityGroup, null);
-                    entityGroup.getChildren().add((Node) entityView.getImageView());
+                final EntityView entityView = this.viewImagesLoader(entity);
+                    
+                this.modelViewMapper.put(entity, entityView);
+                entityGroup.getChildren().addAll(entityView.getImageView());
             }
 
             this.modelViewMapper.get(entity).updateView(entity);
@@ -64,8 +44,30 @@ public class EntityController {
                 .filter(p -> !this.entityHandler.getAllEntities().contains(p.getKey())).map(p -> p.getValue()).toList();
 
         this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
-        entityGroup.getChildren().removeAll(entityViews.stream().map(v -> (Node) v.getImageView()).toList());
+        entityGroup.getChildren().removeAll(entityViews.stream().flatMap(v ->  v.getImageView().stream().map(e -> (Node)e)).toList());
         return true;
+    }
+
+    private EntityView viewImagesLoader(final Entity entity) {
+        final EntityView entityView;
+        switch (entity.getEntityType()) {
+            case BARRY:
+                entityView = new BarryView();
+                break;
+            case OBSTACLE:
+                entityView = new ObstacleView(this.imageLoader.loadImages(entity));
+                break;
+            case POWERUP:
+                entityView = new PowerUpView(this.imageLoader.loadImages(entity));
+                break;
+            case PICKUP:
+                entityView = new PickUpView(this.imageLoader.loadImages(entity));
+                break;
+            default:
+                entityView = new ObstacleView(this.imageLoader.loadImages(entity));
+                break;
+        }
+        return entityView;
     }
 
     public void stop() {

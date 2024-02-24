@@ -97,7 +97,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
         Obstacle obstacleModel;
         final Movement newMovement = new Movement.Builder()
                 .setPosition(obstacleMovement.getPosition())
-                .setSpeed(obstacleMovement.getPosition())
+                .setSpeed(obstacleMovement.getSpeed())
                 .setAcceleration(obstacleMovement.getAcceleration())
                 .setRotation(obstacleMovement.getRotation())
                 .setMovementChangers(obstacleMovement.getMovementChangers())

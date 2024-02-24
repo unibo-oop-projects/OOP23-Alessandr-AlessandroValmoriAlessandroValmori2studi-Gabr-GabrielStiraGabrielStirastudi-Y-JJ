@@ -116,6 +116,7 @@ public class EntityHandler {
                     break;
             }
         }
+        this.listOfEntities.clear();
         this.listOfEntities.addAll(this.powerUpHandler.getAllPowerUps());
         this.listOfEntities.addAll(this.pickUpHandler.getAllPickUps());
         this.listOfEntities.addAll(this.obstacleHandler.getAllObstacles());

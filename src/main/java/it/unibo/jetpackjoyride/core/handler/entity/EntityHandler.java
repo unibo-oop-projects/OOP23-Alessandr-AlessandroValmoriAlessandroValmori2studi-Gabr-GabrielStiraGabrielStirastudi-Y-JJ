@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import javafx.scene.Group;
 
 public class EntityHandler {
-    private final static Integer BASEPICKUPSPAWNCHANCE = 100;
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
@@ -45,11 +44,13 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        Movement barryMovement = new Movement.Builder().setPosition(100.0,630.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        Movement barryMovement = new Movement.Builder().setPosition(100.0, 630.0)
+                .setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(),
+                new Pair<>(GameInfo.getInstance().getDefaultWidth() / 17, GameInfo.getInstance().getScreenHeight() / 7),
+                0.0);
         this.player = new BarryImpl(barryMovement, barryHitbox);
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
-
         this.listOfEntities = new HashSet<>();
 
         this.unlockedItems = shopController.getUnlocked();
@@ -61,7 +62,7 @@ public class EntityHandler {
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
         player.update(isSpaceBarPressed);
-        if(!player.isAlive()){
+        if (!player.isAlive()) {
             coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
@@ -74,12 +75,14 @@ public class EntityHandler {
             isCanvasAdded = true;
         }
 
-        if (!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty()) {
-            this.spawnVehiclePickUp(this.unlockedItems);
+        if (!this.isUsingPowerUp && this.pickUpHandler.getAllPickUps().isEmpty() && !this.unlockedItems.isEmpty()) {
+            this.spawnPickUp(this.unlockedItems);
         }
 
-        final var obstacleHit = this.obstacleHandler.update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()): Optional.of(player.getHitbox()));
-        
+        final var obstacleHit = this.obstacleHandler
+                .update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox())
+                        : Optional.of(player.getHitbox()));
+
         if (obstacleHit.isPresent()) {
             if (this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
@@ -95,7 +98,7 @@ public class EntityHandler {
         this.powerUpHandler.update(isSpaceBarPressed);
 
         if (this.pickUpHandler.update(Optional.of(player.getHitbox()))) {
-            
+
             final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0);
 
             switch (pickUpPickedUp.getPickUpType()) {
@@ -109,9 +112,9 @@ public class EntityHandler {
                             Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()));
                     break;
                 case SHIELD:
-                
+
                     this.player.setShieldOn();
-                    
+
                 default:
                     break;
             }
@@ -120,9 +123,9 @@ public class EntityHandler {
         this.listOfEntities.addAll(this.powerUpHandler.getAllPowerUps());
         this.listOfEntities.addAll(this.pickUpHandler.getAllPickUps());
         this.listOfEntities.addAll(this.obstacleHandler.getAllObstacles());
-        if(!this.player.getEntityStatus().equals(EntityStatus.INACTIVE)){
-        this.listOfEntities.add(this.player);
-        }else{
+        if (!this.player.getEntityStatus().equals(EntityStatus.INACTIVE)) {
+            this.listOfEntities.add(this.player);
+        } else {
             this.listOfEntities.remove(player);
         }
         return true;
@@ -132,30 +135,8 @@ public class EntityHandler {
         return this.listOfEntities;
     }
 
-    private void spawnShieldPickUp(final Set<Items> unlockedItems) {
-        Integer random = new Random().nextInt(BASEPICKUPSPAWNCHANCE);
-        if (random != 0 || unlockedItems.isEmpty()) {
-            return;
-        }
-
-        final boolean isShieldUnlocked = unlockedItems.stream().filter(i -> i.getCorresponding().isEmpty()).count() > 0;
-        if(isShieldUnlocked) {
-            this.pickUpHandler.spawnPickUp(PickUpType.SHIELD);
-        }
-    }
-
-    private void spawnVehiclePickUp(final Set<Items> unlockedPowerUps) {
-        Random rand = new Random();
-        if (rand.nextInt(BASEPICKUPSPAWNCHANCE) != 0 || unlockedPowerUps.isEmpty()
-                || !unlockedPowerUps.stream().filter(i -> i.getCorresponding().isPresent()).findAny().isPresent()) {
-            return;
-        }
-        final List<PowerUpType> listOfPossibleSpawns = unlockedPowerUps.stream().peek(e -> System.out.println(e))
-                .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
-                .collect(Collectors.toList());
-        this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
-        final VehiclePickUp vehiclePickUp = (VehiclePickUp) this.pickUpHandler.getAllPickUps().get(0);
-        vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(rand.nextInt(listOfPossibleSpawns.size())));
+    private void spawnPickUp(final Set<Items> unlockedItems) {
+        this.pickUpHandler.spawnPickUp(unlockedItems);
     }
 
     private void spawnPowerUp(final PowerUpType powerUpType) {

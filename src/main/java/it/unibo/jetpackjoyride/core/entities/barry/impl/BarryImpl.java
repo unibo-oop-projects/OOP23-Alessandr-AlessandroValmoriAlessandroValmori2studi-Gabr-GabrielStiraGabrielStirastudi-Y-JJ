@@ -6,60 +6,58 @@
  * falling, and propelling using a jetpack. It also handles hitbox-related operations.
  */
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
+
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
-
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-
 import it.unibo.jetpackjoyride.core.movement.Movement;
-
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.List;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 
+/**
+ * @author alessandro.valmori2@studio.unibo.it
+ */
 
 /**
- * BarryImpl class implements the Barry interface and provides the functionality
- * for controlling the player character, Barry, in the Jetpack Joyride game.
+ * This class implements the Barry interface and provides the functionality
+ * for controlling the player character, Barry.
  */
 public final class BarryImpl extends AbstractEntity implements Barry {
-
+    /* The performing action */
     private PerformingAction performingAction;
+    /** A field used to determine wether barry has a shield or not */
     private boolean hasShield;
+    /** The current life status of Barry */
     private BarryLifeStatus lifeStatus;
 
-    private static final Double HIGH_BOUND = 80.0;
     /**
-     * Defines what coordinate could be considerated as the lower bound of the map.
+     * Defines what coordinates could be considerated as the lower and upper bounds
+     * of the map.
+     * 
      */
+    private static final Double HIGH_BOUND = 80.0;
     private static final Double LOW_BOUND = 630.0;
 
-
-   
     public BarryImpl(final Movement movement, final Hitbox hitbox) {
-       
-        super(EntityType.BARRY,movement, hitbox);
+        super(EntityType.BARRY, movement, hitbox);
         this.hasShield = false;
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.entityStatus = EntityStatus.ACTIVE;
         this.performingAction = PerformingAction.WALKING;
-
     }
+
     @Override
-    public PerformingAction getPerformingAction(){
+    public PerformingAction getPerformingAction() {
         return this.performingAction;
     }
 
-    
-   
     @Override
     public boolean hasShield() {
         return this.hasShield;
     }
 
-    
     @Override
     public boolean isAlive() {
         return this.lifeStatus.equals(BarryLifeStatus.ALIVE);
@@ -67,113 +65,98 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
     /**
      * Kills Barry based on the type of obstacle.
-     * Updates Barry's hitbox and performingAction accordingly.
+     * Updates Barry's hitbox and performing action accordingly.
      *
      * @param type the type of obstacle that killed Barry
      */
 
     private void kill(final ObstacleType type) {
-
-        this.lifeStatus= BarryLifeStatus.DEAD;
-        this.performingAction = type.equals(ObstacleType.ZAPPER) ? PerformingAction.ZAPPED : 
-        type.equals(ObstacleType.LASER) ? PerformingAction.LASERED : 
-        type.equals(ObstacleType.MISSILE) ? PerformingAction.BURNED : PerformingAction.UNDEFINED;
+        this.lifeStatus = BarryLifeStatus.DEAD;
+        this.performingAction = type.equals(ObstacleType.ZAPPER) ? PerformingAction.ZAPPED
+                : type.equals(ObstacleType.LASER) ? PerformingAction.LASERED
+                        : type.equals(ObstacleType.MISSILE) ? PerformingAction.BURNED : PerformingAction.UNDEFINED;
     }
 
-    /**
-     * Removes the shield from Barry.
-     */
     @Override
     public void removeShield() {
-        this.hasShield=false;
+        this.hasShield = false;
     }
-    /**
-     * Sets the shield on Barry.
-     */
+
     @Override
     public void setShieldOn() {
-        this.hasShield=true;
+        this.hasShield = true;
     }
+
     @Override
     public void hit(ObstacleType type) {
-        if(this.isAlive()){
-        if (this.hasShield()) {
-     
-            this.removeShield();
-
-        } else {
-            
-            this.kill(type);
-
+        if (this.isAlive()) {
+            if (this.hasShield()) {
+                this.removeShield();
+            } else {
+                this.kill(type);
+            }
         }
     }
-    }
-    /**
-     * Sets the life performingAction of Barry.
-     *
-     * @param lifeStatus the life performingAction of Barry
-     */
+
     @Override
     public void setLifeStatus(final BarryLifeStatus lifeStatus) {
         this.lifeStatus = lifeStatus;
     }
-    
 
     @Override
     protected void updateStatus(boolean isSpaceBarPressed) {
-    
-       
-        switch(this.performingAction){
-            case WALKING : 
-            if(isSpaceBarPressed){
-                this.performingAction = PerformingAction.PROPELLING;
-            }
-            break;
-            case PROPELLING : 
-            if(!isSpaceBarPressed){
-                this.performingAction = PerformingAction.FALLING;
-            }
-            if(this.movement.getPosition().get2() <= HIGH_BOUND){
-                this.performingAction = PerformingAction.HEAD_DRAGGING;
-            }
-            break;
 
-            case FALLING : 
-            if(isSpaceBarPressed){
-                this.performingAction = PerformingAction.PROPELLING;
-                
-            }
-            if(this.movement.getPosition().get2() >= LOW_BOUND){
-                this.performingAction = PerformingAction.WALKING;
-            }
-            break;
+        switch (this.performingAction) {
+            case WALKING:
+                if (isSpaceBarPressed) {
+                    this.performingAction = PerformingAction.PROPELLING;
+                }
+                break;
+            case PROPELLING:
+                if (!isSpaceBarPressed) {
+                    this.performingAction = PerformingAction.FALLING;
+                }
+                if (this.movement.getPosition().get2() <= HIGH_BOUND) {
+                    this.performingAction = PerformingAction.HEAD_DRAGGING;
+                }
+                break;
+
+            case FALLING:
+                if (isSpaceBarPressed) {
+                    this.performingAction = PerformingAction.PROPELLING;
+
+                }
+                if (this.movement.getPosition().get2() >= LOW_BOUND) {
+                    this.performingAction = PerformingAction.WALKING;
+                }
+                break;
             case HEAD_DRAGGING:
 
-            if(!isSpaceBarPressed){
-                this.performingAction = PerformingAction.FALLING;
-            }
-            
-            break;
+                if (!isSpaceBarPressed) {
+                    this.performingAction = PerformingAction.FALLING;
+                }
 
-            default : 
-            break;
+                break;
+
+            default:
+                break;
 
         }
 
-        final boolean isPropelling = this.performingAction.equals(PerformingAction.PROPELLING) || this.performingAction.equals(PerformingAction.HEAD_DRAGGING);
+        final boolean isPropelling = this.performingAction.equals(PerformingAction.PROPELLING)
+                || this.performingAction.equals(PerformingAction.HEAD_DRAGGING);
         this.movement = new Movement.Builder()
-        .setPosition(this.movement.getPosition())
-        .setSpeed(this.movement.getSpeed())
-        .setAcceleration(new Pair<>(this.movement.getAcceleration().get1(), this.movement.getAcceleration().get2()*100.0))
-        .setRotation(this.movement.getSpeed().get2()*2, 0.0)
-        .setMovementChangers(List.of(MovementChangers.BOUNDS, isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
-         isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY, 
-         isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY)).build();
-
-       
+                .setPosition(this.movement.getPosition())
+                .setSpeed(this.movement.getSpeed())
+                .setAcceleration(new Pair<>(this.movement.getAcceleration().get1(),
+                        this.movement.getAcceleration().get2() * 100.0))
+                .setRotation(this.movement.getSpeed().get2() * 2, 0.0)
+                .setMovementChangers(List.of(MovementChangers.BOUNDS,
+                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
+                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
+                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+                .build();
 
     }
-  
 
-    
 }

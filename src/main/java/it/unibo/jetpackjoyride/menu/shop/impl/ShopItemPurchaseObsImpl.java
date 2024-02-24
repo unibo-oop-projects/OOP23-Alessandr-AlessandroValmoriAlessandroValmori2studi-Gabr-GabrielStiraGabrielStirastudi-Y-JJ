@@ -9,7 +9,9 @@ public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
     private ShopController shopController;
 
-
+    /**Constructor that takes in the 
+     * @param shopController 
+     */
     public ShopItemPurchaseObsImpl(ShopController shopController) {
         this.shopController = shopController;
     

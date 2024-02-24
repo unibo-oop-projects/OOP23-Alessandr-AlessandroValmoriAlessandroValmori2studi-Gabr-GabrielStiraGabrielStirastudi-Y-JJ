@@ -8,88 +8,85 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import javafx.stage.Stage;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.util.*;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Set;
+import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
  */
 public final class ShopControllerImpl implements ShopController {
-
+    /** The view component of the shop */
     private final ShopView view;
-    private final String SHOP_DATA_PATH = System.getProperty("user.home")+File.separator + "jetpackJoyride"+File.separator +"shopdata.txt";
+    /** The path of the file where the unlocked items are stored as text */
+    private final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"
+            + File.separator + "shopdata.txt";
+    /** The set of unlocked items */
     private Set<Items> unlockedSet = new HashSet<>();
-    
-    
+
+    /** The main menu of the application */
     private final GameMenu gameMenu;
+
+    /**
+     * The observers made to handle the event that occur in the {@link ShopView} GUI
+     */
+    ShopItemPurchaseObs shopItemPurchaseObs;
+    BackToMenuObs backToMenuObs;
+    CharacterObs charObs;
 
     /**
      * Constructs a new ShopControllerImpl instance.
      *
      * @param primaryStage The primary stage of the application.
      * @param gameMenu     The game menu associated with the shop.
-     * @throws IOException 
-     * @throws ClassNotFoundException 
      */
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
-        
+
         this.gameMenu = gameMenu;
         readFromFile();
         this.view = new ShopView(this, primaryStage);
-
-        ShopItemPurchaseObs shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
-        BackToMenuObs backToMenuObs = new BackToMenuObsImpl(this);
-        CharacterObs charObs = new CharacterImpl(this);
-
-        // Register observers with ShopView
+        this.shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
+        this.backToMenuObs = new BackToMenuObsImpl(this);
+        this.charObs = new CharacterImpl(this);
         this.view.addBuyObs(shopItemPurchaseObs);
         this.view.addBackToMenuObs(backToMenuObs);
         this.view.addCharObs(charObs);
     }
 
-    /**
-     * Retrieves the scene of the shop menu.
-     * 
-     * @return The scene of the shop menu.
-     */
     @Override
     public void showTheShop() {
         this.view.setSceneOnStage();
     }
-
-
 
     @Override
     public void backToMenu() {
         this.save();
         gameMenu.showMenu();
     }
-
+    /**Method used to read from file the set of unlocked items, if the file does
+     * not exist, the unlocked set field of this class is initialized
+     */
     private void readFromFile() {
-    
-        
+
         try (BufferedReader reader = new BufferedReader(new FileReader(SHOP_DATA_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
-                    for(var item : Items.values()){
-                        if(item.toString().equals(line.trim())){
+                    for (var item : Items.values()) {
+                        if (item.toString().equals(line.trim())) {
                             this.unlockedSet.add(item);
                         }
                     }
                 }
             }
-      
-           
+
         } catch (IOException e) {
-            System.err.println("Failed to read from file: " + e.getMessage());
-           
+            this.unlockedSet = new HashSet<>();
         }
     }
 
@@ -98,11 +95,9 @@ public final class ShopControllerImpl implements ShopController {
         this.view.update();
     }
 
-    
-
     @Override
     public Set<Items> getUnlocked() {
-         return Collections.unmodifiableSet(this.unlockedSet);
+        return Collections.unmodifiableSet(this.unlockedSet);
     }
 
     @Override
@@ -114,9 +109,9 @@ public final class ShopControllerImpl implements ShopController {
     public void save() {
         File file = new File(SHOP_DATA_PATH);
         File parentDir = file.getParentFile();
-        if (!new File(SHOP_DATA_PATH).getParentFile().exists()){
+        if (!file.getParentFile().exists()) {
             parentDir.mkdirs();
-        } 
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(SHOP_DATA_PATH))) {
             for (var item : this.unlockedSet) {
                 writer.write(item.toString()); // Write the word
@@ -124,8 +119,8 @@ public final class ShopControllerImpl implements ShopController {
             }
             System.out.println("Words saved to file successfully.");
         } catch (IOException e) {
-            
+            e.printStackTrace();
         }
     }
- 
+
 }

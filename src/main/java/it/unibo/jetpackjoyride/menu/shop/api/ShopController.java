@@ -2,20 +2,21 @@ package it.unibo.jetpackjoyride.menu.shop.api;
 
 import java.util.Set;
 import java.util.Optional;
-
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
-
-
+import it.unibo.jetpackjoyride.menu.shop.impl.ShopView;
 
 /**
  * The ShopController interface defines the operations for managing the shop in the game.
- * It provides methods for navigation, purchasing items, managing shields, and saving game progress.
+ * It provides methods for navigation, purchasing items and consulting how much money is possessed.
+ * It also has methods to get the currently unlocked powerups. 
  */
 public interface ShopController {
 
     /**
-     * Enum representing different items available in the shop.
+     * Enum representing different items available in the shop, it is used to associate each item
+     * to a corresponding powerup, a corresponding order in the {@link ShopView} GUI, and
+     * a corresponding description
+     * 
      */
     enum Items {
         MRCUDDLES(500, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0), Optional.of("MR CUDDLES\n Too cool not to buy")), 
@@ -35,7 +36,6 @@ public interface ShopController {
             this.order = order;
             this.description = description;
         }
-
         /**
          * Retrieves the cost of the item.
          *
@@ -73,8 +73,6 @@ public interface ShopController {
         }
     }
 
-   
-
     /**
      * Shows the shop
      */
@@ -87,18 +85,23 @@ public interface ShopController {
     void updateView();
     
     /**
-     * Navigates back to the main menu.
+     * Saves the modifications made in the shop and navigates back to the main menu
      */
     void backToMenu();
 
-    
+    /**
+     * Retrieved the set of unlocked items
+     * @return the set of unlocked items
+     */
     Set<Items> getUnlocked();
 
+    /**Unlocks a particular 
+     * @param item
+     */
     void unlock(final Items item);
     /**
-     * Saves the game progress.
+     * Saves the game progress onto a file in the user's home directory
      */
-
      void save();
     
 }

@@ -44,7 +44,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
         this.hasShield = false;
         this.lifeStatus = BarryLifeStatus.ALIVE;
         this.entityStatus = EntityStatus.ACTIVE;
-        this.performingAction = PerformingAction.FALLING;
+        this.performingAction = PerformingAction.WALKING;
 
     }
     @Override

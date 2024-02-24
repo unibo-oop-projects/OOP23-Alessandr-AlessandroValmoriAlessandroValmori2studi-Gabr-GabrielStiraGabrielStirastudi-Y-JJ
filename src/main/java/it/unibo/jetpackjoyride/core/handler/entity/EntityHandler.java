@@ -1,5 +1,7 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
@@ -9,10 +11,15 @@ import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
-import it.unibo.jetpackjoyride.core.handler.player.BarryHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
+import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
+import it.unibo.jetpackjoyride.utilities.MovementChangers;
+import it.unibo.jetpackjoyride.utilities.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,7 +31,7 @@ public class EntityHandler {
     private ObstacleHandler obstacleHandler;
     private PowerUpHandler powerUpHandler;
     private PickUpHandler pickUpHandler;
-    private BarryHandler playerHandler;
+    private Barry player;
     private CoinGenerator coinHandler;
 
     private Set<Items> unlockedItems;
@@ -38,8 +45,10 @@ public class EntityHandler {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler();
-        this.playerHandler = new BarryHandler();
-        this.coinHandler = new CoinGenerator(Optional.of(playerHandler.getModel().getHitbox()));
+        Movement barryMovement = new Movement.Builder().setPosition(100.0,0.0).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
+        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(), new Pair<>(GameInfo.getInstance().getDefaultWidth()/17, GameInfo.getInstance().getScreenHeight()/7), 0.0);
+        this.player = new BarryImpl(barryMovement, barryHitbox);
+        this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
 
         this.listOfEntities = new ArrayList<>();
 
@@ -51,8 +60,8 @@ public class EntityHandler {
 
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
-        playerHandler.update(isSpaceBarPressed);
-        if(!playerHandler.getModel().isAlive()){
+        player.update(isSpaceBarPressed);
+        if(!player.isAlive()){
             coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
@@ -69,39 +78,39 @@ public class EntityHandler {
             this.spawnVehiclePickUp(this.unlockedItems);
         }
 
-        final var obstacleHit = this.obstacleHandler.update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()): Optional.of(playerHandler.getModel().getHitbox()));
+        final var obstacleHit = this.obstacleHandler.update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()): Optional.of(player.getHitbox()));
         
         if (obstacleHit.isPresent()) {
             if (this.isUsingPowerUp) {
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
-                this.playerHandler.getModel().setEntityStatus(EntityStatus.ACTIVE);
-                this.coinHandler.setPlayerHitbox(Optional.of(this.playerHandler.getModel().getHitbox()));
+                this.player.setEntityStatus(EntityStatus.ACTIVE);
+                this.coinHandler.setPlayerHitbox(Optional.of(this.player.getHitbox()));
 
             } else {
-                this.playerHandler.hit(obstacleHit.get());
+                this.player.hit(obstacleHit.get());
             }
         }
 
-        this.powerUpHandler.update(entityGroup, isSpaceBarPressed);
+        this.powerUpHandler.update(isSpaceBarPressed);
 
-        if (this.pickUpHandler.update(entityGroup, Optional.of(playerHandler.getModel().getHitbox()))) {
+        if (this.pickUpHandler.update(Optional.of(player.getHitbox()))) {
             
-            final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+            final PickUp pickUpPickedUp = this.pickUpHandler.getAllPickUps().get(0);
 
             switch (pickUpPickedUp.getPickUpType()) {
                 case VEHICLE:
-                playerHandler.getModel().setEntityStatus(EntityStatus.INACTIVE);
+                    player.setEntityStatus(EntityStatus.INACTIVE);
                     final VehiclePickUp vehiclePickUp = (VehiclePickUp) pickUpPickedUp;
                     this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
                     this.coinHandler.setPlayerHitbox(
-                            Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getEntityModel().getHitbox()));
+                            Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox()));
                     break;
                 case SHIELD:
                 
-                    this.playerHandler.setBarryShield();
+                    this.player.setShieldOn();
                     
                 default:
                     break;
@@ -136,7 +145,7 @@ public class EntityHandler {
                 .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get())
                 .collect(Collectors.toList());
         this.pickUpHandler.spawnPickUp(PickUpType.VEHICLE);
-        final VehiclePickUp vehiclePickUp = (VehiclePickUp) this.pickUpHandler.getAllPickUps().get(0).getEntityModel();
+        final VehiclePickUp vehiclePickUp = (VehiclePickUp) this.pickUpHandler.getAllPickUps().get(0);
         vehiclePickUp.setVehicleSpawn(listOfPossibleSpawns.get(rand.nextInt(listOfPossibleSpawns.size())));
     }
 

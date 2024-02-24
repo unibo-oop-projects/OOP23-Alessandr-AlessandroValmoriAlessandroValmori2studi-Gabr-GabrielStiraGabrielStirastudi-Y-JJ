@@ -71,8 +71,8 @@ public final class BarryImpl extends AbstractEntity implements Barry {
      *
      * @param type the type of obstacle that killed Barry
      */
-    @Override
-    public void kill(final ObstacleType type) {
+
+    private void kill(final ObstacleType type) {
 
         this.lifeStatus= BarryLifeStatus.DEAD;
         this.performingAction = type.equals(ObstacleType.ZAPPER) ? PerformingAction.ZAPPED : 
@@ -93,6 +93,20 @@ public final class BarryImpl extends AbstractEntity implements Barry {
     @Override
     public void setShieldOn() {
         this.hasShield=true;
+    }
+    @Override
+    public void hit(ObstacleType type) {
+        if(this.isAlive()){
+        if (this.hasShield()) {
+     
+            this.removeShield();
+
+        } else {
+            
+            this.kill(type);
+
+        }
+    }
     }
     /**
      * Sets the life performingAction of Barry.

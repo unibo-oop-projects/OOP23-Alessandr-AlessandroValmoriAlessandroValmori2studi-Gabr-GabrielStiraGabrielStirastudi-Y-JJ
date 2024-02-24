@@ -98,22 +98,22 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
         try {
             switch (obstacleType) {
                 case MISSILE: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS);
+                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS,obstacleMovement.getRotation().get1());
                     obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
                     break;
                 case ZAPPER: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), ZAPPER_HITBOX_DIMENSIONS);
+                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), ZAPPER_HITBOX_DIMENSIONS,obstacleMovement.getRotation().get1());
                     obstacleModel = new Zapper(obstacleMovement, obstacleHitbox);
                     break;
                 case LASER: //Canon obstacle existing in the original game
-                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), LASER_HITBOX_DIMENSIONS);
+                    obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), LASER_HITBOX_DIMENSIONS, obstacleMovement.getRotation().get1());
                     obstacleModel = new Laser(obstacleMovement, obstacleHitbox);
                     break;
                 default:
                     throw new NotImplementedObjectException("EntityModelGenerator could not generate the obstacle. A missile will be generated instead.");
             }
         } catch (NotImplementedObjectException e) {
-            obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS);
+            obstacleHitbox = new HitboxImpl(obstacleMovement.getPosition(), MISSILE_HITBOX_DIMENSIONS, 0.0);
             obstacleModel = new Missile(obstacleMovement, obstacleHitbox);
         }
 
@@ -137,22 +137,22 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
             switch (powerUpType) {
                 case LILSTOMPER: //Canon powerup existing in the original game
                     powerUpMovement = new Movement.Builder().setPosition(LILSTOMPER_SPAWNING_COORDINATES).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), LILSTOMPER_HITBOX_DIMENSIONS);
+                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), LILSTOMPER_HITBOX_DIMENSIONS, powerUpMovement.getRotation().get1());
                     powerUpModels.add(new LilStomper(powerUpMovement, powerUpHitbox));
                     break;
                 case MRCUDDLES: //Canon powerup existing in the original game
                     powerUpMovement = new Movement.Builder().setPosition(MRCUDDLE_SPAWNING_COORDINATES).setMovementChangers(List.of(MovementChangers.INVERSEGRAVITY, MovementChangers.BOUNDS)).build();
-                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), MRCUDDLE_HITBOX_DIMENSIONS);
+                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), MRCUDDLE_HITBOX_DIMENSIONS, powerUpMovement.getRotation().get1());
                     powerUpModels.addAll(new MrCuddlesGenerator(powerUpMovement, powerUpHitbox).generateMrCuddle());
                     break;
                 case PROFITBIRD: //Canon powerup existing in the original game
                     powerUpMovement = new Movement.Builder().setPosition(PROFITBIRD_SPAWNING_COORDINATES).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), PROFITBIRD_HITBOX_DIMENSIONS);
+                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), PROFITBIRD_HITBOX_DIMENSIONS, powerUpMovement.getRotation().get1());
                     powerUpModels.add(new ProfitBird(powerUpMovement, powerUpHitbox));
                     break;
                 case DUKEFISHRON: //Non canon powerup. An easter egg for Terraria players ;)
                     powerUpMovement = new Movement.Builder().setPosition(DUKEFISHRON_SPAWNING_COORDINATES).setSpeed(DUKEFISHRON_BASE_SPEED).setRotation(DUKE_ROTATION_ANGLE,0.0).setMovementChangers(List.of(MovementChangers.BOUNCING)).build();
-                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), DUKEFISHRON_HITBOX_DIMENSIONS);
+                    powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), DUKEFISHRON_HITBOX_DIMENSIONS, powerUpMovement.getRotation().get1());
                     powerUpModels.add(new DukeFishron(powerUpMovement, powerUpHitbox));
                     break;
                 default:
@@ -160,7 +160,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
             }
         } catch (NotImplementedObjectException e) {
             powerUpMovement = new Movement.Builder().setPosition(LILSTOMPER_SPAWNING_COORDINATES).setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-            powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), LILSTOMPER_HITBOX_DIMENSIONS);
+            powerUpHitbox = new HitboxImpl(powerUpMovement.getPosition(), LILSTOMPER_HITBOX_DIMENSIONS, 0.0);
             powerUpModels.add(new LilStomper(powerUpMovement, powerUpHitbox));
         }
         
@@ -183,12 +183,12 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
             switch (pickUpType) {
                 case VEHICLE: // Canon pickup existing in the original game
                     pickUpMovement = new Movement.Builder().setPosition(VEHICLE_PICKUP_SPAWNING_COORDINATES).setSpeed(VEHICLE_PICKUP_BASE_SPEED).setMovementChangers(List.of(MovementChangers.GRAVITY)).build();
-                    pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), VEHICLE_PICKUP_HITBOX_DIMENSIONS);
+                    pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), VEHICLE_PICKUP_HITBOX_DIMENSIONS, pickUpMovement.getRotation().get1());
                     pickUpModel = new VehiclePickUp(pickUpMovement, pickUpHitbox);
                     break;
                 case SHIELD: // Canon pickup existing in the original game
                     pickUpMovement = new Movement.Builder().setPosition(SHIELD_PICKUP_SPAWNING_COORDINATES).setSpeed(SHIELD_PICKUP_BASE_SPEED).build();
-                    pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), SHIELD_PICKUP_HITBOX_DIMENSIONS);
+                    pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), SHIELD_PICKUP_HITBOX_DIMENSIONS, pickUpMovement.getRotation().get1());
                     pickUpModel = new ShieldPickUp(pickUpMovement, pickUpHitbox);
                     break;
                 default:
@@ -196,7 +196,7 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator{
             }
         } catch (NotImplementedObjectException e) {
             pickUpMovement = new Movement.Builder().setPosition(VEHICLE_PICKUP_SPAWNING_COORDINATES).setSpeed(VEHICLE_PICKUP_BASE_SPEED).setMovementChangers(List.of(MovementChangers.GRAVITY)).build();
-            pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), VEHICLE_PICKUP_HITBOX_DIMENSIONS);
+            pickUpHitbox = new HitboxImpl(pickUpMovement.getPosition(), VEHICLE_PICKUP_HITBOX_DIMENSIONS,0.0);
             pickUpModel = new VehiclePickUp(pickUpMovement, pickUpHitbox);
         }
         

@@ -167,7 +167,7 @@ public class ObstacleLoader {
         return true;
     }
 
-    public List<Obstacle> getInstanceOfPattern() {
+    public Set<Obstacle> getInstanceOfPattern() {
         if (this.isInSamePattern()) {
             this.difficulty = GameInfo.MOVE_SPEED.get() - GameInfo.getInstance().getInitialGameSpeed() + 1;
             
@@ -175,23 +175,18 @@ public class ObstacleLoader {
                 this.duration = this.allObstacles.get(this.difficulty).stream().map(p -> p.get2()).mapToInt(i->i).max().getAsInt() + TIME_OF_LAZYNESS;
             }
 
-            final List<Obstacle> models = new ArrayList<>();
-            models.addAll(this.allObstacles.get(this.difficulty).stream()
+            this.interval++;
+            
+            return this.allObstacles.get(this.difficulty).stream()
                         .filter(p -> p.get2().equals(this.interval))
                         .map(p -> p.get1())
-                        .collect(Collectors.toList()));
+                        .map(p -> this.entityGenerator.generateObstacle(p.getObstacleType(), p.getEntityMovement()))
+                        .collect(Collectors.toSet());
 
-            this.interval++;
-
-            if(models.size()>0) {
-                System.out.println(models.get(0).getEntityMovement().getPosition());
-            }
-            //TODO dwefeer
-            return models;
         } else {
             this.interval = 0;
         }
-        return List.of();
+        return Set.of();
     }
 
     public boolean isInSamePattern() {

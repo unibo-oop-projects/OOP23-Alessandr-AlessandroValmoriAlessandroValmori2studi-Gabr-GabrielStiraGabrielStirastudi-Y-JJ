@@ -15,7 +15,6 @@ import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
-
 import java.util.*;
 
 import javafx.scene.Group;

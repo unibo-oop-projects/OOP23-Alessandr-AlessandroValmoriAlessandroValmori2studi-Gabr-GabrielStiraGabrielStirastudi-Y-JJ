@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import java.util.List;
 
@@ -49,9 +50,10 @@ public final class Missile extends AbstractObstacle {
             if(this.lifetimeAfterDeactivation.equals(DELAYBEFOREDESTRUCTION)) {
                 this.entityStatus = EntityStatus.ACTIVE;
 
+                final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get())*2;
                 this.movement = new Movement.Builder()
                     .setPosition(OUTOFBOUNDSDX, this.movementBuffer.getPosition().get2())
-                    .setSpeed(this.movementBuffer.getSpeed())
+                    .setSpeed(-startingXSpeed, this.movementBuffer.getSpeed().get2())
                     .setAcceleration(this.movementBuffer.getAcceleration())
                     .setRotation(this.movementBuffer.getRotation())
                     .setMovementChangers(this.movementBuffer.getMovementChangers())

@@ -144,7 +144,6 @@ public final class CoinGenerator {
 * Updates the position of the coins.
 */
     public void updatPosition() {
-        updateNewPos();
         if (this.playeHitbox.isPresent()) {
             checkCollision();
         }
@@ -161,22 +160,6 @@ public final class CoinGenerator {
                 reusableCoin.add(coin);
                 coin.setCollectedState(false);
                 iterator.remove();
-            }
-        }
-    }
-
-    /**
-     * Updates the position of the coins based on changes in the screen size.
-     * If the screen size has changed, adjusts the positions of the coins accordingly.
-     */
-    private void updateNewPos() {
-        if (isScreenSizeChange()) {
-            double ratioX = gameInfo.getScreenWidth() / canvas.getWidth();
-            double ratioY = gameInfo.getScreenHeight() / canvas.getHeight();
-
-            for (Coin coin : coinList) {
-                var oldPosition = coin.getModelData().get(POSITION);
-                coin.setPosition(new Pair<>(oldPosition.get1() * ratioX, oldPosition.get2() * ratioY));
             }
         }
     }

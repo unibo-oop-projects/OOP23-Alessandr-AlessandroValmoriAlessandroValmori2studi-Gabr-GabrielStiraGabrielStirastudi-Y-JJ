@@ -26,6 +26,8 @@ public class PickUpView extends AbstractEntityView {
     private final static Double SHIELD_PICKUP_X_DIMENSION = 80.0;
     private final static Double SHIELD_PICKUP_Y_DIMENSION = 80.0;
     private final static Integer SHIELD_PICKUP_ANIMATION_LENGHT = 2;
+    private final static Double SHIELD_PICKUP_DIMENSION_CHANGE = 2.0;
+    private final static Integer SHIELD_PICKUP_DIMENSION_CHANGE_SPEED = 30;
 
     private int animationLenght;
     private int animationCounter;
@@ -73,8 +75,6 @@ public class PickUpView extends AbstractEntityView {
                             default:
                                 break;
                         }
-
-                        animationCounter++;
                         break;
                     default:
                         width = 0.0;
@@ -86,9 +86,14 @@ public class PickUpView extends AbstractEntityView {
             case SHIELD:
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
-                        width = SHIELD_PICKUP_X_DIMENSION;
-                        height = SHIELD_PICKUP_Y_DIMENSION;
                         animationLenght = SHIELD_PICKUP_ANIMATION_LENGHT;
+                        if(this.animationCounter==0) {
+                            this.width = SHIELD_PICKUP_X_DIMENSION;
+                            this.height = SHIELD_PICKUP_Y_DIMENSION;
+                        } else {
+                            this.width += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                            this.height += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                        }
                         break;
                     case DEACTIVATED:
                         width = 0.0;
@@ -99,11 +104,13 @@ public class PickUpView extends AbstractEntityView {
                         height = 0.0;
                         break;
                 }
+                break;
             default:
                 width = 0.0;
                 height = 0.0;
                 break;
 
         }
+        this.animationCounter++;
     }
 }

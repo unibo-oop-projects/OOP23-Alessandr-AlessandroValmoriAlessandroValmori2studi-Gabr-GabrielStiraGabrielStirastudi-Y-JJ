@@ -22,7 +22,7 @@ public final class MapBackgroundImpl implements MapBackground {
 
     private static final int MAX_SPEED = 14;
     private static final int DEFAULT_SPEED = 5;
-    private static final int DURATION_SECONDS = 20;
+    private static final int DURATION_SECONDS = 15;
     private static final int BGIMAGE_ONE = 0;
     private static final int BGIMAGE_TWO = 1;
     private static final int TIMES_FOR_CHANGE = 10;

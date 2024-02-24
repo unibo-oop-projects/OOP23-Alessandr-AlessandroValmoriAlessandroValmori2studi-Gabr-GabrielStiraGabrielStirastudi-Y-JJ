@@ -92,14 +92,16 @@ public final class PowerUpView extends AbstractEntityView {
                         }
                         break;
 
-                    case LANDING:
+                    case LANDING: // 20 - 24
                         animationLenght = LILSTOMPER_LANDING_ANIMATION_SPEED;
                         animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES + LILSTOMPER_GLIDING_NUM_SPRITES + LILSTOMPER_DESCENDING_NUM_SPRITES + ((animationCounter[4]) / animationLenght % LILSTOMPER_LANDING_NUM_SPRITES);
-                        if (animationCounter[4] != animationLenght * LILSTOMPER_LANDING_NUM_SPRITES - 1) {
-                            animationCounter[4]++;
+                        if (animationCounter[4] == animationLenght * LILSTOMPER_LANDING_NUM_SPRITES - 1) {
                             for (int i = 0; i < 4; i++) {
                                 animationCounter[i] = 0;
                             }
+                            animationCounter[4]=0;
+                        } else {
+                            animationCounter[4]++;
                         }
                         break;
 
@@ -162,7 +164,7 @@ public final class PowerUpView extends AbstractEntityView {
                         break;
 
                     default:
-                        animationFrame = 0;
+                        animationFrame = PROFITBIRD_WALKING_NUM_SPRITES;
                         break;
                 }
                 break;

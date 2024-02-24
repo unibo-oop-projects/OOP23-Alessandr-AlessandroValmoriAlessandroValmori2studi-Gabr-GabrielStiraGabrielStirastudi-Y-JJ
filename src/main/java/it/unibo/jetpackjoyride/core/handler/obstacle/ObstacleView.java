@@ -1,20 +1,16 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
 import java.util.List;
-
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
-import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 public final class ObstacleView extends AbstractEntityView {
     private final static Double MISSILE_WARNING_X_DIMENSION = 80.0;
     private final static Double MISSILE_WARNING_Y_DIMENSION = 60.0;
-    private final static Double MISSILE_WARNING_DIMENSION_CHANGE = 15.0;
+    private final static Double MISSILE_WARNING_DIMENSION_CHANGE = 5.0;
+    private final static Integer MISSILE_WARNING_DIMENSION_CHANGE_SPEED = 20;
     private final static Integer MISSILE_WARNING_ANIMATION_LENGHT = 4;
     private final static Integer MISSILE_WARNING_FIRST_NUM_SPRITES = 3;
     private final static Integer MISSILE_WARNING_SECOND_NUM_SPRITES = 2;
@@ -64,19 +60,21 @@ public final class ObstacleView extends AbstractEntityView {
             case MISSILE:
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        this.width = MISSILE_WARNING_X_DIMENSION;
-                        this.height = MISSILE_WARNING_Y_DIMENSION;
+                        if(animationCounter[0] < MISSILE_WARNING_FIRST_TICKS) {
+                            this.width = MISSILE_WARNING_X_DIMENSION;
+                            this.height = MISSILE_WARNING_Y_DIMENSION;
+                        }
                         this.animationLenght = MISSILE_WARNING_ANIMATION_LENGHT;
                         this.animationFrame = (this.animationCounter[0]) / this.animationLenght
                                 % MISSILE_WARNING_FIRST_NUM_SPRITES;
 
-                        if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS) {
+                        if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS && animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                             this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
                                     / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES);
-                            this.width += MISSILE_WARNING_DIMENSION_CHANGE;
-                            this.height += MISSILE_WARNING_DIMENSION_CHANGE;
+                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED + 1 < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED + 1 < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
                         } else { 
-                            if(animationCounter[0] > MISSILE_WARNING_FIRST_TICKS && animationCounter[0] < MISSILE_WARNING_SECOND_TICKS) {
+                            if(animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                                 this.animationCounter[0] = MISSILE_WARNING_FIRST_TICKS;
                                 this.width = MISSILE_WARNING_X_DIMENSION;
                                 this.height = MISSILE_WARNING_Y_DIMENSION;
@@ -119,7 +117,6 @@ public final class ObstacleView extends AbstractEntityView {
                     case DEACTIVATED:
                         this.animationLenght = ZAPPER_BROKEN_ANIMATION_LENGHT;
                         this.animationFrame = ZAPPER_NUM_SPRITES + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES);
-                        System.out.println(this.animationFrame);
                         if (this.animationFrame != ZAPPER_NUM_SPRITES + ZAPPER_BROKEN_NUM_SPRITES - 1) {
                             this.animationCounter[2]++;
                         }

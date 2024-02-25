@@ -15,7 +15,7 @@ public class GameApp extends Application {
      */
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        GameMenu gameMenu = new StartMenu(primaryStage);
+        final GameMenu gameMenu = new StartMenu(primaryStage);
         primaryStage.setTitle("JetPack Joyride");
         gameMenu.showMenu();
         primaryStage.show();

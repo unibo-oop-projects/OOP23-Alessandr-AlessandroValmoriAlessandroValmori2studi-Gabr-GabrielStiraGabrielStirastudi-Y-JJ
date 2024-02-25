@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  * Test cases for the ButtonFactory class.
  * @author yukai.zhou@studio.unibo.it
  */
-public class CoinShapeFactoryImplTest {
+class CoinShapeFactoryImplTest {
 
     private static final int COUNT = 50;
     private static final double MIN_SIZE_RATE = 0.2;
@@ -24,10 +24,10 @@ public class CoinShapeFactoryImplTest {
      * Test that the list of shapes should not be null or empty.
      */
     @Test
-    public void theListShouldNotbeNullorEmpty() {
+    void theListShouldNotbeNullorEmpty() {
         coinShapeFactory = new CoinShapeFactoryImpl();
         for (int i = 0; i < COUNT; i++) {
-            var list = this.coinShapeFactory.regularShapes();
+            final var list = this.coinShapeFactory.regularShapes();
             assertFalse(list.isEmpty());
         }
     }
@@ -36,10 +36,10 @@ public class CoinShapeFactoryImplTest {
      * Test Y coordinates are within default size bounds.
      */
     @Test
-    public void testYCoordinatesWithinDefaultSize() {
-        double screenY = GameInfo.getInstance().getScreenHeight();
+    void testYCoordinatesWithinDefaultSize() {
+        final double screenY = GameInfo.getInstance().getScreenHeight();
         coinShapeFactory = new CoinShapeFactoryImpl();
-        for (var shape : coinShapeFactory.regularShapes()) {
+        for (final var shape : coinShapeFactory.regularShapes()) {
             assertTrue("Y coordinate is above minimum bound", shape.get2() >=  screenY * MIN_SIZE_RATE);
             assertTrue("Y coordinate is below maximum bound", shape.get2() <=  screenY * MAX_SIZE_RATE);
         }

@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.map.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -16,6 +17,8 @@ import javafx.scene.layout.Pane;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class MapBackgroungViewImpl implements MapBackgroundView {
+    private static final Logger LOGGER = Logger.getLogger(MapBackgroungViewImpl.class.getName());
+
 
     private static final int NUM_OF_IMAGES = 6;
     private static final int POSITION = 0;
@@ -75,7 +78,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
     * @param data The data necessary for create the ImageView
     */
     private void loadBackgroungImage(final List<Pair<Double, Double>> data) {
-        final int currentImage = 0 ;
+        final int currentImage = 0;
         bgImageView1 = new ImageView(bgImages[currentImage]);
         bgImageView2 = new ImageView(bgImages[currentImage + 1]);
 
@@ -102,7 +105,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
               final Image bgImage = new Image(url);
               bgImages[i] = bgImage;
            } catch (FileNotFoundException e) {
-              System.err.println("Error message :" + e.getMessage());
+             LOGGER.severe("Error message: " + e.getMessage());
            }
         }
      }

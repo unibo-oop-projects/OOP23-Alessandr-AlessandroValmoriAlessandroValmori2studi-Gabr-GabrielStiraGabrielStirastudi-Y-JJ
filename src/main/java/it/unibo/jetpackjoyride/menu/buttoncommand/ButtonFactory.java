@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand;
 
+import java.net.URL;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,13 +62,18 @@ public final class ButtonFactory {
      * @return an Optional containing the loaded image, or empty if the image could not be loaded
      */
     private static Optional<Image> loadImageFromResources(final String imageName) {
-        try {
-            final String imagePath = "/buttons/" + imageName + ".png";
-            final Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));
-            return Optional.of(image);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error loading image: " + imageName, e);
+        final String imagePath = "/buttons/" + imageName + ".png";
+        final URL url = ButtonFactory.class.getResource(imageName);
+        if (url == null) {
+            LOGGER.log(Level.SEVERE, "Resource not found: " + imagePath);
             return Optional.empty();
         }
-     }
+        try {
+            final Image image = new Image(url.toExternalForm());
+            return Optional.ofNullable(image);
+        } catch (Exception e) { 
+            LOGGER.log(Level.SEVERE, "Error for loading image from URL: " + url, e);
+            return Optional.empty();
+        }
+      }
     }

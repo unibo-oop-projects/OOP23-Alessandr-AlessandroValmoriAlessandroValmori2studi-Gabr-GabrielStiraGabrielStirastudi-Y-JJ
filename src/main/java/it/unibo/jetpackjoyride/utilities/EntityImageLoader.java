@@ -77,7 +77,7 @@ public class EntityImageLoader {
     /**
      * Total number of sprite images for {@link ShieldPickUp} pickups.
      */
-    private static final Integer SHIELDPICKUPSPRITES = 2;
+    private static final Integer SHIELDPICKUPSPRITES = 1;
 
     /**
      * The lists of the images that correspond to each {@link EntityType}
@@ -96,20 +96,31 @@ public class EntityImageLoader {
         this.pickupImages = new ArrayList<>();
 
         // Load obstacle images
-        obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
-        obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
-        obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
-
+        try {
+            obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
+            obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
+            obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
+        } catch (NullPointerException e) {
+            obstacleImages.clear();
+        }
+        
         // Load power-up images
-        powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
-        powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
-        powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
-        powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
+        try {
+            powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
+            powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
+            powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
+            powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
+        } catch (NullPointerException e) {
+            powerupImages.clear();
+        }
 
         // Load pickup images
-        pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
-        pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
-        pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/player/barry_"));
+        try {
+            pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
+            pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
+        } catch (NullPointerException e) {
+            pickupImages.clear();
+        } 
     }
 
     /**
@@ -171,6 +182,9 @@ public class EntityImageLoader {
      * @return The sublist of images.
      */
     private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
+        if(images.isEmpty()) {
+            return List.of();
+        }
         return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
     }
 
@@ -181,14 +195,10 @@ public class EntityImageLoader {
      * @param pathName       The path to the image resources.
      * @return The list of loaded images.
      */
-    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
-        try {
-            return IntStream.range(0, numberOfImages)
-                    .mapToObj(i -> new Image(
-                            getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
-                    .toList();
-        } catch (NullPointerException e) {
-            return List.of();
-        }
+    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) throws NullPointerException {
+        return IntStream.range(0, numberOfImages)
+                .mapToObj(i -> new Image(
+                        getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
+                .toList();
     }
 }

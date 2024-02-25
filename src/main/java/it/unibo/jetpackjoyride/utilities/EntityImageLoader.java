@@ -9,7 +9,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import javafx.scene.image.Image;
-
+@SuppressWarnings("unchecked")
 public class EntityImageLoader {
     private final static Integer MISSILESPRITES = 20;
     private final static Integer ZAPPERSPRITES = 20;
@@ -24,7 +24,7 @@ public class EntityImageLoader {
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
     private final List<Image> pickupImages;
-
+    
     public EntityImageLoader() {
         this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
         this.powerupImages = new ArrayList<>(); // 0-24 LILSTOMPER | 25-30 MRCUDDLE | 31-42 PROFITBIRD | 43-54 DUKEFISHRON

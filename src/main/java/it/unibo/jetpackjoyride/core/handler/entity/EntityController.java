@@ -12,13 +12,14 @@ import it.unibo.jetpackjoyride.core.handler.player.BarryView;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.utilities.EntityImageLoader;
+import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectException;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
 public class EntityController {
     private EntityHandler entityHandler;
     private EntityImageLoader imageLoader = new EntityImageLoader();
-    private Map<Entity,EntityView> modelViewMapper;
+    private Map<Entity, EntityView> modelViewMapper;
 
     public EntityController(ShopController shop) {
         this.entityHandler = new EntityHandler();
@@ -34,17 +35,16 @@ public class EntityController {
         for (final Entity entity : this.entityHandler.getAllEntities()) {
             if (!this.modelViewMapper.containsKey(entity)) {
                 final EntityView entityView = this.viewImagesLoader(entity);
-                    
+
                 this.modelViewMapper.put(entity, entityView);
-               
+
                 entityGroup.getChildren().add(entityView.getImageView());
             }
-            if(entity instanceof BarryImpl){
+            if (entity instanceof BarryImpl) {
                 var shield = ((BarryView) this.modelViewMapper.get(entity)).getShieldImageView();
-                if((((BarryImpl) entity).hasShield()) &&  !entityGroup.getChildren().contains(shield)){
+                if ((((BarryImpl) entity).hasShield()) && !entityGroup.getChildren().contains(shield)) {
                     entityGroup.getChildren().add(shield);
-                }
-                else if(entityGroup.getChildren().contains(shield) && !(((BarryImpl) entity).hasShield())){
+                } else if (entityGroup.getChildren().contains(shield) && !(((BarryImpl) entity).hasShield())) {
                     entityGroup.getChildren().remove(shield);
                 }
             }
@@ -55,29 +55,34 @@ public class EntityController {
                 .filter(p -> !this.entityHandler.getAllEntities().contains(p.getKey())).map(p -> p.getValue()).toList();
 
         this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
-        entityGroup.getChildren().removeAll(entityViews.stream().map(e -> (Node)e.getImageView()).toList());
+        entityGroup.getChildren().removeAll(entityViews.stream().map(e -> (Node) e.getImageView()).toList());
         return true;
     }
 
     private EntityView viewImagesLoader(final Entity entity) {
-        final EntityView entityView;
-        switch (entity.getEntityType()) {
-            case BARRY:
-                entityView = new BarryView();
-                break;
-            case OBSTACLE:
-                entityView = new ObstacleView(this.imageLoader.loadImages(entity));
-                break;
-            case POWERUP:
-                entityView = new PowerUpView(this.imageLoader.loadImages(entity));
-                break;
-            case PICKUP:
-                entityView = new PickUpView(this.imageLoader.loadImages(entity));
-                break;
-            default:
-                entityView = new ObstacleView(this.imageLoader.loadImages(entity));
-                break;
+        EntityView entityView;
+        try {
+            switch (entity.getEntityType()) {
+                case BARRY:
+                    entityView = new BarryView();
+                    break;
+                case OBSTACLE:
+                    entityView = new ObstacleView(this.imageLoader.loadImages(entity));
+                    break;
+                case POWERUP:
+                    entityView = new PowerUpView(this.imageLoader.loadImages(entity));
+                    break;
+                case PICKUP:
+                    entityView = new PickUpView(this.imageLoader.loadImages(entity));
+                    break;
+                default:
+                    throw new NotImplementedObjectException("Tried to spawn an alien entity");
+
+            }
+        } catch (Exception e) {
+            entityView = new ObstacleView(this.imageLoader.loadImages(entity));
         }
+
         return entityView;
     }
 

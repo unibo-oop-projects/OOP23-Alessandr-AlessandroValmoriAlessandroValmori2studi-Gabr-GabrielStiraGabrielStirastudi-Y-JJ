@@ -17,6 +17,8 @@ public abstract class AbstractEntityView implements EntityView{
         this.images = images;
         this.imageView = new ImageView();
         this.animationFrame = 0;
+        this.width=0.0;
+        this.height=0.0;
     }
 
     @Override

@@ -39,7 +39,7 @@ public abstract class AbstractHitbox implements Hitbox {
         final Point2D oldPoint = new Point2D.Double();
         final Point2D newPoint = new Point2D.Double();
 
-        oldPoint.setLocation(Double.valueOf(toCompute.get1()), Double.valueOf(toCompute.get2()));
+        oldPoint.setLocation(toCompute.get1(), toCompute.get2());
 
         rotationTransform.transform(oldPoint, newPoint);
         return new Pair<>(newPoint.getX(), newPoint.getY());

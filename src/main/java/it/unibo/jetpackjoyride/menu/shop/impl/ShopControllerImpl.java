@@ -6,6 +6,7 @@ import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
+import it.unibo.jetpackjoyride.utilities.exceptions.DirectoryCreationException;
 import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -72,12 +73,15 @@ public final class ShopControllerImpl implements ShopController {
         this.save();
         gameMenu.showMenu();
     }
-    /**Method used to read from file the set of unlocked items, if the file does
+
+    /**
+     * Method used to read from file the set of unlocked items, if the file does
      * not exist, the unlocked set field of this class is initialized
      */
     private void readFromFile() {
-        
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
@@ -114,9 +118,16 @@ public final class ShopControllerImpl implements ShopController {
         File file = new File(SHOP_DATA_PATH);
         File parentDir = file.getParentFile();
         if (!file.getParentFile().exists()) {
-            parentDir.mkdirs();
+            try {
+                if (!parentDir.mkdirs()) {
+                    throw new DirectoryCreationException("Failed to create directory, may not have permission");
+                }
+            } catch (DirectoryCreationException e1) {
+                e1.getStackTrace();
+            }
         }
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
             for (var item : this.unlockedSet) {
                 writer.write(item.toString()); // Write the word
                 writer.newLine(); // Write a newline character
@@ -125,6 +136,7 @@ public final class ShopControllerImpl implements ShopController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }

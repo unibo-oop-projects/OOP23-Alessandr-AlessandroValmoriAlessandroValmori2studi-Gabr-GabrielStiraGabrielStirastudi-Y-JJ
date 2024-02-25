@@ -9,29 +9,100 @@ import javafx.scene.image.Image;
 
 public class PickUpView extends AbstractEntityView {
 
+    /**
+     * The width of the {@link VehiclePickUp} 
+     */
     private final static Double VEHICLE_PICKUP_X_DIMENSION = 80.0;
+
+    /**
+     * The height of the {@link VehiclePickUp} 
+     */
     private final static Double VEHICLE_PICKUP_Y_DIMENSION = 80.0;
+
+    /**
+     * The length of the {@link VehiclePickUp} animation
+     */
     private final static Integer VEHICLE_PICKUP_ANIMATION_LENGHT = 4;
+
+    /**
+     * The number of sprites in the {@link VehiclePickUp}'s spriteset
+    */
     private final static Integer VEHICLE_PICKUP_NUM_SPRITES = 8;
 
+    /**
+     * The width of the {@link VehiclePickUp}'s banner 
+     */
     private final static Double VEHICLE_PICKUP_BANNER_X_DIMENSION = 1280.0;
+
+    /**
+     * The height of the {@link VehiclePickUp} 
+     */
     private final static Double VEHICLE_PICKUP_BANNER_Y_DIMENSION = 240.0;
+
+    /**
+     * The length of the {@link VehiclePickUp}'s animation 
+     */
     private final static Integer VEHICLE_PICKUP_BANNER_ANIMATION_LENGHT = 4;
 
+    /**
+     * The number of sprites in the {@link LilStomper} banner spriteset
+     */
     private final static Integer LILSTOMPER_BANNER_SPRITES = 3;
+
+    /**
+     * The number of sprites in the {@link MrCuddles} banner spriteset
+     */
     private final static Integer MRCUDDLE_BANNER_SPRITES = 3;
+    
+    /**
+     * The number of sprites in the {@link ProfitBird} banner spriteset
+     */
     private final static Integer PROFIT_BIRD_BANNER_SPRITES = 3;
+
+    /**
+     * The number of sprites in the {@link DukeFishron} banner spriteset*
+     */
     private final static Integer DUKE_FISHRON_BANNER_SPRITES = 3;
 
+    /**
+     * The width of the shield pickup
+     */
     private final static Double SHIELD_PICKUP_X_DIMENSION = 80.0;
+
+    /**
+     * The height of the shield pickup 
+     */
     private final static Double SHIELD_PICKUP_Y_DIMENSION = 80.0;
+
+    /**
+     * The number of sprites in the shield pickup spriteset
+     */
     private final static Integer SHIELD_PICKUP_ANIMATION_LENGHT = 2;
+
+    /**
+     * The dimension change of the shield pickup animation 
+     */
     private final static Double SHIELD_PICKUP_DIMENSION_CHANGE = 2.0;
+
+    /**
+     * The speed of the dimension variation of the shield pickup 
+     */
     private final static Integer SHIELD_PICKUP_DIMENSION_CHANGE_SPEED = 30;
 
+    /**
+     * A field that contains the current animation length 
+     */
     private int animationLenght;
+
+    /**
+     * A counter used to iterate over the sprite set
+     */
     private int animationCounter;
 
+    /**
+     * the constructor of this view class
+     * @param images the whole set of images that will be used by the pickup type
+     */
     public PickUpView(final List<Image> images) {
         super(images);
         this.animationFrame = 0;

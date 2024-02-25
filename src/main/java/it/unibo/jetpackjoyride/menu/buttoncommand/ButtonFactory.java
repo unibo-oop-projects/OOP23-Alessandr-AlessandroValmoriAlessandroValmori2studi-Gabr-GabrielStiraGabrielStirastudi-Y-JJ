@@ -40,8 +40,9 @@ public final class ButtonFactory {
         button.setPrefHeight(y);
         button.setFocusTraversable(false);
 
+        final Optional<Image> imageOptional = loadImageFromResources(name);
         if (loadImageFromResources(name).isPresent()) {
-            final Image img = loadImageFromResources(name).get();
+            final Image img = imageOptional.get();
             final ImageView imageView = new ImageView(img);
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
@@ -63,7 +64,7 @@ public final class ButtonFactory {
      */
     private static Optional<Image> loadImageFromResources(final String imageName) {
         final String imagePath = "/buttons/" + imageName + ".png";
-        final URL url = ButtonFactory.class.getResource(imageName);
+        final URL url = ButtonFactory.class.getResource(imagePath);
         if (url == null) {
             LOGGER.log(Level.SEVERE, "Resource not found: " + imagePath);
             return Optional.empty();

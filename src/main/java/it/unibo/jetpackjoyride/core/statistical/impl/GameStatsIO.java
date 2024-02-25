@@ -73,13 +73,13 @@ public final class GameStatsIO {
      */
     public static void loadFromFile(final GameStatsModel gameStats, final String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
-            gameStats.setCoins(Integer.parseInt(reader.readLine()));
+            GameStats.setCoins(Integer.parseInt(reader.readLine()));
             gameStats.setBestDistance(Integer.parseInt(reader.readLine()));
             gameStats.setCurrentDistance(Integer.parseInt(reader.readLine()));
             System.out.println("Game stats loaded successfully.");
         } catch (IOException e) {
             e.printStackTrace();
-            gameStats.setCoins(1000);
+            GameStats.setCoins(1000);
             gameStats.setBestDistance(0);
             gameStats.setCurrentDistance(0);
         }

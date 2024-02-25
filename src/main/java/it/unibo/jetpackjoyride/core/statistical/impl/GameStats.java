@@ -40,8 +40,8 @@ public final class GameStats implements GameStatsModel {
         return coins;
     }
 
-    @Override
-    public void setCoins(final int num) {
+
+    public static void setCoins(final int num) {
          coins = num;
     }
 

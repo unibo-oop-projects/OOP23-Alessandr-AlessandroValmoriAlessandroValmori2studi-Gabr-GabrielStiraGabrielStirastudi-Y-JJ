@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
@@ -24,6 +25,8 @@ import javafx.stage.Stage;
  * stages.
  */
 public final class GameLoop implements GameLoopControl {
+    private static final int FPS = 70;
+    private static final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
 
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -33,8 +36,6 @@ public final class GameLoop implements GameLoopControl {
     private PauseMenu pauseMenu;
     private GameStatsView gameStatsView;
     private EntityController entityController;
-    private static final int FPS = 70;
-    private final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
     private Stage stage;
     private Pane root;
     private Group entityGroup;
@@ -48,6 +49,8 @@ public final class GameLoop implements GameLoopControl {
      * @param stage          the primary stage for the game
      * @param shopController The shopController
      */
+    @SuppressFBWarnings(value = "EI2", 
+    justification = "Stage object is necessary for game state management and transitions")
     public GameLoop(final Stage stage, final ShopController shopController) {
         this.stage = stage;
         this.spacePressed = false;

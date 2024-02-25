@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
@@ -16,6 +17,8 @@ import javafx.scene.image.Image;
  */
 public final class CoinViewImpl implements CoinView {
 
+   private static final Logger LOGGER = Logger.getLogger(CoinViewImpl.class.getName());
+
    private static final int POSITION = 0;
    private static final int SIZE = 1;
    private static final int NUM_OF_FRAMES = 35;
@@ -24,7 +27,7 @@ public final class CoinViewImpl implements CoinView {
    private static final double CLEAN_RATIO = 1.5;
 
    private Image[] coinFrames;
-   private int currentCoinframe = 0;
+   private int currentCoinframe;
 
    private boolean isOnScreen;
 
@@ -39,23 +42,22 @@ public final class CoinViewImpl implements CoinView {
 
    @Override
    public void renderCoin(final GraphicsContext gc, final List<Pair<Double, Double>> modelData) {
-      double canvasWidth = gc.getCanvas().getWidth();
-      double canvasHeight = gc.getCanvas().getHeight();
+      final double canvasWidth = gc.getCanvas().getWidth();
+      final double canvasHeight = gc.getCanvas().getHeight();
 
-      double minScreenWidth = GameInfo.getInstance().getDefaultHeight();
-      double minScreenHeight = GameInfo.getInstance().getDefaultHeight();
+      final double minScreenWidth = GameInfo.getInstance().getDefaultHeight();
+      final double minScreenHeight = GameInfo.getInstance().getDefaultHeight();
 
-      double widthRatio = canvasWidth / minScreenWidth;
-      double heightRatio = canvasHeight / minScreenHeight;
-      double minRatio = Math.min(widthRatio, heightRatio);
-      double moveSpeed = GameInfo.MOVE_SPEED.get();
+      final double widthRatio = canvasWidth / minScreenWidth;
+      final double heightRatio = canvasHeight / minScreenHeight;
+      final double minRatio = Math.min(widthRatio, heightRatio);
+      final double moveSpeed = GameInfo.MOVE_SPEED.get();
 
-      double size = modelData.get(SIZE).get1() * minRatio;
+      final double size = modelData.get(SIZE).get1() * minRatio;
 
-      double posX = modelData.get(POSITION).get1() * minRatio;
-      double posY = modelData.get(POSITION).get2() * minRatio;
-      boolean isOutofScreen = !(posX + size <= canvasWidth && posY + size <= canvasHeight && posX >= 0 && posY >= 0);
-
+      final double posX = modelData.get(POSITION).get1() * minRatio;
+      final double posY = modelData.get(POSITION).get2() * minRatio;
+      final boolean isOutofScreen = !(posX + size <= canvasWidth && posY + size <= canvasHeight && posX >= 0 && posY >= 0);
 
       if (isOnScreen && !isOutofScreen) {
          gc.clearRect(posX + moveSpeed, posY, size * CLEAN_RATIO, size * CLEAN_RATIO);
@@ -74,21 +76,21 @@ public final class CoinViewImpl implements CoinView {
    private void loadCoinImages() {
       int index = 0;
       for (int i = 0; i < NUM_OF_COIN_IMAGES; i++) {
-         String path = "sprites/entities/coins/coin" + (i) + ".png";
+         final String path = "sprites/entities/coins/coin" + (i) + ".png";
          try {
-            URL coinImageUrl = getClass().getClassLoader().getResource(path);
+            final URL coinImageUrl = getClass().getClassLoader().getResource(path);
             if (coinImageUrl == null) {
                throw new FileNotFoundException("Coin Image was not found: " + path);
             }
-            String url = coinImageUrl.toExternalForm();
-            Image coinImage = new Image(url);
+            final String url = coinImageUrl.toExternalForm();
+            final Image coinImage = new Image(url);
             for (int j = 0; j < NUM_OF_FRAMES_FOR_IMAGE; j++) {
                coinFrames[index] = coinImage;
                index++;
             }
 
          } catch (FileNotFoundException e) {
-            System.err.println("Error message :" + e.getMessage());
+            LOGGER.severe("Error message: " + e.getMessage());
          }
       }
 

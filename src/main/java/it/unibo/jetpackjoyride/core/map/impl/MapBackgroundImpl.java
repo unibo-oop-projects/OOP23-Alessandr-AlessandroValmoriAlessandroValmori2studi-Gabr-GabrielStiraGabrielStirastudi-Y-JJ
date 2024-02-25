@@ -26,13 +26,13 @@ public final class MapBackgroundImpl implements MapBackground {
     private static final int BGIMAGE_ONE = 0;
     private static final int BGIMAGE_TWO = 1;
     private static final int TIMES_FOR_CHANGE = 2;
-    private static final double EPSILON = 0.000001;
+    private static final double EPSILON = 0.000_001;
 
     private final MapBackgroundModel model;
     private final MapBackgroundView view;
-    private Timeline timeline;
+    private final Timeline timeline;
     private final GameInfo gameInfo;
-    private int counter = 0;
+    private int counter;
 
     /**
      * Constructor of the MapBackgroundImpl.
@@ -121,12 +121,12 @@ public final class MapBackgroundImpl implements MapBackground {
      * If the screen size has changed, this method adjusts the background accordingly.
      */
     private void updateSize() {
-        double newWidth = gameInfo.getScreenWidth();
-        double newHeight = gameInfo.getScreenHeight();
+        final double newWidth = gameInfo.getScreenWidth();
+        final double newHeight = gameInfo.getScreenHeight();
         if (Math.abs(newWidth - model.getSize().get1()) > EPSILON 
         || Math.abs(newHeight - model.getSize().get2()) > EPSILON) {
-            double ratioX1 = model.getPosX().get1() / model.getSize().get1();
-            double ratioX2 = model.getPosX().get2() / model.getSize().get1();
+            final double ratioX1 = model.getPosX().get1() / model.getSize().get1();
+            final double ratioX2 = model.getPosX().get2() / model.getSize().get1();
 
             model.setMapSize(newWidth, newHeight);
             model.correctBackgroundPos(ratioX1, ratioX2);

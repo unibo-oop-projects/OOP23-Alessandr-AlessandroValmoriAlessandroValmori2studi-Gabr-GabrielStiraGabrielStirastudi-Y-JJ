@@ -14,7 +14,7 @@ public final class CoinModelImpl implements CoinModel {
     private static final double COIN_HEIGHT = 30;
 
     private Pair<Double, Double> position;
-    private Hitbox coinHitbox;
+    private final Hitbox coinHitbox;
     private boolean isCollected;
     /**
      * Constructs a CoinModelImpl with the given position and hitbox.
@@ -30,7 +30,7 @@ public final class CoinModelImpl implements CoinModel {
 
     @Override
     public void updateCoinModel() {
-        this.position = new Pair<Double, Double>(position.get1() - GameInfo.MOVE_SPEED.get(), position.get2());
+        this.position = new Pair<>(position.get1() - GameInfo.MOVE_SPEED.get(), position.get2());
         coinHitbox.updateHitbox(position, 0.0);
     }
 

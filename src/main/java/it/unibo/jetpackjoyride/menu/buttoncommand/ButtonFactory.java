@@ -1,6 +1,8 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +15,8 @@ import javafx.scene.image.ImageView;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class ButtonFactory {
+
+    private static final Logger LOGGER = Logger.getLogger(ButtonFactory.class.getName());
 
     private ButtonFactory() {
 
@@ -36,8 +40,8 @@ public final class ButtonFactory {
         button.setFocusTraversable(false);
 
         if (loadImageFromResources(name).isPresent()) {
-            Image img = loadImageFromResources(name).get();
-            ImageView imageView = new ImageView(img);
+            final Image img = loadImageFromResources(name).get();
+            final ImageView imageView = new ImageView(img);
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
             imageView.setPreserveRatio(false);
@@ -58,10 +62,11 @@ public final class ButtonFactory {
      */
     private static Optional<Image> loadImageFromResources(final String imageName) {
         try {
-            String imagePath = "/buttons/" + imageName + ".png";
-            Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));
+            final String imagePath = "/buttons/" + imageName + ".png";
+            final Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));
             return Optional.of(image);
         } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error loading image: " + imageName, e);
             return Optional.empty();
         }
      }

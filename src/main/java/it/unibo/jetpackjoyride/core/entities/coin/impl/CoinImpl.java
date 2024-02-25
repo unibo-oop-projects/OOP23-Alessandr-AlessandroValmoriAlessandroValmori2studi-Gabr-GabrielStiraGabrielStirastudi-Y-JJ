@@ -60,11 +60,9 @@ public final class CoinImpl implements Coin {
 
     @Override
     public Integer checkCollision(final Hitbox playHitbox) {
-        if (model.geHitbox().isTouching(playHitbox)) {
-            if (!model.isCollected()) {
+        if (model.geHitbox().isTouching(playHitbox) && !model.isCollected()) {
                 model.setCollectedState(true);
                 return ONE_COIN;
-            }
         }
         return NO_COINS;
     }

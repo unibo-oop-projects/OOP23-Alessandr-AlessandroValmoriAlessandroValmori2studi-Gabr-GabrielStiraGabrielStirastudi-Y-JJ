@@ -29,9 +29,9 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     private double minY;
     private double maxY; 
 
-    private GameInfo gameInfo;
-    private Random random;
-    private Map<String, List<Pair<Double, Double>>> cachedRegularShapes;
+    private final GameInfo gameInfo;
+    private final Random random;
+    private final Map<String, List<Pair<Double, Double>>> cachedRegularShapes;
 
     /**
      * Constructs a CoinShapeFactoryImpl object.
@@ -49,8 +49,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     @Override
     public List<Pair<Double, Double>> regularShapes() {
         updateDimension();
-        List<String> keys = new ArrayList<>(cachedRegularShapes.keySet());
-        String randomKey = keys.get(random.nextInt(keys.size()));
+        final List<String> keys = new ArrayList<>(cachedRegularShapes.keySet());
+        final String randomKey = keys.get(random.nextInt(keys.size()));
         return randomYwithoutOutofmap(cachedRegularShapes.get(randomKey));
     }
 
@@ -63,7 +63,7 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @return a list of pairs representing the positions of coins in the straight line
      */
     private  List<Pair<Double, Double>> straightLine(final int numOfCoins, final double startX, final double startY) {
-                List<Pair<Double, Double>> outlist = new ArrayList<>();
+                final List<Pair<Double, Double>> outlist = new ArrayList<>();
                 for (int i = 0; i < numOfCoins; i++) {
                     outlist.add(new Pair<Double, Double>(startX + (i * SPACECING), startY));
                 }
@@ -82,7 +82,7 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
 
     private  List<Pair<Double, Double>> multiStraightLine(final int numOfCoins, 
         final double startX, final double startY, final int n) {
-                List<Pair<Double, Double>> outlist = 
+                final List<Pair<Double, Double>> outlist = 
                 new ArrayList<>(straightLine(numOfCoins, startX, startY));
                 for (int i = 1; i < n; i++) {
                     outlist.addAll(straightLine(numOfCoins, startX, startY + (i * SPACECING)));
@@ -103,13 +103,13 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      */
     private  List<Pair<Double, Double>> stepped(final int numOfCoins, final int steps, 
     final double startX, final double startY, final boolean up) {
-                double posY = startY;
-                double posX = startX;
-                List<Pair<Double, Double>> outlist = 
+                final double posY = startY;
+                final double posX = startX;
+                final List<Pair<Double, Double>> outlist = 
                 new ArrayList<>(straightLine(numOfCoins, posX, posY));
                 for (int i = 0; i < steps; i++) {
-                    var lastpos = outlist.get(outlist.size() - 1);
-                    double nextPosY =  up ? lastpos.get2() - SPACECING : lastpos.get2() + SPACECING;
+                    final var lastpos = outlist.get(outlist.size() - 1);
+                    final double nextPosY =  up ? lastpos.get2() - SPACECING : lastpos.get2() + SPACECING;
                     outlist.addAll(straightLine(numOfCoins, lastpos.get1(), nextPosY));
                 }
                 return outlist;
@@ -123,13 +123,13 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @return a list of pairs representing the positions of coins in the prismatic shape
      */
     private  List<Pair<Double, Double>> prismatic(final int numOfCoins, final int n) {
-                double posX = gameInfo.getScreenWidth();
-                double posY = minY + random.nextDouble() * (maxY - minY);
-                List<Pair<Double, Double>> outlist = 
+                final double posX = gameInfo.getScreenWidth();
+                final double posY = minY + random.nextDouble() * (maxY - minY);
+                final List<Pair<Double, Double>> outlist = 
                 new ArrayList<>(straightLine(numOfCoins, posX, posY));
-                var firstPair = outlist.get(0);
+                final var firstPair = outlist.get(0);
                 for (int i = 1; i < n; i++) {
-                   var num = numOfCoins - (i * 2);
+                   final var num = numOfCoins - (i * 2);
                    if (num > 0) {
                     outlist.addAll(straightLine(num, firstPair.get1() + SPACECING * i, firstPair.get2() + SPACECING * i));
                     outlist.addAll(straightLine(num, firstPair.get1() + SPACECING * i, firstPair.get2() - SPACECING * i));
@@ -142,8 +142,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * Loads initial shapes in cached Map for coins.
      */
     private void loadInitialShapes() {
-        double posX = gameInfo.getScreenWidth();
-        double initialY = 0;
+        final double posX = gameInfo.getScreenWidth();
+        final double initialY = 0;
         cachedRegularShapes.put("straightLine", straightLine(BASE_LENGTH_STRAIGHT_LINE, posX, initialY));
         cachedRegularShapes.put("multiStraightLine", multiStraightLine(BASE_LENGTH_MULTI_STRAIGHT_LINE, posX, initialY, 2));
         cachedRegularShapes.
@@ -161,16 +161,16 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
      * @return a list of pairs representing the positions of coins with randomized y-coordinates
      */
     private List<Pair<Double, Double>> randomYwithoutOutofmap(final List<Pair<Double, Double>> cachedShape) {
-        double minY1 = cachedShape.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
-        double maxY1 = cachedShape.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
+        final double minY1 = cachedShape.stream().mapToDouble(p -> p.get2()).min().getAsDouble();
+        final double maxY1 = cachedShape.stream().mapToDouble(p -> p.get2()).max().getAsDouble();
 
-        double oldX = cachedShape.get(0).get1();
-        double newStartY = minY + random.nextDouble() * (maxY - minY - (maxY1 - minY1));
-        double newStartX = gameInfo.getScreenWidth() - oldX;
-        List<Pair<Double, Double>> outList = cachedShape.stream()
-                            .map(pos -> new Pair<Double, Double>(pos.get1() + newStartX, pos.get2() - minY1 + newStartY))
-                            .collect(Collectors.toList());
-        return outList;
+        final double oldX = cachedShape.get(0).get1();
+        final double newStartY = minY + random.nextDouble() * (maxY - minY - (maxY1 - minY1));
+        final double newStartX = gameInfo.getScreenWidth() - oldX;
+
+        return cachedShape.stream()
+                          .map(pos -> new Pair<Double, Double>(pos.get1() + newStartX, pos.get2() - minY1 + newStartY))
+                          .collect(Collectors.toList());
     }
 
     /**

@@ -104,8 +104,8 @@ public final class CoinGenerator {
      */
     private void generateCoin() {
         if (generateOrNot()) {
-            List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
-            for (Pair<Double, Double> position : shapes) {
+            final List<Pair<Double, Double>> shapes = coinShapeFactory.regularShapes();
+            for (final Pair<Double, Double> position : shapes) {
                 Coin coin;
                 if (!reusableCoin.isEmpty()) {
                     coin = reusableCoin.remove(0);
@@ -122,7 +122,7 @@ public final class CoinGenerator {
     }
 
     private boolean generateOrNot() {
-        double probabilityInfluenBySpeed = 
+        final double probabilityInfluenBySpeed = 
         PROBABILITY_BASE + (GameInfo.MOVE_SPEED.get() - initialSpeed) * PROBABILITY_RATE;
         return random.nextDouble() < probabilityInfluenBySpeed;
     }
@@ -136,7 +136,7 @@ public final class CoinGenerator {
             canvas.setWidth(gameInfo.getScreenWidth());
             canvas.getGraphicsContext2D().clearRect(0, 0, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
         }
-        for (Coin coin : coinList) {
+        for (final Coin coin : coinList) {
             coin.render(canvas.getGraphicsContext2D());
         }
     }
@@ -152,9 +152,9 @@ public final class CoinGenerator {
             reusableCoin.remove(reusableCoin.size() - 1);
         }
 
-        Iterator<Coin> iterator = coinList.iterator();
+        final Iterator<Coin> iterator = coinList.iterator();
         while (iterator.hasNext()) {
-            Coin coin = iterator.next();
+            final Coin coin = iterator.next();
             coin.updateModel();
             if (isOutofMap(coin.getModelData().get(POSITION).get1())) {
                 reusableCoin.add(coin);
@@ -179,12 +179,12 @@ public final class CoinGenerator {
      * If a collision occurs, updates the game statistics accordingly.
      */
     private void checkCollision() {
-        List<Coin> sortedList = coinList.stream()
+        final List<Coin> sortedList = coinList.stream()
                 .filter(p -> p.getModelData().get(POSITION).get1() < gameInfo.getScreenWidth() / 2)
                 .sorted(Comparator.comparingDouble(p -> p.getModelData().get(POSITION).get1()))
                 .collect(Collectors.toList());
 
-        for (Coin coin : sortedList) {
+        for (final Coin coin : sortedList) {
              if (playeHitbox.isPresent()) {
                 GameStats.updateCoins(coin.checkCollision(playeHitbox.get()));
              }

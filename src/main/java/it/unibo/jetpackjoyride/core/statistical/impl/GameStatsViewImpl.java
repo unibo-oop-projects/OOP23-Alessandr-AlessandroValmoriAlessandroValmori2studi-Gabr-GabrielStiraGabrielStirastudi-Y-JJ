@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.statistical.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsView;
 import javafx.scene.Group;
@@ -18,6 +19,7 @@ import javafx.scene.text.Text;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class GameStatsViewImpl implements GameStatsView {
+    private static final Logger LOGGER = Logger.getLogger(GameStatsViewImpl.class.getName());
 
     private static final int CURRENT_DISTANCE = 0;
     private static final int BEST_DISTANCE = 1;
@@ -33,14 +35,13 @@ public final class GameStatsViewImpl implements GameStatsView {
     private static final double FONT_SIZE = 15;
 
     private final Text coinAndDistanceText = new Text();
-    private final ImageView scorePane;
     private final Group group = new Group();
 
      /**
      * Constructs a new GameStatsViewImpl object.
      */
     public GameStatsViewImpl() {
-        scorePane = creatImageView(SCORE_IMAGE1_PATH);
+        final ImageView scorePane = creatImageView(SCORE_IMAGE1_PATH);
         scorePane.setX(SCORE_PANE_X);
         scorePane.setY(SCORE_PANE_Y);
         scorePane.setFitWidth(SCORE_PANE_WIDTH);
@@ -77,16 +78,15 @@ public final class GameStatsViewImpl implements GameStatsView {
     private ImageView creatImageView(final String path) {
 
         try {
-            URL scoreImageUrl = getClass().getClassLoader().getResource(path);
+            final URL scoreImageUrl = getClass().getClassLoader().getResource(path);
             if (scoreImageUrl == null) {
                 throw new FileNotFoundException("Backgroung Image was not found: " + path);
             }
-            String url = scoreImageUrl.toExternalForm();
-            Image scoreImage = new Image(url);
-            ImageView scoreImageView = new ImageView(scoreImage);
-            return scoreImageView;
+            final String url = scoreImageUrl.toExternalForm();
+            final Image scoreImage = new Image(url);
+            return new ImageView(scoreImage);
         } catch (FileNotFoundException e) {
-            System.err.println("Error message :" + e.getMessage());
+            LOGGER.severe("Error message: " + e.getMessage());
             return new ImageView();
         }
     }

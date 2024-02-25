@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 
@@ -24,6 +26,9 @@ public final class GameStatsIO {
      */
     public static final String FILE_PATH_TEST = "gameStats_test.txt";
 
+    private static final Logger LOGGER = Logger.getLogger(GameStatsIO.class.getName());
+
+
     private GameStatsIO() {
 
     }
@@ -35,7 +40,7 @@ public final class GameStatsIO {
      * @return The full file path.
      */
     public static  String getFilePath(final String filePath) {
-        String directory = System.getProperty("user.home") + File.separator + "jetpackJoyride";
+        final String directory = System.getProperty("user.home") + File.separator + "jetpackJoyride";
         return directory + File.separator + filePath;
     }
 
@@ -46,22 +51,18 @@ public final class GameStatsIO {
      * @param filePath  The file path where the statistics will be saved.
      */
     public static void saveToFile(final GameStatsModel gameStats, final String filePath) {
-        File file = new File(filePath);
-        File parentDir = file.getParentFile();
+        final File file = new File(filePath);
+        final File parentDir = file.getParentFile();
         if (!parentDir.exists() && !parentDir.mkdirs()) {
-           try {
-            throw new IOException("Filed to create the directory" + parentDir);
-           } catch (IOException e) {
-            e.printStackTrace();
-           }
+            LOGGER.log(Level.SEVERE, "Failed to create the directory {0}", parentDir);
         } 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             writer.write(GameStats.getCoins() + "\n");
             writer.write(gameStats.getBestDistance() + "\n");
             writer.write(gameStats.getcurrentDistance() + "\n");
-            System.out.println("Game stats saved successfully.");
+            LOGGER.info("Game stats saved successfully.");
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error for saving game stats", e);
         }
     }
 
@@ -76,9 +77,9 @@ public final class GameStatsIO {
             GameStats.setCoins(Integer.parseInt(reader.readLine()));
             gameStats.setBestDistance(Integer.parseInt(reader.readLine()));
             gameStats.setCurrentDistance(Integer.parseInt(reader.readLine()));
-            System.out.println("Game stats loaded successfully.");
+            LOGGER.info("Game stats loaded successfully.");
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error for loading game stats", e);
             GameStats.setCoins(1000);
             gameStats.setBestDistance(0);
             gameStats.setCurrentDistance(0);

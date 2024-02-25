@@ -58,11 +58,13 @@ public class EntityController {
 
     /**
      * The update function which gets executed each frame, responsible
-     * for updating the {@link modelViewMapper} in its interity.
+     * for updating the {@link modelViewMapper} in its interity,
+     * Its only responsibility is to update the view component of each entity model
+     * by extracting information through getter methods, never anyithing else.
      * 
      * @param entityGroup
      * @param isSpaceBarPressed
-     * @return false if the game has ended, true otherwise
+     * @return false if the game has ended, true otherwise.
      */
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
         if (!this.entityHandler.update(entityGroup, isSpaceBarPressed)) {
@@ -142,5 +144,4 @@ public class EntityController {
     public void reset() {
         this.entityHandler.reset();
     }
-
 }

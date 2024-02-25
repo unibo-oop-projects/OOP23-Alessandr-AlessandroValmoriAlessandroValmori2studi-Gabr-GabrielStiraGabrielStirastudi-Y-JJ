@@ -60,7 +60,7 @@ public class ProfitBird extends AbstractPowerUp{
                 this.performingAction = PerformingAction.ASCENDING;
                 break;
             case ASCENDING:
-                if (this.movement.getSpeed().get2() >= 0) {
+                if (this.getEntityMovement().getSpeed().get2() >= 0) {
                     this.performingAction = PerformingAction.DESCENDING;
                 }
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
@@ -73,7 +73,7 @@ public class ProfitBird extends AbstractPowerUp{
                     this.performingAction = PerformingAction.JUMPING;
                     this.intervalBewteenJumps = false;
                 }
-                if(this.movement.getPosition().get2() >= LANDING_HEIGHT) {
+                if(this.getEntityMovement().getPosition().get2() >= LANDING_HEIGHT) {
                     this.performingAction = PerformingAction.WALKING;
                 }
                 break;
@@ -85,11 +85,11 @@ public class ProfitBird extends AbstractPowerUp{
             this.intervalBewteenJumps = true;
         }
 
-        this.movement = new Movement.Builder()
-			.setAcceleration(this.movement.getAcceleration())
-			.setSpeed(this.movement.getSpeed().get1(), this.performingAction.equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.movement.getSpeed().get2())
-			.setPosition(this.movement.getPosition())
-			.setRotation(this.movement.getSpeed().get2(),0.0)
-			.setMovementChangers(this.movement.getMovementChangers()).build();
+        this.setEntityMovement(new Movement.Builder()
+        .setAcceleration(this.getEntityMovement().getAcceleration())
+        .setSpeed(this.getEntityMovement().getSpeed().get1(), this.performingAction.equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
+        .setPosition(this.getEntityMovement().getPosition())
+        .setRotation(this.getEntityMovement().getSpeed().get2(),0.0)
+        .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
     }
 }

@@ -50,9 +50,9 @@ public final class MrCuddles extends AbstractPowerUp {
         }
         
         if (indexOfBody == 0) {
-            this.entityStatus = EntityStatus.ACTIVE;
+            this.setEntityStatus(EntityStatus.ACTIVE);
         } else {
-            this.entityStatus = EntityStatus.DEACTIVATED;
+            this.setEntityStatus(EntityStatus.DEACTIVATED);
         }
     }
 
@@ -71,13 +71,13 @@ public final class MrCuddles extends AbstractPowerUp {
             this.performingAction = PerformingAction.ASCENDING;
         }
 
-        this.movement = new Movement.Builder()
-                .setPosition(this.movement.getPosition())
-                .setSpeed(this.movement.getSpeed())
-                .setAcceleration(this.movement.getAcceleration())
-                .setRotation(this.movement.getSpeed().get2()*2, 0.0)
-                .setMovementChangers(List.of(MovementChangers.BOUNDS,
-                     this.performingAction.equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
-                .build();
+        this.setEntityMovement(new Movement.Builder()
+        .setPosition(this.getEntityMovement().getPosition())
+        .setSpeed(this.getEntityMovement().getSpeed())
+        .setAcceleration(this.getEntityMovement().getAcceleration())
+        .setRotation(this.getEntityMovement().getSpeed().get2()*2, 0.0)
+        .setMovementChangers(List.of(MovementChangers.BOUNDS,
+             this.performingAction.equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+        .build());
     }
 }

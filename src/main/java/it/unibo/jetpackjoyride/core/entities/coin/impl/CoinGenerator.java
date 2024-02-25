@@ -114,7 +114,7 @@ public final class CoinGenerator {
                 } else {
                     coin = new CoinImpl(position,
                             new HitboxImpl(position,
-                            new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT)),0.0));
+                            new Pair<>(Double.valueOf(COIN_WIDTH), Double.valueOf(COIN_HEIGHT)), 0.0));
                 }
                 coinList.add(coin);
             }

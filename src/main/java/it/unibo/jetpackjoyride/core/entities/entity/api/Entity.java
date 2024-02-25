@@ -77,6 +77,12 @@ public interface Entity {
     Integer getLifetime();
 
     /**
+     * Sets the entity's lifetime
+     * @param lifetime the lifetime that is set
+     */
+    void setLifetime(Integer lifetime);
+
+    /**
      * Sets a new status for the entity.
      *
      * @param entityStatus The new status of the entity.

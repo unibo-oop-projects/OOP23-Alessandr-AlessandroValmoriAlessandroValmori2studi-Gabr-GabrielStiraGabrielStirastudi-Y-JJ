@@ -44,15 +44,15 @@ public final class Laser extends AbstractObstacle {
      */
     public Laser(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.LASER, newMovement, hitbox);
-        this.entityStatus = EntityStatus.CHARGING;
+        this.setEntityStatus(EntityStatus.CHARGING);
 
-        this.movement = new Movement.Builder()
-                .setPosition(SPAWNING_X_COORDINATE, this.movement.getPosition().get2())
-                .setSpeed(this.movement.getSpeed())
-                .setAcceleration(this.movement.getAcceleration())
-                .setRotation(this.movement.getRotation())
-                .setMovementChangers(this.movement.getMovementChangers())
-                .build();
+        this.setEntityMovement(new Movement.Builder()
+        .setPosition(SPAWNING_X_COORDINATE, this.getEntityMovement().getPosition().get2())
+        .setSpeed(this.getEntityMovement().getSpeed())
+        .setAcceleration(this.getEntityMovement().getAcceleration())
+        .setRotation(this.getEntityMovement().getRotation())
+        .setMovementChangers(this.getEntityMovement().getMovementChangers())
+        .build());
     }
     
     /**
@@ -62,19 +62,19 @@ public final class Laser extends AbstractObstacle {
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
         /* Lasers could get deactivated before they naturally do in normal case scenarios */
-        if (this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetime < TIME_FOR_CHARGING+LASER_DURATION) {
-            this.lifetime = TIME_FOR_CHARGING+LASER_DURATION;
+        if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED) && this.getLifetime() < TIME_FOR_CHARGING+LASER_DURATION) {
+            this.setLifetime(TIME_FOR_CHARGING+LASER_DURATION);
         }
 
         /* Set the status of the laser based on its lifetime */
-        if(this.lifetime.equals(TIME_FOR_CHARGING)) {
-            this.entityStatus = EntityStatus.ACTIVE;
+        if(this.getLifetime().equals(TIME_FOR_CHARGING)) {
+            this.setEntityStatus(EntityStatus.ACTIVE);;
         }
-        if(this.lifetime.equals(TIME_FOR_CHARGING+LASER_DURATION)) {
-            this.entityStatus = EntityStatus.DEACTIVATED;
+        if(this.getLifetime().equals(TIME_FOR_CHARGING+LASER_DURATION)) {
+            this.setEntityStatus(EntityStatus.DEACTIVATED);
         }
-        if(this.lifetime.equals(TIME_FOR_CHARGING+LASER_DURATION+TIME_FOR_DECHARGING)) {
-            this.entityStatus = EntityStatus.INACTIVE;
+        if(this.getLifetime().equals(TIME_FOR_CHARGING+LASER_DURATION+TIME_FOR_DECHARGING)) {
+            this.setEntityStatus(EntityStatus.INACTIVE);
         }
     }
 }

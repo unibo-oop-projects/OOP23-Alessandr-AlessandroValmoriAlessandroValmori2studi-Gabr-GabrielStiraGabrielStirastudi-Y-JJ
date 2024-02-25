@@ -27,7 +27,7 @@ public class ShieldPickUp extends AbstractPickUp {
      */
     public ShieldPickUp(final Movement movement, final Hitbox hitbox) {
         super(PickUpType.SHIELD, movement, hitbox);
-        this.entityStatus = EntityStatus.ACTIVE;
+        this.setEntityStatus(EntityStatus.ACTIVE);
     }
 
     /**
@@ -36,8 +36,8 @@ public class ShieldPickUp extends AbstractPickUp {
      */
 	@Override
 	protected void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.movement.getPosition().get1() < OUT_OF_BOUNDS_SX || this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
-            this.entityStatus = EntityStatus.INACTIVE;
+        if (this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX || this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
+            this.setEntityStatus(EntityStatus.INACTIVE);
         }
 	}
 

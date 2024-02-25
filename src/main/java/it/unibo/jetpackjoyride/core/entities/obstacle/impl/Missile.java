@@ -61,14 +61,14 @@ public final class Missile extends AbstractObstacle {
     public Missile(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, newMovement, hitbox);
         this.lifetimeAfterDeactivation = DELAY_BEFORE_DESTRUCTION + DELAY_BEFORE_ACTIVATING; //Counter initialized
-        this.entityStatus = EntityStatus.CHARGING; //Missiles spawn with a CHARGING status
+        this.setEntityStatus(EntityStatus.CHARGING);//Missiles spawn with a CHARGING status
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.movementBuffer = new Movement.Builder()
-        .setPosition(this.movement.getPosition())
-        .setSpeed(-startingXSpeed*2,this.movement.getSpeed().get2())
-        .setAcceleration(this.movement.getAcceleration())
-        .setRotation(this.movement.getRotation()).setMovementChangers(this.movement.getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
+        .setPosition(this.getEntityMovement().getPosition())
+        .setSpeed(-startingXSpeed*2,this.getEntityMovement().getSpeed().get2())
+        .setAcceleration(this.getEntityMovement().getAcceleration())
+        .setRotation(this.getEntityMovement().getRotation()).setMovementChangers(this.getEntityMovement().getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
     }
 
     /**
@@ -77,40 +77,40 @@ public final class Missile extends AbstractObstacle {
      */
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-        if(this.entityStatus.equals(EntityStatus.CHARGING)) {
+        if(this.getEntityStatus().equals(EntityStatus.CHARGING)) {
             /*Since at the beginning the missile has to be shown as a warning, 
             a buffer for the correct movement is used and its movement is initially set to a static one */
-            if(this.lifetime.equals(1)) { 
-                this.movement = new Movement.Builder().setPosition(WARNING_SPAWNING_X, this.movement.getPosition().get2())
-                .setRotation(this.movement.getRotation())
-                .build();
+            if(this.getLifetime().equals(1)) { 
+                this.setEntityMovement(new Movement.Builder().setPosition(WARNING_SPAWNING_X, this.getEntityMovement().getPosition().get2())
+                .setRotation(this.getEntityMovement().getRotation())
+                .build());
             }
 
             this.lifetimeAfterDeactivation--;
             if(this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
-                this.entityStatus = EntityStatus.ACTIVE;
+                this.setEntityStatus(EntityStatus.ACTIVE);
                 
-                this.movement = new Movement.Builder()
-                    .setPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
-                    .setSpeed(this.movementBuffer.getSpeed())
-                    .setAcceleration(this.movementBuffer.getAcceleration())
-                    .setRotation(this.movementBuffer.getRotation())
-                    .setMovementChangers(this.movementBuffer.getMovementChangers())
-                    .build();
+                this.setEntityMovement(new Movement.Builder()
+                .setPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
+                .setSpeed(this.movementBuffer.getSpeed())
+                .setAcceleration(this.movementBuffer.getAcceleration())
+                .setRotation(this.movementBuffer.getRotation())
+                .setMovementChangers(this.movementBuffer.getMovementChangers())
+                .build());
             }
         }
 
         /* Only if specific conditions are met the missile status will be set to INACTIVE */
-        if(this.entityStatus.equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAY_BEFORE_DESTRUCTION || this.movement.getPosition().get1() < OUT_OF_BOUNDS_SX || this.lifetimeAfterDeactivation < 0) {
-            this.entityStatus = EntityStatus.INACTIVE;
+        if(this.getEntityStatus().equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAY_BEFORE_DESTRUCTION || this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX || this.lifetimeAfterDeactivation < 0) {
+            this.setEntityStatus(EntityStatus.INACTIVE);
         }
 
-        if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
+        if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
-                this.movement = new Movement.Builder()
-                .setPosition(this.movement.getPosition())
-                .setSpeed(this.movement.getSpeed().get1(), 0.0)
-                .build();
+                this.setEntityMovement(new Movement.Builder()
+                .setPosition(this.getEntityMovement().getPosition())
+                .setSpeed(this.getEntityMovement().getSpeed().get1(), 0.0)
+                .build()); 
             }
             this.lifetimeAfterDeactivation--;
         }

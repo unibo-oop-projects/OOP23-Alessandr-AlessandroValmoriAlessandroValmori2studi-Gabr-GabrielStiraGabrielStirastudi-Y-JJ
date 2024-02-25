@@ -27,7 +27,7 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     public AbstractObstacle(final ObstacleType obstacleType, final Movement newMovement, final Hitbox hitbox) {
         super(EntityType.OBSTACLE, newMovement, hitbox);
         this.obstacleType = obstacleType;
-        this.entityStatus = EntityStatus.INACTIVE;
+        this.setEntityStatus(EntityStatus.INACTIVE);
     }
 
     @Override

@@ -14,27 +14,27 @@ public abstract class AbstractEntity implements Entity {
     /**
      * Type of the entity.
      */
-    protected final EntityType entityType;
+    private final EntityType entityType;
 
     /**
      * Current status of the entity.
      */
-    protected EntityStatus entityStatus;
+    private EntityStatus entityStatus;
 
     /**
      * Movement characteristics of the entity.
      */
-    protected Movement movement;
+    private Movement movement;
 
     /**
      * Collision of the entity.
      */
-    protected Hitbox hitbox;
+    private Hitbox hitbox;
 
     /**
      * The age (in terms of update method calls) of the entity.
      */
-    protected Integer lifetime;
+    private Integer lifetime;
 
      /**
      * Constructs an AbstractEntity with the specified parameters.
@@ -94,6 +94,11 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public Integer getLifetime() {
         return this.lifetime;
+    }
+
+    @Override 
+    public void setLifetime(Integer lifetime){
+        this.lifetime = lifetime;
     }
 
     @Override

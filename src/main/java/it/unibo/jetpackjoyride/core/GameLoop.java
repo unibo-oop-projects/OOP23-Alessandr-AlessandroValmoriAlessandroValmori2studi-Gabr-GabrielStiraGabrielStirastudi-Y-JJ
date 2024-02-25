@@ -29,21 +29,15 @@ public final class GameLoop implements GameLoopControl {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-
     private GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
     private GameStatsView gameStatsView;
-
-
     private EntityController entityController;
-
     private static final int FPS = 70;
     private final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
-
     private Stage stage;
     private Pane root;
     private Group entityGroup;
-
     private boolean spacePressed;
 
     /**

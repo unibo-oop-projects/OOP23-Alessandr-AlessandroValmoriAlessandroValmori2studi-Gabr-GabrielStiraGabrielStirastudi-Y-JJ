@@ -12,6 +12,9 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import java.util.Random;
 import java.util.Set;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collections;
 import java.util.Optional;
 
@@ -78,8 +81,9 @@ public class PickUpHandler {
     }
 
 
-
-
+    @SuppressFBWarnings(value = "M V EI",
+    justification = "not returning the object would implicate either cloning the object or returning a set of essential information")
+    
     public List<PickUp> getAllPickUps() {
         return this.listOfPickUp;
     }

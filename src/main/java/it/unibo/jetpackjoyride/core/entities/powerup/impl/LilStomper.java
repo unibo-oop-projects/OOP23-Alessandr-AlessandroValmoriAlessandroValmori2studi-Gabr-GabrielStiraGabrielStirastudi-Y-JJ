@@ -76,12 +76,12 @@ public final class LilStomper extends AbstractPowerUp {
                 }
                 if (this.loadJump == MAX_TICKS_FOR_JUMP || !isSpaceBarPressed) {
 
-                    this.movement = new Movement.Builder()
-					    .setAcceleration(this.movement.getAcceleration())
-					    .setSpeed(this.movement.getSpeed().get1(), (-this.loadJump * TICK_JUMP_HEIGHT_SPEED - BASE_JUMP_HEIGHT_SPEED))
-					    .setPosition(this.movement.getPosition())
-					    .setRotation(this.movement.getRotation())
-					    .setMovementChangers(this.movement.getMovementChangers()).build();
+                    this.setEntityMovement(new Movement.Builder()
+                    .setAcceleration(this.getEntityMovement().getAcceleration())
+                    .setSpeed(this.getEntityMovement().getSpeed().get1(), (-this.loadJump * TICK_JUMP_HEIGHT_SPEED - BASE_JUMP_HEIGHT_SPEED))
+                    .setPosition(this.getEntityMovement().getPosition())
+                    .setRotation(this.getEntityMovement().getRotation())
+                    .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
 
                     this.loadJump = 0;
                     this.performingAction = PerformingAction.ASCENDING;
@@ -89,33 +89,33 @@ public final class LilStomper extends AbstractPowerUp {
                 break;
             case ASCENDING:
 
-                if (this.movement.getSpeed().get2() >= 0) {
+                if (this.getEntityMovement().getSpeed().get2() >= 0) {
                     this.performingAction = PerformingAction.DESCENDING;
                 }
                 break;
             case DESCENDING:
-                if (isSpaceBarPressed && this.movement.getSpeed().get2() > DESCENDING_BASE_SPEED) {
+                if (isSpaceBarPressed && this.getEntityMovement().getSpeed().get2() > DESCENDING_BASE_SPEED) {
                     this.performingAction = PerformingAction.GLIDING;
                 }
 
-                if (this.movement.getPosition().get2() > LANDING_HEIGHT) {
+                if (this.getEntityMovement().getPosition().get2() > LANDING_HEIGHT) {
                     this.performingAction = PerformingAction.LANDING;
                     this.loadJump = -RECOVER_TICKS_AFTER_LANDING;
                 }
                 break;
             case GLIDING:
                 if (isSpaceBarPressed) {
-                    this.movement = new Movement.Builder()
-					    .setAcceleration(this.movement.getAcceleration())
-					    .setSpeed(this.movement.getSpeed().get1(), DESCENDING_BASE_SPEED)
-					    .setPosition(this.movement.getPosition())
-					    .setRotation(this.movement.getRotation())
-					    .setMovementChangers(this.movement.getMovementChangers()).build();
+                    this.setEntityMovement(new Movement.Builder()
+                    .setAcceleration(this.getEntityMovement().getAcceleration())
+                    .setSpeed(this.getEntityMovement().getSpeed().get1(), DESCENDING_BASE_SPEED)
+                    .setPosition(this.getEntityMovement().getPosition())
+                    .setRotation(this.getEntityMovement().getRotation())
+                    .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
                 } else {
                     this.performingAction = PerformingAction.DESCENDING;
                 }
 
-                if (this.movement.getPosition().get2() > LANDING_HEIGHT) {
+                if (this.getEntityMovement().getPosition().get2() > LANDING_HEIGHT) {
                     this.performingAction = PerformingAction.LANDING;
                     this.loadJump = -RECOVER_TICKS_AFTER_LANDING;
                 }

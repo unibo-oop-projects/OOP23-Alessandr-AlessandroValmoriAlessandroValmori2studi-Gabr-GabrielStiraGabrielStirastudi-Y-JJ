@@ -31,7 +31,7 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     public AbstractPowerUp(final PowerUpType powerUpType, final Movement newMovement, final Hitbox hitbox) {
         super(EntityType.POWERUP, newMovement, hitbox);
         this.powerUpType = powerUpType;
-        this.entityStatus = EntityStatus.ACTIVE;
+        this.setEntityStatus(EntityStatus.ACTIVE);
     }
 
     /**

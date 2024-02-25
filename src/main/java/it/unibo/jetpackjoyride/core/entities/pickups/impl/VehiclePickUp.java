@@ -58,7 +58,7 @@ public class VehiclePickUp extends AbstractPickUp {
      */
 	public VehiclePickUp(final Movement movement, final Hitbox hitbox) {
 		super(PickUpType.VEHICLE, movement, hitbox);
-		this.entityStatus = EntityStatus.ACTIVE;
+		this.setEntityStatus(EntityStatus.ACTIVE); 
 		this.animationTimer = 0;
 		this.switchWave = 0;
 		this.vehicleSpawn = PowerUpType.DUKEFISHRON;
@@ -70,31 +70,31 @@ public class VehiclePickUp extends AbstractPickUp {
      */
 	@Override
 	protected void updateStatus(final boolean isSpaceBarPressed) {
-		if (this.movement.getPosition().get1() < OUT_OF_BOUNDS_SX) {
-			this.entityStatus = EntityStatus.INACTIVE;
+		if (this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX) {
+			this.setEntityStatus(EntityStatus.INACTIVE);
 		}
 
-		if (this.entityStatus.equals(EntityStatus.DEACTIVATED)) {
+		if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
 			if (this.animationTimer.equals(0)) {
-				this.movement = new Movement.Builder().setPosition(BANNER_SPAWNING_COORDINATES).build();
+				this.setEntityMovement(new Movement.Builder().setPosition(BANNER_SPAWNING_COORDINATES).build());
 			}
 			this.animationTimer++;
 		}
 		if (this.animationTimer.equals(ANIMATION_DURATION)) {
-			this.entityStatus = EntityStatus.INACTIVE;
+			this.setEntityStatus(EntityStatus.INACTIVE);
 		}
 
 		this.switchWave++;
-		if (this.switchWave == SWITCH_DIRECTION_DURATION && this.entityStatus.equals(EntityStatus.ACTIVE)) {
-			this.movement = new Movement.Builder()
-					.setAcceleration(this.movement.getAcceleration())
-					.setSpeed(this.movement.getSpeed())
-					.setPosition(this.movement.getPosition())
-					.setRotation(this.movement.getRotation())
-					.setMovementChangers(this.movement.getMovementChangers().contains(MovementChangers.GRAVITY)
-							? List.of(MovementChangers.INVERSEGRAVITY)
-							: List.of(MovementChangers.GRAVITY))
-					.build();
+		if (this.switchWave == SWITCH_DIRECTION_DURATION && this.getEntityStatus().equals(EntityStatus.ACTIVE)) {
+			this.setEntityMovement(new Movement.Builder()
+			.setAcceleration(this.getEntityMovement().getAcceleration())
+			.setSpeed(this.getEntityMovement().getSpeed())
+			.setPosition(this.getEntityMovement().getPosition())
+			.setRotation(this.getEntityMovement().getRotation())
+			.setMovementChangers(this.getEntityMovement().getMovementChangers().contains(MovementChangers.GRAVITY)
+					? List.of(MovementChangers.INVERSEGRAVITY)
+					: List.of(MovementChangers.GRAVITY))
+			.build());
 
 			this.switchWave = -SWITCH_DIRECTION_DURATION;
 		}

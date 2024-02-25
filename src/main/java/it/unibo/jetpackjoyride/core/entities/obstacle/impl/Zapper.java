@@ -33,16 +33,16 @@ public final class Zapper extends AbstractObstacle {
      */
     public Zapper(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.ZAPPER, newMovement, hitbox);
-        this.entityStatus = EntityStatus.ACTIVE;
+        this.setEntityStatus(EntityStatus.INACTIVE);
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
-        this.movement = new Movement.Builder()
-        .setPosition(SPAWNINGXCOORDINATE, this.movement.getPosition().get2())
-        .setSpeed(-startingXSpeed, this.movement.getSpeed().get2())
-        .setAcceleration(this.movement.getAcceleration())
-        .setRotation(this.movement.getRotation())
-        .setMovementChangers(this.movement.getMovementChangers())
-        .build();
+        this.setEntityMovement(new Movement.Builder()
+        .setPosition(SPAWNINGXCOORDINATE, this.getEntityMovement().getPosition().get2())
+        .setSpeed(-startingXSpeed, this.getEntityMovement().getSpeed().get2())
+        .setAcceleration(this.getEntityMovement().getAcceleration())
+        .setRotation(this.getEntityMovement().getRotation())
+        .setMovementChangers(this.getEntityMovement().getMovementChangers())
+        .build());
     }
 
     /**
@@ -51,8 +51,8 @@ public final class Zapper extends AbstractObstacle {
      */
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        if (this.movement.getPosition().get1() < OUTOFBOUNDSSX) {
-            this.entityStatus = EntityStatus.INACTIVE;
+        if (this.getEntityMovement().getPosition().get1() < OUTOFBOUNDSSX) {
+            this.setEntityStatus(EntityStatus.INACTIVE);
         }
     }
 }

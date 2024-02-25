@@ -29,7 +29,7 @@ public abstract class AbstractPickUp extends AbstractEntity implements PickUp {
     public AbstractPickUp(final PickUpType entityType, final Movement newMovement, final Hitbox hitbox) {
         super(PICKUP, newMovement, hitbox);
         this.pickUpType = entityType;
-        this.entityStatus = EntityStatus.ACTIVE;
+        this.setEntityStatus(EntityStatus.ACTIVE);
     }
     
     /**

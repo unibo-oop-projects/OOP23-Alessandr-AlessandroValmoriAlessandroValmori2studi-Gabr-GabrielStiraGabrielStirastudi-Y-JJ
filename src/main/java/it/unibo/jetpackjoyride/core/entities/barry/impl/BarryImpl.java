@@ -17,7 +17,7 @@ import java.util.List;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 
 /**
- * @author alessandro.valmori2@studio.unibo.it
+ * @author alessandro.valmori2@studio.unibo.it.
  */
 
 /**
@@ -25,26 +25,29 @@ import it.unibo.jetpackjoyride.utilities.MovementChangers;
  * for controlling the player character, Barry.
  */
 public final class BarryImpl extends AbstractEntity implements Barry {
-    /* The performing action */
+    /* The performing action. */
     private PerformingAction performingAction;
-    /** A field used to determine wether barry has a shield or not */
+
+    /** A field used to determine wether barry has a shield or not. */
     private boolean hasShield;
-    /** The current life status of Barry */
+
+    /** The current life status of Barry. */
     private BarryLifeStatus lifeStatus;
 
     /**
-     * Defines what coordinates could be considerated as the lower and upper bounds
-     * of the map.
-     * 
+     * Defines the higher bound of the map.
      */
     private static final Double HIGH_BOUND = 80.0;
+    /**
+     * Defines the higher bound of the map.
+     */
     private static final Double LOW_BOUND = 630.0;
 
     public BarryImpl(final Movement movement, final Hitbox hitbox) {
         super(EntityType.BARRY, movement, hitbox);
         this.hasShield = false;
         this.lifeStatus = BarryLifeStatus.ALIVE;
-        this.entityStatus = EntityStatus.ACTIVE;
+        this.setEntityStatus(EntityStatus.ACTIVE);
         this.performingAction = PerformingAction.WALKING;
     }
 
@@ -67,7 +70,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
      * Kills Barry based on the type of obstacle.
      * Updates Barry's hitbox and performing action accordingly.
      *
-     * @param type the type of obstacle that killed Barry
+     * @param type the type of obstacle that killed Barry.
      */
 
     private void kill(final ObstacleType type) {
@@ -88,7 +91,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
     }
 
     @Override
-    public void hit(ObstacleType type) {
+    public void hit(final ObstacleType type) {
         if (this.isAlive()) {
             if (this.hasShield()) {
                 this.removeShield();
@@ -104,7 +107,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
     }
 
     @Override
-    protected void updateStatus(boolean isSpaceBarPressed) {
+    protected void updateStatus(final boolean isSpaceBarPressed) {
 
         switch (this.performingAction) {
             case WALKING:
@@ -116,7 +119,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
                 if (!isSpaceBarPressed) {
                     this.performingAction = PerformingAction.FALLING;
                 }
-                if (this.movement.getPosition().get2() <= HIGH_BOUND) {
+                if (this.getEntityMovement().getPosition().get2() <= HIGH_BOUND) {
                     this.performingAction = PerformingAction.HEAD_DRAGGING;
                 }
                 break;
@@ -126,7 +129,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
                     this.performingAction = PerformingAction.PROPELLING;
 
                 }
-                if (this.movement.getPosition().get2() >= LOW_BOUND) {
+                if (this.getEntityMovement().getPosition().get2() >= LOW_BOUND) {
                     this.performingAction = PerformingAction.WALKING;
                 }
                 break;
@@ -145,17 +148,17 @@ public final class BarryImpl extends AbstractEntity implements Barry {
 
         final boolean isPropelling = this.performingAction.equals(PerformingAction.PROPELLING)
                 || this.performingAction.equals(PerformingAction.HEAD_DRAGGING);
-        this.movement = new Movement.Builder()
-                .setPosition(this.movement.getPosition())
-                .setSpeed(this.movement.getSpeed())
-                .setAcceleration(new Pair<>(this.movement.getAcceleration().get1(),
-                        this.movement.getAcceleration().get2() * 100.0))
-                .setRotation(this.movement.getSpeed().get2() * 2, 0.0)
-                .setMovementChangers(List.of(MovementChangers.BOUNDS,
-                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
-                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
-                        isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
-                .build();
+        this.setEntityMovement(new Movement.Builder()
+        .setPosition(this.getEntityMovement().getPosition())
+        .setSpeed(this.getEntityMovement().getSpeed())
+        .setAcceleration(new Pair<>(this.getEntityMovement().getAcceleration().get1(),
+                this.getEntityMovement().getAcceleration().get2() * 100.0))
+        .setRotation(this.getEntityMovement().getSpeed().get2() * 2, 0.0)
+        .setMovementChangers(List.of(MovementChangers.BOUNDS,
+                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
+                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
+                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+        .build());
 
     }
 

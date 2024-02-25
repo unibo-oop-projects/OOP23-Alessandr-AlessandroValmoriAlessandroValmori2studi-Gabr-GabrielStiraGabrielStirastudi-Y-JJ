@@ -119,10 +119,13 @@ public final class PowerUpView extends AbstractEntityView {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:
                             animationLenght = MRCUDDLES_ANIMATION_LENGHT;
-                            animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
                             if (animationCounter[1] != 0) {
                                 animationCounter[1]--;
+                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES;
+                            } else {
+                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
                             }
+                            
                             break;
                         case DESCENDING:
                             animationLenght = MRCUDDLES_ANIMATION_LENGHT;
@@ -135,6 +138,7 @@ public final class PowerUpView extends AbstractEntityView {
                             animationFrame = 0;
                             break;
                     }
+                    System.out.println("frame: " + animationFrame);
                 } else {
                     animationFrame = MRCUDDLE_STATIC_NUM_SPRITES + MRCUDDLE_ROARING_NUM_SPRITES;
                 }
@@ -158,10 +162,13 @@ public final class PowerUpView extends AbstractEntityView {
 
                     case ASCENDING:
                         animationLenght = PROFITBIRD_ASCENDING_ANIMATION_LENGHT;
-                        if(animationCounter[1] < animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1 ) {
+                        if(animationCounter[1] != animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1 ) {
                             animationCounter[1]++;
-                        } 
-                        animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                        }  else {
+                            animationFrame=PROFITBIRD_WALKING_NUM_SPRITES;
+                        }
+                        
                         break;
 
                     default:

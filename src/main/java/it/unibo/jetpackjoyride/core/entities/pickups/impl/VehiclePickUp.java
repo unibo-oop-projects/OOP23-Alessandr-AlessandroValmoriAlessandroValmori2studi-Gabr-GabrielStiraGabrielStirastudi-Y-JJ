@@ -22,11 +22,13 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public class VehiclePickUp extends AbstractPickUp {
 	/**
-	 * Defines the X coordinate at which the vehicle pickup status will be set to INACTIVE.
+	 * Defines the X coordinate at which the vehicle pickup status will be set to
+	 * INACTIVE.
 	 */
 	private static final Double OUT_OF_BOUNDS_SX = -100.0;
 	/**
-	 * Defines the lenght of the banner animation which start when the pickup is collected.
+	 * Defines the lenght of the banner animation which start when the pickup is
+	 * collected.
 	 */
 	private static final Integer ANIMATION_DURATION = 100;
 	/**
@@ -52,22 +54,24 @@ public class VehiclePickUp extends AbstractPickUp {
 	private PowerUpType vehicleSpawn;
 
 	/**
-     * Constructor used to create an instance of the class vehicle pickuo.
-     * @param movement The movement characteristics of the vehicle pickup.
-     * @param hitbox The collision characteristics of the vehicle pickup.
-     */
+	 * Constructor used to create an instance of the class vehicle pickuo.
+	 * 
+	 * @param movement The movement characteristics of the vehicle pickup.
+	 * @param hitbox   The collision characteristics of the vehicle pickup.
+	 */
 	public VehiclePickUp(final Movement movement, final Hitbox hitbox) {
 		super(PickUpType.VEHICLE, movement, hitbox);
-		this.setEntityStatus(EntityStatus.ACTIVE); 
+		this.setEntityStatus(EntityStatus.ACTIVE);
 		this.animationTimer = 0;
 		this.switchWave = 0;
 		this.vehicleSpawn = PowerUpType.DUKEFISHRON;
 	}
 
 	/**
-     * Updates the status of the vehiclepickup entity based on its position.
-     * @param isSpaceBarPressed Is ignored by this entity.
-     */
+	 * Updates the status of the vehiclepickup entity based on its position.
+	 * 
+	 * @param isSpaceBarPressed Is ignored by this entity.
+	 */
 	@Override
 	protected void updateStatus(final boolean isSpaceBarPressed) {
 		if (this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX) {
@@ -87,14 +91,15 @@ public class VehiclePickUp extends AbstractPickUp {
 		this.switchWave++;
 		if (this.switchWave == SWITCH_DIRECTION_DURATION && this.getEntityStatus().equals(EntityStatus.ACTIVE)) {
 			this.setEntityMovement(new Movement.Builder()
-			.setAcceleration(this.getEntityMovement().getAcceleration())
-			.setSpeed(this.getEntityMovement().getSpeed())
-			.setPosition(this.getEntityMovement().getPosition())
-			.setRotation(this.getEntityMovement().getRotation())
-			.setMovementChangers(this.getEntityMovement().getMovementChangers().contains(MovementChangers.GRAVITY)
-					? List.of(MovementChangers.INVERSEGRAVITY)
-					: List.of(MovementChangers.GRAVITY))
-			.build());
+					.setAcceleration(this.getEntityMovement().getAcceleration())
+					.setSpeed(this.getEntityMovement().getSpeed())
+					.setPosition(this.getEntityMovement().getPosition())
+					.setRotation(this.getEntityMovement().getRotation())
+					.setMovementChangers(
+							this.getEntityMovement().getMovementChangers().contains(MovementChangers.GRAVITY)
+									? List.of(MovementChangers.INVERSEGRAVITY)
+									: List.of(MovementChangers.GRAVITY))
+					.build());
 
 			this.switchWave = -SWITCH_DIRECTION_DURATION;
 		}
@@ -102,6 +107,7 @@ public class VehiclePickUp extends AbstractPickUp {
 
 	/**
 	 * Sets the {@link PowerUpType} this vehicle pickup will generate if collected.
+	 * 
 	 * @param newVehicleType
 	 */
 	public void setVehicleSpawn(final PowerUpType newVehicleType) {
@@ -110,6 +116,7 @@ public class VehiclePickUp extends AbstractPickUp {
 
 	/**
 	 * Gets the {@link PowerUpType} this vehicle pickup will generate if collected.
+	 * 
 	 * @return The type of powerup of the generated powerup.
 	 */
 	public PowerUpType getVehicleSpawn() {

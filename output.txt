@@ -1,20 +1,19 @@
-> Task :compileJava
+> Task :compileJava UP-TO-DATE
 > Task :processResources UP-TO-DATE
-> Task :classes
+> Task :classes UP-TO-DATE
 > Task :generateCheckstyleConfiguration UP-TO-DATE
 > Task :compileTestJava
 > Task :processTestResources NO-SOURCE
 > Task :testClasses
 > Task :cpdCheck SKIPPED
 > Task :populateDefaultSpotBugsExcludes
-> Task :cpdJavaCheck FAILED
+> Task :cpdJavaCheck
 
 > Task :test
 
 PlayerTest > testPlayerObstacleCollision() STARTED
 
-PlayerTest > testPlayerObstacleCollision() FAILED
-    org.opentest4j.AssertionFailedError at PlayerTest.java:122
+PlayerTest > testPlayerObstacleCollision() PASSED
 
 PlayerTest > testPlayerInitialization() STARTED
 
@@ -23,14 +22,6 @@ PlayerTest > testPlayerInitialization() PASSED
 PlayerTest > testPlayerHit() STARTED
 
 PlayerTest > testPlayerHit() PASSED
-
-PlayerTest > testShieldPickup() STARTED
-
-PlayerTest > testShieldPickup() PASSED
-
-PlayerTest > testPickupCollision() STARTED
-
-PlayerTest > testPickupCollision() PASSED
 
 PlayerTest > testPlayerHit2() STARTED
 
@@ -58,35 +49,32 @@ CoinShapeFactoryImplTest > testYCoordinatesWithinDefaultSize() PASSED
 
 MapBackgroundImplTest > testReset() STARTED
 
-> Task :pmdTest FAILED
-
-> Task :checkstyleTest
-
-> Task :checkstyleTest FAILED
-
-> Task :checkstyleMain
-
-> Task :spotbugsTest
-
-> Task :spotbugsMain
-L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 112]
-L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 138]
-L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 123]
-H D ST: Write to static field it.unibo.jetpackjoyride.core.statistical.impl.GameStats.coins from instance method it.unibo.jetpackjoyride.core.statistical.impl.GameStats.setCoins(int)  At GameStats.java:[line 45]
-M V EI2: new it.unibo.jetpackjoyride.utilities.CircularIterator(List) may expose internal representation by storing an externally mutable object into CircularIterator.list  At CircularIterator.java:[line 25]
-L B It: it.unibo.jetpackjoyride.utilities.CircularIterator.next() cannot throw NoSuchElementException  At CircularIterator.java:[lines 47-53]
-
-> Task :pmdMain FAILED
-
-> Task :test
-
 MapBackgroundImplTest > testReset() PASSED
 
 MapBackgroundImplTest > testGetPosX() STARTED
 
+> Task :pmdTest FAILED
+
+> Task :checkstyleMain
+
+> Task :checkstyleTest
+
+> Task :pmdMain
+> Task :spotbugsMain
+> Task :spotbugsTest
+> Task :checkstyleTest FAILED
+
+> Task :test
+
 MapBackgroundImplTest > testGetPosX() PASSED
 
 MapBackgroundImplTest > testGetSize() STARTED
+
+> Task :pmdMain FAILED
+
+> Task :checkstyleMain
+
+> Task :test FAILED
 
 MapBackgroundImplTest > testGetSize() PASSED
 
@@ -488,13 +476,19 @@ EntityTest > entityGenerator STARTED
 EntityTest > entityGenerator FAILED
     java.lang.AssertionError at EntityTest.java:156
 
-> Task :test FAILED
+> Task :spotbugsMain
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 112]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 138]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp in it.unibo.jetpackjoyride.utilities.EntityImageLoader.loadImages(Entity)  At EntityImageLoader.java:[line 123]
+M V EI2: new it.unibo.jetpackjoyride.utilities.CircularIterator(List) may expose internal representation by storing an externally mutable object into CircularIterator.list  At CircularIterator.java:[line 25]
+L B It: it.unibo.jetpackjoyride.utilities.CircularIterator.next() cannot throw NoSuchElementException  At CircularIterator.java:[lines 47-53]
+L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.barry.api.Barry in it.unibo.jetpackjoyride.core.handler.player.BarryView.updateView(Entity)  At BarryView.java:[line 87]
+M V EI: it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler.getAllPowerUps() may expose internal representation by returning PowerUpHandler.listOfPowerUp  At PowerUpHandler.java:[line 40]
+
 > Task :checkstyleMain FAILED
 
 > Task :spotbugsMain
-L D BC: Unchecked/unconfirmed cast from it.unibo.jetpackjoyride.core.entities.entity.api.Entity to it.unibo.jetpackjoyride.core.entities.barry.api.Barry in it.unibo.jetpackjoyride.core.handler.player.BarryView.updateView(Entity)  At BarryView.java:[line 87]
-M V EI: it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler.getAllPowerUps() may expose internal representation by returning PowerUpHandler.listOfPowerUp  At PowerUpHandler.java:[line 40]
-H D INT: Integer remainder modulo 1 computed in it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView.animateFrames(Entity)  At PowerUpView.java:[line 253]
+H D INT: Integer remainder modulo 1 computed in it.unibo.jetpackjoyride.core.handler.powerup.PowerUpView.animateFrames(Entity)  At PowerUpView.java:[line 259]
 H D REC: Exception is caught when Exception is not thrown in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.readFromFile()  At ObstacleLoader.java:[line 181]
 L D REC: Exception is caught when Exception is not thrown in new it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader()  At ObstacleLoader.java:[line 69]
 M D ICAST: Integral division result cast to double or float in it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleLoader.randomBasedObstacleGeneration()  At ObstacleLoader.java:[line 91]
@@ -508,8 +502,6 @@ M V EI: it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddlesGenerator.ge
 M V EI: it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler.getAllPickUps() may expose internal representation by returning PickUpHandler.listOfPickUp  At PickUpHandler.java:[line 88]
 M V EI: it.unibo.jetpackjoyride.core.handler.entity.EntityHandler.getAllEntities() may expose internal representation by returning EntityHandler.listOfEntities  At EntityHandler.java:[line 190]
 L D REC: Exception is caught when Exception is not thrown in it.unibo.jetpackjoyride.core.handler.entity.EntityController.viewImagesLoader(Entity)  At EntityController.java:[line 125]
-M V EI2: new it.unibo.jetpackjoyride.core.GameLoop(Stage, ShopController) may expose internal representation by storing an externally mutable object into GameLoop.stage  At GameLoop.java:[line 52]
-L P UM: Method calls static Math class method on a constant value  At GameLoop.java:[line 37]
 
 > Task :spotbugsMain FAILED
 
@@ -518,4 +510,4 @@ Deprecated Gradle features were used in this build, making it incompatible with 
 You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
 
 For more on this, please refer to https://docs.gradle.org/8.4/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-13 actionable tasks: 11 executed, 2 up-to-date
+13 actionable tasks: 10 executed, 3 up-to-date

@@ -29,12 +29,6 @@ public interface GameStatsModel  {
      */
     void updateDate();
 
-    /**
-     * A method to set the coins number.
-     * @param num The num to set for coins
-     */
-    void setCoins(int num);
-
      /**
      * A method to set the new distance.
      * @param distance The set a new value for current distance

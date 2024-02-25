@@ -5,108 +5,170 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Zapper;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
+
+import java.util.Collections;
 import javafx.scene.image.Image;
+
 @SuppressWarnings("unchecked")
 public class EntityImageLoader {
+    /**
+     * Total number of sprite images for {@link Missile}.
+     */
     private final static Integer MISSILESPRITES = 20;
+
+    /**
+     * Total number of sprite images for {@link Zapper}.
+     */
     private final static Integer ZAPPERSPRITES = 20;
+
+    /**
+     * Total number of sprite images for {@link Laser}.
+     */
     private final static Integer LASERSPRITES = 16;
+
+    /**
+     * Total number of sprite images for {@link LilStomper} power-up.
+     */
     private final static Integer LILSTOMPERSPRITES = 25;
+
+    /**
+     * Total number of sprite images for {@link MrCuddles} power-up.
+     */
     private final static Integer MRCUDDLESPRITES = 6;
+
+    /**
+     * Total number of sprite images for {@link ProfitBird} power-up.
+     */
     private final static Integer PROFITBIRDSPRITES = 12;
+
+    /**
+     * Total number of sprite images for {@link DukeFishron} power-up.
+     */
     private final static Integer DUKEFISHRONSPRITES = 12;
+
+    /**
+     * Total number of sprite images for {@link VehiclePickup}.
+     */
     private final static Integer VEHICLEPICKUPSPRITES = 21;
+
+    /**
+     * Total number of sprite images for shield pickups.
+     */
     private final static Integer SHIELDPICKUPSPRITES = 2;
 
+    /**
+     * The lists of the images that correspond to each {@link EntityType}
+     */
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
     private final List<Image> pickupImages;
-    
-    public EntityImageLoader() {
-        this.obstacleImages = new ArrayList<>(); // 0-19 MISSILE | 20-39 ZAPPER | 40-55 LASER
-        this.powerupImages = new ArrayList<>(); // 0-24 LILSTOMPER | 25-30 MRCUDDLE | 31-42 PROFITBIRD | 43-54 DUKEFISHRON
-        this.pickupImages = new ArrayList<>(); // 0-20 VEHICLEPICKUP
 
-        // MISSILE 20 total
+    /**
+     * Constructs an {@link EntityImageLoader} and loads images for obstacles, power-ups,
+     * and pickups.
+     */
+    public EntityImageLoader() {
+        this.obstacleImages = new ArrayList<>();
+        this.powerupImages = new ArrayList<>();
+        this.pickupImages = new ArrayList<>();
+
+        // Load obstacle images
         obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
-        // ZAPPER 20 total
         obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
-        // LASER 16 total
         obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
 
-        // LILSTOMPER 25 total
+        // Load power-up images
         powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
-        // MRCUDDLE 6 total
         powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
-        // PROFITBIRD 12 total
         powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
-        // DUKEFISHRON 12 total
         powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
 
-        // VEHICLEPICKUP
+        // Load pickup images
         pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
-        // VEHICLEPICKUP
         pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
-
         pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/player/barry_"));
     }
 
-
+    /**
+     * Loads images for the given entity.
+     *
+     * @param entity The entity for which to load images.
+     * @return The list of images for the entity.
+     */
     public List<Image> loadImages(final Entity entity) {
         switch (entity.getEntityType()) {
             case OBSTACLE:
-                @SuppressWarnings("unchecked")
-                Obstacle obstacle = (Obstacle)entity;
+                Obstacle obstacle = (Obstacle) entity;
                 switch (obstacle.getObstacleType()) {
                     case MISSILE:
-                        return this.takeImages(this.obstacleImages,0,MISSILESPRITES-1);
-                    case ZAPPER: 
-                        return this.takeImages(this.obstacleImages,MISSILESPRITES, MISSILESPRITES+ZAPPERSPRITES-1);
-                    case LASER: 
-                        return this.takeImages(this.obstacleImages, MISSILESPRITES+ZAPPERSPRITES, MISSILESPRITES+ZAPPERSPRITES+LASERSPRITES-1);
-                    default:
-                        break;
+                        return takeImages(this.obstacleImages, 0, MISSILESPRITES - 1);
+                    case ZAPPER:
+                        return takeImages(this.obstacleImages, MISSILESPRITES, MISSILESPRITES + ZAPPERSPRITES - 1);
+                    case LASER:
+                        return takeImages(this.obstacleImages, MISSILESPRITES + ZAPPERSPRITES,
+                                MISSILESPRITES + ZAPPERSPRITES + LASERSPRITES - 1);
                 }
             case POWERUP:
-                @SuppressWarnings("unchecked")
-                PowerUp powerUp = (PowerUp)entity;
+                PowerUp powerUp = (PowerUp) entity;
                 switch (powerUp.getPowerUpType()) {
                     case LILSTOMPER:
-                        return this.takeImages(this.powerupImages, 0,LILSTOMPERSPRITES-1);
+                        return takeImages(this.powerupImages, 0, LILSTOMPERSPRITES - 1);
                     case MRCUDDLES:
-                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES-1);
+                        return takeImages(this.powerupImages, LILSTOMPERSPRITES,
+                                LILSTOMPERSPRITES + MRCUDDLESPRITES - 1);
                     case PROFITBIRD:
-                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES-1);
+                        return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES,
+                                LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES - 1);
                     case DUKEFISHRON:
-                        return this.takeImages(this.powerupImages, LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES,LILSTOMPERSPRITES+MRCUDDLESPRITES+PROFITBIRDSPRITES+DUKEFISHRONSPRITES-1);
-                    default:
-                        break;
+                        return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES,
+                                LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES + DUKEFISHRONSPRITES - 1);
                 }
             case PICKUP:
-                @SuppressWarnings("unchecked")
-                PickUp pickUp = (PickUp)entity;
+                PickUp pickUp = (PickUp) entity;
                 switch (pickUp.getPickUpType()) {
                     case VEHICLE:
-                        return this.takeImages(this.pickupImages, 0,VEHICLEPICKUPSPRITES-1);
+                        return takeImages(this.pickupImages, 0, VEHICLEPICKUPSPRITES - 1);
                     case SHIELD:
-                        return this.takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,VEHICLEPICKUPSPRITES+SHIELDPICKUPSPRITES-1);
-                    default:
-                        break;
+                        return takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,
+                                VEHICLEPICKUPSPRITES + SHIELDPICKUPSPRITES - 1);
                 }
-                return pickupImages;
+                return Collections.unmodifiableList(pickupImages);
             case BARRY:
             default:
                 return List.of();
         }
     }
 
+    /**
+     * Takes images from the specified range of indices in the given list.
+     *
+     * @param images    The list of images.
+     * @param fromIndex The starting index.
+     * @param toIndex   The ending index.
+     * @return The sublist of images.
+     */
     private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
         return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();
     }
 
+    /**
+     * Loads images from resources based on the number of images and the path name.
+     *
+     * @param numberOfImages The number of images to load.
+     * @param pathName       The path to the image resources.
+     * @return The list of loaded images.
+     */
     private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
         try {
             return IntStream.range(0, numberOfImages)

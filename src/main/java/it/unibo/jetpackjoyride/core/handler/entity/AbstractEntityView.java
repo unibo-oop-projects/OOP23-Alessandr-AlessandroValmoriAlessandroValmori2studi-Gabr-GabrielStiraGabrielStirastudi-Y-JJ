@@ -5,6 +5,8 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class AbstractEntityView implements EntityView{
     protected final ImageView imageView;
@@ -14,7 +16,7 @@ public abstract class AbstractEntityView implements EntityView{
     protected Double height;
 
     public AbstractEntityView(final List<Image> images) {
-        this.images = images;
+        this.images = new ArrayList<>(images);
         this.imageView = new ImageView();
         this.animationFrame = 0;
         this.width=0.0;
@@ -48,7 +50,7 @@ public abstract class AbstractEntityView implements EntityView{
 
     @Override
     public ImageView getImageView() {
-        return imageView;
+        return Collections.nCopies(1, this.imageView).get(0);
     }
     
 }

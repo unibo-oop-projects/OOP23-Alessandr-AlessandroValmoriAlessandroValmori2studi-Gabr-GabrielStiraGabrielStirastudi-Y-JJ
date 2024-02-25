@@ -12,6 +12,7 @@ import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
+import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import java.util.Set;
@@ -20,21 +21,22 @@ import java.util.Optional;
 import javafx.scene.Group;
 import java.util.Collections;
 
-
- /**
-  * The {@link EntityHandler} class acts as a handler
-  * for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler}, {@link PickupHandler}),
-  * the {@link CoinGenerator} and {@link Barry}.
-  * It is responsible for managing the interactions between these classes, and can also
-  * notify the {@link GameLoop} if the game is over.
-  * Entity handler represents the core of the game's entity managing
-  * system.
-  *
-  * @author alessandro.valmori2@studio.unibo.it
-  * @author gabriel.stira@studio.unibo.it
-  * @author yukai.zhou@studio.unibo.it
-
-  */
+/**
+ * The {@link EntityHandler} class acts as a handler
+ * for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler},
+ * {@link PickupHandler}),
+ * the {@link CoinGenerator} and {@link Barry}.
+ * It is responsible for managing the interactions between these classes, and
+ * can also
+ * notify the {@link GameLoop} if the game is over.
+ * Entity handler represents the core of the game's entity managing
+ * system.
+ *
+ * @author alessandro.valmori2@studio.unibo.it
+ * @author gabriel.stira@studio.unibo.it
+ * @author yukai.zhou@studio.unibo.it
+ * 
+ */
 public class EntityHandler {
     /**
      * {@link ObstacleHandler}, the handler responsible for
@@ -80,6 +82,10 @@ public class EntityHandler {
      */
     private boolean isCanvasAdded;
 
+    private static final int TICKS_BEFORE_GAME_OVER = 100;
+
+    private int ticks;
+
     /**
      * An initialization method which instanciates all other
      * sub-handlers.
@@ -87,18 +93,18 @@ public class EntityHandler {
      * @param shopController the {@link ShopController} passed in order to get the
      *                       set of unlocked {@link Items}.
      */
+
     public void initialize(final ShopController shopController) {
         final EntityModelGenerator entityGenerator = new EntityModelGeneratorImpl();
         this.unlockedItems = shopController.getUnlocked();
         this.listOfEntities = new HashSet<>();
-
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler(this.unlockedItems);
         this.player = entityGenerator.generateBarry();
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
-
         this.isUsingPowerUp = false;
+        ticks = 0;
     }
 
     /**
@@ -112,10 +118,16 @@ public class EntityHandler {
      */
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
-        player.update(isSpaceBarPressed);
         if (!player.isAlive()) {
             coinHandler.setPlayerHitbox(Optional.empty());
-            return false;
+            this.ticks++;
+    
+            if (this.ticks >= TICKS_BEFORE_GAME_OVER) {
+                return false; //GAME OVER 
+            }
+        }
+        else{
+            player.update(isSpaceBarPressed);
         }
         coinHandler.updatPosition();
         coinHandler.renderCoin();

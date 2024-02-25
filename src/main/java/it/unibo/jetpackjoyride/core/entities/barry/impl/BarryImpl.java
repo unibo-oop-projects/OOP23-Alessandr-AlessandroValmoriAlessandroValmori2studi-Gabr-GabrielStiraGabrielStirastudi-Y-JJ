@@ -117,6 +117,7 @@ public final class BarryImpl extends AbstractEntity implements Barry {
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
 
+
         switch (this.performingAction) {
             case WALKING:
                 if (isSpaceBarPressed) {
@@ -146,7 +147,6 @@ public final class BarryImpl extends AbstractEntity implements Barry {
                 if (!isSpaceBarPressed) {
                     this.performingAction = PerformingAction.FALLING;
                 }
-
                 break;
 
             default:

@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 
 import java.util.stream.*;
 
-public class ObstacleLoader {
+public final class ObstacleLoader {
     private static final Integer MAX_NUMBER_OF_PATTERNS = 30;
     private static final Integer MIN_OBSTACLES_FOR_INSTANCE = 3;
     private static final Integer MAX_OBSTACLES_FOR_INSTANCE = 3;

@@ -41,7 +41,7 @@ import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectExceptio
  * 
  * @author gabriel.stira@studio.unibo.it
  */
-public class EntityModelGeneratorImpl implements EntityModelGenerator {
+public final class EntityModelGeneratorImpl implements EntityModelGenerator {
     /*
      * Define the dimensions of the hitbox of the obstacles.
      */

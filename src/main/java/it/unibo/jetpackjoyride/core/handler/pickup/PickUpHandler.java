@@ -12,24 +12,61 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import java.util.Random;
 import java.util.Set;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collections;
 import java.util.Optional;
 
+ /**
+  * The {@link PickUpHandler} class is one of the main handlers of the game, 
+  * which are classes used to manage the various entities in the game.
+  * This class in particular deals with the generation, updating and interaction
+  * managing of all {@link PickUp} in the game.
+  *
+  * @author gabriel.stira@studio.unibo.it
+  */
 public class PickUpHandler {
-    private static final Integer BASEPICKUPSPAWNCHANCE = 100;
+    /**
+     * Defines the base chance a pickup has to be generated at each call of the spawnPickUp() method
+     */
+    private static final Integer BASEPICKUPSPAWNCHANCE = 500;
+    /**
+     * Is used to store all non INACTIVE pickups in game.
+     */
     private final List<PickUp> listOfPickUp;
+    /**
+     * Is used to generate the pickups.
+     */
     private final EntityModelGeneratorImpl entityModelGenerator;
+    /**
+     * Is used to generate random numbers.
+     */
     private final Random random;
+    /**
+     * Is used to keep track of all unlocked items in the shop (since the pickup only generates
+     * items which have been bought in the shop).
+     */
+    private final Set<Items> unlockedItems;
 
-    public PickUpHandler() {
+    /**
+     * Constructor used to create an instance of PickUpHandler and initialize it.
+     * @param unlockedItems
+     */
+    public PickUpHandler(final Set<Items> unlockedItems) {
+        this.unlockedItems = unlockedItems;
         this.listOfPickUp = new ArrayList<>();
         this.entityModelGenerator = new EntityModelGeneratorImpl();
-        random = new Random();
+        this.random = new Random();
     }
 
+    /**
+     * Updates all pickups in the game. If a pickup has a INACTIVE entityStatus,
+     * it is removed from the set of all pickups. 
+     * If a pickup collides with the hitbox passed as a parameter, the pickup is 
+     * also removed, but before, it activates certains effects based on its type.
+     * 
+     * @param playerHitbox The hitbox of the player/powerup.
+     * @return True if the pickup has been collected, false otherwise.
+     */
     public boolean update(final Optional<Hitbox> playerHitbox) {
         final var iterator = listOfPickUp.iterator();
         boolean pickUpPickedUp = false;
@@ -50,17 +87,22 @@ public class PickUpHandler {
         return pickUpPickedUp;
     }
 
-    public void spawnPickUp(final Set<Items> unlockedItems) {
+    /**
+     * Defines a method which automatically check what type of pickups have been unlocked in the shop
+     * and if at least one has, it tries to generate it at each call. A base chance controls the rate at
+     * which the pickups can be generated.
+     */
+    public void spawnPickUp() {
         if (random.nextInt(BASEPICKUPSPAWNCHANCE) != 0) {
             return;
         }
 
         final List<PickUpType> setOfPossiblePickUps = new ArrayList<>();
-        if (unlockedItems.stream().filter(p -> p.getCorresponding().isEmpty()).findAny().isPresent()) {
+        if (this.unlockedItems.stream().filter(p -> p.getCorresponding().isEmpty()).findAny().isPresent()) {
             // Shield
             setOfPossiblePickUps.add(PickUpType.SHIELD);
         }
-        if (unlockedItems.stream().filter(p -> p.getCorresponding().isPresent()).findAny().isPresent()) {
+        if (this.unlockedItems.stream().filter(p -> p.getCorresponding().isPresent()).findAny().isPresent()) {
             // Powerup
             setOfPossiblePickUps.add(PickUpType.VEHICLE);
         }
@@ -82,8 +124,11 @@ public class PickUpHandler {
         }
     }
 
+    /**
+     * Gets the list of all non INACTVE pickup in game.
+     * @return The list of all non INACTIVE pickups.
+     */
     @SuppressFBWarnings(value = "M V EI", justification = "not returning the object would implicate either cloning the object or returning a set of essential information")
-
     public List<PickUp> getAllPickUps() {
         return this.listOfPickUp;
     }

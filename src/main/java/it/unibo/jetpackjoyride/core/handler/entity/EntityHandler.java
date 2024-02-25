@@ -89,14 +89,16 @@ public class EntityHandler {
      *                       set of unlocked {@link Items}.
      */
     public void initialize(final ShopController shopController) {
+        this.unlockedItems = shopController.getUnlocked();
+        this.entityGenerator = new EntityModelGeneratorImpl();
+        this.listOfEntities = new HashSet<>();
+
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
-        this.pickUpHandler = new PickUpHandler();
-        this.entityGenerator = new EntityModelGeneratorImpl();
+        this.pickUpHandler = new PickUpHandler(this.unlockedItems);
         this.player = this.entityGenerator.generateBarry();
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
-        this.listOfEntities = new HashSet<>();
-        this.unlockedItems = shopController.getUnlocked();
+
         this.isUsingPowerUp = false;
     }
 
@@ -124,7 +126,7 @@ public class EntityHandler {
         }
         if (!this.isUsingPowerUp && !this.player.hasShield() && this.pickUpHandler.getAllPickUps().isEmpty()
                 && !this.unlockedItems.isEmpty()) {
-            this.spawnPickUp(this.unlockedItems);
+            this.pickUpHandler.spawnPickUp();
         }
         final var obstacleHit = this.obstacleHandler
                 .update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox())
@@ -185,15 +187,6 @@ public class EntityHandler {
      */
     public Set<Entity> getAllEntities() {
         return this.listOfEntities;
-    }
-
-    /**
-     * Spawns a pickup based on the set of spawnable items.
-     * 
-     * @param unlockedItems the set of unlocked {@link Items}
-     */
-    private void spawnPickUp(final Set<Items> unlockedItems) {
-        this.pickUpHandler.spawnPickUp(unlockedItems);
     }
 
     /**

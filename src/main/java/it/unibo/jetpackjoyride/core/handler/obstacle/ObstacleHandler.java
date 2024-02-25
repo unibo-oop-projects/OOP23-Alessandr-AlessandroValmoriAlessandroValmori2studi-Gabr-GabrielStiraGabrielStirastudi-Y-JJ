@@ -79,6 +79,18 @@ public final class ObstacleHandler {
         timeline.play();
     }
 
+    /**
+     * Updates all obstacles in the game. If an obstacle has a INACTIVE entityStatus,
+     * it is removed from the set of all obstacles. 
+     * If an obstacle collides with the hitbox passed as a parameter, all obstacles
+     * have their entityStatus set to DEACTIVATED and the {@link ObstacleType} of the
+     * obstacle which collided is returned (Barry need to know what obstacle hit him 
+     * for its death animation).
+     * 
+     * @param playerHitbox The hitbox of the player/powerup.
+     * @return The {@link ObstacleType} if an obstacle collided with the hitbox,
+     * Optional.Empty() otherwise.
+     */
     public Optional<ObstacleType> update(final Optional<Hitbox> playerHitbox) {
         synchronized (this.setOfObstacles) {
 
@@ -99,8 +111,8 @@ public final class ObstacleHandler {
                     }
                 }
 
-                // Deactivate all obstacles on screen if one hit the player (give the player a
-                // brief moment of grace time)
+                /* Deactivate all obstacles on screen if one hit the player (give the player a
+                 brief moment of grace time) */
                 if (obstacleHitPlayer.isPresent()) {
                     iterator = setOfObstacles.iterator();
                     while (iterator.hasNext()) {
@@ -112,10 +124,17 @@ public final class ObstacleHandler {
         }
     }
 
+    /**
+     * Gets the set containing all the obstacles.
+     * @return The set of all obstacles.
+     */
     public Set<Obstacle> getAllObstacles() {
         return this.setOfObstacles;
     }
 
+    /*
+     * Deactivates all obstacles which are currently CHARGING or ACTIVE.
+     */
     public void deactivateAllObstacles() {
         synchronized (this.setOfObstacles) {
             this.setOfObstacles.forEach(model -> model.setEntityStatus(EntityStatus.DEACTIVATED));

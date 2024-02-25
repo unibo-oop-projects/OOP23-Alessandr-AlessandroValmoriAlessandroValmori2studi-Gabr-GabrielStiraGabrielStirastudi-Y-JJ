@@ -1,6 +1,10 @@
 package it.unibo.jetpackjoyride.core.entities.powerup.api;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 /**
@@ -17,14 +21,53 @@ public interface PowerUp extends Entity {
      * Defines the type of powerups implemented in the game.
      */
     enum PowerUpType {
-        MRCUDDLES, LILSTOMPER, PROFITBIRD, DUKEFISHRON
+        /**
+         * Defines the {@link MrCuddles} powerup.
+         */
+        MRCUDDLES, 
+        /**
+         * Defines the {@link LilStomper} powerup.
+         */
+        LILSTOMPER, 
+        /**
+         * Defines the {@link ProfitBird} powerup.
+         */
+        PROFITBIRD, 
+        /**
+         * Defines the {@link DukeFishron} powerup.
+         */
+        DUKEFISHRON
     }
 
     /**
      * Defines the actions which describe more accurately the status of the powerup.
      */
     enum PerformingAction {
-        WALKING, JUMPING, ASCENDING, DESCENDING, GLIDING, LANDING
+        /**
+         * Is the action the powerup is performing when touching the ground.
+         */
+        WALKING,
+        /**
+         * Is the action the powerup is performing when jumping.
+         */
+        JUMPING,
+        /**
+         * Is the action the powerup is performing when gaining altitude.
+         */
+        ASCENDING,
+        /**
+         * Is the action the powerup is performing when losing altitude.
+         */ 
+        DESCENDING,
+        /**
+         * Is the action the powerup is performing when losing altitude,
+         * but slower than DESCENDING, because the player controls it.
+         */
+        GLIDING,
+        /**
+         * Is the action the powerup is performing when is about to land.
+         */
+        LANDING
     }
 
     /**

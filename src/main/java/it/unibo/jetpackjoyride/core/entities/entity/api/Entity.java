@@ -19,24 +19,24 @@ public interface Entity {
         /**
          * The obstacle entity type,
          * which itself is further divided into
-         * {@link Zapper}, {@link Missile} and {@link Laser}
+         * {@link Zapper}, {@link Missile} and {@link Laser}.
          */
         OBSTACLE, 
         /**
          * The power up entity type,
          * which itself is further divided into
-         * {@link ProfitBird}, {@link MrCuddles}, {@link DukeFishron} and {@link LilStomper}
+         * {@link ProfitBird}, {@link MrCuddles}, {@link DukeFishron} and {@link LilStomper}.
          */
         POWERUP, 
         /**
          * The pick-up entity type,
          * which itself is further divided into
-         * {@link VehiclePickUp} and {@link ShieldPickUp}
+         * {@link VehiclePickUp} and {@link ShieldPickUp}.
          */
         PICKUP, 
         /**
          * The {@link Barry} entity type, the main
-         * character of the game
+         * character of the game.
          */
         BARRY
     }
@@ -46,19 +46,19 @@ public interface Entity {
      */
     enum EntityStatus { 
         /**
-         * Entity has no active collision and is shown
+         * Entity has no active collision and is shown.
          */
         CHARGING,
         /**
-         * Entity has an active collision and is shown
+         * Entity has an active collision and is shown.
          */
         ACTIVE,
         /**
-         * Entity has no active collision and is shown
+         * Entity has no active collision and is shown.
          */
         DEACTIVATED,
         /**
-         * Entity has no active collision and is not shown
+         * Entity has no active collision and is not shown.
          */
         INACTIVE
     }
@@ -99,8 +99,8 @@ public interface Entity {
     Integer getLifetime();
 
     /**
-     * Sets the entity's lifetime
-     * @param lifetime the lifetime that is set
+     * Sets the entity's lifetime.
+     * @param lifetime the lifetime that is set.
      */
     void setLifetime(Integer lifetime);
 
@@ -112,7 +112,7 @@ public interface Entity {
     void setEntityStatus(EntityStatus entityStatus);
 
     /**
-     * Sets the class which handles the movement characteristics of the entity
+     * Sets the class which handles the movement characteristics of the entity.
      *
      * @param newMovement The new movement of the entity.
      */

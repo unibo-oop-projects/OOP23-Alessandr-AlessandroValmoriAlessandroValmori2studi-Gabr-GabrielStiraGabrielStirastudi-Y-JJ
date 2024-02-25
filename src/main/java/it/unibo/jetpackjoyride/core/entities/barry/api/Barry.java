@@ -20,38 +20,38 @@ public interface Barry extends Entity {
      */
     enum PerformingAction {
         /**
-         * When Barry is walking
+         * When Barry is walking.
          */
         WALKING, 
         /**
-         * When Barry is going upwards
+         * When Barry is going upwards.
          */
         PROPELLING, 
         /**
-         * When Barry is falling down
+         * When Barry is falling down.
          */
         FALLING, 
         /**
-         * When Barry is sliding his head on the celing
+         * When Barry is sliding his head on the celing.
          */
         HEAD_DRAGGING, 
         /**
          * When Barry is hit by a {@link Missile},
-         * it is burned
+         * it is burned.
          */
         BURNED, 
         /**
          * When Barry is hit by a {@link Zapper} 
-         * it is zapped
+         * it is zapped.
          */
         ZAPPED, 
         /**
          * When Barry is hit by a {@link Laser} 
-         * it is lasered
+         * it is lasered.
          */
         LASERED, 
         /**
-         * Un undefined state, which would be an error
+         * Un undefined state, which would be an error.
          */
         UNDEFINED
     }
@@ -62,17 +62,18 @@ public interface Barry extends Entity {
     enum BarryLifeStatus {
         /**
          * Barry is alive at the start of the game, 
-         * until it is dead
+         * until it is dead.
          */
         ALIVE, 
         /**Barry is dead when an obstacle hits him
-         * while having no shield on*
+         * while having no shield on.
          */
         DEAD
     }
 
     /** 
      * Checks if Barry has a shield.
+     * @return wether Barry has a shield or not.
      */
     boolean hasShield();
 
@@ -103,7 +104,7 @@ public interface Barry extends Entity {
 
     /**
      * A method used to communicate to the player that it has been hit, and
-     * by what type of obstacle
+     * by what type of obstacle.
      * 
      * @param obstacleType the type of obstacle that hit Barry.
      */
@@ -111,7 +112,7 @@ public interface Barry extends Entity {
 
     /**
      * Sets the life status of Barry to either DEAD
-     * or ALIVE
+     * or ALIVE.
      *
      * @param lifeStatus The life status of Barry.
      */

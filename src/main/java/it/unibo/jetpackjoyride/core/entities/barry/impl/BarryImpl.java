@@ -47,9 +47,9 @@ public final class BarryImpl extends AbstractEntity implements Barry {
      * The constructor for the Barry entity, iy first constructs its 
      * superclass, then sets its standard values, such as shield not equipped,
      * its life status to alive, its entity status to active and its performing action
-     * to walking
-     * @param movement
-     * @param hitbox
+     * to walking.
+     * @param movement the {@link Movement} of Barry
+     * @param hitbox the {@link Hitbox} of Barry
      */
     public BarryImpl(final Movement movement, final Hitbox hitbox) {
         super(EntityType.BARRY, movement, hitbox);

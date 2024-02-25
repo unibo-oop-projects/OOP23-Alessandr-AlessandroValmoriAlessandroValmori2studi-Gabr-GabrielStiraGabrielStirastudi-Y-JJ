@@ -9,16 +9,15 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
-import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.AbstractPickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
-import it.unibo.jetpackjoyride.core.entities.pickups.impl.ShieldPickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.AbstractPowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -39,25 +38,33 @@ public class EntityTest{
 
     @org.junit.Test
     public void testingAllEntitites() {
-        Movement entityMovement = new Movement.Builder().build();
+        Movement entityMovement = new Movement.Builder().setPosition(FIVEHUNDREDPAIR).build();
         Hitbox entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR,0.0);
-        Entity obstacle = new Missile(entityMovement, entityHitbox);
+        Entity obstacle = new AbstractObstacle(ObstacleType.MISSILE, entityMovement, entityHitbox) {
+            @Override
+            protected void updateStatus(boolean isSpaceBarPressed) {
+            }
+        };
 
-        entityMovement = new Movement.Builder().build();
-        entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR,0.0);
-        Entity powerUp = new LilStomper(entityMovement, entityHitbox);
+        Entity powerup = new AbstractPowerUp(PowerUpType.LILSTOMPER, entityMovement, entityHitbox) {
+            @Override
+            protected void updateStatus(boolean isSpaceBarPressed) {
+            }
+        };
 
-        entityMovement = new Movement.Builder().build();
-        entityHitbox = new HitboxImpl(FIVEHUNDREDPAIR, ONEHUNDREDPAIR,0.0);
-        Entity pickUp = new ShieldPickUp(entityMovement, entityHitbox);
+        Entity pickup = new AbstractPickUp(PickUpType.VEHICLE, entityMovement, entityHitbox) {
+            @Override
+            protected void updateStatus(boolean isSpaceBarPressed) {
+            }
+        };
 
         this.entityTesting(obstacle);
-        this.entityTesting(powerUp);
-        this.entityTesting(pickUp);
+        this.entityTesting(powerup);
+        this.entityTesting(pickup);
     }
 
-
     public void entityTesting(Entity entity) { 
+
         entity.setEntityStatus(EntityStatus.CHARGING);
         assertNotNull(entity.getEntityType());
         assertNotNull(entity.getEntityStatus());
@@ -65,7 +72,7 @@ public class EntityTest{
         assertTrue(entity.getLifetime().equals(0));
         assertTrue(entity.getHitbox().getHitboxDimensions().equals(ONEHUNDREDPAIR));
 
-        assertTrue(entity.getHitbox().getHitboxPosition().equals(FIVEHUNDREDPAIR));
+        assertEquals(new Pair<>(500.0,500.0), entity.getHitbox().getHitboxPosition());
 
         assertEquals(Set.of(new Pair<>(550.0, 450.0),
                             new Pair<>(450.0, 450.0),
@@ -154,7 +161,12 @@ public class EntityTest{
 
         zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setSpeed(new Pair<>(1.0, 2.0)).build());
 
-        assertEquals(zapper.getEntityMovement().getSpeed(), new Pair<>(1.0, 2.0));
+        /* Zapper have an initial speed set to -GameInfo.MOVESPEED, so the same story repeats...*/
+        assertNotEquals(new Pair<>(1.0, 2.0), zapper.getEntityMovement().getSpeed());
+
+        zapper.setEntityMovement(new Movement.Builder().setSpeed(1.0, 2.0).build());
+
+        assertEquals(new Pair<>(1.0, 2.0), zapper.getEntityMovement().getSpeed());
 
         /* Obviously, you can reuse the characteristics of the old movement to generate a new movement */
         zapper.setEntityMovement(new Movement.Builder().setPosition(FIVEHUNDREDPAIR).setSpeed(zapper.getEntityMovement().getSpeed()).build());
@@ -176,21 +188,20 @@ public class EntityTest{
         //Now the entity is ACTIVE and the hitbox is calculated
         assertEquals(zapper.getEntityMovement().getPosition(),zapper.getHitbox().getHitboxPosition());
 
-        zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setSpeed(new Pair<>(10.0, 10.0)).build());
-        zapper.setEntityMovement(new Movement.Builder().setPosition(ZEROPAIR).setSpeed(zapper.getEntityMovement().getSpeed()).build());
+        zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().build());
+
+        zapper.setEntityMovement(new Movement.Builder().setPosition(ZEROPAIR).setSpeed(10.0, 10.0).build());
         
         for(int i=0; i<50; i++) {
             zapper.update(false);
         }
         assertTrue(zapper.getLifetime().equals(50));
-        assertEquals(zapper.getEntityMovement().getPosition(),new Pair<>(500.0, 500.0));
+        assertEquals(new Pair<>(500.0, 500.0),zapper.getEntityMovement().getPosition());
 
     }
 
     @org.junit.Test
     public void collisionChecking() { 
-        
-
         Movement missileMovement = new Movement.Builder()
                                 .setPosition(new Pair<>(300.0, 500.0))
                                 .setSpeed(new Pair<>(-10.0,0.0))
@@ -206,7 +217,6 @@ public class EntityTest{
         
         for(int i=0; i<350; i++) {
             missile.update(false);
-            System.out.println("pos:" + missile.getEntityMovement().getPosition());
             if(missile.getHitbox().isTouching(powerUp.getHitbox())) {
                 hasTouched = true;
             }
@@ -230,8 +240,5 @@ public class EntityTest{
             }
         }
         assertTrue(hasTouched);
-
-
     }
-
 }

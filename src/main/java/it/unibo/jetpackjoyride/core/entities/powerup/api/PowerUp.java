@@ -40,8 +40,8 @@ public interface PowerUp extends Entity {
     PerformingAction getPerformingAction();
 
     /**
-     * Sets the {@link PerformingAction} of the power-up
-     * @param performingAction the {@link PerformingAction} to be set
+     * Sets the {@link PerformingAction} of the power-up.
+     * @param performingAction the {@link PerformingAction} to be set.
      */
-    void setPerformingAction(final PerformingAction performingAction);
+    void setPerformingAction(PerformingAction performingAction);
 }

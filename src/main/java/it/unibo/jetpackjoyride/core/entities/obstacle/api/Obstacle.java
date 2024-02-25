@@ -15,17 +15,17 @@ public interface Obstacle extends Entity {
      */
     enum ObstacleType {
         /**
-         * The {@link Missile} obstacle
+         * The {@link Missile} obstacle.
          */
         MISSILE, 
 
         /**
-         * The {@link Zapper} obstacle
+         * The {@link Zapper} obstacle.
          */
         ZAPPER,
 
         /**
-         * The {@link Laser} obstacle
+         * The {@link Laser} obstacle.
          */
         LASER
     }

@@ -62,7 +62,7 @@ public final class Missile extends AbstractObstacle {
     public Missile(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, newMovement, hitbox);
         this.lifetimeAfterDeactivation = DELAY_BEFORE_DESTRUCTION + DELAY_BEFORE_ACTIVATING; // Counter initialized
-        this.setEntityStatus(EntityStatus.CHARGING);// Missiles spawn with a CHARGING status
+        this.setEntityStatus(EntityStatus.CHARGING); // Missiles spawn with a CHARGING status
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.movementBuffer = new Movement.Builder()

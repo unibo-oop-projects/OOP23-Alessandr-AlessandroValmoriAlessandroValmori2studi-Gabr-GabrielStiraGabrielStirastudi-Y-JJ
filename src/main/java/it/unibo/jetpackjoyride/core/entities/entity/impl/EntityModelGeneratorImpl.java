@@ -66,12 +66,12 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
     private static final Pair<Double, Double> DUKEFISHRON_HITBOX_DIMENSIONS = new Pair<>(150.0, 100.0);
 
     /**
-     * Define the initial position of barry
+     * Define the initial position of Barry.
      */
     private static final Pair<Double, Double> BARRY_STARTING_POS = new Pair<>(200.0, 630.0);
 
     /**
-     * Define the dimensions of barry's hitbox
+     * Define the dimensions of barry's hitbox.
      */
     private static final Pair<Double, Double> BARRY_HITBOX_DIMENSIONS = new Pair<>(75.0, 100.0);
 

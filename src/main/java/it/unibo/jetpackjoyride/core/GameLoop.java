@@ -67,8 +67,8 @@ public final class GameLoop implements GameLoopControl {
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
         gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE));
-        gameScene.setOnKeyReleased(event ->{
-            if(event.getCode().equals(KeyCode.SPACE)){
+        gameScene.setOnKeyReleased(event -> {
+            if (event.getCode().equals(KeyCode.SPACE)) {
                 this.spacePressed = false;
             }
         });

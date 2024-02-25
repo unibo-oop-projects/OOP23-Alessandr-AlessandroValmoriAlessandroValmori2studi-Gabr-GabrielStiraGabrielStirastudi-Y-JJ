@@ -55,7 +55,7 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     }
 
     @Override 
-    public void setPerformingAction(final PerformingAction performingAction){
+    public void setPerformingAction(final PerformingAction performingAction) {
         this.performingAction = performingAction;
     }
 }

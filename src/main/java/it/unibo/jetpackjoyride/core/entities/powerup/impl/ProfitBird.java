@@ -20,7 +20,7 @@ public class ProfitBird extends AbstractPowerUp {
     /**
      * Defines the base speed of each jump.
      */
-    private final static Double BASE_JUMP_SPEED = 8.0;
+    private static final Double BASE_JUMP_SPEED = 8.0;
     /**
      * Defines the Y coordinate the landing status will begin.
      */

@@ -15,11 +15,11 @@ public interface PickUp extends Entity {
      */
     enum PickUpType {
         /**
-         * The {@link VehiclePickUp} pick-up type
+         * The {@link VehiclePickUp} pick-up type.
          */
         VEHICLE, 
         /**
-         * The {@link ShieldPickUp} pick-up type
+         * The {@link ShieldPickUp} pick-up type.
          */
         SHIELD
     }

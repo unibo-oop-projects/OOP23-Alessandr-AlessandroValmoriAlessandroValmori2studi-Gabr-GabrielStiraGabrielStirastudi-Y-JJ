@@ -8,31 +8,83 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
 import it.unibo.jetpackjoyride.core.handler.pickup.PickUpHandler;
 import it.unibo.jetpackjoyride.core.handler.powerup.PowerUpHandler;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
-
-import java.util.*;
-
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Optional;
 import javafx.scene.Group;
 
+/**
+ * @author alessandro.valmori2@studio.unibo.it
+ * @author gabriel.stira@studio.unibo.it
+ * @author yukai.zhou@studio.unibo.it
+ */
+
+
+ /**
+  * The {@link EntityHandler} class acts as a handler
+  *for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler}, {@link PickupHandler}),
+  *and the {@link CoinGenerator} and {@link Barry}.
+  *It is responsible for managing the interactions between these classes, and can also
+  *notify the {@link GameLoop} if the game is over.
+  *Entity handler represents the core of the game's entity managing
+  *system.
+  */
 public class EntityHandler {
+    /**
+     * {@link ObstacleHandler}, the handler responsible for 
+     * obstacle loading, updating and collision
+     */
     private ObstacleHandler obstacleHandler;
+    /**
+     * {@link PowerUpHandler}, the handler responsible for creating,
+     * updating and destroying powerups
+     */
     private PowerUpHandler powerUpHandler;
+    /**
+     * {@link PickUpHandler}, the handler responsible for creating and
+     * updating. It is also responsible for handling collisions with playable
+     * entities.
+     */
     private PickUpHandler pickUpHandler;
+    /** The Barry entity */
     private Barry player;
+
+    /**The class responsible for coin generation, collection and positioning */
     private CoinGenerator coinHandler;
+
+    /**A factory class used to generate a desired enity model */
     private EntityModelGenerator entityGenerator;
+
+    /**
+     * The set of unlocked items, retrieved by the {@link ShopController}
+     * in order to assert the spawnable powerups/pickups
+     */
     private Set<Items> unlockedItems;
 
+    /**
+     * The set of the currently ACTIVE enitities
+     * composed by the union of all the other handlers'
+     * ACTIVE entities
+     */
     private Set<Entity> listOfEntities;
-
+    /**
+     * Wether the player is using a powerup
+     */
     private boolean isUsingPowerUp;
+
+    /** Wether the coins are already attached*/
     private boolean isCanvasAdded;
 
+    /**
+     * An initialization method which takes
+     * @param shopController as parameter, in order to get the 
+     * set of unlocked {@link Items}
+     */
     public void initialize(final ShopController shopController) {
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
@@ -45,7 +97,14 @@ public class EntityHandler {
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
-
+    /**
+     * The main update method of this class, which gets executed
+     * every frame.
+     * It is responsible of updating all other handlers all together
+     * @param entityGroup the entityGroup passed to {@link CoinGenerator}
+     * @param isSpaceBarPressed the boolean parameter passed to the handlers
+     * @return wether false if the game is over, true otherwise
+     */
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
         player.update(isSpaceBarPressed);
@@ -53,19 +112,15 @@ public class EntityHandler {
             coinHandler.setPlayerHitbox(Optional.empty());
             return false;
         }
-
         coinHandler.updatPosition();
         coinHandler.renderCoin();
-
         if (!isCanvasAdded) {
             coinHandler.addCoinsView(entityGroup);
             isCanvasAdded = true;
         }
-
         if (!this.isUsingPowerUp && !this.player.hasShield() && this.pickUpHandler.getAllPickUps().isEmpty() && !this.unlockedItems.isEmpty()) {
             this.spawnPickUp(this.unlockedItems);
         }
-
         final var obstacleHit = this.obstacleHandler
                 .update(isUsingPowerUp ? Optional.of(this.powerUpHandler.getAllPowerUps().get(0).getHitbox())
                         : Optional.of(player.getHitbox()));
@@ -92,7 +147,7 @@ public class EntityHandler {
                 case VEHICLE:
                     player.setEntityStatus(EntityStatus.INACTIVE);
                     final VehiclePickUp vehiclePickUp = (VehiclePickUp) pickUpPickedUp;
-                    this.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
+                    this.powerUpHandler.spawnPowerUp(vehiclePickUp.getVehicleSpawn());
                     this.isUsingPowerUp = true;
                     this.obstacleHandler.deactivateAllObstacles();
                     this.coinHandler.setPlayerHitbox(
@@ -117,29 +172,40 @@ public class EntityHandler {
         }
         return true;
     }
-
+    /**
+     * Retrieves the set of all the ACTIVE entities
+     * @return the set of all the ACTIVE entities
+     */
     public Set<Entity> getAllEntities() {
         return this.listOfEntities;
     }
-
+    /**
+     * Spawns a pickup based on the set of spawnable items
+     * @param unlockedItems
+     */
     private void spawnPickUp(final Set<Items> unlockedItems) {
         this.pickUpHandler.spawnPickUp(unlockedItems);
     }
-
-    private void spawnPowerUp(final PowerUpType powerUpType) {
-        this.powerUpHandler.spawnPowerUp(powerUpType);
-    }
-
+    /**
+     * Stops the threads executing in {@link ObstacleHandker}
+     * and in {@link CoinGenerator}
+     */
     public void stop() {
         this.obstacleHandler.over();
         this.coinHandler.stopGenerate();
     }
-
+    /**
+     * Starts the threads executing in {@link ObstacleHandler}
+     * and in {@link CoinGenerator}
+     */
     public void start() {
         this.obstacleHandler.start();
         this.coinHandler.startGenerate();
     }
-
+    /**
+     * Resets {@link ObstacleHandler}
+     * and {@link CoinGenerator}
+     */
     public void reset() {
         this.obstacleHandler.deactivateAllObstacles();
         this.coinHandler.clean();

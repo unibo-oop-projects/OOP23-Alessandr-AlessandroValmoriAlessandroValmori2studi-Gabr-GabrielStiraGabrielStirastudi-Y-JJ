@@ -2,22 +2,17 @@ package it.unibo.jetpackjoyride.core.handler.pickup;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
-import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import java.util.Random;
 import java.util.Set;
 import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.HashSet;
-
 import java.util.Optional;
 
 

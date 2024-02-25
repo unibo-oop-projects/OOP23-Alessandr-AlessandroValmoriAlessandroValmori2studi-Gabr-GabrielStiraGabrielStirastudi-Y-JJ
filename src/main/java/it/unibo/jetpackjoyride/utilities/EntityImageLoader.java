@@ -34,47 +34,47 @@ public class EntityImageLoader {
     /**
      * Total number of sprite images for {@link Missile}.
      */
-    private final static Integer MISSILESPRITES = 20;
+    private static final Integer MISSILESPRITES = 20;
 
     /**
      * Total number of sprite images for {@link Zapper}.
      */
-    private final static Integer ZAPPERSPRITES = 20;
+    private static final Integer ZAPPERSPRITES = 20;
 
     /**
      * Total number of sprite images for {@link Laser}.
      */
-    private final static Integer LASERSPRITES = 16;
+    private static final Integer LASERSPRITES = 16;
 
     /**
      * Total number of sprite images for {@link LilStomper} power-up.
      */
-    private final static Integer LILSTOMPERSPRITES = 25;
+    private static final Integer LILSTOMPERSPRITES = 25;
 
     /**
      * Total number of sprite images for {@link MrCuddles} power-up.
      */
-    private final static Integer MRCUDDLESPRITES = 6;
+    private static final Integer MRCUDDLESPRITES = 6;
 
     /**
      * Total number of sprite images for {@link ProfitBird} power-up.
      */
-    private final static Integer PROFITBIRDSPRITES = 12;
+    private static final Integer PROFITBIRDSPRITES = 12;
 
     /**
      * Total number of sprite images for {@link DukeFishron} power-up.
      */
-    private final static Integer DUKEFISHRONSPRITES = 12;
+    private static final Integer DUKEFISHRONSPRITES = 12;
 
     /**
      * Total number of sprite images for {@link VehiclePickUp}.
      */
-    private final static Integer VEHICLEPICKUPSPRITES = 21;
+    private static final Integer VEHICLEPICKUPSPRITES = 21;
 
     /**
      * Total number of sprite images for {@link ShieldPickUp} pickups.
      */
-    private final static Integer SHIELDPICKUPSPRITES = 2;
+    private static final Integer SHIELDPICKUPSPRITES = 2;
 
     /**
      * The lists of the images that correspond to each {@link EntityType}

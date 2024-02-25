@@ -19,15 +19,15 @@ public class DukeFishron extends AbstractPowerUp {
     /**
      * Defines how long it takes for the powerup to enter the rage mode.
      */
-    private final static Integer DEFAULT_RAGE_TIMER = 100;
+    private static final Integer DEFAULT_RAGE_TIMER = 100;
     /**
      * Defines how long the rage mode lasts.
      */
-    private final static Integer DEFAULT_RAGE_DURATION = 100;
+    private static final Integer DEFAULT_RAGE_DURATION = 100;
     /**
      * Defines how much the speed is changed during the rage mode as a multiplier.
      */
-    private final static Double RAGE_SPEED_MODIFIER = 2.0;
+    private static final Double RAGE_SPEED_MODIFIER = 2.0;
 
     /**
      * Defines a variable used to avoid a continuous spacebar pressing which would

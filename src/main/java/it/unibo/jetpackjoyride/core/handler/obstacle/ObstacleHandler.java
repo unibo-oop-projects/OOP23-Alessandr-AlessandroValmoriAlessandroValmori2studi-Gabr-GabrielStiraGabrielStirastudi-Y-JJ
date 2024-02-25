@@ -66,12 +66,15 @@ public final class ObstacleHandler {
     }
 
     /*
-     * Used to stop the thread which generate sobstacles.
+     * Used to stop the thread which generates the obstacles.
      */
     public void over() {
         timeline.stop();
     }
 
+    /**
+     * Used to start the thread which generates the obstacles.
+     */
     public void start() {
         timeline.play();
     }

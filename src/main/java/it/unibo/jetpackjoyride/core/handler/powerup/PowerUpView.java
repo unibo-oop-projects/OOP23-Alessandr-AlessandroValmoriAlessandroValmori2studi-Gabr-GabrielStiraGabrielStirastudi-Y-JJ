@@ -8,7 +8,7 @@ import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 
 public final class PowerUpView extends AbstractEntityView {
-    
+
     /**
      * The width of the {@link LilStomper} power-up.
      */
@@ -184,7 +184,7 @@ public final class PowerUpView extends AbstractEntityView {
     @Override
     protected void animateFrames(Entity entity) {
         @SuppressWarnings("unchecked")
-        final PowerUp powerUp = (PowerUp)entity;
+        final PowerUp powerUp = (PowerUp) entity;
 
         switch (powerUp.getPowerUpType()) {
             case LILSTOMPER:
@@ -199,7 +199,8 @@ public final class PowerUpView extends AbstractEntityView {
 
                     case ASCENDING:
                         animationLenght = LILSTOMPER_ASCENDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % LILSTOMPER_ASCENDING_NUM_SPRITES);
+                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES
+                                + ((animationCounter[1]) / animationLenght % LILSTOMPER_ASCENDING_NUM_SPRITES);
                         if (animationCounter[1] != animationLenght * LILSTOMPER_ASCENDING_NUM_SPRITES - 1) {
                             animationCounter[1]++;
                         }
@@ -207,14 +208,17 @@ public final class PowerUpView extends AbstractEntityView {
                     case GLIDING:
                         animationCounter[3] = 0;
                         animationLenght = LILSTOMPER_GLIDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES + ((animationCounter[2]) / animationLenght % LILSTOMPER_GLIDING_NUM_SPRITES);
+                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                                + ((animationCounter[2]) / animationLenght % LILSTOMPER_GLIDING_NUM_SPRITES);
                         animationCounter[2]++;
                         break;
 
                     case DESCENDING:
                         animationCounter[1] = 0;
                         animationLenght = LILSTOMPER_DESCENDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES + LILSTOMPER_GLIDING_NUM_SPRITES + ((animationCounter[3]) / animationLenght % LILSTOMPER_DESCENDING_NUM_SPRITES);
+                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                                + LILSTOMPER_GLIDING_NUM_SPRITES
+                                + ((animationCounter[3]) / animationLenght % LILSTOMPER_DESCENDING_NUM_SPRITES);
                         if (animationCounter[3] != animationLenght * LILSTOMPER_DESCENDING_NUM_SPRITES - 1) {
                             animationCounter[3]++;
                         }
@@ -222,12 +226,14 @@ public final class PowerUpView extends AbstractEntityView {
 
                     case LANDING: // 20 - 24
                         animationLenght = LILSTOMPER_LANDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES + LILSTOMPER_GLIDING_NUM_SPRITES + LILSTOMPER_DESCENDING_NUM_SPRITES + ((animationCounter[4]) / animationLenght % LILSTOMPER_LANDING_NUM_SPRITES);
+                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                                + LILSTOMPER_GLIDING_NUM_SPRITES + LILSTOMPER_DESCENDING_NUM_SPRITES
+                                + ((animationCounter[4]) / animationLenght % LILSTOMPER_LANDING_NUM_SPRITES);
                         if (animationCounter[4] == animationLenght * LILSTOMPER_LANDING_NUM_SPRITES - 1) {
                             for (int i = 0; i < 4; i++) {
                                 animationCounter[i] = 0;
                             }
-                            animationCounter[4]=0;
+                            animationCounter[4] = 0;
                         } else {
                             animationCounter[4]++;
                         }
@@ -252,12 +258,13 @@ public final class PowerUpView extends AbstractEntityView {
                             } else {
                                 animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
                             }
-                            
+
                             break;
                         case DESCENDING:
                             animationLenght = MRCUDDLES_ANIMATION_LENGHT;
-                            animationFrame = MRCUDDLE_STATIC_NUM_SPRITES + ((animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES);
-                            if (animationCounter[1] != animationLenght*MRCUDDLE_ROARING_NUM_SPRITES - 1) {
+                            animationFrame = MRCUDDLE_STATIC_NUM_SPRITES
+                                    + ((animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES);
+                            if (animationCounter[1] != animationLenght * MRCUDDLE_ROARING_NUM_SPRITES - 1) {
                                 animationCounter[1]++;
                             }
                             break;
@@ -289,13 +296,14 @@ public final class PowerUpView extends AbstractEntityView {
 
                     case ASCENDING:
                         animationLenght = PROFITBIRD_ASCENDING_ANIMATION_LENGHT;
-                        if(animationCounter[1] != animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1 ) {
+                        if (animationCounter[1] != animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1) {
                             animationCounter[1]++;
-                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
-                        }  else {
-                            animationFrame=PROFITBIRD_WALKING_NUM_SPRITES;
+                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES
+                                    + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                        } else {
+                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES;
                         }
-                        
+
                         break;
 
                     default:
@@ -315,7 +323,8 @@ public final class PowerUpView extends AbstractEntityView {
                         break;
                     case DESCENDING:
                         animationLenght = DUKEFISHRON_ANIMATION_LENGHT;
-                        animationFrame = DUKEFISHRON_ASCENDING_NUM_SPRITES + ((animationCounter[0]) / animationLenght % DUKEFISHRON_ASCENDING_NUM_SPRITES);
+                        animationFrame = DUKEFISHRON_ASCENDING_NUM_SPRITES
+                                + ((animationCounter[0]) / animationLenght % DUKEFISHRON_ASCENDING_NUM_SPRITES);
                         animationCounter[0]++;
                         break;
                     default:
@@ -323,7 +332,7 @@ public final class PowerUpView extends AbstractEntityView {
                         break;
                 }
                 break;
-                
+
             default:
                 width = 0.0;
                 height = 0.0;

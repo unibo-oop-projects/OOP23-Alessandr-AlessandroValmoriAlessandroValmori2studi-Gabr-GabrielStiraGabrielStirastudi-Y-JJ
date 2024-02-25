@@ -27,19 +27,19 @@ import javafx.scene.Node;
 public class EntityController {
 
     /** 
-     * The model that incapsulates all other entity models 
+     * The model that incapsulates all other entity models .
      * */
     private EntityHandler entityHandler;
 
     /**
      * A utility class used to calculate the corresponding
-     * list of images based on model information
+     * list of images based on model information.
      */
     private EntityImageLoader imageLoader = new EntityImageLoader();
     /**
      * A map used to maintain a correspondence between active entities
      * and the associated view, mainly used for boosting performance, in order
-     * not to reinstanciate the view of each model every update cycle
+     * not to reinstanciate the view of each model every update cycle.
      */
     private Map<Entity, EntityView> modelViewMapper;
 
@@ -48,9 +48,9 @@ public class EntityController {
      * 
      * @param shop the {@link ShopController}, only to pass it down
      *             to {@link EntityHandler}, which then uses shop to extract information
-     *             regarding unlocked items
+     *             regarding unlocked items.
      */
-    public EntityController(ShopController shop) {
+    public EntityController(final ShopController shop) {
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);
         this.modelViewMapper = new HashMap<>();

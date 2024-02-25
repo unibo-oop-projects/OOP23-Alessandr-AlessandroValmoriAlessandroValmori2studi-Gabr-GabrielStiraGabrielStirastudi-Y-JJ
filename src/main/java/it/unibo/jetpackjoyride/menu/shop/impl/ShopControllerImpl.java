@@ -28,21 +28,21 @@ import java.nio.charset.Charset;
 public final class ShopControllerImpl implements ShopController {
     /** The view component of the shop */
     private final ShopView view;
-    /** The path of the file where the unlocked items are stored as text */
-    private final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"
+    /** The path of the file where the unlocked items are stored as text .*/
+    private static final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"
             + File.separator + "shopdata.txt";
-    /** The set of unlocked items */
+    /** The set of unlocked items .*/
     private Set<Items> unlockedSet = new HashSet<>();
 
-    /** The main menu of the application */
+    /** The main menu of the application .*/
     private final GameMenu gameMenu;
 
     /**
-     * The observers made to handle the event that occur in the {@link ShopView} GUI
+     * The observers made to handle the event that occur in the {@link ShopView} GUI.
      */
-    ShopItemPurchaseObs shopItemPurchaseObs;
-    BackToMenuObs backToMenuObs;
-    CharacterObs charObs;
+    private ShopItemPurchaseObs shopItemPurchaseObs;
+    private BackToMenuObs backToMenuObs;
+    private CharacterObs charObs;
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -76,7 +76,7 @@ public final class ShopControllerImpl implements ShopController {
 
     /**
      * Method used to read from file the set of unlocked items, if the file does
-     * not exist, the unlocked set field of this class is initialized
+     * not exist, the unlocked set field of this class is initialized.
      */
     private void readFromFile() {
 
@@ -109,7 +109,7 @@ public final class ShopControllerImpl implements ShopController {
     }
 
     @Override
-    public void unlock(Items item) {
+    public void unlock(final Items item) {
         this.unlockedSet.add(item);
     }
 

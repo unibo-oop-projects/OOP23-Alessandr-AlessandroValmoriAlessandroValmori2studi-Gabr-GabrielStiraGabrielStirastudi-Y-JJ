@@ -11,6 +11,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;

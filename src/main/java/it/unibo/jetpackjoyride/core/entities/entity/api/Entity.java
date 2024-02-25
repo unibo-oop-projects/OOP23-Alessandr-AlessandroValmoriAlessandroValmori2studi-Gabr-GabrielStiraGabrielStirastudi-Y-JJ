@@ -5,7 +5,8 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 
 /**
  * The {@link Entity} interface defines the common behaviour on which to base
- * the implementation of all entities in the game.
+ * the implementation of all entities in the game. All entities are characterized
+ * by a {@link Movement} and an {@link Hitbox}.
  * 
  * @author gabriel.stira@studio.unibo.it
  */

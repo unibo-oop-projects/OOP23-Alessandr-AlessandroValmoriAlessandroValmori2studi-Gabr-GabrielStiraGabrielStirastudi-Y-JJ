@@ -8,49 +8,176 @@ import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 
 public final class PowerUpView extends AbstractEntityView {
-
+    
+    /**
+     * The width of the {@link LilStomper} power-up.
+     */
     private final static Double LILSTOMPER_X_DIMENSION = 320.0;
+
+    /**
+     * The height of the {@link LilStomper} power-up.
+     */
     private final static Double LILSTOMPER_Y_DIMENSION = 240.0;
+
+    /**
+     * The speed of {@link LilStomper}'s walking animation.
+     */
     private final static Integer LILSTOMPER_WALKING_ANIMATION_SPEED = 7;
+
+    /**
+     * The number of sprites in {@link LilStomper}'s walking animation.
+     */
     private final static Integer LILSTOMPER_WALKING_NUM_SPRITES = 6;
+
+    /**
+     * The speed of {@link LilStomper}'s ascending animation.
+     */
     private final static Integer LILSTOMPER_ASCENDING_ANIMATION_SPEED = 4;
+
+    /**
+     * The number of sprites in {@link LilStomper}'s ascending animation.
+     */
     private final static Integer LILSTOMPER_ASCENDING_NUM_SPRITES = 7;
+
+    /**
+     * The speed of {@link LilStomper}'s gliding animation.
+     */
     private final static Integer LILSTOMPER_GLIDING_ANIMATION_SPEED = 6;
+
+    /**
+     * The number of sprites in {@link LilStomper}'s gliding animation.
+     */
     private final static Integer LILSTOMPER_GLIDING_NUM_SPRITES = 4;
+
+    /**
+     * The speed of {@link LilStomper}'s descending animation.
+     */
     private final static Integer LILSTOMPER_DESCENDING_ANIMATION_SPEED = 6;
+
+    /**
+     * The number of sprites in {@link LilStomper}'s descending animation.
+     */
     private final static Integer LILSTOMPER_DESCENDING_NUM_SPRITES = 3;
+
+    /**
+     * The speed of {@link LilStomper}'s landing animation.
+     */
     private final static Integer LILSTOMPER_LANDING_ANIMATION_SPEED = 4;
+
+    /**
+     * The number of sprites in {@link LilStomper}'s landing animation.
+     */
     private final static Integer LILSTOMPER_LANDING_NUM_SPRITES = 5;
 
+    /**
+     * The width of the {@link MrCuddles} power-up.
+     */
     private final static Double MRCUDDLES_X_DIMENSION = 640.0;
+
+    /**
+     * The height of the {@link MrCuddles} power-up.
+     */
     private final static Double MRCUDDLES_Y_DIMENSION = 360.0;
+
+    /**
+     * The length of {@link MrCuddles}' animation.
+     */
     private final static Integer MRCUDDLES_ANIMATION_LENGHT = 5;
+
+    /**
+     * The number of sprites in {@link MrCuddles}' static animation.
+     */
     private final static Integer MRCUDDLE_STATIC_NUM_SPRITES = 1;
+
+    /**
+     * The number of sprites in {@link MrCuddles}' roaring animation.
+     */
     private final static Integer MRCUDDLE_ROARING_NUM_SPRITES = 4;
 
+    /**
+     * The width of the {@link ProfitBird} power-up.
+     */
     private final static Double PROFITBIRD_X_DIMENSION = 180.0;
+
+    /**
+     * The height of the {@link ProfitBird} power-up.
+     */
     private final static Double PROFITBIRD_Y_DIMENSION = 120.0;
+
+    /**
+     * The length of {@link ProfitBird}'s walking animation.
+     */
     private final static Integer PROFITBIRD_WALKING_ANIMATION_LENGHT = 7;
+
+    /**
+     * The number of sprites in {@link ProfitBird}'s walking animation.
+     */
     private final static Integer PROFITBIRD_WALKING_NUM_SPRITES = 3;
+
+    /**
+     * The length of {@link ProfitBird}'s jumping animation.
+     */
     private final static Integer PROFITBIRD_JUMPING_ANIMATION_LENGHT = 6;
+
+    /**
+     * The number of sprites in {@link ProfitBird}'s jumping animation.
+     */
     private final static Integer PROFITBIRD_JUMPING_NUM_SPRITES = 1;
+
+    /**
+     * The length of {@link ProfitBird}'s ascending animation.
+     */
     private final static Integer PROFITBIRD_ASCENDING_ANIMATION_LENGHT = 1;
+
+    /**
+     * The number of sprites in {@link ProfitBird}'s ascending animation.
+     */
     private final static Integer PROFITBIRD_ASCENDING_NUM_SPRITES = 8;
 
+    /**
+     * The width of the {@link DukeFishron} power-up.
+     */
     private final static Double DUKEFISHRON_X_DIMENSION = 320.0;
+
+    /**
+     * The height of the {@link DukeFishron} power-up.
+     */
     private final static Double DUKEFISHRON_Y_DIMENSION = 240.0;
+
+    /**
+     * The length of {@link DukeFishron}'s animation.
+     */
     private final static Integer DUKEFISHRON_ANIMATION_LENGHT = 6;
+
+    /**
+     * The number of sprites in {@link DukeFishron}'s ascending animation.
+     */
     private final static Integer DUKEFISHRON_ASCENDING_NUM_SPRITES = 6;
 
+    /**
+     * A field that contains the current animation length.
+     */
     private int animationLenght;
+
+    /**
+     * An array containing animation counters for different states of the power-up.
+     * Index 0: counter for walking animation
+     * Index 1: counter for ascending animation
+     * Index 2: counter for gliding animation
+     * Index 3: counter for descending animation
+     * Index 4: counter for landing animation
+     */
     private int[] animationCounter;
 
+    /**
+     * Constructs a new PowerUpView with the given set of images.
+     *
+     * @param images The list of images representing the power-up.
+     */
     public PowerUpView(final List<Image> images) {
         super(images);
         this.animationFrame = 0;
-        this.animationCounter = new int[5]; // 0 counter for walking, 1 counter for ascending,
-                                            // 2 counter for descending, 3 counter for descending-landing, 4 counter for
-                                            // landing
+        this.animationCounter = new int[5];
         this.animationLenght = 1;
     }
 
@@ -119,10 +246,13 @@ public final class PowerUpView extends AbstractEntityView {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:
                             animationLenght = MRCUDDLES_ANIMATION_LENGHT;
-                            animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
                             if (animationCounter[1] != 0) {
                                 animationCounter[1]--;
+                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES;
+                            } else {
+                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
                             }
+                            
                             break;
                         case DESCENDING:
                             animationLenght = MRCUDDLES_ANIMATION_LENGHT;
@@ -135,6 +265,7 @@ public final class PowerUpView extends AbstractEntityView {
                             animationFrame = 0;
                             break;
                     }
+                    System.out.println("frame: " + animationFrame);
                 } else {
                     animationFrame = MRCUDDLE_STATIC_NUM_SPRITES + MRCUDDLE_ROARING_NUM_SPRITES;
                 }
@@ -158,10 +289,13 @@ public final class PowerUpView extends AbstractEntityView {
 
                     case ASCENDING:
                         animationLenght = PROFITBIRD_ASCENDING_ANIMATION_LENGHT;
-                        if(animationCounter[1] < animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1 ) {
+                        if(animationCounter[1] != animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1 ) {
                             animationCounter[1]++;
-                        } 
-                        animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                        }  else {
+                            animationFrame=PROFITBIRD_WALKING_NUM_SPRITES;
+                        }
+                        
                         break;
 
                     default:

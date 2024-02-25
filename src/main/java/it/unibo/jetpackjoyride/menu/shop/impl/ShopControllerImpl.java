@@ -8,11 +8,13 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.exceptions.DirectoryCreationException;
 import javafx.stage.Stage;
-import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.Set;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.io.FileInputStream;
@@ -50,6 +52,8 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage The primary stage of the application.
      * @param gameMenu     The game menu associated with the shop.
      */
+    @SuppressFBWarnings(value = "EI2", 
+    justification = "GameMenu object is use for the shop to return to the last menu")
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
 
         this.gameMenu = gameMenu;

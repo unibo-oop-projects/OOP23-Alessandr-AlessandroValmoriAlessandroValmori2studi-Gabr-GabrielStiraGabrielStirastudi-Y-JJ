@@ -28,11 +28,10 @@ public final class OverMenu extends GameMenuImpl {
     private static final int RESTART_WIDTH = 220;
     private static final int RESTART_HEIGHT = 120;
 
-    private VBox buttonsVBox;
+    private final VBox buttonsVBox;
     private GameLoop gameLoop;
     private final ShopController shopController;
-    private GameStatsController gameStatsController;
-    private WritableImage writableImage;
+    private final GameStatsController gameStatsController;
 
     /**
      * Constructs a new game over menu.
@@ -47,7 +46,7 @@ public final class OverMenu extends GameMenuImpl {
     public OverMenu(final Stage primaryStage,
                         final Scene gameScene, final GameStatsController gameStatsController) {
         super(primaryStage);
-        writableImage = 
+        final WritableImage writableImage = 
         new WritableImage((int) gameScene.getWidth(), (int) gameScene.getHeight());
         gameScene.snapshot(writableImage);
         setMenuImage(writableImage);
@@ -65,16 +64,16 @@ public final class OverMenu extends GameMenuImpl {
         buttonsVBox.setSpacing(SPACE);
         buttonsVBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
 
-        Button restartButton = ButtonFactory.createButton("PlayAgain",
+        final Button restartButton = ButtonFactory.createButton("PlayAgain",
         e -> { 
             gameStatsController.saveChanged();
             this.gameLoop = new GameLoop(primaryStage, shopController); 
-            Command restartCommand = new RestartCommand(this.gameLoop);
+            final Command restartCommand = new RestartCommand(this.gameLoop);
             this.removeListener();
             restartCommand.execute(); 
         }, RESTART_WIDTH, RESTART_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController);
-        Button  shopButton = ButtonFactory
+        final Command openShopCommand = new OpenShopCommand(shopController);
+        final Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
         buttonsVBox.getChildren().addAll(restartButton, shopButton);

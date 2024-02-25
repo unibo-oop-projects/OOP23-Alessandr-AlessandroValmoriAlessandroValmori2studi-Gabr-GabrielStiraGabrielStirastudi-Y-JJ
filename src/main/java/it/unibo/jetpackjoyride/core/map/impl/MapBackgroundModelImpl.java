@@ -19,17 +19,15 @@ public final class MapBackgroundModelImpl implements MapBackgroundModel {
      * the backgroung position and size.
      */
      private double bgImageX1, bgImageX2;
-     private final GameInfo gameInfo;
      private double mapWidth;
      private double mapHeight;
-     private int currentImage = 0;
+     private int currentImage;
 
     /**
      * Constructor of the MapBackgroundModelImpl.
      */
      public MapBackgroundModelImpl() {
-
-        this.gameInfo = GameInfo.getInstance();
+        final GameInfo gameInfo = GameInfo.getInstance();
         mapHeight = gameInfo.getScreenHeight();
         mapWidth = gameInfo.getScreenWidth();
         bgImageX1 = 0;

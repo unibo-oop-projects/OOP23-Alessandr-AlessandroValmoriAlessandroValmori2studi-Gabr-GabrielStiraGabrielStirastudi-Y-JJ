@@ -13,21 +13,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * Test cases for the GameStats model class.
  * @author yukai.zhou@studio.unibo.it
  */
-public class GameStatsTest {
+class GameStatsTest {
 
     private static final int DEFALUT_MOVESPEED = 5;
 
     private GameStatsModel gameStats;
-    private GameStatsModel readStats;
-
     /**
      * Test important method to update coins.
      */
     @Test
-    public void testUpdateCoins() {
+    void testUpdateCoins() {
         gameStats = new GameStats();
-        int initialCoins = GameStats.getCoins();
-        int coinsToAdd = 100;
+        final int initialCoins = GameStats.getCoins();
+        final int coinsToAdd = 100;
         GameStats.updateCoins(coinsToAdd);
         assertEquals(initialCoins + coinsToAdd, GameStats.getCoins());
     }
@@ -36,9 +34,9 @@ public class GameStatsTest {
      * Test important method to set best distance.
      */
     @Test
-    public void testSetCurrentDistance() {
+    void testSetCurrentDistance() {
         gameStats = new GameStats();
-        int initialDistance = gameStats.getcurrentDistance();
+        final int initialDistance = gameStats.getcurrentDistance();
         GameInfo.MOVE_SPEED.set(DEFALUT_MOVESPEED);
         gameStats.addDistance();
         assertEquals(initialDistance + DEFALUT_MOVESPEED, gameStats.getcurrentDistance());
@@ -48,12 +46,12 @@ public class GameStatsTest {
      * Test method to read and write game stats to file.
      */
     @Test
-    public void testReadAndWriteToFile() {
+    void testReadAndWriteToFile() {
         gameStats = new GameStats();
         // Write to file
             GameStatsIO.saveToFile(gameStats, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH_TEST));
         // Read from file
-            readStats = new GameStats();
+            final GameStatsModel readStats = new GameStats();
             GameStatsIO.loadFromFile(readStats, GameStatsIO.getFilePath(GameStatsIO.FILE_PATH_TEST));
             assertNotNull(readStats);
             assertEquals(GameStats.getCoins(), GameStats.getCoins());

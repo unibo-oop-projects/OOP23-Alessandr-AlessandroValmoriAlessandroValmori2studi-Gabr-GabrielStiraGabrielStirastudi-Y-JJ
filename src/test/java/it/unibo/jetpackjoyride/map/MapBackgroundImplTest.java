@@ -13,12 +13,12 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test class for MapBackgroundImpl.
  * @author yukai.zhou@studio.unibo.it
  */
-public final class MapBackgroundImplTest extends ApplicationTest {
+final class MapBackgroundImplTest extends ApplicationTest {
     private static final int EXPECTED_DEFALUT_MOVE_SPEED = 5;
     private static final int POSITION = 0;
     private static final int SIZE = 1;
@@ -28,12 +28,12 @@ public final class MapBackgroundImplTest extends ApplicationTest {
     private static final int WIDTH_DEFALUT = 800;
     private static final int HEIGHT_DEFALUT = 600;
     private MapBackgroundImpl mapBackground;
-    private Pane root;
+
 
     @Override
     public void start(final Stage stage) {
         mapBackground = new MapBackgroundImpl();
-        root = new Pane();
+        final Pane root = new Pane();
         stage.setScene(new Scene(root, WIDTH_DEFALUT, HEIGHT_DEFALUT));
         stage.show();
     }
@@ -42,17 +42,17 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      * Test whether the background is resizable with GameInfo.
      */
     @Test
-    public void isRisizebleWithGameInfo() {
+    void isRisizebleWithGameInfo() {
         interact(() -> {
-            GameInfo gameInfo = GameInfo.getInstance();
-            Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
+            final GameInfo gameInfo = GameInfo.getInstance();
+            final Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
             mapBackground.updateBackground();
             assertNotNull(size, "The size should not be null");
             assertEquals(size, new Pair<>(gameInfo.getScreenWidth(), gameInfo.getScreenHeight()));
 
             gameInfo.updateInfo(WIDTH_FOR_TEST, HEIGHT_FOR_TEST);
             mapBackground.updateBackground();
-            Pair<Double, Double> size1 = mapBackground.getModelData().get(SIZE);
+            final Pair<Double, Double> size1 = mapBackground.getModelData().get(SIZE);
             assertEquals(WIDTH_FOR_TEST, size1.get1());
             assertEquals(HEIGHT_FOR_TEST, size1.get2());
 
@@ -63,7 +63,7 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      * Test updating background.
      */
     @Test
-    public void testUpdateBackground() {
+    void testUpdateBackground() {
         interact(() -> {
             double x1 = mapBackground.getModelData().get(POSITION).get1();
             double x2 = mapBackground.getModelData().get(POSITION).get2();
@@ -82,7 +82,7 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      * Test resetting.
      */
     @Test
-    public void testReset() {
+    void testReset() {
         interact(() -> {
             GameInfo.MOVE_SPEED.set(10);
             assertEquals(10, GameInfo.MOVE_SPEED.get());
@@ -95,8 +95,8 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      * Test getting position X.
      */
     @Test
-    public void testGetPosX() {
-        Pair<Double, Double> posX = mapBackground.getModelData().get(POSITION);
+    void testGetPosX() {
+        final Pair<Double, Double> posX = mapBackground.getModelData().get(POSITION);
         assertNotNull(posX, "The position X should not be null");
     }
 
@@ -104,9 +104,9 @@ public final class MapBackgroundImplTest extends ApplicationTest {
      * Test getting size.
      */
     @Test
-    public void testGetSize() {
-        GameInfo gameInfo = GameInfo.getInstance();
-        Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
+    void testGetSize() {
+        final GameInfo gameInfo = GameInfo.getInstance();
+        final Pair<Double, Double> size = mapBackground.getModelData().get(SIZE);
         mapBackground.updateBackground();
         assertNotNull(size, "The size should not be null");
         assertEquals(size, new Pair<>(gameInfo.getScreenWidth(), gameInfo.getScreenHeight())); 

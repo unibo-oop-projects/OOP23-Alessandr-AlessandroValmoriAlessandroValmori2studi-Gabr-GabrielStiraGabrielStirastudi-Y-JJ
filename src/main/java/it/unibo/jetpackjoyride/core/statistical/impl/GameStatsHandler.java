@@ -11,7 +11,7 @@ import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
  */
 public final class GameStatsHandler implements GameStatsController {
 
-    private GameStatsModel model;
+    private final GameStatsModel model;
 
     /**
      * Constructs a new GameStatsHandler.

@@ -1,6 +1,9 @@
 package it.unibo.jetpackjoyride.menu.buttoncommand;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +16,8 @@ import javafx.scene.image.ImageView;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class ButtonFactory {
+
+    private static final Logger LOGGER = Logger.getLogger(ButtonFactory.class.getName());
 
     private ButtonFactory() {
 
@@ -35,9 +40,10 @@ public final class ButtonFactory {
         button.setPrefHeight(y);
         button.setFocusTraversable(false);
 
+        final Optional<Image> imageOptional = loadImageFromResources(name);
         if (loadImageFromResources(name).isPresent()) {
-            Image img = loadImageFromResources(name).get();
-            ImageView imageView = new ImageView(img);
+            final Image img = imageOptional.get();
+            final ImageView imageView = new ImageView(img);
             imageView.setFitWidth(x);
             imageView.setFitHeight(y);
             imageView.setPreserveRatio(false);
@@ -57,12 +63,18 @@ public final class ButtonFactory {
      * @return an Optional containing the loaded image, or empty if the image could not be loaded
      */
     private static Optional<Image> loadImageFromResources(final String imageName) {
-        try {
-            String imagePath = "/buttons/" + imageName + ".png";
-            Image image = new Image(ButtonFactory.class.getResourceAsStream(imagePath));
-            return Optional.of(image);
-        } catch (Exception e) {
+        final String imagePath = "/buttons/" + imageName + ".png";
+        final URL url = ButtonFactory.class.getResource(imagePath);
+        if (url == null) {
+            LOGGER.log(Level.SEVERE, "Resource not found: " + imagePath);
             return Optional.empty();
         }
-     }
+        try {
+            final Image image = new Image(url.toExternalForm());
+            return Optional.ofNullable(image);
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Invalid URL for loading image: " + url, e);
+            return Optional.empty();
+        }
+      }
     }

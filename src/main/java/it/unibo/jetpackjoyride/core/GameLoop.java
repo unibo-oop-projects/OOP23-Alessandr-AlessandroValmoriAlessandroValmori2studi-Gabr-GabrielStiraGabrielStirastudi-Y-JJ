@@ -32,11 +32,11 @@ public final class GameLoop implements GameLoopControl {
     private GameInfo gameInfo;
     private AnimationTimer timer;
     private MapBackground map;
-    private GameStatsController gameStatsHandler;
+    private final GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
     private GameStatsView gameStatsView;
-    private EntityController entityController;
-    private Stage stage;
+    private final EntityController entityController;
+    private final Stage stage;
     private Pane root;
     private Group entityGroup;
     private boolean spacePressed;
@@ -94,9 +94,9 @@ public final class GameLoop implements GameLoopControl {
     private void setupTimer() {
         timer = new AnimationTimer() {
 
-            private long lastUpdate = 0;
-            private long lastStatsupdate = 0;
-            private static final long statsUpdateInterval = 1_000_000_000L;
+            private long lastUpdate;
+            private long lastStatsupdate;
+            private static final long STATS_UPDATE_INTERVAL = 1_000_000_000L;
 
             @Override
             public void handle(final long now) {
@@ -113,7 +113,7 @@ public final class GameLoop implements GameLoopControl {
                     lastUpdate = now;
                 }
 
-                if (now - lastStatsupdate > statsUpdateInterval) {
+                if (now - lastStatsupdate > STATS_UPDATE_INTERVAL) {
                     gameStatsHandler.updateCurrentDistance();
                     lastStatsupdate = now;
                 }
@@ -124,6 +124,7 @@ public final class GameLoop implements GameLoopControl {
     /**
      * Starts the game loop.
      */
+    @Override
     public void startLoop() {
         stage.setScene(gameScene);
         entityController.start();
@@ -134,6 +135,7 @@ public final class GameLoop implements GameLoopControl {
     /**
      * Stop the game loop.
      */
+    @Override
     public void stopLoop() {
         entityController.stop();
         timer.stop();
@@ -142,6 +144,7 @@ public final class GameLoop implements GameLoopControl {
     /**
      * End the game loop.
      */
+    @Override
     public void endLoop() {
         saveGame();
         this.stopLoop();
@@ -151,6 +154,7 @@ public final class GameLoop implements GameLoopControl {
     /**
      * Reset the game loop.
      */
+    @Override
     public void resetLoop() {
         saveGame();
         if (!root.getChildren().isEmpty()) {
@@ -183,7 +187,7 @@ public final class GameLoop implements GameLoopControl {
      * Use to set the Over menu, when player dead.
      */
     private void showGameOverMenu() {
-        OverMenu overMenu = new OverMenu(stage, this.gameScene, this.gameStatsHandler);
+        final OverMenu overMenu = new OverMenu(stage, this.gameScene, this.gameStatsHandler);
         overMenu.showMenu();
     }
 }

@@ -41,7 +41,7 @@ public final class StartMenu extends GameMenuImpl {
      */
     public StartMenu(final Stage primaryStage) {
         super(primaryStage);
-        Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
+        final Image menuImage = new Image(getClass().getClassLoader().getResource("menuImg/menuimg.png").toExternalForm());
         setMenuImage(menuImage);
         gameStatsController = new GameStatsHandler();
         shopController = new ShopControllerImpl(primaryStage, this);
@@ -55,19 +55,19 @@ public final class StartMenu extends GameMenuImpl {
 
     @Override
     protected void initializeGameMenu(final Stage primaryStage) {
-        VBox buttonsRoot = new VBox(SPACING);
+        final VBox buttonsRoot = new VBox(SPACING);
         buttonsRoot.setAlignment(Pos.CENTER);
 
-        Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
+        final Button startButton = ButtonFactory.createButton("PlayGame", e -> { 
             gameStatsController.saveChanged();
             this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
-            Command startCommand = new StartCommand(this.gameLoop.get());
+            final Command startCommand = new StartCommand(this.gameLoop.get());
             this.removeListener();
             startCommand.execute();
             primaryStage.centerOnScreen();
         }, DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
-        Command openShopCommand = new OpenShopCommand(shopController);
-        Button  shopButton = ButtonFactory
+        final Command openShopCommand = new OpenShopCommand(shopController);
+        final Button  shopButton = ButtonFactory
         .createButton("Shop", e -> openShopCommand.execute(), DEFAULT_BUTTON_WIDTH, DEFAULT_BUTTON_HEIGHT);
 
         buttonsRoot.getChildren().addAll(startButton, shopButton);

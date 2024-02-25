@@ -52,7 +52,7 @@ public abstract class GameMenuImpl implements GameMenu {
     /**
     * Utility for accessing game information such as screen dimensions.
     */
-    private  GameInfo gameInfo = GameInfo.getInstance();
+    private final GameInfo gameInfo = GameInfo.getInstance();
 
     private ChangeListener<Number> widthListener;
     private ChangeListener<Number> heightListener;
@@ -138,12 +138,12 @@ public abstract class GameMenuImpl implements GameMenu {
      */
     protected void addSizeListener() {
         widthListener = (obs, oldvalue, newVal) -> {
-            double ratioX = newVal.doubleValue() / oldvalue.doubleValue();
+            final double ratioX = newVal.doubleValue() / oldvalue.doubleValue();
             menuImageView.setFitWidth(menuImageView.getFitWidth() * ratioX);
         };
         scene.widthProperty().addListener(widthListener);
         heightListener = (obs, oldvalue, newVal) -> {
-            double ratioY = newVal.doubleValue() / oldvalue.doubleValue();
+            final double ratioY = newVal.doubleValue() / oldvalue.doubleValue();
             menuImageView.setFitHeight(menuImageView.getFitHeight() * ratioY);
         };
         scene.heightProperty().addListener(heightListener);

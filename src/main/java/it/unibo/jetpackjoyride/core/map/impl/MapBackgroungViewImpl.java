@@ -3,6 +3,7 @@ package it.unibo.jetpackjoyride.core.map.impl;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Logger;
 
 import it.unibo.jetpackjoyride.core.map.api.MapBackgroundView;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -16,6 +17,8 @@ import javafx.scene.layout.Pane;
  * @author yukai.zhou@studio.unibo.it
  */
 public final class MapBackgroungViewImpl implements MapBackgroundView {
+    private static final Logger LOGGER = Logger.getLogger(MapBackgroungViewImpl.class.getName());
+
 
     private static final int NUM_OF_IMAGES = 6;
     private static final int POSITION = 0;
@@ -24,7 +27,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
     private ImageView bgImageView1, bgImageView2;
     private final Pane root;
     private Image[] bgImages;
-    private int currentImage = 0;
+
 
     /**
      * Constructor of the MapBackgroundViewImpl.
@@ -75,7 +78,7 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
     * @param data The data necessary for create the ImageView
     */
     private void loadBackgroungImage(final List<Pair<Double, Double>> data) {
-
+        final int currentImage = 0;
         bgImageView1 = new ImageView(bgImages[currentImage]);
         bgImageView2 = new ImageView(bgImages[currentImage + 1]);
 
@@ -92,17 +95,17 @@ public final class MapBackgroungViewImpl implements MapBackgroundView {
 
     private void loadBgImages() {
         for (int i = 0; i < NUM_OF_IMAGES; i++) {
-           String path = "background/bg" + (i + 1) + ".png";
+           final String path = "background/bg" + (i + 1) + ".png";
            try {
-              URL bgImageUrl = getClass().getClassLoader().getResource(path);
+              final URL bgImageUrl = getClass().getClassLoader().getResource(path);
               if (bgImageUrl == null) {
                  throw new FileNotFoundException("Coin Image was not found: " + path);
               }
-              String url = bgImageUrl.toExternalForm();
-              Image bgImage = new Image(url);
+              final String url = bgImageUrl.toExternalForm();
+              final Image bgImage = new Image(url);
               bgImages[i] = bgImage;
            } catch (FileNotFoundException e) {
-              System.err.println("Error message :" + e.getMessage());
+             LOGGER.severe("Error message: " + e.getMessage());
            }
         }
      }

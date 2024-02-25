@@ -13,7 +13,6 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityView;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
-
 /**
  * @author alessandro.valmori2@studio.unibo.it
  */
@@ -34,7 +33,6 @@ public final class BarryView implements EntityView {
     private List<ImageView> imageViewCouple;
     private static final double BARRY_WIDTH = 75.0;
     private static final double BARRY_HEIGHT = 100.0;
-
 
     private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
     private static final int NUM_COPIES = 7;
@@ -69,7 +67,7 @@ public final class BarryView implements EntityView {
         this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
         this.imageViewCouple = new ArrayList<>();
         this.imageViewCouple.add(imageView);
-      
+
     }
 
     /**
@@ -97,7 +95,7 @@ public final class BarryView implements EntityView {
         final double height = BARRY_HEIGHT * scaleY;
 
         imageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
-        imageView.setY(barry.getEntityMovement().getPosition().get2()* scaleY - height / 2);
+        imageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
 
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
@@ -105,8 +103,8 @@ public final class BarryView implements EntityView {
         imageView.setImage(this.images.get(animationFrame));
         animationFrame = (animationFrame + 1) % images.size();
 
-        shieldImageView.setX(barry.getEntityMovement().getPosition().get1()* scaleX - width / 2);
-        shieldImageView.setY(barry.getEntityMovement().getPosition().get2()* scaleY - height / 2);
+        shieldImageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
+        shieldImageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
 
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);
@@ -127,12 +125,12 @@ public final class BarryView implements EntityView {
     }
 
     @Override
-    public ImageView getImageView() {
-        return imageView;
+    public ImageView getImageView() {   
+        return Collections.nCopies(1, this.imageView).get(0);
     }
 
-    public ImageView getShieldImageView(){
-        return this.shieldImageView;
+    public ImageView getShieldImageView() {
+        return Collections.nCopies(1, this.shieldImageView).get(0);
     }
 
 }

@@ -8,7 +8,9 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import java.util.Collections;
 import javafx.scene.image.Image;
+
 @SuppressWarnings("unchecked")
 public class EntityImageLoader {
     private final static Integer MISSILESPRITES = 20;
@@ -96,7 +98,7 @@ public class EntityImageLoader {
                     default:
                         break;
                 }
-                return pickupImages;
+                return Collections.unmodifiableList(pickupImages);
             case BARRY:
             default:
                 return List.of();

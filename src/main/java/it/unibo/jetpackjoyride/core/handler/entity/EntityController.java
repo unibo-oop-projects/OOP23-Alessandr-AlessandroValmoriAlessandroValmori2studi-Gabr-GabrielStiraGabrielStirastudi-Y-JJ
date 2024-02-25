@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.core.handler.entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import it.unibo.jetpackjoyride.core.entities.barry.impl.BarryImpl;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleView;
@@ -16,28 +15,63 @@ import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectExceptio
 import javafx.scene.Group;
 import javafx.scene.Node;
 
+/**
+ * @author alessanro.valmori2@studio.unibo.it
+ * @author gabriel.stira@studio.unibo.it
+ */
+
+/**
+ * A single, universal controller, used to manage the view of every entity whose
+ * model and view
+ * extend {@link AbstractEntity} and {@link AbstractEntityView} respectively
+ */
+
 public class EntityController {
+
+    /** The model that incapsulates all other entity models */
     private EntityHandler entityHandler;
+
+    /**
+     * A utility class used to calculate the corresponding
+     * list of images based on model information
+     */
     private EntityImageLoader imageLoader = new EntityImageLoader();
+    /**
+     * A map used to maintain a correspondence between active entities
+     * and the associated view, mainly used for boosting performance, in order
+     * not to reinstanciate the view of each model every update cycle
+     */
     private Map<Entity, EntityView> modelViewMapper;
 
+    /**
+     * The constructor which takes
+     * 
+     * @param shop as a parameter, in order to then pass it down
+     *             to entity handler, which then uses shop to extract information
+     *             regarding unlocked items
+     */
     public EntityController(ShopController shop) {
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);
         this.modelViewMapper = new HashMap<>();
     }
 
+    /**
+     * The update function which gets executed each frame, responsible
+     * for updating the {@link modelViewMapper} in its interity.
+     * 
+     * @param entityGroup
+     * @param isSpaceBarPressed
+     * @return false if the game has ended, true otherwise
+     */
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
         if (!this.entityHandler.update(entityGroup, isSpaceBarPressed)) {
             return false;
         }
-
         for (final Entity entity : this.entityHandler.getAllEntities()) {
             if (!this.modelViewMapper.containsKey(entity)) {
                 final EntityView entityView = this.viewImagesLoader(entity);
-
                 this.modelViewMapper.put(entity, entityView);
-
                 entityGroup.getChildren().add(entityView.getImageView());
             }
             if (entity instanceof BarryImpl) {
@@ -50,15 +84,19 @@ public class EntityController {
             }
             this.modelViewMapper.get(entity).updateView(entity);
         }
-
         final List<EntityView> entityViews = this.modelViewMapper.entrySet().stream()
                 .filter(p -> !this.entityHandler.getAllEntities().contains(p.getKey())).map(p -> p.getValue()).toList();
-
         this.modelViewMapper.keySet().retainAll(this.entityHandler.getAllEntities());
         entityGroup.getChildren().removeAll(entityViews.stream().map(e -> (Node) e.getImageView()).toList());
         return true;
     }
 
+    /**
+     * A utility function used to instanciate the view associated with the
+     * 
+     * @param entity passed as parameter
+     * @return
+     */
     private EntityView viewImagesLoader(final Entity entity) {
         EntityView entityView;
         try {
@@ -86,14 +124,21 @@ public class EntityController {
         return entityView;
     }
 
+    /** A method used to signal {@link EntityHandler} to stop */
     public void stop() {
         this.entityHandler.stop();
     }
 
+    /**
+     * A method usede to signal {@link EntityHandler} to start
+     */
     public void start() {
         this.entityHandler.start();
     }
 
+    /**
+     * A method used to reset {@link EntityHandler}
+     */
     public void reset() {
         this.entityHandler.reset();
     }

@@ -2,6 +2,9 @@ package it.unibo.jetpackjoyride.utilities;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
+
+import java.util.NoSuchElementException;
 
 /**
  * @author alessandro.valmori2@studio.unibo.it
@@ -21,8 +24,8 @@ public class CircularIterator<T> implements Iterator<T> {
      *
      * @param list The list to iterate through.
      */
-    public CircularIterator(List<T> list) {
-        this.list = list;
+    public CircularIterator(final List<T> list) {
+        this.list = new ArrayList<>(list);
         this.currentIndex = 0;
     }
 
@@ -33,7 +36,7 @@ public class CircularIterator<T> implements Iterator<T> {
      */
     @Override
     public boolean hasNext() {
-        return true;
+        return !this.list.isEmpty();
     }
 
     /**
@@ -44,12 +47,11 @@ public class CircularIterator<T> implements Iterator<T> {
      */
     @Override
     public T next() {
-        if (list.isEmpty()) {
-            throw new IllegalStateException("List is empty");
+        if (this.hasNext()) {
+            T nextItem = this.list.get(this.currentIndex);
+            this.currentIndex = (this.currentIndex + 1) % this.list.size(); // Wrap around to the beginning if end is reached
+            return nextItem;
         }
-
-        T nextItem = list.get(currentIndex);
-        currentIndex = (currentIndex + 1) % list.size(); // Wrap around to the beginning if end is reached
-        return nextItem;
+        throw new NoSuchElementException("List is empty at circular iterator");
     }
 }

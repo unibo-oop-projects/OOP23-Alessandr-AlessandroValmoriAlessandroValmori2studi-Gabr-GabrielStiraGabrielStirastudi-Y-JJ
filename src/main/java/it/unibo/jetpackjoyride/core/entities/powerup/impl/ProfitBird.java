@@ -20,7 +20,7 @@ public class ProfitBird extends AbstractPowerUp {
     /**
      * Defines the base speed of each jump.
      */
-    private static final Double BASE_JUMP_SPEED = 8.0;
+    private static final double BASE_JUMP_SPEED = 8.0;
     /**
      * Defines the Y coordinate the landing status will begin.
      */
@@ -30,7 +30,7 @@ public class ProfitBird extends AbstractPowerUp {
      * cause the
      * powerup to jump indefinitely.
      */
-    private Boolean intervalBewteenJumps;
+    private boolean intervalBewteenJumps;
 
     /**
      * Constructor used to create an instance of the class ProfitBird.
@@ -90,12 +90,10 @@ public class ProfitBird extends AbstractPowerUp {
         }
 
         this.setEntityMovement(new Movement.Builder()
-                .setAcceleration(this.getEntityMovement().getAcceleration())
-                .setSpeed(this.getEntityMovement().getSpeed().get1(),
-                        this.getPerformingAction().equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED
-                                : this.getEntityMovement().getSpeed().get2())
-                .setPosition(this.getEntityMovement().getPosition())
-                .setRotation(this.getEntityMovement().getSpeed().get2(), 0.0)
-                .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+            .setAcceleration(this.getEntityMovement().getAcceleration())
+            .setSpeed(this.getEntityMovement().getSpeed().get1(), this.getPerformingAction().equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
+            .setPosition(this.getEntityMovement().getPosition())
+            .setRotation(this.getEntityMovement().getSpeed().get2(), 0.0)
+            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
     }
 }

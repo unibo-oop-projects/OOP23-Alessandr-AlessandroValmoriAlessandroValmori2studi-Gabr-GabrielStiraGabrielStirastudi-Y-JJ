@@ -8,6 +8,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import java.util.Collections;
 
  /**
   * The {@link PowerUpHandler} class is one of the main handlers of the game, 
@@ -69,7 +70,7 @@ public final class PowerUpHandler {
      * @return The list of all non INACTIVE powerups.
      */
     public List<PowerUp> getAllPowerUps() {
-        return this.listOfPowerUp;
+        return Collections.unmodifiableList(this.listOfPowerUp);
     }
 
     /**

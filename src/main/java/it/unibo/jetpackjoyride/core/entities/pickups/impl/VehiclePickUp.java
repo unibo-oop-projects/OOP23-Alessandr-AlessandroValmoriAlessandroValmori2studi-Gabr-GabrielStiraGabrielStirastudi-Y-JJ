@@ -89,7 +89,7 @@ public class VehiclePickUp extends AbstractPickUp {
 		}
 
 		this.switchWave++;
-		if (this.switchWave == SWITCH_DIRECTION_DURATION && this.getEntityStatus().equals(EntityStatus.ACTIVE)) {
+		if (this.switchWave.equals(SWITCH_DIRECTION_DURATION) && this.getEntityStatus().equals(EntityStatus.ACTIVE)) {
 			this.setEntityMovement(new Movement.Builder()
 					.setAcceleration(this.getEntityMovement().getAcceleration())
 					.setSpeed(this.getEntityMovement().getSpeed())

@@ -5,6 +5,8 @@ import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.*;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * The {@link Movement} is one of the two elements which characterize every entity along with 
  * the {@link Hitbox}. 
@@ -221,7 +223,7 @@ public final class Movement {
      * happens a lot, but the number of entities which do this at all times is generally really low).
      * 
      */
-    @SuppressWarnings("LinguisticNaming")
+    @SuppressFBWarnings("LinguisticNaming")
     public static final class Builder {
 
         private static final Pair<Double, Double> DEFAULT = new Pair<>(0.0,0.0);

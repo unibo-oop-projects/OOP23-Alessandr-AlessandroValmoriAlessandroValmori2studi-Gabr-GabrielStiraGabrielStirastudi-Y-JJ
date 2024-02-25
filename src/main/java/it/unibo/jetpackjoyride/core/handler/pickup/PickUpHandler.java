@@ -12,7 +12,7 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import java.util.Random;
 import java.util.Set;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.HashSet;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -52,7 +52,7 @@ public class PickUpHandler {
      * @param unlockedItems
      */
     public PickUpHandler(final Set<Items> unlockedItems) {
-        this.unlockedItems = unlockedItems;
+        this.unlockedItems = new HashSet<>(unlockedItems);
         this.listOfPickUp = new ArrayList<>();
         this.entityModelGenerator = new EntityModelGeneratorImpl();
         this.random = new Random();
@@ -128,9 +128,9 @@ public class PickUpHandler {
      * Gets the list of all non INACTVE pickup in game.
      * @return The list of all non INACTIVE pickups.
      */
-    @SuppressFBWarnings(value = "M V EI", justification = "not returning the object would implicate either cloning the object or returning a set of essential information")
+    
     public List<PickUp> getAllPickUps() {
-        return this.listOfPickUp;
+        return Collections.unmodifiableList(this.listOfPickUp);
     }
 
 }

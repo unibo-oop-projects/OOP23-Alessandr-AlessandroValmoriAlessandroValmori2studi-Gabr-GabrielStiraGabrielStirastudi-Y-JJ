@@ -77,7 +77,7 @@ public final class LilStomper extends AbstractPowerUp {
                 if (isSpaceBarPressed) {
                     this.loadJump++;
                 }
-                if (this.loadJump == MAX_TICKS_FOR_JUMP || !isSpaceBarPressed) {
+                if (this.loadJump.equals(MAX_TICKS_FOR_JUMP) || !isSpaceBarPressed) {
 
                     this.setEntityMovement(new Movement.Builder()
                             .setAcceleration(this.getEntityMovement().getAcceleration())

@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
+import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Optional;
 import javafx.scene.Group;
+import java.util.Collections;
 
 
  /**
@@ -183,7 +185,7 @@ public class EntityHandler {
      * @return the set of all the ACTIVE entities.
      */
     public Set<Entity> getAllEntities() {
-        return this.listOfEntities;
+        return Collections.unmodifiableSet(this.listOfEntities);
     }
 
     /**

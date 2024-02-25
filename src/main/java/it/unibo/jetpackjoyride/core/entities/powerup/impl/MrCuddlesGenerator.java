@@ -6,6 +6,7 @@ import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import java.util.Collections;
 
 /**
  * The {@link MrCuddlesGenerator} class is used to generate both the head and
@@ -66,7 +67,7 @@ public final class MrCuddlesGenerator {
      * @return The MrCuddle powerup as a list of powerup.
      */
     public List<PowerUp> generateMrCuddle() {
-        return this.mrCuddles;
+        return Collections.unmodifiableList(this.mrCuddles);
     }
 
 }

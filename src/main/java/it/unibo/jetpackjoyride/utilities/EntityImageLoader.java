@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
@@ -19,6 +20,7 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
+import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
 
 import java.util.Collections;
 import javafx.scene.image.Image;
@@ -100,7 +102,7 @@ public class EntityImageLoader {
             obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
             obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
             obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
-        } catch (NullPointerException e) {
+        } catch (InvalidDataFormatException e) {
             obstacleImages.clear();
         }
         
@@ -110,7 +112,7 @@ public class EntityImageLoader {
             powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
             powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
             powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
-        } catch (NullPointerException e) {
+        } catch (InvalidDataFormatException e) {
             powerupImages.clear();
         }
 
@@ -118,7 +120,7 @@ public class EntityImageLoader {
         try {
             pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
             pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
-        } catch (NullPointerException e) {
+        } catch (InvalidDataFormatException e) {
             pickupImages.clear();
         } 
     }
@@ -129,6 +131,7 @@ public class EntityImageLoader {
      * @param entity The entity for which to load images.
      * @return The list of images for the entity.
      */
+    @SuppressFBWarnings(value="BC")
     public List<Image> loadImages(final Entity entity) {
         switch (entity.getEntityType()) {
             case OBSTACLE:
@@ -195,10 +198,16 @@ public class EntityImageLoader {
      * @param pathName       The path to the image resources.
      * @return The list of loaded images.
      */
-    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) throws NullPointerException {
-        return IntStream.range(0, numberOfImages)
+
+    @SuppressFBWarnings(value = "DCN", justification = "I need to do this")
+    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) throws InvalidDataFormatException {
+        try {
+            return IntStream.range(0, numberOfImages)
                 .mapToObj(i -> new Image(
                         getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
                 .toList();
+        } catch (NullPointerException e) {
+            throw new InvalidDataFormatException("ciao");
+        }
     }
 }

@@ -2,6 +2,8 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.Image;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
@@ -182,8 +184,8 @@ public final class PowerUpView extends AbstractEntityView {
     }
 
     @Override
+    @SuppressFBWarnings(value="INT")
     protected void animateFrames(final Entity entity) {
-        @SuppressWarnings("unchecked")
         final PowerUp powerUp = (PowerUp) entity;
 
         switch (powerUp.getPowerUpType()) {

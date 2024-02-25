@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
@@ -22,7 +24,6 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  * It is responsible for updating the visual representation of the Barry entity
  * based on its state.
  */
-@SuppressWarnings("unchecked")
 public final class BarryView implements EntityView {
     /**
      * The imageview of Barry.
@@ -81,9 +82,10 @@ public final class BarryView implements EntityView {
         this.iterator = new CircularIterator<>(this.images);
     }
 
+    
     @Override
+    @SuppressFBWarnings(value="BC")
     public void updateView(final Entity entity) {
-        @SuppressWarnings("unchecked")
         final Barry barry = (Barry) entity;
 
         if (barry.getPerformingAction() != this.oldAction) {

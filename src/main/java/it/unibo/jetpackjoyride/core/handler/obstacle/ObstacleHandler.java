@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import java.util.Set;
 import java.util.Optional;
 import java.util.HashSet;
+import java.util.Collections;
 
  /**
   * The {@link ObstacleHandler} class is one of the main handlers of the game, 
@@ -129,7 +130,7 @@ public final class ObstacleHandler {
      * @return The set of all obstacles.
      */
     public Set<Obstacle> getAllObstacles() {
-        return this.setOfObstacles;
+        return Collections.unmodifiableSet(this.setOfObstacles);
     }
 
     /*

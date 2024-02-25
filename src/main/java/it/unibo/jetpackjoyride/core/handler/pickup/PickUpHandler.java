@@ -18,8 +18,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.Optional;
 
-
-
 public class PickUpHandler {
     private final static Integer BASEPICKUPSPAWNCHANCE = 100;
     private final List<PickUp> listOfPickUp;
@@ -40,12 +38,12 @@ public class PickUpHandler {
 
             model.update(false);
             if (playerHitbox.isPresent() && model.getHitbox().isTouching(playerHitbox.get())
-                && model.getEntityStatus().equals(EntityStatus.ACTIVE)) {
+                    && model.getEntityStatus().equals(EntityStatus.ACTIVE)) {
                 pickUpPickedUp = true;
                 model.setEntityStatus(EntityStatus.DEACTIVATED);
             }
 
-            if (model.getEntityStatus().equals(EntityStatus.INACTIVE) ) {
+            if (model.getEntityStatus().equals(EntityStatus.INACTIVE)) {
                 iterator.remove();
             }
         }
@@ -53,17 +51,17 @@ public class PickUpHandler {
     }
 
     public void spawnPickUp(final Set<Items> unlockedItems) {
-        if(random.nextInt(BASEPICKUPSPAWNCHANCE) != 0) {
+        if (random.nextInt(BASEPICKUPSPAWNCHANCE) != 0) {
             return;
         }
 
         final List<PickUpType> setOfPossiblePickUps = new ArrayList<>();
-        if(unlockedItems.stream().filter(p -> p.getCorresponding().isEmpty()).findAny().isPresent()) {
-            //Shield
+        if (unlockedItems.stream().filter(p -> p.getCorresponding().isEmpty()).findAny().isPresent()) {
+            // Shield
             setOfPossiblePickUps.add(PickUpType.SHIELD);
         }
-        if(unlockedItems.stream().filter(p -> p.getCorresponding().isPresent()).findAny().isPresent()) {
-            //Powerup
+        if (unlockedItems.stream().filter(p -> p.getCorresponding().isPresent()).findAny().isPresent()) {
+            // Powerup
             setOfPossiblePickUps.add(PickUpType.VEHICLE);
         }
 
@@ -72,18 +70,20 @@ public class PickUpHandler {
 
         listOfPickUp.add(entityModelGenerator.generatePickUp(newTypeOfPickup));
 
-        if(newTypeOfPickup.equals(PickUpType.VEHICLE)) {
-            final List<PowerUpType> allPowerUpUnlocked = unlockedItems.stream().filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).toList();
+        if (newTypeOfPickup.equals(PickUpType.VEHICLE)) {
+            final List<PowerUpType> allPowerUpUnlocked = unlockedItems.stream()
+                    .filter(i -> i.getCorresponding().isPresent()).map(p -> p.getCorresponding().get()).toList();
             final PowerUpType powerUpSpawned = allPowerUpUnlocked.get(random.nextInt(allPowerUpUnlocked.size()));
 
-            listOfPickUp.stream().filter(p -> p.getPickUpType().equals(PickUpType.VEHICLE)).forEach(p -> { final VehiclePickUp vehiclePickUp = (VehiclePickUp)p; vehiclePickUp.setVehicleSpawn(powerUpSpawned);});
+            listOfPickUp.stream().filter(p -> p.getPickUpType().equals(PickUpType.VEHICLE)).forEach(p -> {
+                final VehiclePickUp vehiclePickUp = (VehiclePickUp) p;
+                vehiclePickUp.setVehicleSpawn(powerUpSpawned);
+            });
         }
     }
 
+    @SuppressFBWarnings(value = "M V EI", justification = "not returning the object would implicate either cloning the object or returning a set of essential information")
 
-    @SuppressFBWarnings(value = "M V EI",
-    justification = "not returning the object would implicate either cloning the object or returning a set of essential information")
-    
     public List<PickUp> getAllPickUps() {
         return this.listOfPickUp;
     }

@@ -21,8 +21,8 @@ public interface EntityView {
     void updateView(Entity entity);
 
     /**
-     * Gets the ImageView of the entity
-     * @return The imageView of the entity
+     * Gets the ImageView of the entity.
+     * @return The imageView of the entity.
      */
     ImageView getImageView();
 }

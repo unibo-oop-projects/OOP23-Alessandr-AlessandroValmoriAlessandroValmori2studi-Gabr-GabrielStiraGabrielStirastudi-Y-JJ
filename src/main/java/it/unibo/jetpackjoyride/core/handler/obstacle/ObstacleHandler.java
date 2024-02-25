@@ -7,10 +7,12 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import java.util.*;
+import java.util.Set;
+import java.util.Optional;
+import java.util.HashSet;
 
 public final class ObstacleHandler {
-    private final static Double MINIMUMSPAWNTIME = 0.25;
+    private static final Double MINIMUMSPAWNTIME = 0.25;
     private ObstacleLoader obstacleLoader;
     private Set<Obstacle> listOfObstacles;
     private Timeline timeline;
@@ -41,8 +43,7 @@ public final class ObstacleHandler {
         synchronized (this.listOfObstacles) {
 
             var iterator = listOfObstacles.iterator();
-            Optional<ObstacleType> obstacleHitPlayer = Optional.empty();
-            
+            Optional<ObstacleType> obstacleHitPlayer = Optional.empty(); 
                 while (iterator.hasNext()) {
                     final var model = iterator.next();
 
@@ -67,9 +68,7 @@ public final class ObstacleHandler {
                         model.setEntityStatus(EntityStatus.DEACTIVATED);
                     }
                 }
-            
             return obstacleHitPlayer;
-
         }
     }
 

@@ -37,12 +37,12 @@ import javafx.scene.Group;
 public class EntityHandler {
     /**
      * {@link ObstacleHandler}, the handler responsible for 
-     * obstacle loading, updating and collision
+     * obstacle loading, updating and collision.
      */
     private ObstacleHandler obstacleHandler;
     /**
      * {@link PowerUpHandler}, the handler responsible for creating,
-     * updating and destroying powerups
+     * updating and destroying powerups.
      */
     private PowerUpHandler powerUpHandler;
     /**
@@ -51,39 +51,41 @@ public class EntityHandler {
      * entities.
      */
     private PickUpHandler pickUpHandler;
-    /** The Barry entity */
+    /** The Barry entity. */
     private Barry player;
 
-    /**The class responsible for coin generation, collection and positioning */
+    /**The class responsible for coin generation, collection and positioning .*/
     private CoinGenerator coinHandler;
 
-    /**A factory class used to generate a desired enity model */
+    /**A factory class used to generate a desired enity model. */
     private EntityModelGenerator entityGenerator;
 
     /**
      * The set of unlocked items, retrieved by the {@link ShopController}
-     * in order to assert the spawnable powerups/pickups
+     * in order to assert the spawnable powerups/pickups.
      */
     private Set<Items> unlockedItems;
 
     /**
      * The set of the currently ACTIVE enitities
      * composed by the union of all the other handlers'
-     * ACTIVE entities
+     * ACTIVE entities.
      */
     private Set<Entity> listOfEntities;
     /**
-     * Wether the player is using a powerup
+     * Wether the player is using a powerup.
      */
     private boolean isUsingPowerUp;
 
-    /** Wether the coins are already attached*/
+    /**
+     *  Wether the coins are already attached.
+     * */
     private boolean isCanvasAdded;
 
     /**
      * An initialization method which takes
      * @param shopController as parameter, in order to get the 
-     * set of unlocked {@link Items}
+     * set of unlocked {@link Items}.
      */
     public void initialize(final ShopController shopController) {
         this.obstacleHandler = new ObstacleHandler();
@@ -103,7 +105,7 @@ public class EntityHandler {
      * It is responsible of updating all other handlers all together
      * @param entityGroup the entityGroup passed to {@link CoinGenerator}
      * @param isSpaceBarPressed the boolean parameter passed to the handlers
-     * @return wether false if the game is over, true otherwise
+     * @return wether false if the game is over, true otherwise.
      */
     public boolean update(final Group entityGroup, final boolean isSpaceBarPressed) {
 
@@ -173,22 +175,22 @@ public class EntityHandler {
         return true;
     }
     /**
-     * Retrieves the set of all the ACTIVE entities
-     * @return the set of all the ACTIVE entities
+     * Retrieves the set of all the ACTIVE entities.
+     * @return the set of all the ACTIVE entities.
      */
     public Set<Entity> getAllEntities() {
         return this.listOfEntities;
     }
     /**
-     * Spawns a pickup based on the set of spawnable items
-     * @param unlockedItems
+     * Spawns a pickup based on the set of spawnable items.
+     * @param unlockedItems the set of unlocked {@link Items}
      */
     private void spawnPickUp(final Set<Items> unlockedItems) {
         this.pickUpHandler.spawnPickUp(unlockedItems);
     }
     /**
      * Stops the threads executing in {@link ObstacleHandker}
-     * and in {@link CoinGenerator}
+     * and in {@link CoinGenerator}.
      */
     public void stop() {
         this.obstacleHandler.over();
@@ -196,7 +198,7 @@ public class EntityHandler {
     }
     /**
      * Starts the threads executing in {@link ObstacleHandler}
-     * and in {@link CoinGenerator}
+     * and in {@link CoinGenerator}.
      */
     public void start() {
         this.obstacleHandler.start();
@@ -204,7 +206,7 @@ public class EntityHandler {
     }
     /**
      * Resets {@link ObstacleHandler}
-     * and {@link CoinGenerator}
+     * and {@link CoinGenerator}.
      */
     public void reset() {
         this.obstacleHandler.deactivateAllObstacles();

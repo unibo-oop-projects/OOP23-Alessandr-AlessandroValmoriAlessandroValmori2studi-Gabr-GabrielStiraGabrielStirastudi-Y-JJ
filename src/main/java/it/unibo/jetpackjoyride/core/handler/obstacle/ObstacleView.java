@@ -10,164 +10,167 @@ import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
  * @author gabriel.stira@studio.unibo.it
  */
 
- /**
-  * The view class used to render the view component of the obstacle entities
-  * 
-  */
+/**
+ * The view class used to render the view component of the obstacle entities
+ * 
+ */
 public final class ObstacleView extends AbstractEntityView {
 
     /**
      * The width of the {@link Missile} warning
-     *  */
-    private final static Double MISSILE_WARNING_X_DIMENSION = 80.0;
+     */
+    private static final Double MISSILE_WARNING_X_DIMENSION = 80.0;
 
     /**
      * The height of the {@link Missile} warning
-     *  */
-    private final static Double MISSILE_WARNING_Y_DIMENSION = 60.0;
+     */
+    private static final Double MISSILE_WARNING_Y_DIMENSION = 60.0;
 
     /**
      * The dimension change of the {@link Missile} warning
-     *  */
-    private final static Double MISSILE_WARNING_DIMENSION_CHANGE = 5.0;
+     */
+    private static final Double MISSILE_WARNING_DIMENSION_CHANGE = 5.0;
 
     /**
      * The speed at which the {@link Missile} warning changes dimension
-     * */
-    private final static Integer MISSILE_WARNING_DIMENSION_CHANGE_SPEED = 20;
+     */
+    private static final Integer MISSILE_WARNING_DIMENSION_CHANGE_SPEED = 20;
 
     /**
-     * The length of the {@link Missile} warning animation 
-     * */
-    private final static Integer MISSILE_WARNING_ANIMATION_LENGHT = 4;
+     * The length of the {@link Missile} warning animation
+     */
+    private static final Integer MISSILE_WARNING_ANIMATION_LENGHT = 4;
 
     /**
      * The length of the first sprite set of the {@link Missile} warning
-     *  */
-    private final static Integer MISSILE_WARNING_FIRST_NUM_SPRITES = 3;
+     */
+    private static final Integer MISSILE_WARNING_FIRST_NUM_SPRITES = 3;
 
     /**
-     * The length of the second sprite set of the {@link Missile} warning 
+     * The length of the second sprite set of the {@link Missile} warning
      */
-    private final static Integer MISSILE_WARNING_SECOND_NUM_SPRITES = 2;
+    private static final Integer MISSILE_WARNING_SECOND_NUM_SPRITES = 2;
 
     /**
      * The number of ticks of the first, more relaxed {@link Missile} warning
      */
 
-    private final static Integer MISSILE_WARNING_FIRST_TICKS = 90;
+    private static final Integer MISSILE_WARNING_FIRST_TICKS = 90;
 
     /**
      * The number of ticks of the second, more alarming {@link Missile} warning
-     *  */
-    private final static Integer MISSILE_WARNING_SECOND_TICKS = 100;
-    
-    /**
-     * The {@link Missile} width 
-     * */
-    private final static Double MISSILE_X_DIMENSION = 160.0;
+     */
+    private static final Integer MISSILE_WARNING_SECOND_TICKS = 100;
 
     /**
-     *  The {@link Missile} height
-     *  */
-    private final static Double MISSILE_Y_DIMENSION = 45.0;
+     * The {@link Missile} width
+     */
+    private static final Double MISSILE_X_DIMENSION = 160.0;
 
     /**
-     *  The length of the {@link Missile} animation
-     *  */
-    private final static Integer MISSILE_ANIMATION_LENGHT = 4;
+     * The {@link Missile} height
+     */
+    private static final Double MISSILE_Y_DIMENSION = 45.0;
+
+    /**
+     * The length of the {@link Missile} animation
+     */
+    private static final Integer MISSILE_ANIMATION_LENGHT = 4;
 
     /**
      * The length of the {@link Missile} sprite set
-     *  */
-    private final static Integer MISSILE_NUM_SPRITES = 7;
+     */
+    private static final Integer MISSILE_NUM_SPRITES = 7;
 
     /**
      * The width of the {@link Missile} explosion animation
-     *  */
-    private final static Double MISSILE_EXPLOSION_X_DIMENSION = 160.0;
+     */
+    private static final Double MISSILE_EXPLOSION_X_DIMENSION = 160.0;
 
     /**
      * The height of the {@link Missile} explosion animation
-     *  */
-    private final static Double MISSILE_EXPLOSION_Y_DIMENSION = 160.0;
+     */
+    private static final Double MISSILE_EXPLOSION_Y_DIMENSION = 160.0;
 
     /**
-     * The length of the {@link Missile} explosion animation 
-     * */
-    private final static Integer MISSILE_EXPLOSION_ANIMATION_LENGHT = 7;
+     * The length of the {@link Missile} explosion animation
+     */
+    private static final Integer MISSILE_EXPLOSION_ANIMATION_LENGHT = 7;
 
     /**
      * The number of sprites in the {@link Missile} explosion sprite set
-     *  */
-    private final static Integer MISSILE_EXPLOSION_NUM_SPRITES = 8;
+     */
+    private static final Integer MISSILE_EXPLOSION_NUM_SPRITES = 8;
 
     /**
-     * The width of the {@link Zapper} 
-     * */
-    private final static Double ZAPPER_X_DIMENSION = 215.0;
+     * The width of the {@link Zapper}
+     */
+    private static final Double ZAPPER_X_DIMENSION = 215.0;
 
     /**
      * The height of the {@link Zapper}
-     *  */
-    private final static Double ZAPPER_Y_DIMENSION = 90.0;
+     */
+    private static final Double ZAPPER_Y_DIMENSION = 90.0;
 
     /**
      * The length of the {@link Zapper} animation
      */
-    private final static Integer ZAPPER_ANIMATION_LENGHT = 6;
+    private static final Integer ZAPPER_ANIMATION_LENGHT = 6;
 
     /**
-     *  The number of sprites in the {@link Zapper} sprite set 
+     * The number of sprites in the {@link Zapper} sprite set
      */
-    private final static Integer ZAPPER_NUM_SPRITES = 4;
+    private static final Integer ZAPPER_NUM_SPRITES = 4;
 
     /**
-     * The length of the {@link Zapper}'s breaking animation 
+     * The length of the {@link Zapper}'s breaking animation
      */
-    private final static Integer ZAPPER_BROKEN_ANIMATION_LENGHT = 4;
-    
+    private static final Integer ZAPPER_BROKEN_ANIMATION_LENGHT = 4;
+
     /**
      * The number of sprites in the breaking {@link Zapper}'s sprite set
      */
-    private final static Integer ZAPPER_BROKEN_NUM_SPRITES = 16;
+    private static final Integer ZAPPER_BROKEN_NUM_SPRITES = 16;
 
     /**
-     * The width of the {@link Laser} 
+     * The width of the {@link Laser}
      */
-    private final static Double LASER_X_DIMENSION = 1150.0;
+    private static final Double LASER_X_DIMENSION = 1150.0;
 
     /**
-     * The height of the {@link Laser} 
+     * The height of the {@link Laser}
      */
-    private final static Double LASER_Y_DIMENSION = 30.0;
+    private static final Double LASER_Y_DIMENSION = 30.0;
 
     /**
-     * The length of the {@link Laser} animation 
+     * The length of the {@link Laser} animation
      */
-    private final static Integer LASER_ANIMATION_LENGHT = 8;
+    private static final Integer LASER_ANIMATION_LENGHT = 8;
 
     /**
-     * The number of sprites in the charging {@link Laser}'s sprite set 
+     * The number of sprites in the charging {@link Laser}'s sprite set
      */
-    private final static Integer LASER_CHARGING_NUM_SPRITES = 12;
+    private static final Integer LASER_CHARGING_NUM_SPRITES = 12;
 
     /**
-     * The number of sprite in the {@link Laser} beam sprite set 
-     * */
-    private final static Integer LASER_BEAM_NUM_SPRITES = 4;
+     * The number of sprite in the {@link Laser} beam sprite set
+     */
+    private static final Integer LASER_BEAM_NUM_SPRITES = 4;
 
     /**
-     * A field that contains the current animation length 
+     * A field that contains the current animation length
      */
     private int animationLenght;
 
-    /**An array used to symbolize wether an obstacle is charing, if it is active,
+    /**
+     * An array used to symbolize wether an obstacle is charing, if it is active,
      * or if it is deactivated
      */
     private int[] animationCounter;
+
     /**
      * The constructor for this view class
+     * 
      * @param images the whole set of images that will be used by the obstacle type
      */
     public ObstacleView(final List<Image> images) {
@@ -185,7 +188,7 @@ public final class ObstacleView extends AbstractEntityView {
             case MISSILE:
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        if(animationCounter[0] < MISSILE_WARNING_FIRST_TICKS) {
+                        if (animationCounter[0] < MISSILE_WARNING_FIRST_TICKS) {
                             this.width = MISSILE_WARNING_X_DIMENSION;
                             this.height = MISSILE_WARNING_Y_DIMENSION;
                         }
@@ -193,17 +196,22 @@ public final class ObstacleView extends AbstractEntityView {
                         this.animationFrame = (this.animationCounter[0]) / this.animationLenght
                                 % MISSILE_WARNING_FIRST_NUM_SPRITES;
 
-                        if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS && animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
+                        if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS
+                                && animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                             this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
                                     / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES);
-                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED  < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
-                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0] % MISSILE_WARNING_DIMENSION_CHANGE_SPEED  < MISSILE_WARNING_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
-                        } else { 
-                            if(animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
+                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
+                                    % MISSILE_WARNING_DIMENSION_CHANGE_SPEED < MISSILE_WARNING_DIMENSION_CHANGE_SPEED
+                                            / 2 ? 1.0 : -1.0);
+                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
+                                    % MISSILE_WARNING_DIMENSION_CHANGE_SPEED < MISSILE_WARNING_DIMENSION_CHANGE_SPEED
+                                            / 2 ? 1.0 : -1.0);
+                        } else {
+                            if (animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                                 this.animationCounter[0] = MISSILE_WARNING_FIRST_TICKS;
                                 this.width = MISSILE_WARNING_X_DIMENSION;
                                 this.height = MISSILE_WARNING_Y_DIMENSION;
-                            }  
+                            }
                         }
                         this.animationCounter[0]++;
                         break;
@@ -211,14 +219,17 @@ public final class ObstacleView extends AbstractEntityView {
                         this.width = MISSILE_X_DIMENSION;
                         this.height = MISSILE_Y_DIMENSION;
                         this.animationLenght = MISSILE_ANIMATION_LENGHT;
-                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES + ((animationCounter[1]) / animationLenght % MISSILE_NUM_SPRITES);
+                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
+                                + ((animationCounter[1]) / animationLenght % MISSILE_NUM_SPRITES);
                         this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
                         this.width = MISSILE_EXPLOSION_X_DIMENSION;
                         this.height = MISSILE_EXPLOSION_Y_DIMENSION;
                         this.animationLenght = MISSILE_EXPLOSION_ANIMATION_LENGHT;
-                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES + MISSILE_NUM_SPRITES + ((animationCounter[2]) / animationLenght % MISSILE_EXPLOSION_NUM_SPRITES);
+                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
+                                + MISSILE_NUM_SPRITES
+                                + ((animationCounter[2]) / animationLenght % MISSILE_EXPLOSION_NUM_SPRITES);
                         this.animationCounter[2]++;
                         break;
                     default:
@@ -241,7 +252,8 @@ public final class ObstacleView extends AbstractEntityView {
                         break;
                     case DEACTIVATED:
                         this.animationLenght = ZAPPER_BROKEN_ANIMATION_LENGHT;
-                        this.animationFrame = ZAPPER_NUM_SPRITES + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES);
+                        this.animationFrame = ZAPPER_NUM_SPRITES
+                                + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES);
                         if (this.animationFrame != ZAPPER_NUM_SPRITES + ZAPPER_BROKEN_NUM_SPRITES - 1) {
                             this.animationCounter[2]++;
                         }
@@ -260,15 +272,18 @@ public final class ObstacleView extends AbstractEntityView {
 
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES;
+                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght
+                                % LASER_CHARGING_NUM_SPRITES;
                         this.animationCounter[0]++;
                         break;
                     case ACTIVE:
-                        this.animationFrame = LASER_CHARGING_NUM_SPRITES + ((this.animationCounter[1]) / this.animationLenght % LASER_BEAM_NUM_SPRITES);
+                        this.animationFrame = LASER_CHARGING_NUM_SPRITES
+                                + ((this.animationCounter[1]) / this.animationLenght % LASER_BEAM_NUM_SPRITES);
                         this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        this.animationFrame = LASER_CHARGING_NUM_SPRITES - 1 + ((-animationCounter[2]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES);
+                        this.animationFrame = LASER_CHARGING_NUM_SPRITES - 1
+                                + ((-animationCounter[2]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES);
                         this.animationCounter[2]++;
                         break;
                     default:

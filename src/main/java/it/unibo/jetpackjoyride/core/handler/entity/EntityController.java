@@ -16,7 +16,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 /**
- * @author alessanro.valmori2@studio.unibo.it
+ * @author alessandro.valmori2@studio.unibo.it
  * @author gabriel.stira@studio.unibo.it
  */
 
@@ -28,7 +28,9 @@ import javafx.scene.Node;
 
 public class EntityController {
 
-    /** The model that incapsulates all other entity models */
+    /** 
+     * The model that incapsulates all other entity models 
+     * */
     private EntityHandler entityHandler;
 
     /**
@@ -44,10 +46,10 @@ public class EntityController {
     private Map<Entity, EntityView> modelViewMapper;
 
     /**
-     * The constructor which takes
+     * The constructor of the {@link EntityController} class.
      * 
-     * @param shop as a parameter, in order to then pass it down
-     *             to entity handler, which then uses shop to extract information
+     * @param shop the {@link ShopController}, only to pass it down
+     *             to {@link EntityHandler}, which then uses shop to extract information
      *             regarding unlocked items
      */
     public EntityController(ShopController shop) {
@@ -58,9 +60,9 @@ public class EntityController {
 
     /**
      * The update function which gets executed each frame, responsible
-     * for updating the {@link modelViewMapper} in its interity,
+     * for updating the {@link modelViewMapper} in its interity.
      * Its only responsibility is to update the view component of each entity model
-     * by extracting information through getter methods, never anyithing else.
+     * by extracting information through getter methods, never anything else.
      * 
      * @param entityGroup
      * @param isSpaceBarPressed
@@ -95,9 +97,10 @@ public class EntityController {
 
     /**
      * A utility function used to instanciate the view associated with the
+     * {@link Entity}.
      * 
-     * @param entity passed as parameter
-     * @return
+     * @param entity the {@link Entity}
+     * @return the {@link EntityView} constructed based on the {@link EntityType}
      */
     private EntityView viewImagesLoader(final Entity entity) {
         EntityView entityView;
@@ -126,20 +129,20 @@ public class EntityController {
         return entityView;
     }
 
-    /** A method used to signal {@link EntityHandler} to stop */
+    /** A method used to signal {@link EntityHandler} to stop.*/
     public void stop() {
         this.entityHandler.stop();
     }
 
     /**
-     * A method usede to signal {@link EntityHandler} to start
+     * A method usede to signal {@link EntityHandler} to start.
      */
     public void start() {
         this.entityHandler.start();
     }
 
     /**
-     * A method used to reset {@link EntityHandler}
+     * A method used to reset {@link EntityHandler}.
      */
     public void reset() {
         this.entityHandler.reset();

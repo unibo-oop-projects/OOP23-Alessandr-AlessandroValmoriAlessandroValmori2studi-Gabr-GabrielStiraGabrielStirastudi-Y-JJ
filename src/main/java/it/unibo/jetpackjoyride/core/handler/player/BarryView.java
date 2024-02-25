@@ -24,49 +24,52 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  */
 @SuppressWarnings("unchecked")
 public final class BarryView implements EntityView {
-    /**The imageview of Barry */
+    /**
+     * The imageview of Barry.
+     */
     private final ImageView imageView;
-    /** The imageview of the shield */
+    /** The imageview of the shield .*/
     private final ImageView shieldImageView;
     /**
      * The list of the current images which corresponing to the current
-     * Barry {@link PerformingAction}
+     * Barry {@link PerformingAction}.
      */
     private List<Image> images;
 
-    /**An instance of {@link GameInfo}, a singleton which contains information 
-     * about the current screen size
+    /**
+     * An instance of {@link GameInfo}, a singleton which contains information
+     * about the current screen size.
      */
     private final GameInfo infoResolution;
     /**
-     * A field that stores the most recent {@link PerformingAction} of Barry
+     * A field that stores the most recent {@link PerformingAction} of Barry.
      */
     private PerformingAction oldAction;
 
-    /**The width of the Barry sprite */
+    /** The width of the Barry sprite .*/
     private static final double BARRY_WIDTH = 75.0;
-    /**The height of the Barry sprite */
+    /** The height of the Barry sprite. */
     private static final double BARRY_HEIGHT = 100.0;
-    /**A custom circular iterator that repositions itself at
+    /**
+     * A custom circular iterator that repositions itself at
      * the beginning of the list, used here to loop through
-     * the image list, which is the player sprite sequence
+     * the image list, which is the player sprite sequence.
      */
     private CircularIterator<Image> iterator;
 
-    /** A map which associates each of Barry's {@link PerformingAction} 
+    /**
+     * A map which associates each of Barry's {@link PerformingAction}
      * to the corresponing list of images, initialized once.
      */
     private final Map<PerformingAction, List<Image>> statusMap = new HashMap<>();
-    /** The number of copies of each image in the list of images, used
-     * the regulate the number of frames before Barry's sprite changes
+    /**
+     * The number of copies of each image in the list of images, used
+     * the regulate the number of frames before Barry's sprite changes.
      */
     private static final int NUM_COPIES = 7;
 
     /**
-     * Constructs a new BarryView instance with the given list of images.
-     *
-     * @param images The list of images representing different animations of the
-     *               Barry entity.
+     * Constructs a new BarryView instance
      */
     public BarryView() {
         this.shieldImageView = new ImageView(new Image("sprites/entities/player/barrySHIELD.png"));
@@ -77,13 +80,6 @@ public final class BarryView implements EntityView {
         this.images = new ArrayList<>(this.statusMap.get(this.oldAction));
         this.iterator = new CircularIterator<>(this.images);
     }
-
-    /**
-     * Updates the visual representation of the Barry entity based on its current
-     * state.
-     *
-     * @param barry The Barry entity whose view needs to be updated.
-     */
 
     @Override
     public void updateView(final Entity entity) {
@@ -110,13 +106,13 @@ public final class BarryView implements EntityView {
 
         imageView.setImage(this.iterator.next());
 
-
         shieldImageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
         shieldImageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
 
         shieldImageView.setFitWidth(width);
         shieldImageView.setFitHeight(height);
     }
+
     /**
      * Builds the map that associates each of Barry's {@link PerformingAction}
      * to the corresponding set of sprites.
@@ -147,11 +143,13 @@ public final class BarryView implements EntityView {
     }
 
     @Override
-    public ImageView getImageView() {   
+    public ImageView getImageView() {
         return Collections.nCopies(1, this.imageView).get(0);
     }
+
     /**
      * Retrives the shields' imageView
+     * 
      * @return the shield's imageView
      */
     public ImageView getShieldImageView() {

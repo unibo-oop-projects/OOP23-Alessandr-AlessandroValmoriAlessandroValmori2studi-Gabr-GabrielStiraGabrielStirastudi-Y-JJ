@@ -12,147 +12,147 @@ public final class PowerUpView extends AbstractEntityView {
     /**
      * The width of the {@link LilStomper} power-up.
      */
-    private final static Double LILSTOMPER_X_DIMENSION = 320.0;
+    private static final Double LILSTOMPER_X_DIMENSION = 320.0;
 
     /**
      * The height of the {@link LilStomper} power-up.
      */
-    private final static Double LILSTOMPER_Y_DIMENSION = 240.0;
+    private static final Double LILSTOMPER_Y_DIMENSION = 240.0;
 
     /**
      * The speed of {@link LilStomper}'s walking animation.
      */
-    private final static Integer LILSTOMPER_WALKING_ANIMATION_SPEED = 7;
+    private static final Integer LILSTOMPER_WALKING_ANIMATION_SPEED = 7;
 
     /**
      * The number of sprites in {@link LilStomper}'s walking animation.
      */
-    private final static Integer LILSTOMPER_WALKING_NUM_SPRITES = 6;
+    private static final Integer LILSTOMPER_WALKING_NUM_SPRITES = 6;
 
     /**
      * The speed of {@link LilStomper}'s ascending animation.
      */
-    private final static Integer LILSTOMPER_ASCENDING_ANIMATION_SPEED = 4;
+    private static final Integer LILSTOMPER_ASCENDING_ANIMATION_SPEED = 4;
 
     /**
      * The number of sprites in {@link LilStomper}'s ascending animation.
      */
-    private final static Integer LILSTOMPER_ASCENDING_NUM_SPRITES = 7;
+    private static final Integer LILSTOMPER_ASCENDING_NUM_SPRITES = 7;
 
     /**
      * The speed of {@link LilStomper}'s gliding animation.
      */
-    private final static Integer LILSTOMPER_GLIDING_ANIMATION_SPEED = 6;
+    private static final Integer LILSTOMPER_GLIDING_ANIMATION_SPEED = 6;
 
     /**
      * The number of sprites in {@link LilStomper}'s gliding animation.
      */
-    private final static Integer LILSTOMPER_GLIDING_NUM_SPRITES = 4;
+    private static final Integer LILSTOMPER_GLIDING_NUM_SPRITES = 4;
 
     /**
      * The speed of {@link LilStomper}'s descending animation.
      */
-    private final static Integer LILSTOMPER_DESCENDING_ANIMATION_SPEED = 6;
+    private static final Integer LILSTOMPER_DESCENDING_ANIMATION_SPEED = 6;
 
     /**
      * The number of sprites in {@link LilStomper}'s descending animation.
      */
-    private final static Integer LILSTOMPER_DESCENDING_NUM_SPRITES = 3;
+    private static final Integer LILSTOMPER_DESCENDING_NUM_SPRITES = 3;
 
     /**
      * The speed of {@link LilStomper}'s landing animation.
      */
-    private final static Integer LILSTOMPER_LANDING_ANIMATION_SPEED = 4;
+    private static final Integer LILSTOMPER_LANDING_ANIMATION_SPEED = 4;
 
     /**
      * The number of sprites in {@link LilStomper}'s landing animation.
      */
-    private final static Integer LILSTOMPER_LANDING_NUM_SPRITES = 5;
+    private static final Integer LILSTOMPER_LANDING_NUM_SPRITES = 5;
 
     /**
      * The width of the {@link MrCuddles} power-up.
      */
-    private final static Double MRCUDDLES_X_DIMENSION = 640.0;
+    private static final Double MRCUDDLES_X_DIMENSION = 640.0;
 
     /**
      * The height of the {@link MrCuddles} power-up.
      */
-    private final static Double MRCUDDLES_Y_DIMENSION = 360.0;
+    private static final Double MRCUDDLES_Y_DIMENSION = 360.0;
 
     /**
      * The length of {@link MrCuddles}' animation.
      */
-    private final static Integer MRCUDDLES_ANIMATION_LENGHT = 5;
+    private static final Integer MRCUDDLES_ANIMATION_LENGHT = 5;
 
     /**
      * The number of sprites in {@link MrCuddles}' static animation.
      */
-    private final static Integer MRCUDDLE_STATIC_NUM_SPRITES = 1;
+    private static final Integer MRCUDDLE_STATIC_NUM_SPRITES = 1;
 
     /**
      * The number of sprites in {@link MrCuddles}' roaring animation.
      */
-    private final static Integer MRCUDDLE_ROARING_NUM_SPRITES = 4;
+    private static final Integer MRCUDDLE_ROARING_NUM_SPRITES = 4;
 
     /**
      * The width of the {@link ProfitBird} power-up.
      */
-    private final static Double PROFITBIRD_X_DIMENSION = 180.0;
+    private static final Double PROFITBIRD_X_DIMENSION = 180.0;
 
     /**
      * The height of the {@link ProfitBird} power-up.
      */
-    private final static Double PROFITBIRD_Y_DIMENSION = 120.0;
+    private static final Double PROFITBIRD_Y_DIMENSION = 120.0;
 
     /**
      * The length of {@link ProfitBird}'s walking animation.
      */
-    private final static Integer PROFITBIRD_WALKING_ANIMATION_LENGHT = 7;
+    private static final Integer PROFITBIRD_WALKING_ANIMATION_LENGHT = 7;
 
     /**
      * The number of sprites in {@link ProfitBird}'s walking animation.
      */
-    private final static Integer PROFITBIRD_WALKING_NUM_SPRITES = 3;
+    private static final Integer PROFITBIRD_WALKING_NUM_SPRITES = 3;
 
     /**
      * The length of {@link ProfitBird}'s jumping animation.
      */
-    private final static Integer PROFITBIRD_JUMPING_ANIMATION_LENGHT = 6;
+    private static final Integer PROFITBIRD_JUMPING_ANIMATION_LENGHT = 6;
 
     /**
      * The number of sprites in {@link ProfitBird}'s jumping animation.
      */
-    private final static Integer PROFITBIRD_JUMPING_NUM_SPRITES = 1;
+    private static final Integer PROFITBIRD_JUMPING_NUM_SPRITES = 1;
 
     /**
      * The length of {@link ProfitBird}'s ascending animation.
      */
-    private final static Integer PROFITBIRD_ASCENDING_ANIMATION_LENGHT = 1;
+    private static final Integer PROFITBIRD_ASCENDING_ANIMATION_LENGHT = 1;
 
     /**
      * The number of sprites in {@link ProfitBird}'s ascending animation.
      */
-    private final static Integer PROFITBIRD_ASCENDING_NUM_SPRITES = 8;
+    private static final Integer PROFITBIRD_ASCENDING_NUM_SPRITES = 8;
 
     /**
      * The width of the {@link DukeFishron} power-up.
      */
-    private final static Double DUKEFISHRON_X_DIMENSION = 320.0;
+    private static final Double DUKEFISHRON_X_DIMENSION = 320.0;
 
     /**
      * The height of the {@link DukeFishron} power-up.
      */
-    private final static Double DUKEFISHRON_Y_DIMENSION = 240.0;
+    private static final Double DUKEFISHRON_Y_DIMENSION = 240.0;
 
     /**
      * The length of {@link DukeFishron}'s animation.
      */
-    private final static Integer DUKEFISHRON_ANIMATION_LENGHT = 6;
+    private static final Integer DUKEFISHRON_ANIMATION_LENGHT = 6;
 
     /**
      * The number of sprites in {@link DukeFishron}'s ascending animation.
      */
-    private final static Integer DUKEFISHRON_ASCENDING_NUM_SPRITES = 6;
+    private static final Integer DUKEFISHRON_ASCENDING_NUM_SPRITES = 6;
 
     /**
      * A field that contains the current animation length.

@@ -33,7 +33,7 @@ public final class Zapper extends AbstractObstacle {
      */
     public Zapper(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.ZAPPER, newMovement, hitbox);
-        this.setEntityStatus(EntityStatus.INACTIVE);
+        this.setEntityStatus(EntityStatus.ACTIVE);
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.setEntityMovement(new Movement.Builder()

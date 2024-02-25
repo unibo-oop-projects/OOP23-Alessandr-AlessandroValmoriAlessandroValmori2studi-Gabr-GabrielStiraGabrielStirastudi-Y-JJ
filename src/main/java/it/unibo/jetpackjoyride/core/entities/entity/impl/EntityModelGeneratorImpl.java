@@ -41,7 +41,7 @@ import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectExceptio
  * 
  * @author gabriel.stira@studio.unibo.it
  */
-public class EntityModelGeneratorImpl implements EntityModelGenerator {
+public final class EntityModelGeneratorImpl implements EntityModelGenerator {
     /*
      * Define the dimensions of the hitbox of the obstacles.
      */
@@ -229,9 +229,9 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
 
     @Override
     public Barry generateBarry() {
-        Movement barryMovement = new Movement.Builder().setPosition(BARRY_STARTING_POS)
+        final Movement barryMovement = new Movement.Builder().setPosition(BARRY_STARTING_POS)
                 .setMovementChangers(List.of(MovementChangers.GRAVITY, MovementChangers.BOUNDS)).build();
-        Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(),
+        final Hitbox barryHitbox = new HitboxImpl(barryMovement.getPosition(),
                 BARRY_HITBOX_DIMENSIONS,
                 0.0);
         return new BarryImpl(barryMovement, barryHitbox);

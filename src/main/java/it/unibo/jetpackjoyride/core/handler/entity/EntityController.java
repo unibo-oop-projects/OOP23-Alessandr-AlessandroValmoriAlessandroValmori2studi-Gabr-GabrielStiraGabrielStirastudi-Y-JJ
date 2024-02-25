@@ -29,19 +29,19 @@ public class EntityController {
     /** 
      * The model that incapsulates all other entity models .
      * */
-    private EntityHandler entityHandler;
+    private final EntityHandler entityHandler;
 
     /**
      * A utility class used to calculate the corresponding
      * list of images based on model information.
      */
-    private EntityImageLoader imageLoader = new EntityImageLoader();
+    private final EntityImageLoader imageLoader = new EntityImageLoader();
     /**
      * A map used to maintain a correspondence between active entities
      * and the associated view, mainly used for boosting performance, in order
      * not to reinstanciate the view of each model every update cycle.
      */
-    private Map<Entity, EntityView> modelViewMapper;
+    private final Map<Entity, EntityView> modelViewMapper;
 
     /**
      * The constructor of the {@link EntityController} class.
@@ -77,8 +77,8 @@ public class EntityController {
                 entityGroup.getChildren().add(entityView.getImageView());
             }
             if (entity instanceof BarryImpl) {
-                var shield = ((BarryView) this.modelViewMapper.get(entity)).getShieldImageView();
-                if ((((BarryImpl) entity).hasShield()) && !entityGroup.getChildren().contains(shield)) {
+                final var shield = ((BarryView) this.modelViewMapper.get(entity)).getShieldImageView();
+                if (((BarryImpl) entity).hasShield() && !entityGroup.getChildren().contains(shield)) {
                     entityGroup.getChildren().add(shield);
                 } else if (entityGroup.getChildren().contains(shield) && !(((BarryImpl) entity).hasShield())) {
                     entityGroup.getChildren().remove(shield);
@@ -120,7 +120,7 @@ public class EntityController {
                     throw new NotImplementedObjectException("Tried to spawn an alien entity");
 
             }
-        } catch (Exception e) {
+        } catch (NotImplementedObjectException e) {
             entityView = new ObstacleView(this.imageLoader.loadImages(entity));
         }
 

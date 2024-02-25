@@ -5,7 +5,7 @@ import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 
-public class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
+public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
     private ShopController shopController;
 

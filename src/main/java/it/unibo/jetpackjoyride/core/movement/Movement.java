@@ -1,5 +1,6 @@
 package it.unibo.jetpackjoyride.core.movement;
 
+import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.*;
@@ -126,17 +127,17 @@ public final class Movement {
      * @param toModifyRotation    The rotation modified by the changers.
      * @return The modified movement characteristics (as a record).
      */
-    private MovCharacterizing applyModifiers(Pair<Double, Double> toModifyPosition,
-                                         Pair<Double, Double> toModifySpeed,
-                                         Pair<Double, Double> toModifyAcceleration,
-                                         Pair<Double, Double> toModifyRotation) {
+    private MovCharacterizing applyModifiers(final Pair<Double, Double> toModifyPosition,
+                                             final Pair<Double, Double> toModifySpeed,
+                                             final Pair<Double, Double> toModifyAcceleration,
+                                             final Pair<Double, Double> toModifyRotation) {
         Pair<Double, Double> modifiedPosition = new Pair<>(toModifyPosition.get1(), toModifyPosition.get2());
         Pair<Double, Double> modifiedSpeed = new Pair<>(toModifySpeed.get1(), toModifySpeed.get2());
-        Pair<Double, Double> modifiedAcceleration = new Pair<>(toModifyAcceleration.get1(), toModifyAcceleration.get2());
+        final Pair<Double, Double> modifiedAcceleration = new Pair<>(toModifyAcceleration.get1(), toModifyAcceleration.get2());
         Pair<Double, Double> modifiedRotation = new Pair<>(toModifyRotation.get1(), toModifyRotation.get2());
 
     // Applying modifiers
-    for (MovementChangers changer : listOfChangers) {
+    for (final MovementChangers changer : listOfChangers) {
         switch (changer) {
              /* GRAVITY */ /* The entity will be constantly accelerated downwards*/
             case GRAVITY:
@@ -220,7 +221,8 @@ public final class Movement {
      * happens a lot, but the number of entities which do this at all times is generally really low).
      * 
      */
-    public static class Builder {
+    @SuppressWarnings("LinguisticNaming")
+    public static final class Builder {
 
         private static final Pair<Double, Double> DEFAULT = new Pair<>(0.0,0.0);
 
@@ -276,7 +278,7 @@ public final class Movement {
             return this;
         }
 
-        public final Movement build() {
+        public Movement build() {
             if (consumed) {
                 throw new IllegalStateException("The builder can only be used once");
             }

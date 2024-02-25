@@ -36,15 +36,15 @@ public final class ObstacleHandler {
     /**
      * Defines the class used to handle the generation of obstacles.
      */
-    private ObstacleLoader obstacleLoader;
+    private final ObstacleLoader obstacleLoader;
     /**
      * Defines the set which contains all obstacles which are in a CHARGING, ACTIVE or DEACTIVATED status.
      */
-    private Set<Obstacle> setOfObstacles;
+    private final Set<Obstacle> setOfObstacles;
     /**
      * Defines the thread used to handle the generation of obstacles separately from the updating and managing.
      */
-    private Timeline timeline;
+    private final Timeline timeline;
 
     /**
      * Constructor used to initialize the various elements described before.

@@ -53,11 +53,8 @@ public class EntityHandler {
     /** The Barry entity. */
     private Barry player;
 
-    /** The class responsible for coin generation, collection and positioning . */
+    /** The class responsible for coin generation, collection and positioning. */
     private CoinGenerator coinHandler;
-
-    /** A factory class used to generate a desired enity model. */
-    private EntityModelGenerator entityGenerator;
 
     /**
      * The set of unlocked items, retrieved by the {@link ShopController}
@@ -89,14 +86,14 @@ public class EntityHandler {
      *                       set of unlocked {@link Items}.
      */
     public void initialize(final ShopController shopController) {
+        final EntityModelGenerator entityGenerator = new EntityModelGeneratorImpl();
         this.unlockedItems = shopController.getUnlocked();
-        this.entityGenerator = new EntityModelGeneratorImpl();
         this.listOfEntities = new HashSet<>();
 
         this.obstacleHandler = new ObstacleHandler();
         this.powerUpHandler = new PowerUpHandler();
         this.pickUpHandler = new PickUpHandler(this.unlockedItems);
-        this.player = this.entityGenerator.generateBarry();
+        this.player = entityGenerator.generateBarry();
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
 
         this.isUsingPowerUp = false;

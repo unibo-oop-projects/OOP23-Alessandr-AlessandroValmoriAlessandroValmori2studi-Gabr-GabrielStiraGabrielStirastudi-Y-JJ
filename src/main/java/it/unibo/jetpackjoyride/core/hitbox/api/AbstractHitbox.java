@@ -24,7 +24,7 @@ public abstract class AbstractHitbox implements Hitbox {
     /**
      * Defines the dimensions (width, height) of the hitbox.
      */
-    private Pair<Double, Double> hitboxDimensions;
+    private final Pair<Double, Double> hitboxDimensions;
     /**
      * Defines the current position and center of the hitbox.
      * Since the hitbox is a rectangle, the center is the point of intersection of the diagonals.

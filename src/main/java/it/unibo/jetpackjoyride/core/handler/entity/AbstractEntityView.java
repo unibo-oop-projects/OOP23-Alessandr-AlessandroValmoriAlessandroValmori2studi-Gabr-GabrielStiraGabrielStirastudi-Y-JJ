@@ -1,9 +1,18 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
+import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +54,7 @@ public abstract class AbstractEntityView implements EntityView {
      * @param entity The entity whose imageView is associated.
      */
     @Override
-    public void updateView(Entity entity) {
+    public void updateView(final Entity entity) {
         this.animateFrames(entity);
 
         final GameInfo infoResolution = GameInfo.getInstance();
@@ -63,14 +72,22 @@ public abstract class AbstractEntityView implements EntityView {
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        imageView.setImage(images.get(animationFrame));
+        if(this.animationFrame < this.images.size()) {
+            imageView.setImage(this.images.get(this.animationFrame));
+        } else {
+            final Canvas canvas = new Canvas(width, height);
+            final GraphicsContext graphics = canvas.getGraphicsContext2D();
+            graphics.setFill(entity.getEntityType().equals(EntityType.OBSTACLE) ? Color.RED : entity.getEntityType().equals(EntityType.POWERUP) ? Color.GREEN : Color.AQUA);
+            graphics.fillRect(0, 0, width, height);
+            this.imageView.setImage(canvas.snapshot(null, null));
+        }
     }
 
     /**
      * 
      * @param entity The entity whose ImageView has to be computed.
      */
-    protected abstract void animateFrames(final Entity entity);
+    protected abstract void animateFrames(Entity entity);
 
     @Override
     public ImageView getImageView() {

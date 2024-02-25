@@ -182,7 +182,7 @@ public final class PowerUpView extends AbstractEntityView {
     }
 
     @Override
-    protected void animateFrames(Entity entity) {
+    protected void animateFrames(final Entity entity) {
         @SuppressWarnings("unchecked")
         final PowerUp powerUp = (PowerUp) entity;
 
@@ -272,7 +272,6 @@ public final class PowerUpView extends AbstractEntityView {
                             animationFrame = 0;
                             break;
                     }
-                    System.out.println("frame: " + animationFrame);
                 } else {
                     animationFrame = MRCUDDLE_STATIC_NUM_SPRITES + MRCUDDLE_ROARING_NUM_SPRITES;
                 }

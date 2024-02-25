@@ -11,11 +11,14 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
 import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Zapper;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.ShieldPickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
 
 import java.util.Collections;
 import javafx.scene.image.Image;
@@ -118,7 +121,7 @@ public class EntityImageLoader {
     public List<Image> loadImages(final Entity entity) {
         switch (entity.getEntityType()) {
             case OBSTACLE:
-                Obstacle obstacle = (Obstacle) entity;
+                final Obstacle obstacle = (Obstacle) entity;
                 switch (obstacle.getObstacleType()) {
                     case MISSILE:
                         return takeImages(this.obstacleImages, 0, MISSILESPRITES - 1);
@@ -129,7 +132,7 @@ public class EntityImageLoader {
                                 MISSILESPRITES + ZAPPERSPRITES + LASERSPRITES - 1);
                 }
             case POWERUP:
-                PowerUp powerUp = (PowerUp) entity;
+                final PowerUp powerUp = (PowerUp) entity;
                 switch (powerUp.getPowerUpType()) {
                     case LILSTOMPER:
                         return takeImages(this.powerupImages, 0, LILSTOMPERSPRITES - 1);
@@ -144,7 +147,7 @@ public class EntityImageLoader {
                                 LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES + DUKEFISHRONSPRITES - 1);
                 }
             case PICKUP:
-                PickUp pickUp = (PickUp) entity;
+                final PickUp pickUp = (PickUp) entity;
                 switch (pickUp.getPickUpType()) {
                     case VEHICLE:
                         return takeImages(this.pickupImages, 0, VEHICLEPICKUPSPRITES - 1);
@@ -184,7 +187,7 @@ public class EntityImageLoader {
                     .mapToObj(i -> new Image(
                             getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
                     .toList();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             return List.of();
         }
     }

@@ -81,6 +81,7 @@ public class EntityTest{
 
         entity.setEntityMovement(new Movement.Builder().setPosition(FIVEHUNDREDPAIR).build());
         assertEquals(entity.getEntityMovement().getPosition(), FIVEHUNDREDPAIR);
+        
         entity.setEntityMovement(new Movement.Builder().setPosition(FIVEHUNDREDPAIR).setSpeed(1.0,2.0).build());
         assertEquals(entity.getEntityMovement().getSpeed(), new Pair<>(1.0, 2.0));
 

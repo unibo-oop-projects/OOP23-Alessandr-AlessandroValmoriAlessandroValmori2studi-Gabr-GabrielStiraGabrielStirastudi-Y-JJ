@@ -8,12 +8,16 @@ package it.unibo.jetpackjoyride.utilities.exceptions;
  */
 public class InvalidDataFormatException extends Exception {
     /**
+     * Defines the unique original class version.
+     */
+    private static final long serialVersionUID = 1L;
+    /**
      * Constructor to create a new InvalidDataFormatException with the specified
      * detail message.
      *
      * @param message The message describing what and where something went wrong.
      */
-    public InvalidDataFormatException(String message) {
+    public InvalidDataFormatException(final String message) {
         super(message);
     }
 }

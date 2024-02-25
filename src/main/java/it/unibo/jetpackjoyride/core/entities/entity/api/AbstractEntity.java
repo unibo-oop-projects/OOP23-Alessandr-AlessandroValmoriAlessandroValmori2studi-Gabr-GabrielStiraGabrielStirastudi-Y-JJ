@@ -30,7 +30,7 @@ public abstract class AbstractEntity implements Entity {
     /**
      * Collision of the entity.
      */
-    private Hitbox hitbox;
+    private final Hitbox hitbox;
 
     /**
      * The age (in terms of update method calls) of the entity.

@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.core.statistical.impl;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsModel;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
@@ -11,8 +10,7 @@ import it.unibo.jetpackjoyride.utilities.GameInfo;
  */
 public final class GameStats implements GameStatsModel {
 
-    private static AtomicInteger coins = new AtomicInteger();
-
+    private static int coins;
     private int bestDistance;
     private int currentDistance; 
 
@@ -30,7 +28,7 @@ public final class GameStats implements GameStatsModel {
  * @param num the number of coins to add to the total count. This number can be negative.
  */
     public static void updateCoins(final int num) {
-        coins.getAndUpdate(value -> Math.max(value + num, 0));
+               coins = Math.max(coins + num, 0);
     }
 
 /**
@@ -39,12 +37,12 @@ public final class GameStats implements GameStatsModel {
  * @return the total number of coins
  */
     public static int getCoins() {
-        return coins.get();
+        return coins;
     }
 
     @Override
     public void setCoins(final int num) {
-        coins.set(num);
+         coins = num;
     }
 
     @Override

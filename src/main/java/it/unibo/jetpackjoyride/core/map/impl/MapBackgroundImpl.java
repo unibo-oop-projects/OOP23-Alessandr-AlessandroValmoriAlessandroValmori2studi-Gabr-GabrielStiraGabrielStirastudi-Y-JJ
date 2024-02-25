@@ -25,7 +25,7 @@ public final class MapBackgroundImpl implements MapBackground {
     private static final int DURATION_SECONDS = 15;
     private static final int BGIMAGE_ONE = 0;
     private static final int BGIMAGE_TWO = 1;
-    private static final int TIMES_FOR_CHANGE = 10;
+    private static final int TIMES_FOR_CHANGE = 2;
     private static final double EPSILON = 0.000001;
 
     private final MapBackgroundModel model;

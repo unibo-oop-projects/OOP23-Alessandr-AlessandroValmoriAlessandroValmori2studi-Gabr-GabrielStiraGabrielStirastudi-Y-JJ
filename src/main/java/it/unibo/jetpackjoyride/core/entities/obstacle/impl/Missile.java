@@ -13,7 +13,7 @@ import java.util.List;
  * The {@link Missile} class defines one of the obstacles implemented
  * in the game. Since it extends {@link AbstractObstacle}, it inherits all
  * methods and behaviours of {@link Entity} and {@link Obstacle}.
- * Missile are really fast and could easily hit an unprepared player, but to 
+ * Missile are really fast and can easily hit an unprepared player, but to 
  * compensate that, they are small entities and warn the player about where 
  * from they will launch.
  *  

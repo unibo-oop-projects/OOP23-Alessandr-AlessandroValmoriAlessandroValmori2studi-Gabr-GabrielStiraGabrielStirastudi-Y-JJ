@@ -5,7 +5,7 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
 
 /**
  * The {@link AbstractEntity} class implements all the methods of {@link Entity} and defines the 
- * common proprierties and behaviours of all entities.
+ * common properties and behaviours of all entities.
  * 
  * @author gabriel.stira@studio.unibo.it
  */

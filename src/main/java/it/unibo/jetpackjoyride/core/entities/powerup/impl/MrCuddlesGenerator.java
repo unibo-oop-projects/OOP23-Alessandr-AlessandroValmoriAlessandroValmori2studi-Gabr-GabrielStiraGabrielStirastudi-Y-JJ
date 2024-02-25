@@ -7,10 +7,11 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
-
 /**
- * The {@link MrCuddlesGenerator} class is used to generate both the head and the body
- * pieces which form the complete powerup MrCuddle. Uses the {@link MrCuddles} class to
+ * The {@link MrCuddlesGenerator} class is used to generate both the head and
+ * the body
+ * pieces which form the complete powerup MrCuddle. Uses the {@link MrCuddles}
+ * class to
  * generate a list of powerup, which is what the "powerup MrCuddle" actually is.
  * 
  * @author gabriel.stira@studio.unibo.it
@@ -25,7 +26,8 @@ public final class MrCuddlesGenerator {
      */
     private static final Integer DISTANCE_BETWEEN_PIECES = 36;
     /*
-     * Defines the distance the first body piece will additionally have form the head.
+     * Defines the distance the first body piece will additionally have form the
+     * head.
      */
     private static final Integer DISTANCE_FROM_HEAD = 10;
     /**
@@ -37,7 +39,7 @@ public final class MrCuddlesGenerator {
      * Constructor used to create a MrCuddle powerup as a list of powerup.
      * 
      * @param powerUpMovement The movement characteristics of the mrcuddle powerup.
-     * @param powerUpHitbox The collision characteristics of the mrcuddle powerup.
+     * @param powerUpHitbox   The collision characteristics of the mrcuddle powerup.
      */
     public MrCuddlesGenerator(final Movement powerUpMovement, final Hitbox powerUpHitbox) {
         this.mrCuddles = new ArrayList<>();
@@ -45,13 +47,13 @@ public final class MrCuddlesGenerator {
         for (int i = MRCUDDLES_LENGHT - 1; i >= 0; i--) {
 
             final Movement delayedMovement = new Movement.Builder()
-                .setPosition(powerUpMovement.getPosition().get1() - DISTANCE_BETWEEN_PIECES * i - (i != 0 ? DISTANCE_FROM_HEAD : 0), powerUpMovement.getPosition().get2())
-                .setSpeed(powerUpMovement.getSpeed())
-                .setAcceleration(powerUpMovement.getAcceleration())
-                .setRotation(powerUpMovement.getRotation())
-                .setMovementChangers(powerUpMovement.getMovementChangers())
-                .build();
-
+                    .setPosition(powerUpMovement.getPosition().get1() - DISTANCE_BETWEEN_PIECES * i
+                            - (i != 0 ? DISTANCE_FROM_HEAD : 0), powerUpMovement.getPosition().get2())
+                    .setSpeed(powerUpMovement.getSpeed())
+                    .setAcceleration(powerUpMovement.getAcceleration())
+                    .setRotation(powerUpMovement.getRotation())
+                    .setMovementChangers(powerUpMovement.getMovementChangers())
+                    .build();
 
             final PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);
             this.mrCuddles.add(mrCuddlesBody);
@@ -59,7 +61,8 @@ public final class MrCuddlesGenerator {
     }
 
     /**
-     * Generates and returns the MrCuddle powerup as a list of powerup. 
+     * Generates and returns the MrCuddle powerup as a list of powerup.
+     * 
      * @return The MrCuddle powerup as a list of powerup.
      */
     public List<PowerUp> generateMrCuddle() {

@@ -1,6 +1,5 @@
 package it.unibo.jetpackjoyride.core;
 
-
 import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
@@ -21,7 +20,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * The GameLoop class manages the main game loop and manages different game stages.
+ * The GameLoop class manages the main game loop and manages different game
+ * stages.
  */
 public final class GameLoop implements GameLoopControl {
 
@@ -41,10 +41,12 @@ public final class GameLoop implements GameLoopControl {
     private boolean spacePressed;
 
     /**
-     * Constructs a GameLoop object with the specified stage and game statistics controller.
+     * Constructs a GameLoop object with the specified stage and game statistics
+     * controller.
      * All necessary instances are initialized here.
-     * @param stage               the primary stage for the game
-     * @param shopController The shopController 
+     * 
+     * @param stage          the primary stage for the game
+     * @param shopController The shopController
      */
     public GameLoop(final Stage stage, final ShopController shopController) {
         this.stage = stage;
@@ -64,8 +66,12 @@ public final class GameLoop implements GameLoopControl {
         gameInfo.updateInfo(gameInfo.getDefaultWidth(), gameInfo.getDefaultHeight());
         gameScene = new Scene(root, gameInfo.getScreenWidth(), gameInfo.getScreenHeight());
 
-        gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? true : false);
-        gameScene.setOnKeyReleased(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE) ? false : true);
+        gameScene.setOnKeyPressed(event -> this.spacePressed = event.getCode().equals(KeyCode.SPACE));
+        gameScene.setOnKeyReleased(event ->{
+            if(event.getCode().equals(KeyCode.SPACE)){
+                this.spacePressed = false;
+            }
+        });
 
         setupTimer();
 

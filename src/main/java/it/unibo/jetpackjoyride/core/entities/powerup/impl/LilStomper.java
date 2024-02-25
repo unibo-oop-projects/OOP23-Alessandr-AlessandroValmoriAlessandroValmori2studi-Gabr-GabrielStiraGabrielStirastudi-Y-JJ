@@ -50,7 +50,7 @@ public final class LilStomper extends AbstractPowerUp {
      * Constructor used to create an instance of the class LilStomper.
      * 
      * @param movement The movement characteristics of the lilstomper powerup.
-     * @param hitbox The collision characteristics of the lilstomper powerup.
+     * @param hitbox   The collision characteristics of the lilstomper powerup.
      */
     public LilStomper(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.LILSTOMPER, movement, hitbox);
@@ -59,8 +59,11 @@ public final class LilStomper extends AbstractPowerUp {
     }
 
     /**
-     * Updates status and movement of the lilstomper entity based on its position and if the spacebar is pressed.
-     * @param isSpaceBarPressed Is used to calculate the height of the jump and if the player wants to glide.
+     * Updates status and movement of the lilstomper entity based on its position
+     * and if the spacebar is pressed.
+     * 
+     * @param isSpaceBarPressed Is used to calculate the height of the jump and if
+     *                          the player wants to glide.
      */
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
@@ -77,11 +80,12 @@ public final class LilStomper extends AbstractPowerUp {
                 if (this.loadJump == MAX_TICKS_FOR_JUMP || !isSpaceBarPressed) {
 
                     this.setEntityMovement(new Movement.Builder()
-                    .setAcceleration(this.getEntityMovement().getAcceleration())
-                    .setSpeed(this.getEntityMovement().getSpeed().get1(), (-this.loadJump * TICK_JUMP_HEIGHT_SPEED - BASE_JUMP_HEIGHT_SPEED))
-                    .setPosition(this.getEntityMovement().getPosition())
-                    .setRotation(this.getEntityMovement().getRotation())
-                    .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                            .setAcceleration(this.getEntityMovement().getAcceleration())
+                            .setSpeed(this.getEntityMovement().getSpeed().get1(),
+                                    (-this.loadJump * TICK_JUMP_HEIGHT_SPEED - BASE_JUMP_HEIGHT_SPEED))
+                            .setPosition(this.getEntityMovement().getPosition())
+                            .setRotation(this.getEntityMovement().getRotation())
+                            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
 
                     this.loadJump = 0;
                     this.setPerformingAction(PerformingAction.ASCENDING);
@@ -106,11 +110,11 @@ public final class LilStomper extends AbstractPowerUp {
             case GLIDING:
                 if (isSpaceBarPressed) {
                     this.setEntityMovement(new Movement.Builder()
-                    .setAcceleration(this.getEntityMovement().getAcceleration())
-                    .setSpeed(this.getEntityMovement().getSpeed().get1(), DESCENDING_BASE_SPEED)
-                    .setPosition(this.getEntityMovement().getPosition())
-                    .setRotation(this.getEntityMovement().getRotation())
-                    .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                            .setAcceleration(this.getEntityMovement().getAcceleration())
+                            .setSpeed(this.getEntityMovement().getSpeed().get1(), DESCENDING_BASE_SPEED)
+                            .setPosition(this.getEntityMovement().getPosition())
+                            .setRotation(this.getEntityMovement().getRotation())
+                            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
                 } else {
                     this.setPerformingAction(PerformingAction.DESCENDING);
                 }

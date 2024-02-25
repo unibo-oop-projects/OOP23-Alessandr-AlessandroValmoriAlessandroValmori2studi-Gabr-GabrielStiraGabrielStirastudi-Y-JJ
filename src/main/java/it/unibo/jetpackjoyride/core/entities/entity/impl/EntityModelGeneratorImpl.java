@@ -99,14 +99,6 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
     private final static Pair<Double, Double> VEHICLE_PICKUP_BASE_SPEED = new Pair<>(-3.0, 0.0);
     private final static Pair<Double, Double> SHIELD_PICKUP_BASE_SPEED = new Pair<>(-5.0, 0.0);
 
-    /**
-     * Generates an obstacle entity based on the specified obstacle type and
-     * movement.
-     *
-     * @param obstacleType     The type of obstacle to generate.
-     * @param obstacleMovement The movement characteristics of the obstacle.
-     * @return An instance of {@link Obstacle} representing the generated obstacle.
-     */
     @Override
     public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {
         Hitbox obstacleHitbox;
@@ -147,16 +139,6 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
         return obstacleModel;
     }
 
-    /**
-     * Generates a list of power-ups based on the specified power-up type.
-     * A list has been chosen instead of a single PowerUp because of certain
-     * powerups consisting in
-     * more pieces (MrCuddle) which all have their own movement, sprite, etc...
-     * 
-     * @param powerUpType The type of power-up to generate.
-     * @return A list of {@link PowerUp} instances representing the generated
-     *         power-ups.
-     */
     @Override
     public List<PowerUp> generatePowerUp(final PowerUpType powerUpType) {
         Movement powerUpMovement;
@@ -208,12 +190,6 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
         return powerUpModels;
     }
 
-    /**
-     * Generates a pickup based on the specified pickup type.
-     *
-     * @param pickUpType The type of pickup to generate.
-     * @return An instance of {@link PickUp} representing the generated pickup.
-     */
     @Override
     public PickUp generatePickUp(final PickUpType pickUpType) {
         Movement pickUpMovement;
@@ -251,11 +227,6 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
         return pickUpModel;
     }
 
-    /**
-     * Generates the Barry entity.
-     *
-     * @return An instance of {@link Barry}.
-     */
     @Override
     public Barry generateBarry() {
         Movement barryMovement = new Movement.Builder().setPosition(BARRY_STARTING_POS)

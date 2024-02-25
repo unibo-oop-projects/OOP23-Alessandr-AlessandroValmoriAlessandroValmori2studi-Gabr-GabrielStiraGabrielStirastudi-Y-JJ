@@ -5,6 +5,7 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 /**
  * The {@link Obstacle} interface defines the methods used by the Obstacle
  * entities in the game. Currently, three types of obstacles are implemented.
+ * Obstacles are entities which can cause the player to lose the game if hit.
  *
  * @author gabriel.stira@studio.unibo.it
  */

@@ -12,13 +12,12 @@ import it.unibo.jetpackjoyride.core.movement.Movement;
  * @author gabriel.stira@studio.unibo.it
  */
 public abstract class AbstractObstacle extends AbstractEntity implements Obstacle {
-
     /*
      * The type of the obstacle
      */
-    protected final ObstacleType obstacleType;
+    private final ObstacleType obstacleType;
 
-      /**
+    /**
      * Constructor used to create a new AbstractObstacle.
      *
      * @param obstacleType The type of the obstacle.
@@ -31,11 +30,6 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
         this.entityStatus = EntityStatus.INACTIVE;
     }
 
-     /**
-     * Gets the type of obstacle.
-     *
-     * @return The obstacle type.
-     */
     @Override
     public ObstacleType getObstacleType() {
         return this.obstacleType;

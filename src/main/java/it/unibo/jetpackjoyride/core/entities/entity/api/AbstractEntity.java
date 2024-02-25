@@ -52,32 +52,16 @@ public abstract class AbstractEntity implements Entity {
         this.entityStatus = EntityStatus.INACTIVE; // Initially, by default, entity's status is set to INACTIVE
     }
 
-    /**
-     * Gets the movement characteristics of the entity.
-     *
-     * @return The movement characteristics of the entity.
-     */
     @Override
     public Movement getEntityMovement() {
         return this.movement;
     }
 
-    /**
-     * Gets the type of the entity.
-     *
-     * @return The type of the entity.
-     */
     @Override
     public EntityType getEntityType() {
         return this.entityType;
     }
 
-     /**
-     * Sets the status of the entity.
-     * If the status is set to ACTIVE, the collision gets updated
-     *
-     * @param entityStatus The status of the entity.
-     */
     @Override
     public void setEntityStatus(final EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
@@ -86,11 +70,6 @@ public abstract class AbstractEntity implements Entity {
         }
     }
 
-    /**
-     * Sets the movement of the entity.
-     *
-     * @param newMovement The new movement of the entity.
-     */
     @Override
     public void setEntityMovement(final Movement newMovement) {
         this.movement = new Movement.Builder()
@@ -102,41 +81,21 @@ public abstract class AbstractEntity implements Entity {
                 .build();
     }
 
-    /**
-     * Gets the status of the entity.
-     *
-     * @return The status of the entity.
-     */
     @Override
     public EntityStatus getEntityStatus() {
         return this.entityStatus;
     }
 
-    /**
-     * Gets the collision of the entity.
-     *
-     * @return The collision of the entity.
-     */
     @Override
     public Hitbox getHitbox() {
         return this.hitbox;
     }
 
-    /**
-     * Gets the number of times the entity has been updated.
-     *
-     * @return The age of the entity.
-     */
     @Override
     public Integer getLifetime() {
         return this.lifetime;
     }
 
-    /**
-     * Updates the entity's lifetime, status, movement and collision.
-     *
-     * @param isSpaceBarPressed Is used by entities which change their behaviour if the space bar is pressed.
-     */
     @Override
     public void update(final boolean isSpaceBarPressed) {
         this.lifetime++; //Increases the lifetime of the entity, which is, the number of time the entity has been updated

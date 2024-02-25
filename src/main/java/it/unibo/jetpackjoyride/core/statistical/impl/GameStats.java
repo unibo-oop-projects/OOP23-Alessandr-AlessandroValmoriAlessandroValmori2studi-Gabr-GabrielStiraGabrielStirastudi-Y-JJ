@@ -40,7 +40,10 @@ public final class GameStats implements GameStatsModel {
         return coins;
     }
 
-
+     /**
+     * A method to set the coins number.
+     * @param num The num to set for coins
+     */
     public static void setCoins(final int num) {
          coins = num;
     }

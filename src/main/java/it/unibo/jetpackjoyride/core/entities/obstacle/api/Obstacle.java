@@ -14,7 +14,20 @@ public interface Obstacle extends Entity {
      * Defines the type of obstacles implemented in the game.
      */
     enum ObstacleType {
-        MISSILE, ZAPPER, LASER
+        /**
+         * The {@link Missile} obstacle
+         */
+        MISSILE, 
+
+        /**
+         * The {@link Zapper} obstacle
+         */
+        ZAPPER,
+
+        /**
+         * The {@link Laser} obstacle
+         */
+        LASER
     }
 
     /**

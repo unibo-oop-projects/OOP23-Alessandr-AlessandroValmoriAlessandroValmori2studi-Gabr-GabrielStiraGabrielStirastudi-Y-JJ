@@ -42,7 +42,7 @@ public final class MrCuddles extends AbstractPowerUp {
      */
     public MrCuddles(final Movement movement, final Hitbox hitbox, final Integer indexOfBody) {
         super(PowerUpType.MRCUDDLES, movement, hitbox);
-        this.performingAction = PerformingAction.ASCENDING;
+        this.setPerformingAction(PerformingAction.ASCENDING);
         this.lastFrames = new ArrayList<>((indexOfBody + 1)*2);
 
         for (int i = 0; i < (indexOfBody + 1)*2; i++) {
@@ -66,9 +66,9 @@ public final class MrCuddles extends AbstractPowerUp {
         this.lastFrames.add(isSpaceBarPressed);
 
         if (lastFrames.get(0)) {
-            this.performingAction = PerformingAction.DESCENDING;
+            this.setPerformingAction(PerformingAction.DESCENDING);
         } else {
-            this.performingAction = PerformingAction.ASCENDING;
+            this.setPerformingAction(PerformingAction.ASCENDING);
         }
 
         this.setEntityMovement(new Movement.Builder()
@@ -77,7 +77,7 @@ public final class MrCuddles extends AbstractPowerUp {
         .setAcceleration(this.getEntityMovement().getAcceleration())
         .setRotation(this.getEntityMovement().getSpeed().get2()*2, 0.0)
         .setMovementChangers(List.of(MovementChangers.BOUNDS,
-             this.performingAction.equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+             this.getPerformingAction().equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
         .build());
     }
 }

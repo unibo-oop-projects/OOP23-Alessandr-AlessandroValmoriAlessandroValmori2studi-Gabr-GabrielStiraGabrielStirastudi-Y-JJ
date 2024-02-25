@@ -55,7 +55,7 @@ public final class LilStomper extends AbstractPowerUp {
     public LilStomper(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.LILSTOMPER, movement, hitbox);
         this.loadJump = 0;
-        this.performingAction = PerformingAction.DESCENDING;
+        this.setPerformingAction(PerformingAction.DESCENDING);
     }
 
     /**
@@ -64,10 +64,10 @@ public final class LilStomper extends AbstractPowerUp {
      */
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        switch (this.performingAction) {
+        switch (this.getPerformingAction()) {
             case WALKING:
                 if (isSpaceBarPressed) {
-                    this.performingAction = PerformingAction.JUMPING;
+                    this.setPerformingAction(PerformingAction.JUMPING);
                 }
                 break;
             case JUMPING:
@@ -84,22 +84,22 @@ public final class LilStomper extends AbstractPowerUp {
                     .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
 
                     this.loadJump = 0;
-                    this.performingAction = PerformingAction.ASCENDING;
+                    this.setPerformingAction(PerformingAction.ASCENDING);
                 }
                 break;
             case ASCENDING:
 
                 if (this.getEntityMovement().getSpeed().get2() >= 0) {
-                    this.performingAction = PerformingAction.DESCENDING;
+                    this.setPerformingAction(PerformingAction.DESCENDING);
                 }
                 break;
             case DESCENDING:
                 if (isSpaceBarPressed && this.getEntityMovement().getSpeed().get2() > DESCENDING_BASE_SPEED) {
-                    this.performingAction = PerformingAction.GLIDING;
+                    this.setPerformingAction(PerformingAction.GLIDING);
                 }
 
                 if (this.getEntityMovement().getPosition().get2() > LANDING_HEIGHT) {
-                    this.performingAction = PerformingAction.LANDING;
+                    this.setPerformingAction(PerformingAction.LANDING);
                     this.loadJump = -RECOVER_TICKS_AFTER_LANDING;
                 }
                 break;
@@ -112,18 +112,18 @@ public final class LilStomper extends AbstractPowerUp {
                     .setRotation(this.getEntityMovement().getRotation())
                     .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
                 } else {
-                    this.performingAction = PerformingAction.DESCENDING;
+                    this.setPerformingAction(PerformingAction.DESCENDING);
                 }
 
                 if (this.getEntityMovement().getPosition().get2() > LANDING_HEIGHT) {
-                    this.performingAction = PerformingAction.LANDING;
+                    this.setPerformingAction(PerformingAction.LANDING);
                     this.loadJump = -RECOVER_TICKS_AFTER_LANDING;
                 }
                 break;
             case LANDING:
                 this.loadJump++;
                 if (this.loadJump == 0) {
-                    this.performingAction = PerformingAction.WALKING;
+                    this.setPerformingAction(PerformingAction.WALKING);
                 }
                 break;
             default:

@@ -45,25 +45,25 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
     /*
      * Define the dimensions of the hitbox of the obstacles.
      */
-    private final static Pair<Double, Double> MISSILE_HITBOX_DIMENSIONS = new Pair<>(40.0, 15.0);
-    private final static Pair<Double, Double> ZAPPER_HITBOX_DIMENSIONS = new Pair<>(160.0, 30.0);
-    private final static Pair<Double, Double> LASER_HITBOX_DIMENSIONS = new Pair<>(980.0, 24.0);
+    private static final Pair<Double, Double> MISSILE_HITBOX_DIMENSIONS = new Pair<>(40.0, 15.0);
+    private static final Pair<Double, Double> ZAPPER_HITBOX_DIMENSIONS = new Pair<>(160.0, 30.0);
+    private static final Pair<Double, Double> LASER_HITBOX_DIMENSIONS = new Pair<>(980.0, 24.0);
 
     /*
      * Define the coordinates where the powerups will be generated.
      */
-    private final static Pair<Double, Double> LILSTOMPER_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
-    private final static Pair<Double, Double> MRCUDDLE_SPAWNING_COORDINATES = new Pair<>(200.0, 0.0);
-    private final static Pair<Double, Double> PROFITBIRD_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
-    private final static Pair<Double, Double> DUKEFISHRON_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
+    private static final Pair<Double, Double> LILSTOMPER_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
+    private static final Pair<Double, Double> MRCUDDLE_SPAWNING_COORDINATES = new Pair<>(200.0, 0.0);
+    private static final Pair<Double, Double> PROFITBIRD_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
+    private static final Pair<Double, Double> DUKEFISHRON_SPAWNING_COORDINATES = new Pair<>(200.0, 360.0);
 
     /*
      * Define the dimensions of the hitbox of the powerups.
      */
-    private final static Pair<Double, Double> LILSTOMPER_HITBOX_DIMENSIONS = new Pair<>(160.0, 140.0);
-    private final static Pair<Double, Double> MRCUDDLE_HITBOX_DIMENSIONS = new Pair<>(120.0, 70.0);
-    private final static Pair<Double, Double> PROFITBIRD_HITBOX_DIMENSIONS = new Pair<>(120.0, 70.0);
-    private final static Pair<Double, Double> DUKEFISHRON_HITBOX_DIMENSIONS = new Pair<>(150.0, 100.0);
+    private static final Pair<Double, Double> LILSTOMPER_HITBOX_DIMENSIONS = new Pair<>(160.0, 140.0);
+    private static final Pair<Double, Double> MRCUDDLE_HITBOX_DIMENSIONS = new Pair<>(120.0, 70.0);
+    private static final Pair<Double, Double> PROFITBIRD_HITBOX_DIMENSIONS = new Pair<>(120.0, 70.0);
+    private static final Pair<Double, Double> DUKEFISHRON_HITBOX_DIMENSIONS = new Pair<>(150.0, 100.0);
 
     /**
      * Define the initial position of barry
@@ -78,26 +78,26 @@ public class EntityModelGeneratorImpl implements EntityModelGenerator {
     /*
      * Define more movement characteristics of some powerups.
      */
-    private final static Pair<Double, Double> DUKEFISHRON_BASE_SPEED = new Pair<>(0.0, 10.0);
-    private final static Double DUKE_ROTATION_ANGLE = 20.0;
+    private static final Pair<Double, Double> DUKEFISHRON_BASE_SPEED = new Pair<>(0.0, 10.0);
+    private static final Double DUKE_ROTATION_ANGLE = 20.0;
 
     /*
      * Define the coordinates where the pickups will be generated.
      */
-    private final static Pair<Double, Double> VEHICLE_PICKUP_SPAWNING_COORDINATES = new Pair<>(1350.0, 360.0);
-    private final static Pair<Double, Double> SHIELD_PICKUP_SPAWNING_COORDINATES = new Pair<>(1350.0, 360.0);
+    private static final Pair<Double, Double> VEHICLE_PICKUP_SPAWNING_COORDINATES = new Pair<>(1350.0, 360.0);
+    private static final Pair<Double, Double> SHIELD_PICKUP_SPAWNING_COORDINATES = new Pair<>(1350.0, 360.0);
 
     /*
      * Define the dimensions of the hitbox of the pickups.
      */
-    private final static Pair<Double, Double> VEHICLE_PICKUP_HITBOX_DIMENSIONS = new Pair<>(80.0, 80.0);
-    private final static Pair<Double, Double> SHIELD_PICKUP_HITBOX_DIMENSIONS = new Pair<>(50.0, 50.0);
+    private static final Pair<Double, Double> VEHICLE_PICKUP_HITBOX_DIMENSIONS = new Pair<>(80.0, 80.0);
+    private static final Pair<Double, Double> SHIELD_PICKUP_HITBOX_DIMENSIONS = new Pair<>(50.0, 50.0);
 
     /*
      * Define more movement characteristics of some pickups.
      */
-    private final static Pair<Double, Double> VEHICLE_PICKUP_BASE_SPEED = new Pair<>(-3.0, 0.0);
-    private final static Pair<Double, Double> SHIELD_PICKUP_BASE_SPEED = new Pair<>(-5.0, 0.0);
+    private static final Pair<Double, Double> VEHICLE_PICKUP_BASE_SPEED = new Pair<>(-3.0, 0.0);
+    private static final Pair<Double, Double> SHIELD_PICKUP_BASE_SPEED = new Pair<>(-5.0, 0.0);
 
     @Override
     public Obstacle generateObstacle(final ObstacleType obstacleType, final Movement obstacleMovement) {

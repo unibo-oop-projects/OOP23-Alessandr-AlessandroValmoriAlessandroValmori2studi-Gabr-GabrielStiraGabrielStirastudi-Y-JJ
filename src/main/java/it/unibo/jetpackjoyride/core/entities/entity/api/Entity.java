@@ -16,7 +16,29 @@ public interface Entity {
      * Defines the types of entities in the game.
      */
     enum EntityType {
-        OBSTACLE, POWERUP, PICKUP, BARRY
+        /**
+         * The obstacle entity type,
+         * which itself is further divided into
+         * {@link Zapper}, {@link Missile} and {@link Laser}
+         */
+        OBSTACLE, 
+        /**
+         * The power up entity type,
+         * which itself is further divided into
+         * {@link ProfitBird}, {@link MrCuddles}, {@link DukeFishron} and {@link LilStomper}
+         */
+        POWERUP, 
+        /**
+         * The pick-up entity type,
+         * which itself is further divided into
+         * {@link VehiclePickUp} and {@link ShieldPickUp}
+         */
+        PICKUP, 
+        /**
+         * The {@link Barry} entity type, the main
+         * character of the game
+         */
+        BARRY
     }
 
     /**

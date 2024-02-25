@@ -14,7 +14,14 @@ public interface PickUp extends Entity {
      * Defines the type of pickups implemented in the game.
      */
     enum PickUpType {
-        VEHICLE, SHIELD
+        /**
+         * The {@link VehiclePickUp} pick-up type
+         */
+        VEHICLE, 
+        /**
+         * The {@link ShieldPickUp} pick-up type
+         */
+        SHIELD
     }
 
     /**

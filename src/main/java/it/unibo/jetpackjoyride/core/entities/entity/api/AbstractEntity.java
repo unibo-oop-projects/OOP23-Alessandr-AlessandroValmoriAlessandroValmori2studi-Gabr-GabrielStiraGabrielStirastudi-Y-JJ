@@ -4,7 +4,8 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
 /**
- * The {@link AbstractEntity} class implements all the methods of {@link Entity} and defines the 
+ * The {@link AbstractEntity} class implements all the methods of {@link Entity}
+ * and defines the
  * common properties and behaviours of all entities.
  * 
  * @author gabriel.stira@studio.unibo.it
@@ -36,12 +37,12 @@ public abstract class AbstractEntity implements Entity {
      */
     private Integer lifetime;
 
-     /**
+    /**
      * Constructs an AbstractEntity with the specified parameters.
      * By default, the entity status is set to INACTIVE and its age is 0.
      *
      * @param entityType The type of the entity.
-     * @param movement   The movement behavior of the entity.
+     * @param newMovement   The movement behavior of the entity.
      * @param hitbox     The hitbox of the entity.
      */
     public AbstractEntity(final EntityType entityType, final Movement newMovement, final Hitbox hitbox) {
@@ -65,7 +66,7 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public void setEntityStatus(final EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
-        if(this.entityStatus.equals(EntityStatus.ACTIVE)) {
+        if (this.entityStatus.equals(EntityStatus.ACTIVE)) {
             this.hitbox.updateHitbox(this.movement.getPosition(), this.movement.getRotation().get1());
         }
     }
@@ -96,30 +97,32 @@ public abstract class AbstractEntity implements Entity {
         return this.lifetime;
     }
 
-    @Override 
-    public void setLifetime(Integer lifetime){
+    @Override
+    public void setLifetime(final Integer lifetime) {
         this.lifetime = lifetime;
     }
 
     @Override
     public void update(final boolean isSpaceBarPressed) {
-        this.lifetime++; //Increases the lifetime of the entity, which is, the number of time the entity has been updated
+        this.lifetime++; // Increases the lifetime of the entity, which is, the number of time the entity
+                         // has been updated
 
-        this.updateStatus(isSpaceBarPressed); //Updates the status of the entity and the modifiers to its movement, view, etc...
-
-        this.movement = this.movement.update(); //Updates the movement of the entity (position, speed, rotation, etc...)
-        
-        if (this.entityStatus.equals(EntityStatus.ACTIVE)) { //Updates the hitbox of the entity if the entity is ACTIVE
+        this.updateStatus(isSpaceBarPressed); // Updates the status of the entity and the modifiers to its movement,
+                                              // view, etc...
+        this.movement = this.movement.update(); // Updates the movement of the entity (position, speed, rotation,
+                                                // etc...)
+        if (this.entityStatus.equals(EntityStatus.ACTIVE)) { // Updates the hitbox of the entity if the entity is ACTIVE
             this.hitbox.updateHitbox(this.movement.getPosition(), this.movement.getRotation().get1());
-        }//(Could have done it even without the if statement, but updating the hitbox when the entity is not active is useless)
-        
+        } // (Could have done it even without the if statement, but updating the hitbox
+          // when the entity is not active is useless)
     }
 
     /**
-     * Updates the status of the entity. It is implemented differently depending 
+     * Updates the status of the entity. It is implemented differently depending
      * on the type of entity.
      * 
-     * @param isSpaceBarPressed Is used by entities which change their behaviour if the space bar is pressed.
+     * @param isSpaceBarPressed Is used by entities which change their behaviour if
+     *                          the space bar is pressed.
      */
     protected abstract void updateStatus(boolean isSpaceBarPressed);
 }

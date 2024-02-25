@@ -13,10 +13,10 @@ import java.util.List;
  * The {@link Missile} class defines one of the obstacles implemented
  * in the game. Since it extends {@link AbstractObstacle}, it inherits all
  * methods and behaviours of {@link Entity} and {@link Obstacle}.
- * Missile are really fast and can easily hit an unprepared player, but to 
- * compensate that, they are small entities and warn the player about where 
+ * Missile are really fast and can easily hit an unprepared player, but to
+ * compensate that, they are small entities and warn the player about where
  * from they will launch.
- *  
+ * 
  * @author gabriel.stira@studio.unibo.it
  */
 public final class Missile extends AbstractObstacle {
@@ -47,70 +47,86 @@ public final class Missile extends AbstractObstacle {
     private Integer lifetimeAfterDeactivation;
 
     /**
-     * Movement characteristics of the entity when spawned (needed for entities which need to know what
+     * Movement characteristics of the entity when spawned (needed for entities
+     * which need to know what
      * their movement was initially).
      */
     private Movement movementBuffer;
 
     /**
-     *  Constructor used to create an instance of the class Missile.
+     * Constructor used to create an instance of the class Missile.
      * 
      * @param newMovement The movement characteristics of the missile obstacle.
-     * @param hitbox The collision characteristics of the missile obstacle.
+     * @param hitbox      The collision characteristics of the missile obstacle.
      */
     public Missile(final Movement newMovement, final Hitbox hitbox) {
         super(ObstacleType.MISSILE, newMovement, hitbox);
-        this.lifetimeAfterDeactivation = DELAY_BEFORE_DESTRUCTION + DELAY_BEFORE_ACTIVATING; //Counter initialized
-        this.setEntityStatus(EntityStatus.CHARGING);//Missiles spawn with a CHARGING status
+        this.lifetimeAfterDeactivation = DELAY_BEFORE_DESTRUCTION + DELAY_BEFORE_ACTIVATING; // Counter initialized
+        this.setEntityStatus(EntityStatus.CHARGING);// Missiles spawn with a CHARGING status
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.movementBuffer = new Movement.Builder()
-        .setPosition(this.getEntityMovement().getPosition())
-        .setSpeed(-startingXSpeed*2,this.getEntityMovement().getSpeed().get2())
-        .setAcceleration(this.getEntityMovement().getAcceleration())
-        .setRotation(this.getEntityMovement().getRotation()).setMovementChangers(this.getEntityMovement().getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING) : List.of()).build();
+                .setPosition(this.getEntityMovement().getPosition())
+                .setSpeed(-startingXSpeed * 2, this.getEntityMovement().getSpeed().get2())
+                .setAcceleration(this.getEntityMovement().getAcceleration())
+                .setRotation(this.getEntityMovement().getRotation())
+                .setMovementChangers(
+                        this.getEntityMovement().getSpeed().get2() != 0 ? List.of(MovementChangers.BOUNCING)
+                                : List.of())
+                .build();
     }
 
     /**
      * Updates the status of the missile entity based on its lifetime and position.
+     * 
      * @param isSpaceBarPressed Is ignored by this entity.
      */
     @Override
     protected void updateStatus(final boolean isSpaceBarPressed) {
-        if(this.getEntityStatus().equals(EntityStatus.CHARGING)) {
-            /*Since at the beginning the missile has to be shown as a warning, 
-            a buffer for the correct movement is used and its movement is initially set to a static one */
-            if(this.getLifetime().equals(1)) { 
-                this.setEntityMovement(new Movement.Builder().setPosition(WARNING_SPAWNING_X, this.getEntityMovement().getPosition().get2())
-                .setRotation(this.getEntityMovement().getRotation())
-                .build());
+        if (this.getEntityStatus().equals(EntityStatus.CHARGING)) {
+            /*
+             * Since at the beginning the missile has to be shown as a warning,
+             * a buffer for the correct movement is used and its movement is initially set
+             * to a static one
+             */
+            if (this.getLifetime().equals(1)) {
+                this.setEntityMovement(new Movement.Builder()
+                        .setPosition(WARNING_SPAWNING_X, this.getEntityMovement().getPosition().get2())
+                        .setRotation(this.getEntityMovement().getRotation())
+                        .build());
             }
 
             this.lifetimeAfterDeactivation--;
-            if(this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
+            if (this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
                 this.setEntityStatus(EntityStatus.ACTIVE);
-                
+
                 this.setEntityMovement(new Movement.Builder()
-                .setPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
-                .setSpeed(this.movementBuffer.getSpeed())
-                .setAcceleration(this.movementBuffer.getAcceleration())
-                .setRotation(this.movementBuffer.getRotation())
-                .setMovementChangers(this.movementBuffer.getMovementChangers())
-                .build());
+                        .setPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
+                        .setSpeed(this.movementBuffer.getSpeed())
+                        .setAcceleration(this.movementBuffer.getAcceleration())
+                        .setRotation(this.movementBuffer.getRotation())
+                        .setMovementChangers(this.movementBuffer.getMovementChangers())
+                        .build());
             }
         }
 
-        /* Only if specific conditions are met the missile status will be set to INACTIVE */
-        if(this.getEntityStatus().equals(EntityStatus.DEACTIVATED) && this.lifetimeAfterDeactivation > DELAY_BEFORE_DESTRUCTION || this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX || this.lifetimeAfterDeactivation < 0) {
+        /*
+         * Only if specific conditions are met the missile status will be set to
+         * INACTIVE
+         */
+        if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)
+                && this.lifetimeAfterDeactivation > DELAY_BEFORE_DESTRUCTION
+                || this.getEntityMovement().getPosition().get1() < OUT_OF_BOUNDS_SX
+                || this.lifetimeAfterDeactivation < 0) {
             this.setEntityStatus(EntityStatus.INACTIVE);
         }
 
         if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
                 this.setEntityMovement(new Movement.Builder()
-                .setPosition(this.getEntityMovement().getPosition())
-                .setSpeed(this.getEntityMovement().getSpeed().get1(), 0.0)
-                .build()); 
+                        .setPosition(this.getEntityMovement().getPosition())
+                        .setSpeed(this.getEntityMovement().getSpeed().get1(), 0.0)
+                        .build());
             }
             this.lifetimeAfterDeactivation--;
         }

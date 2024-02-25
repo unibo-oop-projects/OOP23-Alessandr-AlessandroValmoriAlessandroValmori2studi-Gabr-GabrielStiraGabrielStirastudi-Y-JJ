@@ -15,11 +15,11 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     /**
      * Defines the type of the powerup.
      */
-    protected final PowerUpType powerUpType;
+    private final PowerUpType powerUpType;
     /**
      * Defines the action the powerup is performing.
      */
-    protected PerformingAction performingAction;
+    private PerformingAction performingAction;
 
     /**
      * Constructor used to create a new AbstractPowerUp.
@@ -52,5 +52,10 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
     @Override
     public PerformingAction getPerformingAction() {
         return this.performingAction;
+    }
+
+    @Override 
+    public void setPerformingAction(final PerformingAction performingAction){
+        this.performingAction = performingAction;
     }
 }

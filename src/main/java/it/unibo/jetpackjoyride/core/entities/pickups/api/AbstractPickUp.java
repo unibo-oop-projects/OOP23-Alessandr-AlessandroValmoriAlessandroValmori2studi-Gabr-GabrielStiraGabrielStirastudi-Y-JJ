@@ -31,7 +31,6 @@ public abstract class AbstractPickUp extends AbstractEntity implements PickUp {
         this.pickUpType = entityType;
         this.setEntityStatus(EntityStatus.ACTIVE);
     }
-    
     /**
      * Gets the type of pickup.
      *

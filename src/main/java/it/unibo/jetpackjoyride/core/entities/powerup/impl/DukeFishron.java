@@ -50,7 +50,7 @@ public class DukeFishron extends AbstractPowerUp{
         super(PowerUpType.DUKEFISHRON, movement, hitbox);
         this.intervalBewteenJumps = true;
         this.timerForRage = 0;
-        this.performingAction = PerformingAction.ASCENDING;
+        this.setPerformingAction(PerformingAction.ASCENDING);
     }
 
     /**
@@ -59,7 +59,7 @@ public class DukeFishron extends AbstractPowerUp{
      */
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        switch (this.performingAction) {
+        switch (this.getPerformingAction()) {
             case ASCENDING:
             case DESCENDING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
@@ -83,7 +83,7 @@ public class DukeFishron extends AbstractPowerUp{
         this.timerForRage++;
 
         if(this.timerForRage.equals(DEFAULT_RAGE_TIMER) || this.timerForRage.equals(DEFAULT_RAGE_TIMER + DEFAULT_RAGE_DURATION)) {
-            this.performingAction = this.timerForRage.equals(DEFAULT_RAGE_TIMER) ? PerformingAction.DESCENDING : PerformingAction.ASCENDING;
+            this.setPerformingAction(this.timerForRage.equals(DEFAULT_RAGE_TIMER) ? PerformingAction.DESCENDING : PerformingAction.ASCENDING);
             if(this.timerForRage.equals(DEFAULT_RAGE_TIMER + DEFAULT_RAGE_DURATION)) {
                 this.timerForRage = 0;
             }

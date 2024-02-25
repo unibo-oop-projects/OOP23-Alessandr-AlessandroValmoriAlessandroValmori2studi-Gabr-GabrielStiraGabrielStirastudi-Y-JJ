@@ -40,7 +40,7 @@ public class ProfitBird extends AbstractPowerUp{
     public ProfitBird(final Movement movement, final Hitbox hitbox) {
         super(PowerUpType.PROFITBIRD, movement, hitbox);
         this.intervalBewteenJumps = true;
-        this.performingAction = PerformingAction.DESCENDING;
+        this.setPerformingAction(PerformingAction.DESCENDING);
     }
 
     /**
@@ -49,32 +49,32 @@ public class ProfitBird extends AbstractPowerUp{
      */
     @Override
     public void updateStatus(final boolean isSpaceBarPressed) {
-        switch (this.performingAction) {
+        switch (this.getPerformingAction()) {
             case WALKING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
-                    this.performingAction = PerformingAction.JUMPING;
+                    this.setPerformingAction(PerformingAction.JUMPING);
                     this.intervalBewteenJumps = false;
                 }
                 break;
             case JUMPING:
-                this.performingAction = PerformingAction.ASCENDING;
+            this.setPerformingAction(PerformingAction.ASCENDING);
                 break;
             case ASCENDING:
                 if (this.getEntityMovement().getSpeed().get2() >= 0) {
-                    this.performingAction = PerformingAction.DESCENDING;
+                    this.setPerformingAction(PerformingAction.DESCENDING);
                 }
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
-                    this.performingAction = PerformingAction.JUMPING;
+                    this.setPerformingAction(PerformingAction.JUMPING);
                     this.intervalBewteenJumps = false;
                 }
                 break;
             case DESCENDING:
                 if(isSpaceBarPressed && this.intervalBewteenJumps) {
-                    this.performingAction = PerformingAction.JUMPING;
+                    this.setPerformingAction(PerformingAction.JUMPING);
                     this.intervalBewteenJumps = false;
                 }
                 if(this.getEntityMovement().getPosition().get2() >= LANDING_HEIGHT) {
-                    this.performingAction = PerformingAction.WALKING;
+                    this.setPerformingAction(PerformingAction.WALKING);
                 }
                 break;
             default:
@@ -87,7 +87,7 @@ public class ProfitBird extends AbstractPowerUp{
 
         this.setEntityMovement(new Movement.Builder()
         .setAcceleration(this.getEntityMovement().getAcceleration())
-        .setSpeed(this.getEntityMovement().getSpeed().get1(), this.performingAction.equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
+        .setSpeed(this.getEntityMovement().getSpeed().get1(), this.getPerformingAction().equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
         .setPosition(this.getEntityMovement().getPosition())
         .setRotation(this.getEntityMovement().getSpeed().get2(),0.0)
         .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());

@@ -69,7 +69,7 @@ public final class BarryView implements EntityView {
     private static final int NUM_COPIES = 7;
 
     /**
-     * Constructs a new BarryView instance
+     * Constructs a new {@link BarryView} instance.
      */
     public BarryView() {
         this.shieldImageView = new ImageView(new Image("sprites/entities/player/barrySHIELD.png"));
@@ -148,9 +148,9 @@ public final class BarryView implements EntityView {
     }
 
     /**
-     * Retrives the shields' imageView
+     * Retrives the shields' imageView.
      * 
-     * @return the shield's imageView
+     * @return the shield's imageView.
      */
     public ImageView getShieldImageView() {
         return Collections.nCopies(1, this.shieldImageView).get(0);

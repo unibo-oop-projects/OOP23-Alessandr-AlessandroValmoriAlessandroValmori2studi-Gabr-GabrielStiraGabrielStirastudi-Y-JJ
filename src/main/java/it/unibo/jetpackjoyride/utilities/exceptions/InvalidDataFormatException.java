@@ -6,9 +6,10 @@ package it.unibo.jetpackjoyride.utilities.exceptions;
  * 
  * @author gabriel.stira@studio.unibo.it
  */
-public class InvalidDataFormatException extends Exception{
+public class InvalidDataFormatException extends Exception {
     /**
-     * Constructor to create a new InvalidDataFormatException with the specified detail message.
+     * Constructor to create a new InvalidDataFormatException with the specified
+     * detail message.
      *
      * @param message The message describing what and where something went wrong.
      */

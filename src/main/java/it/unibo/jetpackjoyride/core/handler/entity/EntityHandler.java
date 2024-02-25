@@ -24,19 +24,20 @@ import javafx.scene.Group;
  * @author yukai.zhou@studio.unibo.it
  */
 
-
- /**
-  * The {@link EntityHandler} class acts as a handler
-  *for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler}, {@link PickupHandler}),
-  *and the {@link CoinGenerator} and {@link Barry}.
-  *It is responsible for managing the interactions between these classes, and can also
-  *notify the {@link GameLoop} if the game is over.
-  *Entity handler represents the core of the game's entity managing
-  *system.
-  */
+/**
+ * The {@link EntityHandler} class acts as a handler
+ * for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler},
+ * {@link PickupHandler}),
+ * and the {@link CoinGenerator} and {@link Barry}.
+ * It is responsible for managing the interactions between these classes, and
+ * can also
+ * notify the {@link GameLoop} if the game is over.
+ * Entity handler represents the core of the game's entity managing
+ * system.
+ */
 public class EntityHandler {
     /**
-     * {@link ObstacleHandler}, the handler responsible for 
+     * {@link ObstacleHandler}, the handler responsible for
      * obstacle loading, updating and collision.
      */
     private ObstacleHandler obstacleHandler;
@@ -54,10 +55,10 @@ public class EntityHandler {
     /** The Barry entity. */
     private Barry player;
 
-    /**The class responsible for coin generation, collection and positioning .*/
+    /** The class responsible for coin generation, collection and positioning . */
     private CoinGenerator coinHandler;
 
-    /**A factory class used to generate a desired enity model. */
+    /** A factory class used to generate a desired enity model. */
     private EntityModelGenerator entityGenerator;
 
     /**
@@ -78,14 +79,16 @@ public class EntityHandler {
     private boolean isUsingPowerUp;
 
     /**
-     *  Wether the coins are already attached.
-     * */
+     * Wether the coins are already attached.
+     */
     private boolean isCanvasAdded;
 
     /**
-     * An initialization method which takes
-     * @param shopController as parameter, in order to get the 
-     * set of unlocked {@link Items}.
+     * An initialization method which instanciates all other
+     * sub-handlers.
+     * 
+     * @param shopController the {@link ShopController} passed in order to get the
+     *                       set of unlocked {@link Items}.
      */
     public void initialize(final ShopController shopController) {
         this.obstacleHandler = new ObstacleHandler();
@@ -99,11 +102,13 @@ public class EntityHandler {
         this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
+
     /**
      * The main update method of this class, which gets executed
      * every frame.
      * It is responsible of updating all other handlers all together
-     * @param entityGroup the entityGroup passed to {@link CoinGenerator}
+     * 
+     * @param entityGroup       the entityGroup passed to {@link CoinGenerator}
      * @param isSpaceBarPressed the boolean parameter passed to the handlers
      * @return wether false if the game is over, true otherwise.
      */
@@ -120,7 +125,8 @@ public class EntityHandler {
             coinHandler.addCoinsView(entityGroup);
             isCanvasAdded = true;
         }
-        if (!this.isUsingPowerUp && !this.player.hasShield() && this.pickUpHandler.getAllPickUps().isEmpty() && !this.unlockedItems.isEmpty()) {
+        if (!this.isUsingPowerUp && !this.player.hasShield() && this.pickUpHandler.getAllPickUps().isEmpty()
+                && !this.unlockedItems.isEmpty()) {
             this.spawnPickUp(this.unlockedItems);
         }
         final var obstacleHit = this.obstacleHandler
@@ -174,20 +180,25 @@ public class EntityHandler {
         }
         return true;
     }
+
     /**
      * Retrieves the set of all the ACTIVE entities.
+     * 
      * @return the set of all the ACTIVE entities.
      */
     public Set<Entity> getAllEntities() {
         return this.listOfEntities;
     }
+
     /**
      * Spawns a pickup based on the set of spawnable items.
+     * 
      * @param unlockedItems the set of unlocked {@link Items}
      */
     private void spawnPickUp(final Set<Items> unlockedItems) {
         this.pickUpHandler.spawnPickUp(unlockedItems);
     }
+
     /**
      * Stops the threads executing in {@link ObstacleHandker}
      * and in {@link CoinGenerator}.
@@ -196,6 +207,7 @@ public class EntityHandler {
         this.obstacleHandler.over();
         this.coinHandler.stopGenerate();
     }
+
     /**
      * Starts the threads executing in {@link ObstacleHandler}
      * and in {@link CoinGenerator}.
@@ -204,6 +216,7 @@ public class EntityHandler {
         this.obstacleHandler.start();
         this.coinHandler.startGenerate();
     }
+
     /**
      * Resets {@link ObstacleHandler}
      * and {@link CoinGenerator}.

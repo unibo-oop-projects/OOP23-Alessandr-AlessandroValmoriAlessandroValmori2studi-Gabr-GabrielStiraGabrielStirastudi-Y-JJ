@@ -7,7 +7,7 @@ import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import javafx.scene.image.Image;
 
-public class PickUpView extends AbstractEntityView {
+public final class PickUpView extends AbstractEntityView {
 
     /**
      * The width of the {@link VehiclePickUp}.

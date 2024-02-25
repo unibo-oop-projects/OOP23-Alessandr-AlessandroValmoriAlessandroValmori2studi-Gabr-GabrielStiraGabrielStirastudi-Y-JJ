@@ -18,7 +18,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.Optional;
 
-public class PickUpHandler {
+public final class PickUpHandler {
     private static final Integer BASEPICKUPSPAWNCHANCE = 100;
     private final List<PickUp> listOfPickUp;
     private final EntityModelGeneratorImpl entityModelGenerator;

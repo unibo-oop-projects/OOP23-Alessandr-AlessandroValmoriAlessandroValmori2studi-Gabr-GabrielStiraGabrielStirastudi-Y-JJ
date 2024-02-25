@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public final class GameLoop implements GameLoopControl {
     private static final int FPS = 70;
-    private static final long nSecPerFrame = Math.round(1.0 / FPS * 1e9);
+    private static final long NANO_SECS_PER_FRAME = Math.round(1.0 / FPS * 1e9);
 
     private Scene gameScene;
     private GameInfo gameInfo;
@@ -101,7 +101,7 @@ public final class GameLoop implements GameLoopControl {
             @Override
             public void handle(final long now) {
 
-                if (now - lastUpdate > nSecPerFrame) {
+                if (now - lastUpdate > NANO_SECS_PER_FRAME) {
 
                     map.updateBackground();
                     gameStatsView.updateDataView(gameStatsHandler.dataForView());

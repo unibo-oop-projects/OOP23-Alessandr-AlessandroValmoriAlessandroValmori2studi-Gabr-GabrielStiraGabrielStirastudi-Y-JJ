@@ -220,7 +220,7 @@ public final class Movement {
      * happens a lot, but the number of entities which do this at all times is generally really low).
      * 
      */
-    public static class Builder {
+    public static final class Builder {
 
         private static final Pair<Double, Double> DEFAULT = new Pair<>(0.0,0.0);
 

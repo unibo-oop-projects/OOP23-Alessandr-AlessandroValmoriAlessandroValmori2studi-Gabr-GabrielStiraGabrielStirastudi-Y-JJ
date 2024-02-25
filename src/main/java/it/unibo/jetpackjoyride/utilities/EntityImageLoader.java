@@ -20,6 +20,15 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import java.util.Collections;
 import javafx.scene.image.Image;
 
+/** 
+ * The {@link EntityImageLoader} is used by the {@link EntityController} class to 
+ * load the images which are initially associated to the view of an entity.
+ * Initially, all the images of the entities are loaded and stored in this class.
+ * When an entity is ready to be shown, it is passed to the loadImages method which
+ * returns a list of all the images which are associated to the entity.
+ * Loading the images is a one-time only process for each entity, after which there
+ * is no need to deal with other images loading. 
+ */
 @SuppressWarnings("unchecked")
 public class EntityImageLoader {
     /**
@@ -58,12 +67,12 @@ public class EntityImageLoader {
     private static final Integer DUKEFISHRONSPRITES = 12;
 
     /**
-     * Total number of sprite images for {@link VehiclePickup}.
+     * Total number of sprite images for {@link VehiclePickUp}.
      */
     private static final Integer VEHICLEPICKUPSPRITES = 21;
 
     /**
-     * Total number of sprite images for shield pickups.
+     * Total number of sprite images for {@link ShieldPickUp} pickups.
      */
     private static final Integer SHIELDPICKUPSPRITES = 2;
 

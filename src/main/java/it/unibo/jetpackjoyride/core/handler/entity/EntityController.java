@@ -16,14 +16,12 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 
 /**
+ * A single, universal controller, used to manage the view of every entity whose
+ * model and view extend {@link AbstractEntity} and {@link AbstractEntityView} 
+ * respectively.
+ * 
  * @author alessandro.valmori2@studio.unibo.it
  * @author gabriel.stira@studio.unibo.it
- */
-
-/**
- * A single, universal controller, used to manage the view of every entity whose
- * model and view.
- * extend {@link AbstractEntity} and {@link AbstractEntityView} respectively
  */
 
 public class EntityController {

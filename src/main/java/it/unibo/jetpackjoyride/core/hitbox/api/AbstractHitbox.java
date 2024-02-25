@@ -6,26 +6,55 @@ import java.awt.geom.*;
 
 import java.util.*;
 
+ /**
+ * The {@link AbstractHitbox} class is used to implements all methods and characteristics
+ * of the {@link Hitbox} class. This class is used by all entities to keep track of a set 
+ * of coordinates which define the collision bounds. Also, with every call of the updateHitbox
+ * method, the hitbox is re-calculated based on the new position and angle (there can be rotating
+ * entities). A method for collision detection is also provided (isTouching).
+ * 
+ * @author gabriel.stira@studio.unibo.it
+ */
 public abstract class AbstractHitbox implements Hitbox {
+    /**
+     * Defines the four coordinates (x, y) which correspond to the vertices of the polygon which
+     * form the hitbox.
+     */
     private Set<Pair<Double, Double>> hitbox;
+    /**
+     * Defines the dimensions (width, height) of the hitbox.
+     */
     private Pair<Double, Double> hitboxDimensions;
+    /**
+     * Defines the current position and center of the hitbox.
+     * Since the hitbox is a rectangle, the center is the point of intersection of the diagonals.
+     * The center of an ACTIVE entity hitbox is always equal to the position of the entity.
+     */
     private Pair<Double, Double> hitboxPosition;
+    /**
+     * Defines the angle of rotation of the rectangle which form the hitbox.
+     */
     private Double hitboxRotation;
 
-    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
-            final Double hitboxRotation) {
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions, final Double hitboxRotation) {
         this.hitboxRotation = hitboxRotation;
         this.hitboxPosition = hitboxStartingPos;
         this.hitboxDimensions = hitboxDimensions;
         this.createHitbox(hitboxStartingPos);
     }
 
-    private void createHitbox(final Pair<Double, Double> hitboxStartingPos) {
+    /**
+     * Computes the new four coordinates which describe the vertices of the 
+     * hitbox. The coordinates are then added to the hitbox set.
+     * 
+     * @param hitboxNewPos The new position of the hitbox.
+     */
+    private void createHitbox(final Pair<Double, Double> hitboxNewPos) {
         final Double width = this.hitboxDimensions.get1();
         final Double height = this.hitboxDimensions.get2();
 
-        final Double initialX = hitboxStartingPos.get1() - width / 2;
-        final Double initialY = hitboxStartingPos.get2() - height / 2;
+        final Double initialX = hitboxNewPos.get1() - width / 2;
+        final Double initialY = hitboxNewPos.get2() - height / 2;
         this.hitbox = new HashSet<>();
         this.hitbox.add(new Pair<>(initialX, initialY));
         this.hitbox.add(new Pair<>(initialX + width, initialY));
@@ -33,8 +62,7 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
     }
 
-    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute,
-            final Pair<Double, Double> anchor, final Double angle) {
+    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor, final Double angle) {
         final AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 
@@ -65,6 +93,17 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox = newHitbox;
     }
 
+    /**
+     * Is used to avoid code duplication in the isTouching method.
+     * Since the same operation has to be performed twice, this method is
+     * called two times instead.
+     * Check if one of the vertices or the center of one hitbox is inside the polygon
+     * described by the vertices of the other.
+     * 
+     * @param firstHitbox The first hitbox.
+     * @param secondHitbox The second hitbox.
+     * @return
+     */
     private boolean isTouchingHelper(final Hitbox firstHitbox, final Hitbox secondHitbox) {
         final Polygon allPoints = new Polygon();
         boolean isTouching = false;

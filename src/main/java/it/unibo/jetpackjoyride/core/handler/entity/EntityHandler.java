@@ -18,23 +18,21 @@ import java.util.HashSet;
 import java.util.Optional;
 import javafx.scene.Group;
 
-/**
- * @author alessandro.valmori2@studio.unibo.it
- * @author gabriel.stira@studio.unibo.it
- * @author yukai.zhou@studio.unibo.it
- */
 
-/**
- * The {@link EntityHandler} class acts as a handler
- * for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler},
- * {@link PickupHandler}),
- * and the {@link CoinGenerator} and {@link Barry}.
- * It is responsible for managing the interactions between these classes, and
- * can also
- * notify the {@link GameLoop} if the game is over.
- * Entity handler represents the core of the game's entity managing
- * system.
- */
+ /**
+  * The {@link EntityHandler} class acts as a handler
+  * for the other handlers ({@link ObstacleHandler}, {@link PowerupHandler}, {@link PickupHandler}),
+  * the {@link CoinGenerator} and {@link Barry}.
+  * It is responsible for managing the interactions between these classes, and can also
+  * notify the {@link GameLoop} if the game is over.
+  * Entity handler represents the core of the game's entity managing
+  * system.
+  *
+  * @author alessandro.valmori2@studio.unibo.it
+  * @author gabriel.stira@studio.unibo.it
+  * @author yukai.zhou@studio.unibo.it
+
+  */
 public class EntityHandler {
     /**
      * {@link ObstacleHandler}, the handler responsible for
@@ -99,7 +97,6 @@ public class EntityHandler {
         this.coinHandler = new CoinGenerator(Optional.of(player.getHitbox()));
         this.listOfEntities = new HashSet<>();
         this.unlockedItems = shopController.getUnlocked();
-        this.obstacleHandler.initialize();
         this.isUsingPowerUp = false;
     }
 

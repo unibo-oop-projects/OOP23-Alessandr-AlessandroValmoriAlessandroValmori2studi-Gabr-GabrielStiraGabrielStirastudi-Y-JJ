@@ -10,10 +10,8 @@ import java.util.Collections;
 
 /**
  * The {@link AbstractEntityView} class implements all the methods of
- * {@link EntityView}
- * and provides a standard code implementation for the scaling of an image based
- * on the
- * screen sizes.
+ * {@link EntityView} and provides a standard code implementation for
+ * the scaling of an image based on the screen sizes.
  * 
  * @author gabriel.stira@studio.unibo.it
  */
@@ -25,7 +23,7 @@ public abstract class AbstractEntityView implements EntityView {
     protected Double height;
 
     /**
-     * Constructs and AbstractEntityView with the provided images.
+     * Constructs an AbstractEntityView with the provided images.
      * By default, width and height of the imageView are set to 0.
      *
      * @param images The type of the entity.
@@ -38,6 +36,14 @@ public abstract class AbstractEntityView implements EntityView {
         this.height = 0.0;
     }
 
+    /**
+     * Defines a method used by all entity views to carry out an operation of scaling
+     * based on the current screen size. The animateFrames method is used first to 
+     * find the image corresponding to the entity and then the imageView is modified
+     * using scaled position, dimensions and rotation.
+     * 
+     * @param entity The entity whose imageView is associated.
+     */
     @Override
     public void updateView(Entity entity) {
         this.animateFrames(entity);

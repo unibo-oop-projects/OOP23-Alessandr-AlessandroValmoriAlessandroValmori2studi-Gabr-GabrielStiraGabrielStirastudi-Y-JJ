@@ -1,11 +1,14 @@
 package it.unibo.jetpackjoyride.core.hitbox.api;
 
 import java.util.Set;
+
+import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
-/* An interface for the hitbox of entities */
 /**
- * The {@link Hitbox} interface defines the methods which will be implemented by
+ * The {@link Hitbox} is one of the two elements which characterize every entity
+ * along with the {@link Movement}. 
+ * This interface defines the methods which will be implemented by
  * the instances of hitbox classes used by the entities.
  * 
  * @author gabriel.stira@studio.unibo.it

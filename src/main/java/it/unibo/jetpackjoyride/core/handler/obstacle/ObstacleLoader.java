@@ -196,7 +196,7 @@ public class ObstacleLoader {
 
             this.interval++;
 
-            return this.allObstacles.get(3).stream()
+            return this.allObstacles.get(2).stream()
                     .filter(p -> p.get2().equals(this.interval))
                     .map(p -> p.get1())
                     .map(p -> this.entityGenerator.generateObstacle(p.getObstacleType(), p.getEntityMovement()))

@@ -5,8 +5,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.*;
 
 /**
- * The {@link Movement} class is one of the two elements which characterize every entity along with 
- * the hitbox. 
+ * The {@link Movement} is one of the two elements which characterize every entity along with 
+ * the {@link Hitbox}. 
  * This class encapsulates elements such as position, speed, acceleration and rotation which allow 
  * entity to be represented in a two dimensional space. A record is used as a simple data-carrying 
  * class to store the most important values which characterize the movement.

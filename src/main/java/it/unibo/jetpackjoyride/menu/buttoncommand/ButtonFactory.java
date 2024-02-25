@@ -71,8 +71,8 @@ public final class ButtonFactory {
         try {
             final Image image = new Image(url.toExternalForm());
             return Optional.ofNullable(image);
-        } catch (Exception e) { 
-            LOGGER.log(Level.SEVERE, "Error for loading image from URL: " + url, e);
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.SEVERE, "Invalid URL for loading image: " + url, e);
             return Optional.empty();
         }
       }

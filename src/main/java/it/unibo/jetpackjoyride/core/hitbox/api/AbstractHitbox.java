@@ -12,9 +12,10 @@ public abstract class AbstractHitbox implements Hitbox {
     private Pair<Double, Double> hitboxPosition;
     private Double hitboxRotation;
 
-    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions, final Double hitboxRotation) {
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions,
+            final Double hitboxRotation) {
         this.hitboxRotation = hitboxRotation;
-        this.hitboxPosition = hitboxStartingPos;    
+        this.hitboxPosition = hitboxStartingPos;
         this.hitboxDimensions = hitboxDimensions;
         this.createHitbox(hitboxStartingPos);
     }
@@ -32,7 +33,8 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
     }
 
-    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor, final Double angle) {
+    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute,
+            final Pair<Double, Double> anchor, final Double angle) {
         final AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 
@@ -56,7 +58,8 @@ public abstract class AbstractHitbox implements Hitbox {
         for (final var elem : this.hitbox) {
             final Pair<Double, Double> newPoint = computeNewPoint(elem, this.hitboxPosition, angle);
             newHitbox.add(
-                    new Pair<>(newPoint.get1() + (newPosition.get1() - this.hitboxPosition.get1()), newPoint.get2() + (newPosition.get2() - this.hitboxPosition.get2())));
+                    new Pair<>(newPoint.get1() + (newPosition.get1() - this.hitboxPosition.get1()),
+                            newPoint.get2() + (newPosition.get2() - this.hitboxPosition.get2())));
         }
 
         this.hitbox = newHitbox;
@@ -70,13 +73,13 @@ public abstract class AbstractHitbox implements Hitbox {
             allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue());
         }
 
-        for(final var otherVertex : secondHitbox.getHitboxVertex()) {
-            if(allPoints.contains(otherVertex.get1(), otherVertex.get2())) {
+        for (final var otherVertex : secondHitbox.getHitboxVertex()) {
+            if (allPoints.contains(otherVertex.get1(), otherVertex.get2())) {
                 isTouching = true;
             }
         }
 
-        if(allPoints.contains(secondHitbox.getHitboxPosition().get1(), secondHitbox.getHitboxPosition().get2())) {
+        if (allPoints.contains(secondHitbox.getHitboxPosition().get1(), secondHitbox.getHitboxPosition().get2())) {
             isTouching = true;
         }
 
@@ -99,7 +102,7 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     @Override
-    public Pair<Double,Double> getHitboxDimensions() {
+    public Pair<Double, Double> getHitboxDimensions() {
         return this.hitboxDimensions;
     }
 

@@ -26,7 +26,7 @@ public class PickUpView extends AbstractEntityView {
 
     /**
      * The number of sprites in the {@link VehiclePickUp}'s spriteset.
-    */
+     */
     private static final Integer VEHICLE_PICKUP_NUM_SPRITES = 8;
 
     /**
@@ -53,7 +53,7 @@ public class PickUpView extends AbstractEntityView {
      * The number of sprites in the {@link MrCuddles} banner spriteset.
      */
     private static final Integer MRCUDDLE_BANNER_SPRITES = 3;
-    
+
     /**
      * The number of sprites in the {@link ProfitBird} banner spriteset.
      */
@@ -101,6 +101,7 @@ public class PickUpView extends AbstractEntityView {
 
     /**
      * the constructor of this view class.
+     * 
      * @param images the whole set of images that will be used by the pickup type.
      */
     public PickUpView(final List<Image> images) {
@@ -132,16 +133,22 @@ public class PickUpView extends AbstractEntityView {
 
                         switch (vehiclePickUp.getVehicleSpawn()) {
                             case LILSTOMPER:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + animationCounter / animationLenght % LILSTOMPER_BANNER_SPRITES;
+                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES
+                                        + animationCounter / animationLenght % LILSTOMPER_BANNER_SPRITES;
                                 break;
                             case MRCUDDLES:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES + animationCounter / animationLenght % MRCUDDLE_BANNER_SPRITES;
+                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                        + animationCounter / animationLenght % MRCUDDLE_BANNER_SPRITES;
                                 break;
                             case PROFITBIRD:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES + MRCUDDLE_BANNER_SPRITES + animationCounter / animationLenght % PROFIT_BIRD_BANNER_SPRITES;
+                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                        + MRCUDDLE_BANNER_SPRITES
+                                        + animationCounter / animationLenght % PROFIT_BIRD_BANNER_SPRITES;
                                 break;
                             case DUKEFISHRON:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES + MRCUDDLE_BANNER_SPRITES + PROFIT_BIRD_BANNER_SPRITES + animationCounter / animationLenght % DUKE_FISHRON_BANNER_SPRITES;
+                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                        + MRCUDDLE_BANNER_SPRITES + PROFIT_BIRD_BANNER_SPRITES
+                                        + animationCounter / animationLenght % DUKE_FISHRON_BANNER_SPRITES;
                                 break;
 
                             default:
@@ -159,12 +166,18 @@ public class PickUpView extends AbstractEntityView {
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
                         animationLenght = SHIELD_PICKUP_ANIMATION_LENGHT;
-                        if(this.animationCounter==0) {
+                        if (this.animationCounter == 0) {
                             this.width = SHIELD_PICKUP_X_DIMENSION;
                             this.height = SHIELD_PICKUP_Y_DIMENSION;
                         } else {
-                            this.width += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
-                            this.height += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2 ? 1.0 : -1.0);
+                            this.width += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
+                                    % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2
+                                            ? 1.0
+                                            : -1.0);
+                            this.height += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
+                                    % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2
+                                            ? 1.0
+                                            : -1.0);
                         }
                         break;
                     case DEACTIVATED:

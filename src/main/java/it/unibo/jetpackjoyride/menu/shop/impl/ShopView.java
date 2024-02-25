@@ -26,55 +26,59 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 
 /**
  * The view class for the shop menu, it extends {@link GameMenuImpl},
- * because of some common functionalities, such as background rescaling
+ * because of some common functionalities, such as background rescaling.
  */
 public final class ShopView extends GameMenuImpl {
-    /** Constants related to image positioning*/
+    /** Constants related to image positioning . */
     private static final int IMAGE_X_POS = 50;
     private static final int IMAGE_SIZE = 110;
     private static final int IMAGE_DISTANCE = 30;
 
-    /**Constants related to button positioning */
+    /** Constants related to button positioning . */
     private static final int BUY_BUTTON_X_POS = 210;
     private static final int BUTTON_WIDTH = 80;
     private static final int BUTTON_HEIGHT = 80;
     private static final int BUY_BUTTON_Y_DISPLACEMENT = (IMAGE_SIZE - BUTTON_HEIGHT) / 2;
+    private static final int QUIT_BUTTON_WIDTH = 160;
+    private static final int QUIT_BUTTON_HEIGHT = 60;
 
-    /** Constants related to text and font*/
+    /** Constants related to text and font . */
     private static final int FONT_SIZE = 20;
     private static final int SHIELD_COUNTER_X_POS = BUY_BUTTON_X_POS + 2 * BUTTON_WIDTH + 2 * IMAGE_DISTANCE;
     private static final int DESCR_X_POS = SHIELD_COUNTER_X_POS + IMAGE_DISTANCE;
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
-    
 
-    /** Y position of the mrcuddles image, used as a reference for the rest
-     * of the components
-    */
+    /**
+     * Y position of the mrcuddles image, used as a reference for the rest
+     * of the components.
+     */
     private final int cuddleImageYPos = (int) GameInfo.getInstance().getScreenHeight() / 8;
 
-    /**The shop controller associated with this view class */
+    /** The shop controller associated with this view class . */
     private final ShopController controller;
-    /**The text section that displays the coin balance */
+    /** The text section that displays the coin balance . */
     private final Text moneyText;
-    /**The text section that appears when the right password is typed
-     * alerting that {@link DukeFishron} has been unlocked
+    /**
+     * The text section that appears when the right password is typed
+     * alerting that {@link DukeFishron} has been unlocked.
      */
     private final Text dukeUnlocked;
-    /**The map that associates a button to a item description */
+    /** The map that associates a button to a item description . */
     private final Map<Button, Text> descriptionsMap = new HashMap<>();
-    /**The map that associates a button to its corresponding item */
+    /** The map that associates a button to its corresponding item . */
     private final Map<Button, Items> buttonMap = new HashMap<>();
-    /**A map that associates a button to its corresponding Image*/
+    /** A map that associates a button to its corresponding Image . */
     private final Map<Button, ImageView> imageMap = new HashMap<>();
-    /** The lists of the observers subscribed to this class */
+    /** The lists of the observers subscribed to this class. */
     private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
     private List<BackToMenuObs> backList = new ArrayList<>();
     private List<CharacterObs> charObsList = new ArrayList<>();
-    /**The root of the scene */
+    /** The root of the scene .. */
     private StackPane root = new StackPane();
 
     /**
-     * Constructor for ShopView
+     * Constructor for ShopView.
+     * 
      * @param controller
      * @param primaryStage
      */
@@ -84,7 +88,7 @@ public final class ShopView extends GameMenuImpl {
         this.root.setFocusTraversable(true);
         this.root.setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
-            
+
         });
         initializeGameMenu(primaryStage);
         primaryStage.centerOnScreen();
@@ -121,7 +125,7 @@ public final class ShopView extends GameMenuImpl {
         }
 
         for (final var entry : buttonMap.entrySet()) {
-     
+
             entry.getKey().setText(String.valueOf(entry.getValue().getItemCost()));
             entry.getKey().setStyle(BUTTON_STYLE);
             entry.getKey().setPrefWidth(BUTTON_WIDTH);
@@ -135,13 +139,13 @@ public final class ShopView extends GameMenuImpl {
             });
         }
 
-        final Button backButton = ButtonFactory.createButton("menu", e -> this.backList.forEach(obs -> obs.goBack()), BUTTON_WIDTH * 2,
-                30 * 2);
+        final Button backButton = ButtonFactory.createButton("menu", e -> this.backList.forEach(obs -> obs.goBack()),
+                QUIT_BUTTON_WIDTH,
+                QUIT_BUTTON_HEIGHT);
 
         backButton.setTranslateX(20);
         backButton.setTranslateY(20);
 
-      
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         moneyText.setFill(Color.WHITE);
@@ -170,46 +174,62 @@ public final class ShopView extends GameMenuImpl {
      * Sets the scene of the shop menu on Stage.
      */
     public void setSceneOnStage() {
-         this.showMenu();
+        this.showMenu();
     }
-    /**Methods created for observers that allow subscribing and unsubscribing to 
-     * this observable
+
+    /**
+     * Subscriber method for {@link ShopItemPurchaseObs} observers.
      */
     public void addBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
     }
 
+    /**
+     * Subscriber method for {@link BackToMenu} observers.
+     */
     public void addBackToMenuObs(BackToMenuObs observer) {
         backList.add(observer);
     }
 
+    /**
+     * Subscriber method for {@link CharacterObs} observers.
+     */
     public void addCharObs(CharacterObs observer) {
         charObsList.add(observer);
     }
 
+    /**
+     * Unsubscriber method for {@link BackToMenuObs} observers.
+     */
     public void removeBackToMenuObs(BackToMenuObs observer) {
         backList.remove(observer);
     }
 
+    /**
+     * Unsubscriber method for {@link ShopItemPurchaseObs} observers.
+     */
     public void removeBuyObs(ShopItemPurchaseObs observer) {
         buyObsList.remove(observer);
     }
 
-
+    /**
+     * Unsubscriber method for {@link CharacterObs} observers.
+     */
     public void removeCharObs(CharacterObs observer) {
         charObsList.remove(observer);
     }
-    /**The graphical update method of this view class */
+
+    /** The graphical update method of this view class . */
     public void update() {
-       
+
         this.moneyText.setText("Money: $" + GameStats.getCoins());
 
-        if(controller.getUnlocked().contains(Items.DUKE)){
+        if (controller.getUnlocked().contains(Items.DUKE)) {
             this.dukeUnlocked.setText("DUKE UNLOCKED ! ! !");
         }
         for (final var entry : this.buttonMap.entrySet()) {
             if (controller.getUnlocked().contains(entry.getValue())) {
-                
+
                 final Image image = new Image(
                         getClass().getClassLoader().getResource("buttons/tick.png").toExternalForm());
                 final ImageView imageView = new ImageView(image);

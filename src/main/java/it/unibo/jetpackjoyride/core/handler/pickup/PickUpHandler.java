@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class PickUpHandler {
-    private final static Integer BASEPICKUPSPAWNCHANCE = 100;
+    private static final Integer BASEPICKUPSPAWNCHANCE = 100;
     private final List<PickUp> listOfPickUp;
     private final EntityModelGeneratorImpl entityModelGenerator;
     private final Random random;

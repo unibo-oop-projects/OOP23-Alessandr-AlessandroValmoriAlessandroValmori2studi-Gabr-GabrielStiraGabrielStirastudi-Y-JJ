@@ -7,14 +7,14 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 public class BackToMenuObsImpl implements BackToMenuObs {
 
     /** The shop controller. */
-    private ShopController shopController;
+    private final ShopController shopController;
 
     /**
      * The constructor.
      * 
      * @param shopController the {@link ShopController}.
      */
-    public BackToMenuObsImpl(ShopController shopController) {
+    public BackToMenuObsImpl(final ShopController shopController) {
         this.shopController = shopController;
     }
 

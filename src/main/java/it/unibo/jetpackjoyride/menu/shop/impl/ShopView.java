@@ -70,11 +70,11 @@ public final class ShopView extends GameMenuImpl {
     /** A map that associates a button to its corresponding Image . */
     private final Map<Button, ImageView> imageMap = new HashMap<>();
     /** The lists of the observers subscribed to this class. */
-    private List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
-    private List<BackToMenuObs> backList = new ArrayList<>();
-    private List<CharacterObs> charObsList = new ArrayList<>();
+    private final List<ShopItemPurchaseObs> buyObsList = new ArrayList<>();
+    private final List<BackToMenuObs> backList = new ArrayList<>();
+    private final List<CharacterObs> charObsList = new ArrayList<>();
     /** The root of the scene .. */
-    private StackPane root = new StackPane();
+    private final StackPane root = new StackPane();
 
     /**
      * Constructor for ShopView.
@@ -180,42 +180,42 @@ public final class ShopView extends GameMenuImpl {
     /**
      * Subscriber method for {@link ShopItemPurchaseObs} observers.
      */
-    public void addBuyObs(ShopItemPurchaseObs observer) {
+    public void addBuyObs(final ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
     }
 
     /**
      * Subscriber method for {@link BackToMenu} observers.
      */
-    public void addBackToMenuObs(BackToMenuObs observer) {
+    public void addBackToMenuObs(final BackToMenuObs observer) {
         backList.add(observer);
     }
 
     /**
      * Subscriber method for {@link CharacterObs} observers.
      */
-    public void addCharObs(CharacterObs observer) {
+    public void addCharObs(final CharacterObs observer) {
         charObsList.add(observer);
     }
 
     /**
      * Unsubscriber method for {@link BackToMenuObs} observers.
      */
-    public void removeBackToMenuObs(BackToMenuObs observer) {
+    public void removeBackToMenuObs(final BackToMenuObs observer) {
         backList.remove(observer);
     }
 
     /**
      * Unsubscriber method for {@link ShopItemPurchaseObs} observers.
      */
-    public void removeBuyObs(ShopItemPurchaseObs observer) {
+    public void removeBuyObs(final ShopItemPurchaseObs observer) {
         buyObsList.remove(observer);
     }
 
     /**
      * Unsubscriber method for {@link CharacterObs} observers.
      */
-    public void removeCharObs(CharacterObs observer) {
+    public void removeCharObs(final CharacterObs observer) {
         charObsList.remove(observer);
     }
 

@@ -9,7 +9,6 @@ import java.util.Random;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
@@ -97,7 +96,7 @@ public final class ObstacleLoader {
     private static final Integer OBSTACLE_ROTATIONX = 8;
     private static final Integer OBSTACLE_ROTATIONY = 9;
     private static final Integer OBSTACLE_TICKTIME = 10;
-    private static final Integer TOTAL_NUM_OF_PARAMETERS = 10;
+    private static final Integer TOTAL_NUM_OF_PARAMETERS = 11;
 
     /**
      * Is used to read a stream of bytes.
@@ -150,8 +149,13 @@ public final class ObstacleLoader {
          * obstacle is used.
          */
         try {
-            this.in = Objects.requireNonNull(ClassLoader.getSystemResourceAsStream(filePath));
-            this.readFromFile();
+            this.in = ClassLoader.getSystemResourceAsStream(filePath);
+            if (in != null) {
+                this.readFromFile();
+            } else {
+                this.allObstacles.clear();
+                this.randomBasedObstacleGeneration();
+            }
         } catch (IOException | InvalidDataFormatException e) {
             this.allObstacles.clear();
             this.randomBasedObstacleGeneration();

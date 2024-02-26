@@ -2,6 +2,7 @@ package it.unibo.jetpackjoyride.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -211,14 +212,14 @@ public class EntityImageLoader {
      * @return The list of loaded images.
      */
 
-    @SuppressFBWarnings(value = "DCN")
+    @SuppressFBWarnings("DCN")
     private List<Image> imageLoader(final Integer numberOfImages, final String pathName)
             throws InvalidDataFormatException {
         try {
-            return IntStream.range(0, numberOfImages)
+            return Objects.requireNonNull(IntStream.range(0, numberOfImages)
                     .mapToObj(i -> new Image(
                             getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
-                    .toList();
+                    .toList());
         } catch (NullPointerException e) {
             throw new InvalidDataFormatException("Couldn't find the image at " + pathName);
         }

@@ -45,7 +45,6 @@ public final class StartMenu extends GameMenuImpl {
         setMenuImage(menuImage);
         gameStatsController = new GameStatsHandler();
         shopController = new ShopControllerImpl(primaryStage, this);
-        this.gameLoop = Optional.of(new GameLoop(primaryStage, shopController)); 
         initializeGameMenu(primaryStage);
         primaryStage.setMinHeight(GameInfo.getInstance().getDefaultHeight());
         primaryStage.setMinWidth(GameInfo.getInstance().getDefaultWidth());

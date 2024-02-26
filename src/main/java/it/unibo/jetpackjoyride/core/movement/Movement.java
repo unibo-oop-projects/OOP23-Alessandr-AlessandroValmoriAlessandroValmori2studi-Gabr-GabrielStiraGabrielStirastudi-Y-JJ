@@ -266,7 +266,9 @@ public final class Movement {
      * generally really low).
      * 
      */
-    @SuppressFBWarnings(value = "LinguisticNaming", justification = "Even if a setter method should not return any type, we are using it inside a builder")
+    @SuppressFBWarnings(value = "LinguisticNaming", 
+                        justification = "Even if a setter method should not return any type,"
+                        + " we are using it inside a builder")
     public static final class Builder {
 
         private static final Pair<Double, Double> DEFAULT = new Pair<>(0.0, 0.0);

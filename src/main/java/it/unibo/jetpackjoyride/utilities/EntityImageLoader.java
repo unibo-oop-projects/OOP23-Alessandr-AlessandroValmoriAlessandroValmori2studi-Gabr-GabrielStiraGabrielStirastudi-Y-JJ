@@ -25,14 +25,18 @@ import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
 import java.util.Collections;
 import javafx.scene.image.Image;
 
-/** 
- * The {@link EntityImageLoader} is used by the {@link EntityController} class to 
+/**
+ * The {@link EntityImageLoader} is used by the {@link EntityController} class
+ * to
  * load the images which are initially associated to the view of an entity.
- * Initially, all the images of the entities are loaded and stored in this class.
- * When an entity is ready to be shown, it is passed to the loadImages method which
+ * Initially, all the images of the entities are loaded and stored in this
+ * class.
+ * When an entity is ready to be shown, it is passed to the loadImages method
+ * which
  * returns a list of all the images which are associated to the entity.
- * Loading the images is a one-time only process for each entity, after which there
- * is no need to deal with other images loading. 
+ * Loading the images is a one-time only process for each entity, after which
+ * there
+ * is no need to deal with other images loading.
  */
 public class EntityImageLoader {
     /**
@@ -81,14 +85,15 @@ public class EntityImageLoader {
     private static final Integer SHIELDPICKUPSPRITES = 1;
 
     /**
-     * The lists of the images that correspond to each {@link EntityType}
+     * The lists of the images that correspond to each {@link EntityType}.
      */
     private final List<Image> obstacleImages;
     private final List<Image> powerupImages;
     private final List<Image> pickupImages;
 
     /**
-     * Constructs an {@link EntityImageLoader} and loads images for obstacles, power-ups,
+     * Constructs an {@link EntityImageLoader} and loads images for obstacles,
+     * power-ups,
      * and pickups.
      */
     public EntityImageLoader() {
@@ -104,7 +109,7 @@ public class EntityImageLoader {
         } catch (InvalidDataFormatException e) {
             obstacleImages.clear();
         }
-        
+
         // Load power-up images
         try {
             powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
@@ -117,11 +122,13 @@ public class EntityImageLoader {
 
         // Load pickup images
         try {
-            pickupImages.addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
-            pickupImages.addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
+            pickupImages
+                    .addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
+            pickupImages
+                    .addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
         } catch (InvalidDataFormatException e) {
             pickupImages.clear();
-        } 
+        }
     }
 
     /**
@@ -143,6 +150,8 @@ public class EntityImageLoader {
                     case LASER:
                         return takeImages(this.obstacleImages, MISSILESPRITES + ZAPPERSPRITES,
                                 MISSILESPRITES + ZAPPERSPRITES + LASERSPRITES - 1);
+                    default:
+                        break;
                 }
             case POWERUP:
                 final PowerUp powerUp = (PowerUp) entity;
@@ -158,6 +167,8 @@ public class EntityImageLoader {
                     case DUKEFISHRON:
                         return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES,
                                 LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES + DUKEFISHRONSPRITES - 1);
+                    default:
+                        break;
                 }
             case PICKUP:
                 final PickUp pickUp = (PickUp) entity;
@@ -167,6 +178,8 @@ public class EntityImageLoader {
                     case SHIELD:
                         return takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,
                                 VEHICLEPICKUPSPRITES + SHIELDPICKUPSPRITES - 1);
+                    default:
+                        break;
                 }
                 return Collections.unmodifiableList(pickupImages);
             case BARRY:
@@ -198,15 +211,16 @@ public class EntityImageLoader {
      * @return The list of loaded images.
      */
 
-    @SuppressFBWarnings(value = "DCN", justification = "I need to do this")
-    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) throws InvalidDataFormatException {
+    @SuppressFBWarnings(value = "DCN")
+    private List<Image> imageLoader(final Integer numberOfImages, final String pathName)
+            throws InvalidDataFormatException {
         try {
             return IntStream.range(0, numberOfImages)
-                .mapToObj(i -> new Image(
-                        getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
-                .toList();
+                    .mapToObj(i -> new Image(
+                            getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
+                    .toList();
         } catch (NullPointerException e) {
-            throw new InvalidDataFormatException("ciao");
+            throw new InvalidDataFormatException("Couldn't find the image at " + pathName);
         }
     }
 }

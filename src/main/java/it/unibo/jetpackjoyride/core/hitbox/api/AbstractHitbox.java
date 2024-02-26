@@ -115,7 +115,7 @@ public abstract class AbstractHitbox implements Hitbox {
      * 
      * @param firstHitbox The first hitbox.
      * @param secondHitbox The second hitbox.
-     * @return
+     * @return True if the two hitbox are colliding, false otherwise.
      */
     private boolean isTouchingHelper(final Hitbox firstHitbox, final Hitbox secondHitbox) {
         final Polygon allPoints = new Polygon();

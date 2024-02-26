@@ -54,7 +54,6 @@ public class CharacterImpl implements CharacterObs {
                 final String concatenatedString = sb.toString();
                 if (PASSWORD.equals(concatenatedString)) {
                     this.shopController.unlock(Items.DUKE);
-                    this.shopController.updateView();
                 }
             }
         }

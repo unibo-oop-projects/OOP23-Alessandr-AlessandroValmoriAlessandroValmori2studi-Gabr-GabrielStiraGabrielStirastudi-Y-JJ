@@ -38,6 +38,5 @@ public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
                 GameStats.updateCoins(-item.getItemCost());
             }
         }
-        shopController.updateView();
     }
 }

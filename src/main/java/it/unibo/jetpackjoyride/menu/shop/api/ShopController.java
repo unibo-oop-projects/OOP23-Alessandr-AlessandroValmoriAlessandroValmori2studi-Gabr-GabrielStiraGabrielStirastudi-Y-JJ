@@ -97,10 +97,6 @@ public interface ShopController {
 
     void showTheShop();
 
-    /**
-     * Updates the view component of the shop.
-     */
-    void updateView();
 
     /**
      * Saves the modifications made in the shop and navigates back to the main menu.

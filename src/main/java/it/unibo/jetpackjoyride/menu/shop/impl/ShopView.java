@@ -95,6 +95,7 @@ public final class ShopView extends GameMenuImpl {
         this.root.setFocusTraversable(true);
         this.root.setOnKeyPressed(ev -> {
             this.charObsList.forEach(obs -> obs.type(ev.getCode()));
+            this.update();
 
         });
         initializeGameMenu(primaryStage);
@@ -143,6 +144,7 @@ public final class ShopView extends GameMenuImpl {
                             + BUY_BUTTON_Y_DISPLACEMENT + this.cuddleImageYPos);
             entry.getKey().setOnAction(e -> {
                 this.buyObsList.forEach(obs -> obs.onItemBought(entry.getValue()));
+                this.update();
             });
         }
 
@@ -233,7 +235,7 @@ public final class ShopView extends GameMenuImpl {
     }
 
     /** The graphical update method of this view class . */
-    public void update() {
+    private void update() {
 
         this.moneyText.setText("Money: $" + GameStats.getCoins());
 

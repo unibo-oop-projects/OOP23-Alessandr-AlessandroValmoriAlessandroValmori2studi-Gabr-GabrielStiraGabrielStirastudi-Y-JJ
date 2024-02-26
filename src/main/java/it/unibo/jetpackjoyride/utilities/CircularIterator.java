@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  * @author alessandro.valmori2@studio.unibo.it
  */
 public class CircularIterator<T> implements Iterator<T> {
-    private List<T> list;
+    private final List<T> list;
     private int currentIndex;
 
     /**
@@ -46,7 +46,7 @@ public class CircularIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         if (this.hasNext()) {
-            T nextItem = this.list.get(this.currentIndex);
+            final T nextItem = this.list.get(this.currentIndex);
             this.currentIndex = (this.currentIndex + 1) % this.list.size(); // Wrap around to the beginning if end is reached
             return nextItem;
         }

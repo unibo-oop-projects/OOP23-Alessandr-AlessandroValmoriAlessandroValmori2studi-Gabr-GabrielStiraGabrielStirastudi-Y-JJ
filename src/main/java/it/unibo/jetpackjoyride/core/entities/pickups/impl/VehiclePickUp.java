@@ -80,7 +80,7 @@ public class VehiclePickUp extends AbstractPickUp {
 
         if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
             if (this.animationTimer.equals(0)) {
-                this.setEntityMovement(new Movement.Builder().setPosition(BANNER_SPAWNING_COORDINATES).build());
+                this.setEntityMovement(new Movement.Builder().addNewPosition(BANNER_SPAWNING_COORDINATES).build());
             }
             this.animationTimer++;
         }
@@ -91,11 +91,11 @@ public class VehiclePickUp extends AbstractPickUp {
         this.switchWave++;
         if (this.switchWave.equals(SWITCH_DIRECTION_DURATION) && this.getEntityStatus().equals(EntityStatus.ACTIVE)) {
             this.setEntityMovement(new Movement.Builder()
-                    .setAcceleration(this.getEntityMovement().getAcceleration())
-                    .setSpeed(this.getEntityMovement().getSpeed())
-                    .setPosition(this.getEntityMovement().getPosition())
-                    .setRotation(this.getEntityMovement().getRotation())
-                    .setMovementChangers(
+                    .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                    .addNewSpeed(this.getEntityMovement().getSpeed())
+                    .addNewPosition(this.getEntityMovement().getPosition())
+                    .addNewRotation(this.getEntityMovement().getRotation())
+                    .addNewMovementChangers(
                             this.getEntityMovement().getMovementChangers().contains(
                                 MovementChangers.GRAVITY)
                                     ? List.of(MovementChangers.INVERSEGRAVITY)

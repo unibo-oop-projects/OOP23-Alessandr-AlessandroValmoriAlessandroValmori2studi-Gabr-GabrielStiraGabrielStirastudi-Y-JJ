@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.entities.obstacle.impl;
 
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 
@@ -49,11 +50,11 @@ public final class Laser extends AbstractObstacle {
         this.setEntityStatus(EntityStatus.CHARGING);
 
         this.setEntityMovement(new Movement.Builder()
-                .setPosition(SPAWNING_X_COORDINATE, this.getEntityMovement().getPosition().get2())
-                .setSpeed(this.getEntityMovement().getSpeed())
-                .setAcceleration(this.getEntityMovement().getAcceleration())
-                .setRotation(this.getEntityMovement().getRotation())
-                .setMovementChangers(this.getEntityMovement().getMovementChangers())
+                .addNewPosition(SPAWNING_X_COORDINATE, this.getEntityMovement().getPosition().get2())
+                .addNewSpeed(this.getEntityMovement().getSpeed())
+                .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                .addNewRotation(this.getEntityMovement().getRotation())
+                .addNewMovementChangers(this.getEntityMovement().getMovementChangers())
                 .build());
     }
 

@@ -180,19 +180,19 @@ public final class ObstacleLoader {
                 try {
                     switch (typeOfObstacle) {
                         case 0:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
-                                    .setSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
+                            movement = new Movement.Builder().addNewPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
+                                    .addNewSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
                                     .build();
                             obstacleType = ObstacleType.MISSILE;
                             break;
                         case 1:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
-                                    .setSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
+                            movement = new Movement.Builder().addNewPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
+                                    .addNewSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
                                     .build();
                             obstacleType = ObstacleType.ZAPPER;
                             break;
                         case 2:
-                            movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
+                            movement = new Movement.Builder().addNewPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
                                     .build();
                             obstacleType = ObstacleType.LASER;
                             break;
@@ -201,8 +201,8 @@ public final class ObstacleLoader {
                                     "Tried to spawn an unknown obstacle in ObstacleLoader. A missile will be generated instead.");
                     }
                 } catch (NotImplementedObjectException e) {
-                    movement = new Movement.Builder().setPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
-                            .setSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
+                    movement = new Movement.Builder().addNewPosition(0.0, random.nextDouble(Y_MAP_DIMENSION))
+                            .addNewSpeed(-(DEFAULT_SPEED_OF_OBSTACLES + i / DEFAULT_SPEED_OF_OBSTACLES), 0.0)
                             .build();
                     obstacleType = ObstacleType.MISSILE;
                 }
@@ -270,8 +270,8 @@ public final class ObstacleLoader {
                         .add(new Pair<>(
                                 this.entityGenerator
                                         .generateObstacle(ObstacleType.valueOf(obstacleType),
-                                                new Movement.Builder().setPosition(pos).setSpeed(speed)
-                                                        .setAcceleration(acc).setRotation(rot).build()),
+                                                new Movement.Builder().addNewPosition(pos).addNewSpeed(speed)
+                                                        .addNewAcceleration(acc).addNewRotation(rot).build()),
                                 tickTimeSpawn));
             } else {
                 this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));

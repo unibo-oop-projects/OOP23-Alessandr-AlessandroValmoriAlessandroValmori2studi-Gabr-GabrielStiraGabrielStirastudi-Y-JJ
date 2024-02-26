@@ -2,7 +2,6 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.Image;
 import java.util.List;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
@@ -196,7 +195,6 @@ public final class PowerUpView extends AbstractEntityView {
     }
 
     @Override
-    @SuppressFBWarnings("INT")
     protected void animateFrames(final Entity entity) {
         final PowerUp powerUp = (PowerUp) entity;
 
@@ -274,8 +272,7 @@ public final class PowerUpView extends AbstractEntityView {
                                 this.setAnimationFrame((this.animationCounter[1]) / this.animationLenght
                                         % MRCUDDLE_ROARING_NUM_SPRITES);
                             } else {
-                                this.setAnimationFrame((this.animationCounter[1]) / this.animationLenght
-                                        % MRCUDDLE_STATIC_NUM_SPRITES);
+                                this.setAnimationFrame(0);
                             }
 
                             break;

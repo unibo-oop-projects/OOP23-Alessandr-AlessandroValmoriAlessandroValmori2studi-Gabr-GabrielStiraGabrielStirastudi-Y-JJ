@@ -75,11 +75,11 @@ public final class MrCuddles extends AbstractPowerUp {
         }
 
         this.setEntityMovement(new Movement.Builder()
-                .setPosition(this.getEntityMovement().getPosition())
-                .setSpeed(this.getEntityMovement().getSpeed())
-                .setAcceleration(this.getEntityMovement().getAcceleration())
-                .setRotation(this.getEntityMovement().getSpeed().get2() * 2, 0.0)
-                .setMovementChangers(List.of(MovementChangers.BOUNDS,
+                .addNewPosition(this.getEntityMovement().getPosition())
+                .addNewSpeed(this.getEntityMovement().getSpeed())
+                .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                .addNewRotation(this.getEntityMovement().getSpeed().get2() * 2, 0.0)
+                .addNewMovementChangers(List.of(MovementChangers.BOUNDS,
                         this.getPerformingAction().equals(PerformingAction.ASCENDING) ? MovementChangers.INVERSEGRAVITY
                                 : MovementChangers.GRAVITY))
                 .build());

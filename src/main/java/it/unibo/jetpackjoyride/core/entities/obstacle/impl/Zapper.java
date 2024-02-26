@@ -37,11 +37,11 @@ public final class Zapper extends AbstractObstacle {
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.setEntityMovement(new Movement.Builder()
-        .setPosition(SPAWNINGXCOORDINATE, this.getEntityMovement().getPosition().get2())
-        .setSpeed(-startingXSpeed, this.getEntityMovement().getSpeed().get2())
-        .setAcceleration(this.getEntityMovement().getAcceleration())
-        .setRotation(this.getEntityMovement().getRotation())
-        .setMovementChangers(this.getEntityMovement().getMovementChangers())
+        .addNewPosition(SPAWNINGXCOORDINATE, this.getEntityMovement().getPosition().get2())
+        .addNewSpeed(-startingXSpeed, this.getEntityMovement().getSpeed().get2())
+        .addNewAcceleration(this.getEntityMovement().getAcceleration())
+        .addNewRotation(this.getEntityMovement().getRotation())
+        .addNewMovementChangers(this.getEntityMovement().getMovementChangers())
         .build());
     }
 

@@ -48,12 +48,12 @@ public final class MrCuddlesGenerator {
         for (int i = MRCUDDLES_LENGHT - 1; i >= 0; i--) {
 
             final Movement delayedMovement = new Movement.Builder()
-                    .setPosition(powerUpMovement.getPosition().get1() - DISTANCE_BETWEEN_PIECES * i
+                    .addNewPosition(powerUpMovement.getPosition().get1() - DISTANCE_BETWEEN_PIECES * i
                             - (i != 0 ? DISTANCE_FROM_HEAD : 0), powerUpMovement.getPosition().get2())
-                    .setSpeed(powerUpMovement.getSpeed())
-                    .setAcceleration(powerUpMovement.getAcceleration())
-                    .setRotation(powerUpMovement.getRotation())
-                    .setMovementChangers(powerUpMovement.getMovementChangers())
+                    .addNewSpeed(powerUpMovement.getSpeed())
+                    .addNewAcceleration(powerUpMovement.getAcceleration())
+                    .addNewRotation(powerUpMovement.getRotation())
+                    .addNewMovementChangers(powerUpMovement.getMovementChangers())
                     .build();
 
             final PowerUp mrCuddlesBody = new MrCuddles(delayedMovement, powerUpHitbox, i);

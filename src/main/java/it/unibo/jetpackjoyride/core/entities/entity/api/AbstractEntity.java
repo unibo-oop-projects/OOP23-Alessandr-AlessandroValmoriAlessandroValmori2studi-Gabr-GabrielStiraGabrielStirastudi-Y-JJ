@@ -74,11 +74,11 @@ public abstract class AbstractEntity implements Entity {
     @Override
     public final void setEntityMovement(final Movement newMovement) {
         this.movement = new Movement.Builder()
-                .setPosition(newMovement.getPosition())
-                .setSpeed(newMovement.getSpeed())
-                .setAcceleration(newMovement.getAcceleration())
-                .setRotation(newMovement.getRotation())
-                .setMovementChangers(newMovement.getMovementChangers())
+                .addNewPosition(newMovement.getPosition())
+                .addNewSpeed(newMovement.getSpeed())
+                .addNewAcceleration(newMovement.getAcceleration())
+                .addNewRotation(newMovement.getRotation())
+                .addNewMovementChangers(newMovement.getMovementChangers())
                 .build();
     }
 

@@ -67,15 +67,15 @@ public class DukeFishron extends AbstractPowerUp {
             case DESCENDING:
                 if (isSpaceBarPressed && this.intervalBewteenJumps) {
                     this.setEntityMovement(new Movement.Builder()
-                            .setAcceleration(this.getEntityMovement().getAcceleration())
-                            .setSpeed(this.getEntityMovement().getSpeed().get1(),
+                            .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                            .addNewSpeed(this.getEntityMovement().getSpeed().get1(),
                                     -this.getEntityMovement().getSpeed().get2())
-                            .setPosition(this.getEntityMovement().getPosition())
-                            .setRotation(
+                            .addNewPosition(this.getEntityMovement().getPosition())
+                            .addNewRotation(
                                     (this.getEntityMovement().getSpeed().get2() > 0 ? -1.0 : 1.0)
                                             * (Math.abs(this.getEntityMovement().getRotation().get1())),
                                     this.getEntityMovement().getRotation().get2())
-                            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                            .addNewMovementChangers(this.getEntityMovement().getMovementChangers()).build());
                     this.intervalBewteenJumps = false;
                 }
                 break;
@@ -97,14 +97,14 @@ public class DukeFishron extends AbstractPowerUp {
                 this.timerForRage = 0;
             }
             this.setEntityMovement(new Movement.Builder()
-                    .setAcceleration(this.getEntityMovement().getAcceleration())
-                    .setSpeed(this.getEntityMovement().getSpeed().get1(),
+                    .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                    .addNewSpeed(this.getEntityMovement().getSpeed().get1(),
                             this.getEntityMovement().getSpeed().get2()
                                     * (this.timerForRage.equals(DEFAULT_RAGE_TIMER) ? RAGE_SPEED_MODIFIER
                                             : 1 / RAGE_SPEED_MODIFIER))
-                    .setPosition(this.getEntityMovement().getPosition())
-                    .setRotation(this.getEntityMovement().getRotation())
-                    .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                    .addNewPosition(this.getEntityMovement().getPosition())
+                    .addNewRotation(this.getEntityMovement().getRotation())
+                    .addNewMovementChangers(this.getEntityMovement().getMovementChangers()).build());
         }
     }
 }

@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.utilities.Pair;
@@ -113,18 +115,18 @@ public final class PlayerTest {
         boolean hasTouched6 = false;
 
         final var zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER,
-                new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED, 0.0).build());
+                new Movement.Builder().addNewPosition(0.0, BARRY_STARTING_POS.get2()).addNewSpeed(-OBS_SPEED, 0.0).build());
         final var missile = this.entityFactory.generateObstacle(ObstacleType.MISSILE,
-                new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED, 0.0).build());
+                new Movement.Builder().addNewPosition(0.0, BARRY_STARTING_POS.get2()).addNewSpeed(-OBS_SPEED, 0.0).build());
         final var laser = this.entityFactory.generateObstacle(ObstacleType.LASER,
-                new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).build());
+                new Movement.Builder().addNewPosition(0.0, BARRY_STARTING_POS.get2()).build());
 
         final var zapper1 = this.entityFactory.generateObstacle(ObstacleType.ZAPPER,
-                new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED, 0.0).build());
+                new Movement.Builder().addNewPosition(0.0, HUNDRED).addNewSpeed(-OBS_SPEED, 0.0).build());
         final var missile1 = this.entityFactory.generateObstacle(ObstacleType.MISSILE,
-                new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED, 0.0).build());
+                new Movement.Builder().addNewPosition(0.0, HUNDRED).addNewSpeed(-OBS_SPEED, 0.0).build());
         final var laser1 = this.entityFactory.generateObstacle(ObstacleType.LASER,
-                new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED, 0.0).build());
+                new Movement.Builder().addNewPosition(0.0, HUNDRED).addNewSpeed(-OBS_SPEED, 0.0).build());
 
         for (int i = 0; i < LOOP_LIMIT; i++) {
             barry.update(false);

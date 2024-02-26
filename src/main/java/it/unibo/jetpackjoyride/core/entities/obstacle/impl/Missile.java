@@ -66,11 +66,11 @@ public final class Missile extends AbstractObstacle {
 
         final Double startingXSpeed = Double.valueOf(GameInfo.MOVE_SPEED.get());
         this.movementBuffer = new Movement.Builder()
-                .setPosition(this.getEntityMovement().getPosition())
-                .setSpeed(-startingXSpeed * 2, this.getEntityMovement().getSpeed().get2())
-                .setAcceleration(this.getEntityMovement().getAcceleration())
-                .setRotation(this.getEntityMovement().getRotation())
-                .setMovementChangers(
+                .addNewPosition(this.getEntityMovement().getPosition())
+                .addNewSpeed(-startingXSpeed * 2, this.getEntityMovement().getSpeed().get2())
+                .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                .addNewRotation(this.getEntityMovement().getRotation())
+                .addNewMovementChangers(
                     this.getEntityMovement().getSpeed().get2() != 0 
                         ? List.of(MovementChangers.BOUNCING) : List.of())
                 .build();
@@ -91,8 +91,8 @@ public final class Missile extends AbstractObstacle {
              */
             if (this.getLifetime().equals(1)) {
                 this.setEntityMovement(new Movement.Builder()
-                        .setPosition(WARNING_SPAWNING_X, this.getEntityMovement().getPosition().get2())
-                        .setRotation(this.getEntityMovement().getRotation())
+                        .addNewPosition(WARNING_SPAWNING_X, this.getEntityMovement().getPosition().get2())
+                        .addNewRotation(this.getEntityMovement().getRotation())
                         .build());
             }
 
@@ -101,11 +101,11 @@ public final class Missile extends AbstractObstacle {
                 this.setEntityStatus(EntityStatus.ACTIVE);
 
                 this.setEntityMovement(new Movement.Builder()
-                        .setPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
-                        .setSpeed(this.movementBuffer.getSpeed())
-                        .setAcceleration(this.movementBuffer.getAcceleration())
-                        .setRotation(this.movementBuffer.getRotation())
-                        .setMovementChangers(this.movementBuffer.getMovementChangers())
+                        .addNewPosition(OUT_OF_BOUNDS_DX, this.movementBuffer.getPosition().get2())
+                        .addNewSpeed(this.movementBuffer.getSpeed())
+                        .addNewAcceleration(this.movementBuffer.getAcceleration())
+                        .addNewRotation(this.movementBuffer.getRotation())
+                        .addNewMovementChangers(this.movementBuffer.getMovementChangers())
                         .build());
             }
         }
@@ -124,8 +124,8 @@ public final class Missile extends AbstractObstacle {
         if (this.getEntityStatus().equals(EntityStatus.DEACTIVATED)) {
             if (this.lifetimeAfterDeactivation.equals(DELAY_BEFORE_DESTRUCTION)) {
                 this.setEntityMovement(new Movement.Builder()
-                        .setPosition(this.getEntityMovement().getPosition())
-                        .setSpeed(this.getEntityMovement().getSpeed().get1(), 0.0)
+                        .addNewPosition(this.getEntityMovement().getPosition())
+                        .addNewSpeed(this.getEntityMovement().getSpeed().get1(), 0.0)
                         .build());
             }
             this.lifetimeAfterDeactivation--;

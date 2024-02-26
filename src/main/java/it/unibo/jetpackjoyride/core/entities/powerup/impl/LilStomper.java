@@ -80,12 +80,12 @@ public final class LilStomper extends AbstractPowerUp {
                 if (this.loadJump.equals(MAX_TICKS_FOR_JUMP) || !isSpaceBarPressed) {
 
                     this.setEntityMovement(new Movement.Builder()
-                            .setAcceleration(this.getEntityMovement().getAcceleration())
-                            .setSpeed(this.getEntityMovement().getSpeed().get1(),
+                            .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                            .addNewSpeed(this.getEntityMovement().getSpeed().get1(),
                                     -this.loadJump * TICK_JUMP_HEIGHT_SPEED - BASE_JUMP_HEIGHT_SPEED)
-                            .setPosition(this.getEntityMovement().getPosition())
-                            .setRotation(this.getEntityMovement().getRotation())
-                            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                            .addNewPosition(this.getEntityMovement().getPosition())
+                            .addNewRotation(this.getEntityMovement().getRotation())
+                            .addNewMovementChangers(this.getEntityMovement().getMovementChangers()).build());
 
                     this.loadJump = 0;
                     this.setPerformingAction(PerformingAction.ASCENDING);
@@ -110,11 +110,11 @@ public final class LilStomper extends AbstractPowerUp {
             case GLIDING:
                 if (isSpaceBarPressed) {
                     this.setEntityMovement(new Movement.Builder()
-                            .setAcceleration(this.getEntityMovement().getAcceleration())
-                            .setSpeed(this.getEntityMovement().getSpeed().get1(), DESCENDING_BASE_SPEED)
-                            .setPosition(this.getEntityMovement().getPosition())
-                            .setRotation(this.getEntityMovement().getRotation())
-                            .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+                            .addNewAcceleration(this.getEntityMovement().getAcceleration())
+                            .addNewSpeed(this.getEntityMovement().getSpeed().get1(), DESCENDING_BASE_SPEED)
+                            .addNewPosition(this.getEntityMovement().getPosition())
+                            .addNewRotation(this.getEntityMovement().getRotation())
+                            .addNewMovementChangers(this.getEntityMovement().getMovementChangers()).build());
                 } else {
                     this.setPerformingAction(PerformingAction.DESCENDING);
                 }

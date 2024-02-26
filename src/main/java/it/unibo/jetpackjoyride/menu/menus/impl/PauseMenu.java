@@ -50,7 +50,7 @@ public final class PauseMenu extends GameMenuImpl {
         buttonsVBox.setSpacing(SPACE1);
         buttonsVBox.setStyle("-fx-background-color: rgb(0, 0, 0);");
         final Command continueCommand = new StartCommand(gameLoop);
-        final Button restartButton = ButtonFactory.createButton("back", 
+        final Button restartButton = ButtonFactory.createButton("Back", 
         e -> { 
             continueCommand.execute(); 
             this.buttonsVBox.setVisible(false);

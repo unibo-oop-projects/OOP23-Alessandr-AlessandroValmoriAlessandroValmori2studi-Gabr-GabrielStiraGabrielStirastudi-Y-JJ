@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 /**
  * The implementation of the {@link CharacterObs} interface,
  * responsible for handling a key press, in order to unlock
- * the secret powerup, {@link DukeFishron}
+ * the secret powerup, {@link DukeFishron}.
  * @author alessandro.valmori2@studio.unibo.it
  */
 
@@ -25,7 +25,7 @@ public class CharacterImpl implements CharacterObs {
     /** The password which needs to be matched .*/
     private static final String PASSWORD = "TRUFFLEWORM";
 
-    /** The constructor
+    /** The constructor.
      * 
      * @param shopController the {@link ShopController} class
     */

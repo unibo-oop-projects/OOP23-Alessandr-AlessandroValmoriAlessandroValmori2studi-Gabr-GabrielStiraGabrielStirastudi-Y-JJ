@@ -3,6 +3,9 @@ package it.unibo.jetpackjoyride.menu.shop.api;
 import java.util.Set;
 import java.util.Optional;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.menu.shop.impl.ShopView;
 
 /**
@@ -11,6 +14,7 @@ import it.unibo.jetpackjoyride.menu.shop.impl.ShopView;
  * It provides methods for navigation, purchasing items and consulting how much
  * money is possessed.
  * It also has methods to get the currently unlocked powerups.
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public interface ShopController {
 
@@ -23,13 +27,18 @@ public interface ShopController {
      * 
      */
     enum Items {
+        /**The item that corresponds to the powerup {@link MrCuddle} .*/
         MRCUDDLES(500, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0),
                 Optional.of("MR CUDDLES\n Too cool not to buy")),
-        SHIELD(100, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A consumable equippable shield")),
+        /**The shield. */
+        SHIELD(100, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A shield ot protect Barry")),
+        /**The item that corresponds to the powerup {@link LilStomper} .*/
         STOMPER(250, Optional.of(PowerUpType.LILSTOMPER), Optional.of(1),
                 Optional.of("STOMPER\n Clumsy but robust vehicle")),
+        /**The item that corresponds to the powerup {@link ProfitBird} .*/
         PROFITBIRD(400, Optional.of(PowerUpType.PROFITBIRD), Optional.of(2),
                 Optional.of("PROFIT BIRD\n Greedy bird, moves like flappy bird")),
+        /**The item that corresponds to the powerup {@link DukeFishron} .*/
         DUKE(666, Optional.of(PowerUpType.DUKEFISHRON), Optional.empty(), Optional.empty());
 
         private final int cost;

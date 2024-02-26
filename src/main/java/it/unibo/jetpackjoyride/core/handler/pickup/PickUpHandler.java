@@ -26,7 +26,7 @@ import java.util.Optional;
   */
 public class PickUpHandler {
     /**
-     * Defines the base chance a pickup has to be generated at each call of the spawnPickUp() method
+     * Defines the base chance a pickup has to be generated at each call of the spawnPickUp() method.
      */
     private static final Integer BASEPICKUPSPAWNCHANCE = 500;
     /**
@@ -128,7 +128,7 @@ public class PickUpHandler {
      * Gets the list of all non INACTVE pickup in game.
      * @return The list of all non INACTIVE pickups.
      */
-    
+
     public List<PickUp> getAllPickUps() {
         return Collections.unmodifiableList(this.listOfPickUp);
     }

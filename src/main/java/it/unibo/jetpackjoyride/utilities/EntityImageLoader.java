@@ -34,7 +34,6 @@ import javafx.scene.image.Image;
  * Loading the images is a one-time only process for each entity, after which there
  * is no need to deal with other images loading. 
  */
-@SuppressWarnings("unchecked")
 public class EntityImageLoader {
     /**
      * Total number of sprite images for {@link Missile}.
@@ -131,7 +130,7 @@ public class EntityImageLoader {
      * @param entity The entity for which to load images.
      * @return The list of images for the entity.
      */
-    @SuppressFBWarnings(value="BC")
+    @SuppressFBWarnings("BC")
     public List<Image> loadImages(final Entity entity) {
         switch (entity.getEntityType()) {
             case OBSTACLE:

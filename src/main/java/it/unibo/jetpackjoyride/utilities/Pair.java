@@ -11,7 +11,7 @@ public final class Pair<X, Y> {
 	private final X x;
 	private final Y y;
 
-	public Pair(X x, Y y) {
+	public Pair(final X x, final Y y) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -42,7 +42,7 @@ public final class Pair<X, Y> {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Pair<X, Y> other = (Pair<X, Y>) obj;
+		final Pair<X, Y> other = (Pair<X, Y>) obj;
 		return Objects.equals(x, other.x) && Objects.equals(y, other.y);
 	}
 

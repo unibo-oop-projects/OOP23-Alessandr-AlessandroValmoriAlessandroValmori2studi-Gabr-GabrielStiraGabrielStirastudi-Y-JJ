@@ -43,6 +43,10 @@ public final class BarryImpl extends AbstractEntity implements Barry {
      */
     private static final Double LOW_BOUND = 630.0;
 
+    private static final Double PROPELLING_ACC = -1.1;
+
+    private static final Double FALLING_ACC = 0.6;
+
     /**
      * The constructor for the Barry entity, iy first constructs its 
      * superclass, then sets its standard values, such as shield not equipped,
@@ -159,13 +163,8 @@ public final class BarryImpl extends AbstractEntity implements Barry {
         this.setEntityMovement(new Movement.Builder()
         .setPosition(this.getEntityMovement().getPosition())
         .setSpeed(this.getEntityMovement().getSpeed())
-        .setAcceleration(new Pair<>(this.getEntityMovement().getAcceleration().get1(),
-                this.getEntityMovement().getAcceleration().get2() * 100.0))
-        .setRotation(this.getEntityMovement().getSpeed().get2() * 2, 0.0)
-        .setMovementChangers(List.of(MovementChangers.BOUNDS,
-                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
-                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY,
-                isPropelling ? MovementChangers.INVERSEGRAVITY : MovementChangers.GRAVITY))
+        .setAcceleration(0.0, isPropelling ? PROPELLING_ACC : FALLING_ACC)
+        .setMovementChangers(List.of(MovementChangers.BOUNDS))
         .build());
 
     }

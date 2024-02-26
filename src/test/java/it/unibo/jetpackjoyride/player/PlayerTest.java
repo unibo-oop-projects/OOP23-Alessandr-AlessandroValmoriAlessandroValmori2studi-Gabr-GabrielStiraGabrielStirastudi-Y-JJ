@@ -48,7 +48,7 @@ public final class PlayerTest {
         this.entityFactory = new EntityModelGeneratorImpl();
         this.barry = this.entityFactory.generateBarry();
         this.barry.setShieldOn();
-        var status = this.barry.getPerformingAction();
+        final var status = this.barry.getPerformingAction();
         this.barry.hit(ObstacleType.ZAPPER);
         assertEquals(this.barry.getPerformingAction(), status);
         assertTrue(this.barry.isAlive());

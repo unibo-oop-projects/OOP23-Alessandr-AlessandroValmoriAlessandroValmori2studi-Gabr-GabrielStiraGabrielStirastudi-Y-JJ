@@ -12,7 +12,6 @@ import it.unibo.jetpackjoyride.core.entities.entity.api.AbstractEntity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.movement.Movement;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.Pair;
 import java.util.List;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 

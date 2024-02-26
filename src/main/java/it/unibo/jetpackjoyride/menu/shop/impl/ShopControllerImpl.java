@@ -2,10 +2,7 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
-import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
-import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.exceptions.DirectoryCreationException;
 import javafx.stage.Stage;
 import java.io.BufferedReader;

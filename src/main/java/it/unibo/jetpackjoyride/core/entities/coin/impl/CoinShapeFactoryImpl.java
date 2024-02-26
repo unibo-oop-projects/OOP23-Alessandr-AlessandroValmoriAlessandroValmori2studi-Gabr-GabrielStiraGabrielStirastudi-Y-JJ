@@ -26,8 +26,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     private static final double MIN_SIZE_RATE = 0.2;
     private static final double MAX_SIZE_RATE = 0.9;
     private static final int SPACECING = 50;
-    private double minY;
-    private double maxY; 
+    private final double minY;
+    private final double maxY; 
 
     private final GameInfo gameInfo;
     private final Random random;

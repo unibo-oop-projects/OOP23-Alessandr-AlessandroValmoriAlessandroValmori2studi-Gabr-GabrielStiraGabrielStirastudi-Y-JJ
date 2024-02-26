@@ -9,10 +9,10 @@ import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 
 /**
- * The {@link PowerUpView} class, more than dealing with the view of the 
+ * The {@link PowerUpView} class, more than dealing with the view of the
  * {@link PowerUp} entities, is responsible for its process of animation.
  * With each call of the updateView() method, the correct animation sprite
- * frame is selected based on the entity status, action, movement 
+ * frame is selected based on the entity status, action, movement
  * characteristics, etc...
  * 
  * @author gabriel.stira@studio.unibo.it
@@ -169,7 +169,6 @@ public final class PowerUpView extends AbstractEntityView {
      */
     private static final Integer NUMBER_STATES_OF_POWERUP = 5;
 
-
     /**
      * A field that contains the current animation length.
      */
@@ -192,7 +191,6 @@ public final class PowerUpView extends AbstractEntityView {
      */
     public PowerUpView(final List<Image> images) {
         super(images);
-        this.animationFrame = 0;
         this.animationCounter = new int[NUMBER_STATES_OF_POWERUP];
         this.animationLenght = 1;
     }
@@ -204,153 +202,161 @@ public final class PowerUpView extends AbstractEntityView {
 
         switch (powerUp.getPowerUpType()) {
             case LILSTOMPER:
-                width = LILSTOMPER_X_DIMENSION;
-                height = LILSTOMPER_Y_DIMENSION;
+                this.setWidht(LILSTOMPER_X_DIMENSION);
+                this.setHeight(LILSTOMPER_Y_DIMENSION);
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
-                        animationLenght = LILSTOMPER_WALKING_ANIMATION_SPEED;
-                        animationFrame = (animationCounter[0]) / animationLenght % LILSTOMPER_WALKING_NUM_SPRITES;
-                        animationCounter[0]++;
+                        this.animationLenght = LILSTOMPER_WALKING_ANIMATION_SPEED;
+                        this.setAnimationFrame((this.animationCounter[0]) / this.animationLenght
+                                % LILSTOMPER_WALKING_NUM_SPRITES);
+                        this.animationCounter[0]++;
                         break;
 
                     case ASCENDING:
-                        animationLenght = LILSTOMPER_ASCENDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES
-                                + ((animationCounter[1]) / animationLenght % LILSTOMPER_ASCENDING_NUM_SPRITES);
-                        if (animationCounter[1] != animationLenght * LILSTOMPER_ASCENDING_NUM_SPRITES - 1) {
-                            animationCounter[1]++;
+                        this.animationLenght = LILSTOMPER_ASCENDING_ANIMATION_SPEED;
+                        this.setAnimationFrame(LILSTOMPER_WALKING_NUM_SPRITES
+                                + ((this.animationCounter[1]) / this.animationLenght
+                                        % LILSTOMPER_ASCENDING_NUM_SPRITES));
+                        if (this.animationCounter[1] != this.animationLenght * LILSTOMPER_ASCENDING_NUM_SPRITES - 1) {
+                            this.animationCounter[1]++;
                         }
                         break;
                     case GLIDING:
-                        animationCounter[3] = 0;
-                        animationLenght = LILSTOMPER_GLIDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
-                                + ((animationCounter[2]) / animationLenght % LILSTOMPER_GLIDING_NUM_SPRITES);
-                        animationCounter[2]++;
+                        this.animationCounter[3] = 0;
+                        this.animationLenght = LILSTOMPER_GLIDING_ANIMATION_SPEED;
+                        this.setAnimationFrame(LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                                + ((this.animationCounter[2]) / this.animationLenght % LILSTOMPER_GLIDING_NUM_SPRITES));
+                        this.animationCounter[2]++;
                         break;
 
                     case DESCENDING:
-                        animationCounter[1] = 0;
-                        animationLenght = LILSTOMPER_DESCENDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                        this.animationCounter[1] = 0;
+                        this.animationLenght = LILSTOMPER_DESCENDING_ANIMATION_SPEED;
+                        this.setAnimationFrame(LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
                                 + LILSTOMPER_GLIDING_NUM_SPRITES
-                                + ((animationCounter[3]) / animationLenght % LILSTOMPER_DESCENDING_NUM_SPRITES);
-                        if (animationCounter[3] != animationLenght * LILSTOMPER_DESCENDING_NUM_SPRITES - 1) {
-                            animationCounter[3]++;
+                                + ((this.animationCounter[3]) / this.animationLenght
+                                        % LILSTOMPER_DESCENDING_NUM_SPRITES));
+                        if (this.animationCounter[3] != this.animationLenght * LILSTOMPER_DESCENDING_NUM_SPRITES - 1) {
+                            this.animationCounter[3]++;
                         }
                         break;
 
                     case LANDING: // 20 - 24
-                        animationLenght = LILSTOMPER_LANDING_ANIMATION_SPEED;
-                        animationFrame = LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
+                        this.animationLenght = LILSTOMPER_LANDING_ANIMATION_SPEED;
+                        this.setAnimationFrame(LILSTOMPER_WALKING_NUM_SPRITES + LILSTOMPER_ASCENDING_NUM_SPRITES
                                 + LILSTOMPER_GLIDING_NUM_SPRITES + LILSTOMPER_DESCENDING_NUM_SPRITES
-                                + ((animationCounter[4]) / animationLenght % LILSTOMPER_LANDING_NUM_SPRITES);
-                        if (animationCounter[4] == animationLenght * LILSTOMPER_LANDING_NUM_SPRITES - 1) {
+                                + ((this.animationCounter[4]) / this.animationLenght % LILSTOMPER_LANDING_NUM_SPRITES));
+                        if (this.animationCounter[4] == this.animationLenght * LILSTOMPER_LANDING_NUM_SPRITES - 1) {
                             for (int i = 0; i < 4; i++) {
-                                animationCounter[i] = 0;
+                                this.animationCounter[i] = 0;
                             }
-                            animationCounter[4] = 0;
+                            this.animationCounter[4] = 0;
                         } else {
-                            animationCounter[4]++;
+                            this.animationCounter[4]++;
                         }
                         break;
 
                     default:
-                        animationFrame = 0;
+                        this.setAnimationFrame(0);
                         break;
                 }
 
                 break;
             case MRCUDDLES:
-                width = MRCUDDLES_X_DIMENSION;
-                height = MRCUDDLES_Y_DIMENSION;
+                this.setWidht(MRCUDDLES_X_DIMENSION);
+                this.setHeight(MRCUDDLES_Y_DIMENSION);
                 if (powerUp.getEntityStatus().equals(EntityStatus.ACTIVE)) {
                     switch (powerUp.getPerformingAction()) {
                         case ASCENDING:
-                            animationLenght = MRCUDDLES_ANIMATION_LENGHT;
-                            if (animationCounter[1] != 0) {
-                                animationCounter[1]--;
-                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES;
+                            this.animationLenght = MRCUDDLES_ANIMATION_LENGHT;
+                            if (this.animationCounter[1] != 0) {
+                                this.animationCounter[1]--;
+                                this.setAnimationFrame((this.animationCounter[1]) / this.animationLenght
+                                        % MRCUDDLE_ROARING_NUM_SPRITES);
                             } else {
-                                animationFrame = (animationCounter[1]) / animationLenght % MRCUDDLE_STATIC_NUM_SPRITES;
+                                this.setAnimationFrame((this.animationCounter[1]) / this.animationLenght
+                                        % MRCUDDLE_STATIC_NUM_SPRITES);
                             }
 
                             break;
                         case DESCENDING:
-                            animationLenght = MRCUDDLES_ANIMATION_LENGHT;
-                            animationFrame = MRCUDDLE_STATIC_NUM_SPRITES
-                                    + ((animationCounter[1]) / animationLenght % MRCUDDLE_ROARING_NUM_SPRITES);
-                            if (animationCounter[1] != animationLenght * MRCUDDLE_ROARING_NUM_SPRITES - 1) {
-                                animationCounter[1]++;
+                            this.animationLenght = MRCUDDLES_ANIMATION_LENGHT;
+                            this.setAnimationFrame(MRCUDDLE_STATIC_NUM_SPRITES
+                                    + ((this.animationCounter[1]) / this.animationLenght
+                                            % MRCUDDLE_ROARING_NUM_SPRITES));
+                            if (this.animationCounter[1] != this.animationLenght * MRCUDDLE_ROARING_NUM_SPRITES - 1) {
+                                this.animationCounter[1]++;
                             }
                             break;
                         default:
-                            animationFrame = 0;
+                            this.setAnimationFrame(0);
                             break;
                     }
                 } else {
-                    animationFrame = MRCUDDLE_STATIC_NUM_SPRITES + MRCUDDLE_ROARING_NUM_SPRITES;
+                    this.setAnimationFrame(MRCUDDLE_STATIC_NUM_SPRITES + MRCUDDLE_ROARING_NUM_SPRITES);
                 }
                 break;
 
             case PROFITBIRD:
-                width = PROFITBIRD_X_DIMENSION;
-                height = PROFITBIRD_Y_DIMENSION;
+                this.setWidht(PROFITBIRD_X_DIMENSION);
+                this.setHeight(PROFITBIRD_Y_DIMENSION);
                 switch (powerUp.getPerformingAction()) {
                     case WALKING:
-                        animationLenght = PROFITBIRD_WALKING_ANIMATION_LENGHT;
-                        animationFrame = (animationCounter[0]) / animationLenght % PROFITBIRD_WALKING_NUM_SPRITES;
-                        animationCounter[0]++;
+                        this.animationLenght = PROFITBIRD_WALKING_ANIMATION_LENGHT;
+                        this.setAnimationFrame((this.animationCounter[0]) / this.animationLenght
+                                % PROFITBIRD_WALKING_NUM_SPRITES);
+                        this.animationCounter[0]++;
                         break;
 
                     case JUMPING:
-                        animationLenght = PROFITBIRD_JUMPING_ANIMATION_LENGHT;
-                        animationFrame = PROFITBIRD_WALKING_NUM_SPRITES;
-                        animationCounter[1] = 0;
+                        this.animationLenght = PROFITBIRD_JUMPING_ANIMATION_LENGHT;
+                        this.setAnimationFrame(PROFITBIRD_WALKING_NUM_SPRITES);
+                        this.animationCounter[1] = 0;
                         break;
 
                     case ASCENDING:
-                        animationLenght = PROFITBIRD_ASCENDING_ANIMATION_LENGHT;
-                        if (animationCounter[1] != animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1) {
-                            animationCounter[1]++;
-                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES
-                                    + ((animationCounter[1]) / animationLenght % PROFITBIRD_ASCENDING_NUM_SPRITES);
+                        this.animationLenght = PROFITBIRD_ASCENDING_ANIMATION_LENGHT;
+                        if (this.animationCounter[1] != this.animationLenght * PROFITBIRD_ASCENDING_NUM_SPRITES - 1) {
+                            this.animationCounter[1]++;
+                            this.setAnimationFrame(PROFITBIRD_WALKING_NUM_SPRITES + PROFITBIRD_JUMPING_NUM_SPRITES
+                                    + ((this.animationCounter[1]) / this.animationLenght
+                                            % PROFITBIRD_ASCENDING_NUM_SPRITES));
                         } else {
-                            animationFrame = PROFITBIRD_WALKING_NUM_SPRITES;
+                            this.setAnimationFrame(PROFITBIRD_WALKING_NUM_SPRITES);
                         }
-
                         break;
-
                     default:
-                        animationFrame = PROFITBIRD_WALKING_NUM_SPRITES;
+                        this.setAnimationFrame(PROFITBIRD_WALKING_NUM_SPRITES);
                         break;
                 }
                 break;
 
             case DUKEFISHRON:
-                width = DUKEFISHRON_X_DIMENSION;
-                height = DUKEFISHRON_Y_DIMENSION;
+                this.setWidht(DUKEFISHRON_X_DIMENSION);
+                this.setHeight(DUKEFISHRON_Y_DIMENSION);
                 switch (powerUp.getPerformingAction()) {
                     case ASCENDING:
-                        animationLenght = DUKEFISHRON_ANIMATION_LENGHT;
-                        animationFrame = (animationCounter[0]) / animationLenght % DUKEFISHRON_ASCENDING_NUM_SPRITES;
-                        animationCounter[0]++;
+                        this.animationLenght = DUKEFISHRON_ANIMATION_LENGHT;
+                        this.setAnimationFrame((this.animationCounter[0]) / this.animationLenght
+                                % DUKEFISHRON_ASCENDING_NUM_SPRITES);
+                        this.animationCounter[0]++;
                         break;
                     case DESCENDING:
-                        animationLenght = DUKEFISHRON_ANIMATION_LENGHT;
-                        animationFrame = DUKEFISHRON_ASCENDING_NUM_SPRITES
-                                + ((animationCounter[0]) / animationLenght % DUKEFISHRON_ASCENDING_NUM_SPRITES);
-                        animationCounter[0]++;
+                        this.animationLenght = DUKEFISHRON_ANIMATION_LENGHT;
+                        this.setAnimationFrame(DUKEFISHRON_ASCENDING_NUM_SPRITES
+                                + ((this.animationCounter[0]) / this.animationLenght
+                                        % DUKEFISHRON_ASCENDING_NUM_SPRITES));
+                        this.animationCounter[0]++;
                         break;
                     default:
-                        animationFrame = 0;
+                        this.setAnimationFrame(0);
                         break;
                 }
                 break;
 
             default:
-                width = 0.0;
-                height = 0.0;
+                this.setWidht(0.0);
+                this.setHeight(0.0);
                 break;
         }
     }

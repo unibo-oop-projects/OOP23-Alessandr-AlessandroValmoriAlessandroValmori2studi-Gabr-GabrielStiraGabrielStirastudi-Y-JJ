@@ -21,11 +21,27 @@ import java.util.Collections;
  * @author gabriel.stira@studio.unibo.it
  */
 public abstract class AbstractEntityView implements EntityView {
-    protected final ImageView imageView;
-    protected final List<Image> images;
-    protected int animationFrame;
-    protected Double width;
-    protected Double height;
+    /**
+     * Defines the node used for painting the image loaded.
+     */
+    private final ImageView imageView;
+    /**
+     * Defines the list of all images.
+     */
+    private final List<Image> images;
+    /**
+     * Defines the current image loaded in the imageView
+     */
+    private int animationFrame;
+    /**
+     * Defines the widht of the image.
+     */
+    private Double width;
+    /**
+     * Defines the height of the image.
+     */
+    private Double height;
+
 
     /**
      * Constructs an AbstractEntityView with the provided images.
@@ -80,14 +96,38 @@ public abstract class AbstractEntityView implements EntityView {
     }
 
     /**
-     * 
+     * Defines the method used to find the correct animation frame of the entity.
      * @param entity The entity whose ImageView has to be computed.
      */
     protected abstract void animateFrames(Entity entity);
 
     @Override
-    public ImageView getImageView() {
+    public final ImageView getImageView() {
         return Collections.nCopies(1, this.imageView).get(0);
+    }
+
+    public final void setAnimationFrame(final Integer newAnimationFrame) {
+        this.animationFrame = newAnimationFrame;
+    }
+
+    public final Integer getAnimationFrame() {
+        return this.animationFrame;
+    }
+
+    public final void setWidht(final Double newWidth) {
+        this.width = newWidth;
+    }
+
+    public final void setHeight(final Double newHeight) {
+        this.height = newHeight;
+    }
+
+    public final Double getWidht() {
+        return this.width;
+    }
+
+    public final Double getHeight() {
+        return this.height;
     }
 
 }

@@ -115,7 +115,6 @@ public final class PickUpView extends AbstractEntityView {
      */
     public PickUpView(final List<Image> images) {
         super(images);
-        this.animationFrame = 0;
         this.animationLenght = 1;
     }
 
@@ -128,35 +127,35 @@ public final class PickUpView extends AbstractEntityView {
                 final VehiclePickUp vehiclePickUp = (VehiclePickUp) pickUp;
                 switch (pickUp.getEntityStatus()) {
                     case ACTIVE:
-                        width = VEHICLE_PICKUP_X_DIMENSION;
-                        height = VEHICLE_PICKUP_Y_DIMENSION;
-                        animationLenght = VEHICLE_PICKUP_ANIMATION_LENGHT;
-                        animationFrame = animationCounter / animationLenght % VEHICLE_PICKUP_NUM_SPRITES;
-                        animationCounter++;
+                        this.setWidht(VEHICLE_PICKUP_X_DIMENSION);
+                        this.setHeight(VEHICLE_PICKUP_Y_DIMENSION);
+                        this.animationLenght = VEHICLE_PICKUP_ANIMATION_LENGHT;
+                        this.setAnimationFrame(this.animationCounter / this.animationLenght % VEHICLE_PICKUP_NUM_SPRITES);
+                        this.animationCounter++;
                         break;
                     case DEACTIVATED:
-                        width = VEHICLE_PICKUP_BANNER_X_DIMENSION;
-                        height = VEHICLE_PICKUP_BANNER_Y_DIMENSION;
+                        this.setWidht(VEHICLE_PICKUP_BANNER_X_DIMENSION);
+                        this.setHeight(VEHICLE_PICKUP_BANNER_Y_DIMENSION);
                         animationLenght = VEHICLE_PICKUP_BANNER_ANIMATION_LENGHT;
 
                         switch (vehiclePickUp.getVehicleSpawn()) {
                             case LILSTOMPER:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES
-                                        + animationCounter / animationLenght % LILSTOMPER_BANNER_SPRITES;
+                                this.setAnimationFrame(VEHICLE_PICKUP_NUM_SPRITES
+                                        + animationCounter / animationLenght % LILSTOMPER_BANNER_SPRITES);
                                 break;
                             case MRCUDDLES:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
-                                        + animationCounter / animationLenght % MRCUDDLE_BANNER_SPRITES;
+                                this.setAnimationFrame(VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                        + animationCounter / animationLenght % MRCUDDLE_BANNER_SPRITES);
                                 break;
                             case PROFITBIRD:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                this.setAnimationFrame(VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
                                         + MRCUDDLE_BANNER_SPRITES
-                                        + animationCounter / animationLenght % PROFIT_BIRD_BANNER_SPRITES;
+                                        + animationCounter / animationLenght % PROFIT_BIRD_BANNER_SPRITES);
                                 break;
                             case DUKEFISHRON:
-                                animationFrame = VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
+                                this.setAnimationFrame(VEHICLE_PICKUP_NUM_SPRITES + LILSTOMPER_BANNER_SPRITES
                                         + MRCUDDLE_BANNER_SPRITES + PROFIT_BIRD_BANNER_SPRITES
-                                        + animationCounter / animationLenght % DUKE_FISHRON_BANNER_SPRITES;
+                                        + animationCounter / animationLenght % DUKE_FISHRON_BANNER_SPRITES);
                                 break;
 
                             default:
@@ -164,8 +163,8 @@ public final class PickUpView extends AbstractEntityView {
                         }
                         break;
                     default:
-                        width = 0.0;
-                        height = 0.0;
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                 }
                 break;
@@ -175,32 +174,30 @@ public final class PickUpView extends AbstractEntityView {
                     case ACTIVE:
                         animationLenght = SHIELD_PICKUP_ANIMATION_LENGHT;
                         if (this.animationCounter == 0) {
-                            this.width = SHIELD_PICKUP_X_DIMENSION;
-                            this.height = SHIELD_PICKUP_Y_DIMENSION;
+                            this.setWidht(SHIELD_PICKUP_X_DIMENSION);
+                            this.setHeight(SHIELD_PICKUP_Y_DIMENSION);
                         } else {
-                            this.width += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
+                            this.setWidht(this.getWidht() +SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
                                     % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2
-                                            ? 1.0
-                                            : -1.0);
-                            this.height += SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
+                                            ? 1.0 : -1.0));
+                            this.setHeight(this.getHeight() + SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
                                     % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2
-                                            ? 1.0
-                                            : -1.0);
+                                            ? 1.0 : -1.0));
                         }
                         break;
                     case DEACTIVATED:
-                        width = 0.0;
-                        height = 0.0;
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                     default:
-                        width = 0.0;
-                        height = 0.0;
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                 }
                 break;
             default:
-                width = 0.0;
-                height = 0.0;
+                this.setWidht(0.0);
+                this.setHeight(0.0);
                 break;
 
         }

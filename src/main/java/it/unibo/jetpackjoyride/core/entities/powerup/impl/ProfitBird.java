@@ -91,7 +91,9 @@ public class ProfitBird extends AbstractPowerUp {
 
         this.setEntityMovement(new Movement.Builder()
             .setAcceleration(this.getEntityMovement().getAcceleration())
-            .setSpeed(this.getEntityMovement().getSpeed().get1(), this.getPerformingAction().equals(PerformingAction.JUMPING) ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
+            .setSpeed(this.getEntityMovement().getSpeed().get1(), 
+                      this.getPerformingAction().equals(PerformingAction.JUMPING) 
+                            ? -BASE_JUMP_SPEED : this.getEntityMovement().getSpeed().get2())
             .setPosition(this.getEntityMovement().getPosition())
             .setRotation(this.getEntityMovement().getSpeed().get2(), 0.0)
             .setMovementChangers(this.getEntityMovement().getMovementChangers()).build());

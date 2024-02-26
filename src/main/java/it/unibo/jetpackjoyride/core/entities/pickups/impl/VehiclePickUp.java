@@ -97,7 +97,7 @@ public class VehiclePickUp extends AbstractPickUp {
                     .setRotation(this.getEntityMovement().getRotation())
                     .setMovementChangers(
                             this.getEntityMovement().getMovementChangers().contains(
-								MovementChangers.GRAVITY)
+                                MovementChangers.GRAVITY)
                                     ? List.of(MovementChangers.INVERSEGRAVITY)
                                     : List.of(MovementChangers.GRAVITY))
                     .build());

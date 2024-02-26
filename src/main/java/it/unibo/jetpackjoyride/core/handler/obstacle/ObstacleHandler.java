@@ -66,7 +66,7 @@ public final class ObstacleHandler {
         }
     }
 
-    /*
+    /**
      * Used to stop the thread which generates the obstacles.
      */
     public void over() {
@@ -133,7 +133,7 @@ public final class ObstacleHandler {
         return Collections.unmodifiableSet(this.setOfObstacles);
     }
 
-    /*
+    /**
      * Deactivates all obstacles which are currently CHARGING or ACTIVE.
      */
     public void deactivateAllObstacles() {

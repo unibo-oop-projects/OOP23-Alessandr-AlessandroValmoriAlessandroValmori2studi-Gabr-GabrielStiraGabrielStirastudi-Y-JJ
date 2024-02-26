@@ -40,7 +40,7 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
      * @return The type of the powerup.
      */
     @Override
-    public PowerUpType getPowerUpType() {
+    public final PowerUpType getPowerUpType() {
         return this.powerUpType;
     }
 
@@ -50,12 +50,12 @@ public abstract class AbstractPowerUp extends AbstractEntity implements PowerUp 
      * @return The action the powerup is currently performing.
      */
     @Override
-    public PerformingAction getPerformingAction() {
+    public final PerformingAction getPerformingAction() {
         return this.performingAction;
     }
 
     @Override 
-    public void setPerformingAction(final PerformingAction performingAction) {
+    public final void setPerformingAction(final PerformingAction performingAction) {
         this.performingAction = performingAction;
     }
 }

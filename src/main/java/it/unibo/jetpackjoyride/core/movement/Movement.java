@@ -3,7 +3,8 @@ package it.unibo.jetpackjoyride.core.movement;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
-import java.util.*;
+import java.util.List;
+import java.util.Collections;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -80,7 +81,6 @@ public final class Movement {
      *                         is how much it rotates with every call of the update
      *                         method)
      * @param listOfChangers   The modifiers affecting the entity.
-     * @param relativePosition The relative position of the entity.
      */
     private Movement(final Pair<Double, Double> position, final Pair<Double, Double> speed,
             final Pair<Double, Double> acceleration, final Pair<Double, Double> rotation,
@@ -193,6 +193,8 @@ public final class Movement {
                                 Math.max(0.0, this.movementSpecifiers.speed().get2()));
                     }
                     break;
+                default:
+                break;
             }
         }
         return new MovCharacterizing(modifiedPosition, modifiedSpeed, modifiedAcceleration, modifiedRotation);
@@ -276,51 +278,114 @@ public final class Movement {
         private List<MovementChangers> listOfChangers = List.of();
         private boolean consumed;
 
+        /**
+         * Sets the new position of the movement.
+         * 
+         * @param x The new X coordinate.
+         * @param y The new Y coordinate.
+         * @return A new instance of Builder with the modified position.
+         */
         public Builder setPosition(final Double x, final Double y) {
             this.position = new Pair<>(x, y);
             return this;
         }
 
+        /**
+         * Sets the new speed of the movement.
+         * 
+         * @param x The new X speed.
+         * @param y The new Y speed.
+         * @return A new instance of Builder with the modified speed.
+         */
         public Builder setSpeed(final Double x, final Double y) {
             this.speed = new Pair<>(x, y);
             return this;
         }
 
+        /**
+         * Sets the new acceleration of the movement.
+         * 
+         * @param x The new X acceleration.
+         * @param y The new Y acceleration.
+         * @return A new instance of Builder with the modified acceleration.
+         */
         public Builder setAcceleration(final Double x, final Double y) {
             this.acceleration = new Pair<>(x, y);
             return this;
         }
 
+        /**
+         * Sets the new rotation of the movement.
+         * 
+         * @param r1 The new rotation angle.
+         * @param r2 The angle the entity rotates at every update.
+         * @return A new instance of Builder with the modified rotation.
+         */
         public Builder setRotation(final Double r1, final Double r2) {
             this.rotation = new Pair<>(r1, r2);
             return this;
         }
 
+        /**
+         * Sets the new position of the movement.
+         * 
+         * @param newPosition The new position expressed as a pair of coordinates (x, y).
+         * @return A new instance of Builder with the modified position.
+         */
         public Builder setPosition(final Pair<Double, Double> newPosition) {
             this.position = newPosition;
             return this;
         }
 
+        /**
+         * Sets the new speed of the movement.
+         * 
+         * @param newSpeed The new speed expressed as a pair of coordinates (x, y).
+         * @return A new instance of Builder with the modified speed.
+         */
         public Builder setSpeed(final Pair<Double, Double> newSpeed) {
             this.speed = newSpeed;
             return this;
         }
 
+        /**
+         * Sets the new acceleration of the movement.
+         * 
+         * @param newAcceleration The new acceleration expressed as a pair of coordinates (x, y).
+         * @return A new instance of Builder with the modified acceleration.
+         */
         public Builder setAcceleration(final Pair<Double, Double> newAcceleration) {
             this.acceleration = newAcceleration;
             return this;
         }
 
+        /**
+         * Sets the new rotation of the movement.
+         * 
+         * @param newRotation The new rotation expressed as a pair of coordinates (x, y).
+         * @return A new instance of Builder with the modified rotation.
+         */
         public Builder setRotation(final Pair<Double, Double> newRotation) {
             this.rotation = newRotation;
             return this;
         }
 
+        /**
+         * Sets the new list of changers of the movement.
+         * 
+         * @param newChangers The new list of changers.
+         * @return A new instance of Builder with the modified list of changers.
+         */
         public Builder setMovementChangers(final List<MovementChangers> newChangers) {
             this.listOfChangers = Collections.unmodifiableList(newChangers);
             return this;
         }
 
+        /**
+         * Build the new Movement class with the specified movement characteristics.
+         * 
+         * @return A new instance of Movement class.
+         */
         public Movement build() {
             if (consumed) {
                 throw new IllegalStateException("The builder can only be used once");

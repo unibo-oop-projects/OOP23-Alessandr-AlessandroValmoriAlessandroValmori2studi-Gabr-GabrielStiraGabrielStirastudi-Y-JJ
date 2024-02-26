@@ -71,8 +71,8 @@ public final class Missile extends AbstractObstacle {
                 .setAcceleration(this.getEntityMovement().getAcceleration())
                 .setRotation(this.getEntityMovement().getRotation())
                 .setMovementChangers(
-                    this.getEntityMovement().getSpeed().get2() != 0 ? 
-                                    List.of(MovementChangers.BOUNCING) : List.of())
+                    this.getEntityMovement().getSpeed().get2() != 0 
+                        ? List.of(MovementChangers.BOUNCING) : List.of())
                 .build();
     }
 

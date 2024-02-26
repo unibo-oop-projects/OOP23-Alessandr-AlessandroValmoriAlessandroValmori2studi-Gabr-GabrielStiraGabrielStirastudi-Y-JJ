@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * @author alessandro.valmori2@studio.unibo.it
- */
-
-/**
  * A circular iterator for iterating through a list in a circular manner.
  *
  * @param <T> The type of elements in the list.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public class CircularIterator<T> implements Iterator<T> {
     private List<T> list;

@@ -3,7 +3,9 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 
-/** The implementation of the {@link BackToMenuObs} interface */
+/** The implementation of the {@link BackToMenuObs} interface.
+ * @author alessandro.valmori2@studio.unibo.it
+*/
 public class BackToMenuObsImpl implements BackToMenuObs {
 
     /** The shop controller. */

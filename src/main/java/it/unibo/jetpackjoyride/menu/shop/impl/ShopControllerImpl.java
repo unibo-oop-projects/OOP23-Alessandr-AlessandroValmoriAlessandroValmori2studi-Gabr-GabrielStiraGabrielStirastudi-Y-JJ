@@ -2,10 +2,7 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.io.IOException;
 import it.unibo.jetpackjoyride.menu.menus.api.GameMenu;
-import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
-import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.exceptions.DirectoryCreationException;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
@@ -26,6 +23,8 @@ import java.nio.charset.Charset;
 /**
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public final class ShopControllerImpl implements ShopController {
     /** The view component of the shop */

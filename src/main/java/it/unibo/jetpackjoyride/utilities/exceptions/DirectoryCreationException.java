@@ -1,7 +1,8 @@
 package it.unibo.jetpackjoyride.utilities.exceptions;
 
 /**
- * Exception thrown when a directory couldn't be created
+ * Exception thrown when a directory couldn't be created.
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public class DirectoryCreationException extends Exception {
     /**
@@ -15,7 +16,7 @@ public class DirectoryCreationException extends Exception {
      *
      * @param message The message describing what and where something went wrong.
      */
-    public DirectoryCreationException(String message) {
+    public DirectoryCreationException(final String message) {
         super(message);
     }
 }

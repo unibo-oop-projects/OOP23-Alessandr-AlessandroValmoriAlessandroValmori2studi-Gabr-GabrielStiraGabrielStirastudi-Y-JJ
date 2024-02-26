@@ -182,9 +182,7 @@ public final class ObstacleView extends AbstractEntityView {
 
     @Override
     protected void animateFrames(final Entity entity) {
-        @SuppressWarnings("unchecked")
         final Obstacle obstacle = (Obstacle) entity;
-
         switch (obstacle.getObstacleType()) {
             case MISSILE:
                 switch (obstacle.getEntityStatus()) {

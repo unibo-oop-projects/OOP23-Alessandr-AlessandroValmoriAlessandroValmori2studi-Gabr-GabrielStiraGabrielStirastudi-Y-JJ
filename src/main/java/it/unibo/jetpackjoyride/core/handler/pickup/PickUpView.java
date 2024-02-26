@@ -112,7 +112,6 @@ public final class PickUpView extends AbstractEntityView {
 
     @Override
     protected void animateFrames(final Entity entity) {
-        @SuppressWarnings("unchecked")
         final PickUp pickUp = (PickUp) entity;
 
         switch (pickUp.getPickUpType()) {

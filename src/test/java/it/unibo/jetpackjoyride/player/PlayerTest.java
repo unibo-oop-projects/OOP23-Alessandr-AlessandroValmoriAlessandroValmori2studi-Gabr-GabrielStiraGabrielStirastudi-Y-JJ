@@ -23,7 +23,7 @@ public class PlayerTest {
     private static final double HUNDRED = 100.0;
     private static final int LOOP_LIMIT = 500;
 
-    @Test
+    @org.junit.Test
     public void testPlayerInitialization() {
         this.entityFactory = new EntityModelGeneratorImpl();
         this.barry = this.entityFactory.generateBarry();
@@ -33,7 +33,7 @@ public class PlayerTest {
         assertFalse(this.barry.hasShield());
     }
 
-    @Test
+    @org.junit.Test
     public void testPlayerHit() {
         this.entityFactory = new EntityModelGeneratorImpl();
         this.barry = this.entityFactory.generateBarry();
@@ -47,7 +47,7 @@ public class PlayerTest {
         assertEquals(this.barry.getPerformingAction(), PerformingAction.ZAPPED);
     }
 
-    @Test
+    @org.junit.Test
     public void testPlayerHit2() {
         this.entityFactory = new EntityModelGeneratorImpl();
         this.barry = this.entityFactory.generateBarry();
@@ -56,7 +56,7 @@ public class PlayerTest {
         assertEquals(PerformingAction.ZAPPED, this.barry.getPerformingAction());
     }
 
-    @Test
+    @org.junit.Test
     public void testPlayerMove() {
         this.entityFactory = new EntityModelGeneratorImpl();
 
@@ -78,7 +78,7 @@ public class PlayerTest {
         assertEquals(PerformingAction.HEAD_DRAGGING, this.barry.getPerformingAction());
     }
 
-    @Test
+    @org.junit.Test
     public void testPlayerObstacleCollision() {
         this.entityFactory = new EntityModelGeneratorImpl();
         this.barry = this.entityFactory.generateBarry();
@@ -90,13 +90,13 @@ public class PlayerTest {
         boolean hasTouched5 = false;
         boolean hasTouched6 = false;
 
-        var zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED,0.0).build());
-        var missile = this.entityFactory.generateObstacle(ObstacleType.MISSILE, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED,0.0).build());
-        var laser = this.entityFactory.generateObstacle(ObstacleType.LASER, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).build());
+        final var zapper = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED,0.0).build());
+        final var missile = this.entityFactory.generateObstacle(ObstacleType.MISSILE, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).setSpeed(-OBS_SPEED,0.0).build());
+        final var laser = this.entityFactory.generateObstacle(ObstacleType.LASER, new Movement.Builder().setPosition(0.0, BARRY_STARTING_POS.get2()).build());
 
-        var zapper1 = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
-        var missile1 = this.entityFactory.generateObstacle(ObstacleType.MISSILE, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
-        var laser1 = this.entityFactory.generateObstacle(ObstacleType.LASER, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
+        final var zapper1 = this.entityFactory.generateObstacle(ObstacleType.ZAPPER, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
+        final var missile1 = this.entityFactory.generateObstacle(ObstacleType.MISSILE, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
+        final var laser1 = this.entityFactory.generateObstacle(ObstacleType.LASER, new Movement.Builder().setPosition(0.0, HUNDRED).setSpeed(-OBS_SPEED,0.0).build());
 
         for (int i = 0; i < LOOP_LIMIT; i++) {
             barry.update(false);

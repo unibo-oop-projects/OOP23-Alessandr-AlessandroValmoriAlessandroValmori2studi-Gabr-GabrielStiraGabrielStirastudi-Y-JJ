@@ -184,7 +184,7 @@ public final class PowerUpView extends AbstractEntityView {
     }
 
     @Override
-    @SuppressFBWarnings(value="INT")
+    @SuppressFBWarnings("INT")
     protected void animateFrames(final Entity entity) {
         final PowerUp powerUp = (PowerUp) entity;
 

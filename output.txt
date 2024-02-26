@@ -1,2 +1,2 @@
-M D RV: Return value of Throwable.getStackTrace() ignored, but method has no side effect  At ShopControllerImpl.java:[line 130]
+M D RV: Return value of Throwable.getStackTrace() ignored, but method has no side effect  At ShopControllerImpl.java:[line 114]
 M P Bx: Boxed value is unboxed and then immediately reboxed in it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird.updateStatus(boolean)  At ProfitBird.java:[line 94]

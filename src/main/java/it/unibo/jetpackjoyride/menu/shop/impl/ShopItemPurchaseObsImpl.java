@@ -30,9 +30,11 @@ public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
     @Override
     public void onItemBought(final Items item) {
         final var available = GameStats.getCoins();
-        if (item.getItemCost() > available) {
-            this.shopController.unlock(item);
-            GameStats.updateCoins(-item.getItemCost());
+        if (item.getItemCost() <= available) {
+            if (!this.shopController.getUnlocked().contains(item)) {
+                this.shopController.unlock(item);
+                GameStats.updateCoins(-item.getItemCost());
+            }
         }
     }
 }

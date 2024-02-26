@@ -2,9 +2,7 @@ package it.unibo.jetpackjoyride.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.IntStream;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
@@ -21,9 +19,14 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
 import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
-import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
-
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.awt.Color;
 import java.util.Collections;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 /**
@@ -103,33 +106,25 @@ public class EntityImageLoader {
         this.pickupImages = new ArrayList<>();
 
         // Load obstacle images
-        try {
-            obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
-            obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
-            obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
-        } catch (InvalidDataFormatException e) {
-            obstacleImages.clear();
-        }
+
+        obstacleImages.addAll(imageLoader(MISSILESPRITES, "sprites/entities/obstacles/missile/missile_"));
+        obstacleImages.addAll(imageLoader(ZAPPERSPRITES, "sprites/entities/obstacles/zapper/zapper_"));
+        obstacleImages.addAll(imageLoader(LASERSPRITES, "sprites/entities/obstacles/laser/laser_"));
 
         // Load power-up images
-        try {
-            powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
-            powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
-            powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
-            powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
-        } catch (InvalidDataFormatException e) {
-            powerupImages.clear();
-        }
+
+        powerupImages.addAll(imageLoader(LILSTOMPERSPRITES, "sprites/entities/powerups/lilstomper/lilstomper_"));
+        powerupImages.addAll(imageLoader(MRCUDDLESPRITES, "sprites/entities/powerups/mrcuddles/mrcuddles_"));
+        powerupImages.addAll(imageLoader(PROFITBIRDSPRITES, "sprites/entities/powerups/profitbird/profitbird_"));
+        powerupImages.addAll(imageLoader(DUKEFISHRONSPRITES, "sprites/entities/powerups/dukefishron/dukefishron_"));
 
         // Load pickup images
-        try {
-            pickupImages
-                    .addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
-            pickupImages
-                    .addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
-        } catch (InvalidDataFormatException e) {
-            pickupImages.clear();
-        }
+
+        pickupImages
+                .addAll(imageLoader(VEHICLEPICKUPSPRITES, "sprites/entities/pickups/vehiclepickup/vehiclepickup_"));
+        pickupImages
+                .addAll(imageLoader(SHIELDPICKUPSPRITES, "sprites/entities/pickups/shieldpickup/shieldpickup_"));
+
     }
 
     /**
@@ -211,17 +206,35 @@ public class EntityImageLoader {
      * @param pathName       The path to the image resources.
      * @return The list of loaded images.
      */
+    private List<Image> imageLoader(final Integer numberOfImages, final String pathName) {
+        final List<Image> images = new ArrayList<>();
 
-    @SuppressFBWarnings("DCN")
-    private List<Image> imageLoader(final Integer numberOfImages, final String pathName)
-            throws InvalidDataFormatException {
-        try {
-            return Objects.requireNonNull(IntStream.range(0, numberOfImages)
-                    .mapToObj(i -> new Image(
-                            getClass().getClassLoader().getResource(pathName + (i + 1) + ".png").toExternalForm()))
-                    .toList());
-        } catch (NullPointerException e) {
-            throw new InvalidDataFormatException("Couldn't find the image at " + pathName);
+        for (int i = 0; i < numberOfImages; i++) {
+            try {
+                final URL imagePath = getClass().getClassLoader().getResource(pathName + (i + 1) + ".png");
+                if (imagePath != null) {
+                    images.add(new Image(imagePath.toExternalForm()));
+                } else {
+                    throw new FileNotFoundException("File " + pathName + " not found");
+                }
+            } catch (FileNotFoundException e) {
+                images.add(createSubstituteImage());
+            }
         }
+        return images;
+    }
+
+    /**
+     * If an image is not found, a red one is loaded instead so that the game is still playable.
+     * 
+     * @return A completely red image.
+     */
+    private Image createSubstituteImage() {
+        final BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        final Graphics g = image.getGraphics();
+        g.setColor(Color.RED);
+        g.fillRect(0, 0, 1, 1);
+        g.dispose();
+        return SwingFXUtils.toFXImage(image, null);
     }
 }

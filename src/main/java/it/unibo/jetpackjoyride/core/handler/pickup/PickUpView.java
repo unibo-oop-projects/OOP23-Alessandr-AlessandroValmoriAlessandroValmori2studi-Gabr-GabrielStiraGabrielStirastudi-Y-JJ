@@ -177,7 +177,7 @@ public final class PickUpView extends AbstractEntityView {
                             this.setWidht(SHIELD_PICKUP_X_DIMENSION);
                             this.setHeight(SHIELD_PICKUP_Y_DIMENSION);
                         } else {
-                            this.setWidht(this.getWidht() +SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
+                            this.setWidht(this.getWidht() + SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter
                                     % SHIELD_PICKUP_DIMENSION_CHANGE_SPEED < SHIELD_PICKUP_DIMENSION_CHANGE_SPEED / 2
                                             ? 1.0 : -1.0));
                             this.setHeight(this.getHeight() + SHIELD_PICKUP_DIMENSION_CHANGE * (this.animationCounter

@@ -30,7 +30,7 @@ public abstract class AbstractEntityView implements EntityView {
      */
     private final List<Image> images;
     /**
-     * Defines the current image loaded in the imageView
+     * Defines the current image loaded in the imageView.
      */
     private int animationFrame;
     /**
@@ -84,12 +84,14 @@ public abstract class AbstractEntityView implements EntityView {
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        if(this.animationFrame < this.images.size()) {
+        if (this.animationFrame < this.images.size()) {
             imageView.setImage(this.images.get(this.animationFrame));
         } else {
             final Canvas canvas = new Canvas(width, height);
             final GraphicsContext graphics = canvas.getGraphicsContext2D();
-            graphics.setFill(entity.getEntityType().equals(EntityType.OBSTACLE) ? Color.RED : entity.getEntityType().equals(EntityType.POWERUP) ? Color.GREEN : Color.AQUA);
+            graphics.setFill(entity.getEntityType().equals(EntityType.OBSTACLE) 
+                ? Color.RED : entity.getEntityType().equals(EntityType.POWERUP) 
+                    ? Color.GREEN : Color.AQUA);
             graphics.fillRect(0, 0, width, height);
             this.imageView.setImage(canvas.snapshot(null, null));
         }
@@ -106,26 +108,50 @@ public abstract class AbstractEntityView implements EntityView {
         return Collections.nCopies(1, this.imageView).get(0);
     }
 
+    /**
+     * Sets a new animation frame.
+     * @param newAnimationFrame The new animation frame.
+     */
     public final void setAnimationFrame(final Integer newAnimationFrame) {
         this.animationFrame = newAnimationFrame;
     }
 
+    /**
+     * Gets the current animation frame.
+     * @return The current animation frame.
+     */
     public final Integer getAnimationFrame() {
         return this.animationFrame;
     }
 
+    /**
+     * Set the new width of the imageView.
+     * @param newWidth The new width.
+     */
     public final void setWidht(final Double newWidth) {
         this.width = newWidth;
     }
 
+    /**
+     * Set the new height of the imageView.
+     * @param newHeight The new height.
+     */
     public final void setHeight(final Double newHeight) {
         this.height = newHeight;
     }
 
+    /**
+     * Gets the width of the imageView.
+     * @return The width of the imageView.
+     */
     public final Double getWidht() {
         return this.width;
     }
 
+    /**
+     * Gets the height of the imageView.
+     * @return The height of the imageView.
+     */
     public final Double getHeight() {
         return this.height;
     }

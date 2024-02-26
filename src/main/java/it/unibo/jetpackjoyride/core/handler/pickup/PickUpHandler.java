@@ -128,7 +128,7 @@ public class PickUpHandler {
      * Gets the list of all non INACTVE pickup in game.
      * @return The list of all non INACTIVE pickups.
      */
-    
+
     public List<PickUp> getAllPickUps() {
         return Collections.unmodifiableList(this.listOfPickUp);
     }

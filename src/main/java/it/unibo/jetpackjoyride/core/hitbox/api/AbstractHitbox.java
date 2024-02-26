@@ -2,9 +2,11 @@ package it.unibo.jetpackjoyride.core.hitbox.api;
 
 import it.unibo.jetpackjoyride.utilities.Pair;
 import java.awt.Polygon;
-import java.awt.geom.*;
-
-import java.util.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
 
  /**
  * The {@link AbstractHitbox} class is used to implements all methods and characteristics
@@ -36,7 +38,15 @@ public abstract class AbstractHitbox implements Hitbox {
      */
     private Double hitboxRotation;
 
-    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions, final Double hitboxRotation) {
+    /**
+     * Constructor to create an instance of AbstractHitbox.
+     * @param hitboxStartingPos The hitbox starting position.
+     * @param hitboxDimensions The hitbox dimensions.
+     * @param hitboxRotation The hitbox rotation characteristics.
+     */
+    public AbstractHitbox(final Pair<Double, Double> hitboxStartingPos, 
+                          final Pair<Double, Double> hitboxDimensions, 
+                          final Double hitboxRotation) {
         this.hitboxRotation = hitboxRotation;
         this.hitboxPosition = hitboxStartingPos;
         this.hitboxDimensions = hitboxDimensions;
@@ -62,7 +72,10 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitbox.add(new Pair<>(initialX + width, initialY + height));
     }
 
-    private Pair<Double, Double> computeNewPoint(final Pair<Double, Double> toCompute, final Pair<Double, Double> anchor, final Double angle) {
+    private Pair<Double, Double> computeNewPoint(
+            final Pair<Double, Double> toCompute, 
+            final Pair<Double, Double> anchor, 
+            final Double angle) {
         final AffineTransform rotationTransform = new AffineTransform();
         rotationTransform.rotate(Math.toRadians(angle), anchor.get1(), anchor.get2());
 
@@ -76,7 +89,7 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     @Override
-    public void updateHitbox(final Pair<Double, Double> newPosition, final Double angle) {
+    public final void updateHitbox(final Pair<Double, Double> newPosition, final Double angle) {
         this.hitboxRotation = angle;
         this.hitboxPosition = newPosition;
         this.createHitbox(newPosition);
@@ -126,27 +139,27 @@ public abstract class AbstractHitbox implements Hitbox {
     }
 
     @Override
-    public boolean isTouching(final Hitbox otherHitbox) {
+    public final boolean isTouching(final Hitbox otherHitbox) {
         return this.isTouchingHelper(this, otherHitbox) || this.isTouchingHelper(otherHitbox, this);
     }
 
     @Override
-    public Pair<Double, Double> getHitboxPosition() {
+    public final Pair<Double, Double> getHitboxPosition() {
         return this.hitboxPosition;
     }
 
     @Override
-    public Double getHitboxRotation() {
+    public final Double getHitboxRotation() {
         return this.hitboxRotation;
     }
 
     @Override
-    public Pair<Double, Double> getHitboxDimensions() {
+    public final Pair<Double, Double> getHitboxDimensions() {
         return this.hitboxDimensions;
     }
 
     @Override
-    public Set<Pair<Double, Double>> getHitboxVertex() {
+    public final Set<Pair<Double, Double>> getHitboxVertex() {
         return Collections.unmodifiableSet(this.hitbox);
     }
 }

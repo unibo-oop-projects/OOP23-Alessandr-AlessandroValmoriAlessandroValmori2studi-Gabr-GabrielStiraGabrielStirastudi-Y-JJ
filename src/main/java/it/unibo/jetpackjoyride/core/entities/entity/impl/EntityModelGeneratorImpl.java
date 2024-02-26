@@ -178,7 +178,8 @@ public final class EntityModelGeneratorImpl implements EntityModelGenerator {
                     break;
                 default:
                     throw new NotImplementedObjectException(
-                            "EntityModelGenerator could not generate the obstacle. A lilStomper powerup will be spawned instead.");
+                            "EntityModelGenerator could not generate the obstacle." 
+                          + "A lilStomper powerup will be spawned instead.");
             }
         } catch (NotImplementedObjectException e) {
             powerUpMovement = new Movement.Builder().setPosition(LILSTOMPER_SPAWNING_COORDINATES)

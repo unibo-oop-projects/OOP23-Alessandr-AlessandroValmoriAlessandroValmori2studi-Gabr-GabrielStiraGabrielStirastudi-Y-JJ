@@ -2,13 +2,21 @@ package it.unibo.jetpackjoyride.core.handler.powerup;
 
 import javafx.scene.image.Image;
 import java.util.List;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 
+/**
+ * The {@link PowerUpView} class, more than dealing with the view of the 
+ * {@link PowerUp} entities, is responsible for its process of animation.
+ * With each call of the updateView() method, the correct animation sprite
+ * frame is selected based on the entity status, action, movement 
+ * characteristics, etc...
+ * 
+ * @author gabriel.stira@studio.unibo.it
+ */
 public final class PowerUpView extends AbstractEntityView {
 
     /**
@@ -157,6 +165,12 @@ public final class PowerUpView extends AbstractEntityView {
     private static final Integer DUKEFISHRON_ASCENDING_NUM_SPRITES = 6;
 
     /**
+     * 
+     */
+    private static final Integer NUMBER_STATES_OF_POWERUP = 5;
+
+
+    /**
      * A field that contains the current animation length.
      */
     private int animationLenght;
@@ -179,7 +193,7 @@ public final class PowerUpView extends AbstractEntityView {
     public PowerUpView(final List<Image> images) {
         super(images);
         this.animationFrame = 0;
-        this.animationCounter = new int[5];
+        this.animationCounter = new int[NUMBER_STATES_OF_POWERUP];
         this.animationLenght = 1;
     }
 

@@ -7,6 +7,15 @@ import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 import javafx.scene.image.Image;
 
+/**
+ * The {@link PickUpView} class, more than dealing with the view of the 
+ * {@link PickUp} entities, is responsible for its process of animation.
+ * With each call of the updateView() method, the correct animation sprite
+ * frame is selected based on the entity status, action, movement 
+ * characteristics, etc...
+ * 
+ * @author gabriel.stira@studio.unibo.it
+ */
 public final class PickUpView extends AbstractEntityView {
 
     /**

@@ -31,7 +31,7 @@ public abstract class AbstractObstacle extends AbstractEntity implements Obstacl
     }
 
     @Override
-    public ObstacleType getObstacleType() {
+    public final ObstacleType getObstacleType() {
         return this.obstacleType;
     }
 }

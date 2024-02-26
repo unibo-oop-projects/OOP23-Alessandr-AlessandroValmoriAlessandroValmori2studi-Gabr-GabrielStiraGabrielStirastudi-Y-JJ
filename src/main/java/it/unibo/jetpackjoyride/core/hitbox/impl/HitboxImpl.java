@@ -18,7 +18,9 @@ public final class HitboxImpl extends AbstractHitbox {
      * @param hitboxDimensions The dimensions of the hitbox.
      * @param initialAngle The initial angle of rotation of the hitbox.
      */
-    public HitboxImpl(final Pair<Double, Double> hitboxStartingPos, final Pair<Double, Double> hitboxDimensions, final Double initialAngle) {
+    public HitboxImpl(final Pair<Double, Double> hitboxStartingPos, 
+                      final Pair<Double, Double> hitboxDimensions, 
+                      final Double initialAngle) {
         super(hitboxStartingPos, hitboxDimensions, initialAngle);
     }
 }

@@ -7,12 +7,13 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
 
 /**
- * @author gabriel.stira@studio.unibo.it
- */
-
-/**
- * The view class used to render the view component of the obstacle entities.
+ * The {@link ObstacleView} class, more than dealing with the view of the 
+ * {@link Obstacle} entities, is responsible for its process of animation.
+ * With each call of the updateView() method, the correct animation sprite
+ * frame is selected based on the entity status, action, movement 
+ * characteristics, etc...
  * 
+ * @author gabriel.stira@studio.unibo.it
  */
 public final class ObstacleView extends AbstractEntityView {
 

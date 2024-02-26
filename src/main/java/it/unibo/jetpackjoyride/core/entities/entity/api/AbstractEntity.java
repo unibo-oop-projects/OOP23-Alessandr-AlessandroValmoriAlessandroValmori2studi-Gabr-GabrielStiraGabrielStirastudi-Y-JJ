@@ -54,17 +54,17 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
-    public Movement getEntityMovement() {
+    public final Movement getEntityMovement() {
         return this.movement;
     }
 
     @Override
-    public EntityType getEntityType() {
+    public final EntityType getEntityType() {
         return this.entityType;
     }
 
     @Override
-    public void setEntityStatus(final EntityStatus entityStatus) {
+    public final void setEntityStatus(final EntityStatus entityStatus) {
         this.entityStatus = entityStatus;
         if (this.entityStatus.equals(EntityStatus.ACTIVE)) {
             this.hitbox.updateHitbox(this.movement.getPosition(), this.movement.getRotation().get1());
@@ -72,7 +72,7 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
-    public void setEntityMovement(final Movement newMovement) {
+    public final void setEntityMovement(final Movement newMovement) {
         this.movement = new Movement.Builder()
                 .setPosition(newMovement.getPosition())
                 .setSpeed(newMovement.getSpeed())
@@ -83,27 +83,27 @@ public abstract class AbstractEntity implements Entity {
     }
 
     @Override
-    public EntityStatus getEntityStatus() {
+    public final EntityStatus getEntityStatus() {
         return this.entityStatus;
     }
 
     @Override
-    public Hitbox getHitbox() {
+    public final Hitbox getHitbox() {
         return this.hitbox;
     }
 
     @Override
-    public Integer getLifetime() {
+    public final Integer getLifetime() {
         return this.lifetime;
     }
 
     @Override
-    public void setLifetime(final Integer lifetime) {
+    public final void setLifetime(final Integer lifetime) {
         this.lifetime = lifetime;
     }
 
     @Override
-    public void update(final boolean isSpaceBarPressed) {
+    public final void update(final boolean isSpaceBarPressed) {
         this.lifetime++; // Increases the lifetime of the entity, which is, the number of time the entity
                          // has been updated
 

@@ -20,4 +20,3 @@ public final class Game {
     }
 }
 
-

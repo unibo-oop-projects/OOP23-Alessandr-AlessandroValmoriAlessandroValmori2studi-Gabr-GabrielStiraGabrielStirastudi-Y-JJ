@@ -9,14 +9,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.Set;
-
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collections;
 import java.util.HashSet;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
@@ -27,7 +25,7 @@ import java.nio.charset.Charset;
  * @author alessandro.valmori2@studio.unibo.it
  */
 public final class ShopControllerImpl implements ShopController {
-    /** The view component of the shop .*/
+    /** The view component of the shop . */
     private final ShopView view;
     /** The path of the file where the unlocked items are stored as text . */
     private static final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"
@@ -47,7 +45,7 @@ public final class ShopControllerImpl implements ShopController {
     @SuppressFBWarnings(value = "EI2", justification = "GameMenu object is use for the shop to return to the last menu")
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
         this.gameMenu = gameMenu;
-        readFromFile();
+        readFromFile(SHOP_DATA_PATH);
         this.view = new ShopView(this, primaryStage);
         this.view.addBuyObs(new ShopItemPurchaseObsImpl(this));
         this.view.addBackToMenuObs(new BackToMenuObsImpl(this));
@@ -67,22 +65,16 @@ public final class ShopControllerImpl implements ShopController {
 
     /**
      * Method used to read from file the set of unlocked items, if the file does
-     * not exist, the unlocked set field of this class is initialized.
+     * not exist or if the text file contains strings
+     * that do not associate with an item, the unlocked set field of this class is initialized.
      */
-    private void readFromFile() {
-
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
-                    this.unlockedSet.add(Items.valueOf(line.trim()));
-                }
-            }
-
-        } catch (IOException e) {
+    private void readFromFile(final String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
+            reader.lines().forEach(item -> this.unlockedSet.add(Items.valueOf(item)));
+        } catch (IOException | IllegalArgumentException e) {
             this.unlockedSet = new HashSet<>();
         }
+
     }
 
     @Override
@@ -105,18 +97,17 @@ public final class ShopControllerImpl implements ShopController {
                     throw new DirectoryCreationException("Failed to create directory, may not have permission");
                 }
             } catch (DirectoryCreationException e1) {
-                e1.getStackTrace();
+                e1.getMessage();
             }
         }
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(SHOP_DATA_PATH), Charset.defaultCharset()))) {
-            for (var item : this.unlockedSet) {
+            for (final var item : this.unlockedSet) {
                 writer.write(item.toString()); // Write the word
                 writer.newLine(); // Write a newline character
             }
-            System.out.println("Words saved to file successfully.");
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }

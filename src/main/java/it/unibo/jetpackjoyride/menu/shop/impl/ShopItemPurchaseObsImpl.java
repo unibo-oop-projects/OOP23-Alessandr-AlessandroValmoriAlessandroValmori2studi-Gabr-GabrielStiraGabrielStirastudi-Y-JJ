@@ -14,7 +14,7 @@ import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
  */
 public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
-    private ShopController shopController;
+    private final ShopController shopController;
 
     /**
      * The constructor.
@@ -32,7 +32,6 @@ public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
 
         if (!this.shopController.getUnlocked().contains(item)) {
             if (item.getItemCost() > available) {
-                System.out.println("Not enough funds :(\n");
             } else {
                 this.shopController.unlock(item);
                 GameStats.updateCoins(-item.getItemCost());

@@ -79,7 +79,7 @@ public final class GameStatsIO {
             gameStats.setCurrentDistance(Integer.parseInt(reader.readLine()));
             LOGGER.info("Game stats loaded successfully.");
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error for loading game stats", e);
+            LOGGER.info("Error for reading Game stats. Using default values.");
             GameStats.setCoins(1000);
             gameStats.setBestDistance(0);
             gameStats.setCurrentDistance(0);

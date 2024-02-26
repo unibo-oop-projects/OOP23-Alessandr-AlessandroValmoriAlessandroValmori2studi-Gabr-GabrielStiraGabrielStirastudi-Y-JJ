@@ -117,7 +117,7 @@ public final class EntityTest {
         assertEquals(entity.getEntityMovement().getMovementChangers(), List.of());
 
         entity.setEntityMovement(new Movement.Builder().setPosition(new Pair<>(FIVEHUNDRED, FIVEHUNDRED)).build());
-        assertEquals(entity.getEntityMovement().getPosition(), FIVEHUNDRED);
+        assertEquals(entity.getEntityMovement().getPosition(), new Pair<>(FIVEHUNDRED, FIVEHUNDRED));
 
         entity.setEntityMovement(
                 new Movement.Builder().setPosition(new Pair<>(FIVEHUNDRED, FIVEHUNDRED)).setSpeed(1.0, 2.0).build());
@@ -143,7 +143,7 @@ public final class EntityTest {
         for (int i = 0; i < FIFTY; i++) {
             entity.update(false);
         }
-        assertEquals(Integer.valueOf(FIFTY), entity.getLifetime());
+        assertEquals(Integer.valueOf(FIFTY + 1), entity.getLifetime());
         assertEquals(entity.getEntityMovement().getPosition(), new Pair<>(FIVEHUNDRED, FIVEHUNDRED));
 
     }

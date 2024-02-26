@@ -3,7 +3,14 @@ package it.unibo.jetpackjoyride.core.handler.obstacle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.Random;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
@@ -16,8 +23,6 @@ import it.unibo.jetpackjoyride.utilities.exceptions.InvalidDataFormatException;
 import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectException;
 import java.nio.charset.Charset;
 import java.io.InputStreamReader;
-
-import java.util.stream.*;
 
 /**
  * The {@link ObstacleLoader} class is used by {@link ObstacleHandler} to
@@ -302,7 +307,7 @@ public final class ObstacleLoader {
 
             this.tick++;
 
-            return this.allObstacles.get(12).stream()
+            return this.allObstacles.get(this.difficulty).stream()
                     .filter(p -> p.get2().equals(this.tick))
                     .map(p -> p.get1())
                     .map(p -> this.entityGenerator.generateObstacle(p.getObstacleType(), p.getEntityMovement()))

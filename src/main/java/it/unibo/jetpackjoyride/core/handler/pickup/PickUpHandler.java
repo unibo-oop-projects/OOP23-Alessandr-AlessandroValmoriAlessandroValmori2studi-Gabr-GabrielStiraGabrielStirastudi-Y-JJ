@@ -26,7 +26,7 @@ import java.util.Optional;
   */
 public class PickUpHandler {
     /**
-     * Defines the base chance a pickup has to be generated at each call of the spawnPickUp() method
+     * Defines the base chance a pickup has to be generated at each call of the spawnPickUp() method.
      */
     private static final Integer BASEPICKUPSPAWNCHANCE = 500;
     /**

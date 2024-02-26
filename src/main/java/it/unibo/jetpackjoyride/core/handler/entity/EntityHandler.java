@@ -120,12 +120,11 @@ public class EntityHandler {
         if (!player.isAlive()) {
             coinHandler.setPlayerHitbox(Optional.empty());
             this.ticks++;
-    
+
             if (this.ticks >= TICKS_BEFORE_GAME_OVER) {
-                return false; //GAME OVER 
+                return false; // GAME OVER
             }
-        }
-        else{
+        } else {
             player.update(isSpaceBarPressed);
         }
         coinHandler.updatPosition();

@@ -56,7 +56,7 @@ public final class PowerUpHandler {
     }
 
     /**
-     * Defines a method which generates a powerups which corresponds to the provided {@link PowerUpType}
+     * Defines a method which generates a powerups which corresponds to the provided {@link PowerUpType}.
      * 
      * @param powerUpType
      */

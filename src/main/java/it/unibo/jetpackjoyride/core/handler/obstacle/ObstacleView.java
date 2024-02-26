@@ -190,113 +190,113 @@ public final class ObstacleView extends AbstractEntityView {
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
                         if (animationCounter[0] < MISSILE_WARNING_FIRST_TICKS) {
-                            this.width = MISSILE_WARNING_X_DIMENSION;
-                            this.height = MISSILE_WARNING_Y_DIMENSION;
+                            this.setWidht(MISSILE_WARNING_X_DIMENSION);
+                            this.setHeight(MISSILE_WARNING_Y_DIMENSION);
                         }
                         this.animationLenght = MISSILE_WARNING_ANIMATION_LENGHT;
-                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght
-                                % MISSILE_WARNING_FIRST_NUM_SPRITES;
+                        this.setAnimationFrame((this.animationCounter[0]) / this.animationLenght
+                                % MISSILE_WARNING_FIRST_NUM_SPRITES);
 
                         if (animationCounter[0] > MISSILE_WARNING_FIRST_TICKS
                                 && animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
-                            this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
-                                    / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES);
-                            this.width += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
+                            this.setAnimationFrame(MISSILE_WARNING_FIRST_NUM_SPRITES + ((this.animationCounter[0])
+                                    / this.animationLenght % MISSILE_WARNING_SECOND_NUM_SPRITES));
+                            this.setWidht(this.getWidht() + MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
+                            % MISSILE_WARNING_DIMENSION_CHANGE_SPEED < MISSILE_WARNING_DIMENSION_CHANGE_SPEED
+                                    / 2 ? 1.0 : -1.0));
+                            this.setHeight(this.getHeight() + MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
                                     % MISSILE_WARNING_DIMENSION_CHANGE_SPEED < MISSILE_WARNING_DIMENSION_CHANGE_SPEED
-                                            / 2 ? 1.0 : -1.0);
-                            this.height += MISSILE_WARNING_DIMENSION_CHANGE * (this.animationCounter[0]
-                                    % MISSILE_WARNING_DIMENSION_CHANGE_SPEED < MISSILE_WARNING_DIMENSION_CHANGE_SPEED
-                                            / 2 ? 1.0 : -1.0);
+                                            / 2 ? 1.0 : -1.0));
                         } else {
                             if (animationCounter[0] > MISSILE_WARNING_SECOND_TICKS) {
                                 this.animationCounter[0] = MISSILE_WARNING_FIRST_TICKS;
-                                this.width = MISSILE_WARNING_X_DIMENSION;
-                                this.height = MISSILE_WARNING_Y_DIMENSION;
+                                this.setWidht(MISSILE_WARNING_X_DIMENSION);
+                                this.setHeight(MISSILE_WARNING_Y_DIMENSION);
                             }
                         }
                         this.animationCounter[0]++;
                         break;
                     case ACTIVE:
-                        this.width = MISSILE_X_DIMENSION;
-                        this.height = MISSILE_Y_DIMENSION;
+                        this.setWidht(MISSILE_X_DIMENSION);
+                        this.setHeight(MISSILE_Y_DIMENSION);
                         this.animationLenght = MISSILE_ANIMATION_LENGHT;
-                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
-                                + ((animationCounter[1]) / animationLenght % MISSILE_NUM_SPRITES);
+                        this.setAnimationFrame(MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
+                                + ((animationCounter[1]) / animationLenght % MISSILE_NUM_SPRITES));
                         this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        this.width = MISSILE_EXPLOSION_X_DIMENSION;
-                        this.height = MISSILE_EXPLOSION_Y_DIMENSION;
+                        this.setWidht(MISSILE_EXPLOSION_X_DIMENSION);
+                        this.setHeight(MISSILE_EXPLOSION_Y_DIMENSION);
                         this.animationLenght = MISSILE_EXPLOSION_ANIMATION_LENGHT;
-                        this.animationFrame = MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
+                        this.setAnimationFrame(MISSILE_WARNING_FIRST_NUM_SPRITES + MISSILE_WARNING_SECOND_NUM_SPRITES
                                 + MISSILE_NUM_SPRITES
-                                + ((animationCounter[2]) / animationLenght % MISSILE_EXPLOSION_NUM_SPRITES);
+                                + ((animationCounter[2]) / animationLenght % MISSILE_EXPLOSION_NUM_SPRITES));
                         this.animationCounter[2]++;
                         break;
                     default:
-                        this.animationFrame = 0;
-                        this.width = 0.0;
-                        this.height = 0.0;
+                        this.setAnimationFrame(0);
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                 }
 
                 break;
             case ZAPPER:
-                this.width = ZAPPER_X_DIMENSION;
-                this.height = ZAPPER_Y_DIMENSION;
+                this.setWidht(ZAPPER_X_DIMENSION);
+                this.setHeight(ZAPPER_Y_DIMENSION);
 
                 switch (obstacle.getEntityStatus()) {
                     case ACTIVE:
                         this.animationLenght = ZAPPER_ANIMATION_LENGHT;
-                        this.animationFrame = (this.animationCounter[1]) / this.animationLenght % ZAPPER_NUM_SPRITES;
+                        this.setAnimationFrame(this.animationCounter[1] / this.animationLenght % ZAPPER_NUM_SPRITES);
                         this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
                         this.animationLenght = ZAPPER_BROKEN_ANIMATION_LENGHT;
-                        this.animationFrame = ZAPPER_NUM_SPRITES
-                                + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES);
-                        if (this.animationFrame != ZAPPER_NUM_SPRITES + ZAPPER_BROKEN_NUM_SPRITES - 1) {
+                        this.setAnimationFrame(ZAPPER_NUM_SPRITES
+                                + ((this.animationCounter[2]) / this.animationLenght % ZAPPER_BROKEN_NUM_SPRITES));
+                        if (this.getAnimationFrame() != ZAPPER_NUM_SPRITES + ZAPPER_BROKEN_NUM_SPRITES - 1) {
                             this.animationCounter[2]++;
                         }
                         break;
                     default:
-                        this.animationFrame = 0;
-                        this.width = 0.0;
-                        this.height = 0.0;
+                        this.setAnimationFrame(0);
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                 }
                 break;
             case LASER:
-                this.width = LASER_X_DIMENSION;
-                this.height = LASER_Y_DIMENSION;
+                this.setWidht(LASER_X_DIMENSION);
+                this.setHeight(LASER_Y_DIMENSION);
                 this.animationLenght = LASER_ANIMATION_LENGHT;
 
                 switch (obstacle.getEntityStatus()) {
                     case CHARGING:
-                        this.animationFrame = (this.animationCounter[0]) / this.animationLenght
-                                % LASER_CHARGING_NUM_SPRITES;
+                        this.setAnimationFrame((this.animationCounter[0]) / this.animationLenght
+                                % LASER_CHARGING_NUM_SPRITES);
                         this.animationCounter[0]++;
                         break;
                     case ACTIVE:
-                        this.animationFrame = LASER_CHARGING_NUM_SPRITES
-                                + ((this.animationCounter[1]) / this.animationLenght % LASER_BEAM_NUM_SPRITES);
+                        this.setAnimationFrame(LASER_CHARGING_NUM_SPRITES
+                                + ((this.animationCounter[1]) / this.animationLenght % LASER_BEAM_NUM_SPRITES));
                         this.animationCounter[1]++;
                         break;
                     case DEACTIVATED:
-                        this.animationFrame = LASER_CHARGING_NUM_SPRITES - 1
-                                + ((-animationCounter[2]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES);
+                        this.setAnimationFrame(LASER_CHARGING_NUM_SPRITES - 1
+                                + ((-animationCounter[2]) / this.animationLenght % LASER_CHARGING_NUM_SPRITES));
                         this.animationCounter[2]++;
                         break;
                     default:
-                        this.animationFrame = 0;
-                        this.width = 0.0;
-                        this.height = 0.0;
+                        this.setAnimationFrame(0);
+                        this.setWidht(0.0);
+                        this.setHeight(0.0);
                         break;
                 }
                 break;
             default:
-                this.width = 0.0;
-                this.height = 0.0;
+                this.setWidht(0.0);
+                this.setHeight(0.0);
                 break;
         }
 

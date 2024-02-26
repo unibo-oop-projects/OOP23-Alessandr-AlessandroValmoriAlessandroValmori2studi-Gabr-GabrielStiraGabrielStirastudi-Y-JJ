@@ -110,7 +110,7 @@ public interface ShopController {
      * 
      * @param item to be unlocked.
      */
-    void unlock(final Items item);
+    void unlock(Items item);
 
     /**
      * Saves the game progress onto a file in the user's home directory.

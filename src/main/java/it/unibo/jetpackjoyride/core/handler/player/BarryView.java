@@ -100,6 +100,7 @@ public final class BarryView implements EntityView {
         final double width = BARRY_WIDTH * scaleX;
         final double height = BARRY_HEIGHT * scaleY;
 
+        imageView.setRotate(barry.getEntityMovement().getRotation().get1());
         imageView.setX(barry.getEntityMovement().getPosition().get1() * scaleX - width / 2);
         imageView.setY(barry.getEntityMovement().getPosition().get2() * scaleY - height / 2);
 

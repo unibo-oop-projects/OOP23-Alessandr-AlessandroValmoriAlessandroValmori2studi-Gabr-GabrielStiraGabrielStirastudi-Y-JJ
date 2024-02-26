@@ -30,21 +30,14 @@ import java.nio.charset.Charset;
 public final class ShopControllerImpl implements ShopController {
     /** The view component of the shop */
     private final ShopView view;
-    /** The path of the file where the unlocked items are stored as text .*/
+    /** The path of the file where the unlocked items are stored as text . */
     private static final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"
             + File.separator + "shopdata.txt";
-    /** The set of unlocked items .*/
+    /** The set of unlocked items . */
     private Set<Items> unlockedSet = new HashSet<>();
 
-    /** The main menu of the application .*/
+    /** The main menu of the application . */
     private final GameMenu gameMenu;
-
-    /**
-     * The observers made to handle the event that occur in the {@link ShopView} GUI.
-     */
-    private ShopItemPurchaseObs shopItemPurchaseObs;
-    private BackToMenuObs backToMenuObs;
-    private CharacterObs charObs;
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -52,19 +45,14 @@ public final class ShopControllerImpl implements ShopController {
      * @param primaryStage The primary stage of the application.
      * @param gameMenu     The game menu associated with the shop.
      */
-    @SuppressFBWarnings(value = "EI2", 
-    justification = "GameMenu object is use for the shop to return to the last menu")
+    @SuppressFBWarnings(value = "EI2", justification = "GameMenu object is use for the shop to return to the last menu")
     public ShopControllerImpl(final Stage primaryStage, final GameMenu gameMenu) {
-
         this.gameMenu = gameMenu;
         readFromFile();
         this.view = new ShopView(this, primaryStage);
-        this.shopItemPurchaseObs = new ShopItemPurchaseObsImpl(this);
-        this.backToMenuObs = new BackToMenuObsImpl(this);
-        this.charObs = new CharacterImpl(this);
-        this.view.addBuyObs(shopItemPurchaseObs);
-        this.view.addBackToMenuObs(backToMenuObs);
-        this.view.addCharObs(charObs);
+        this.view.addBuyObs(new ShopItemPurchaseObsImpl(this));
+        this.view.addBackToMenuObs(new BackToMenuObsImpl(this));
+        this.view.addCharObs(new CharacterImpl(this));
     }
 
     @Override
@@ -89,11 +77,7 @@ public final class ShopControllerImpl implements ShopController {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Check if the line is not empty or whitespace
-                    for (var item : Items.values()) {
-                        if (item.toString().equals(line.trim())) {
-                            this.unlockedSet.add(item);
-                        }
-                    }
+                    this.unlockedSet.add(Items.valueOf(line.trim()));
                 }
             }
 
@@ -119,8 +103,8 @@ public final class ShopControllerImpl implements ShopController {
 
     @Override
     public void save() {
-        File file = new File(SHOP_DATA_PATH);
-        File parentDir = file.getParentFile();
+        final File file = new File(SHOP_DATA_PATH);
+        final File parentDir = file.getParentFile();
         if (!file.getParentFile().exists()) {
             try {
                 if (!parentDir.mkdirs()) {

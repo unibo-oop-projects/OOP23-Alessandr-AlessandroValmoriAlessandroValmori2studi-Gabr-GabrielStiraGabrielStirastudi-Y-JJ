@@ -10,14 +10,14 @@ import javafx.scene.input.KeyCode;
 public class CharacterImpl implements CharacterObs {
 
     /** The shop controller */
-    private ShopController shopController;
+    private final ShopController shopController;
     /** A Deque used to store the characters pressed */
     private final Deque<String> characters;
     /** The password which needs to be matched */
     private static final String PASSWORD = "TRUFFLEWORM";
 
     /** The constructor, which takes in a {@link ShopController} */
-    public CharacterImpl(ShopController shopController) {
+    public CharacterImpl(final ShopController shopController) {
         this.shopController = shopController;
         this.characters = new LinkedList<>();
     }
@@ -27,7 +27,7 @@ public class CharacterImpl implements CharacterObs {
      * if so, alerts the {@link ShopController} of the recent unlocking
      */
     @Override
-    public void type(KeyCode code) {
+    public void type(final KeyCode code) {
         if (!this.shopController.getUnlocked().contains(Items.DUKE)) {
             final StringBuilder sb = new StringBuilder();
 
@@ -40,7 +40,7 @@ public class CharacterImpl implements CharacterObs {
                 }
 
                 final String concatenatedString = sb.toString();
-                if (concatenatedString.equals(PASSWORD)) {
+                if (PASSWORD.equals(concatenatedString)) {
                     this.shopController.unlock(Items.DUKE);
                     this.shopController.updateView();
                 }

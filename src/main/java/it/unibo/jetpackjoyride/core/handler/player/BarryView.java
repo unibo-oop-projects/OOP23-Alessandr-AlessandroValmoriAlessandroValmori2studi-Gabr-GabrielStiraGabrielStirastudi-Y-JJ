@@ -82,7 +82,7 @@ public final class BarryView implements EntityView {
     }
 
     @Override
-    @SuppressFBWarnings(value = "BC")
+    @SuppressFBWarnings("BC")
     public void updateView(final Entity entity) {
         final Barry barry = (Barry) entity;
 
@@ -119,17 +119,15 @@ public final class BarryView implements EntityView {
      * to the corresponding set of sprites.
      */
     private void buildMap() {
-        Map<PerformingAction, Integer> framesPerAnimation = new HashMap<>() {
-            {
-                put(PerformingAction.WALKING, 4);
-                put(PerformingAction.BURNED, 4);
-                put(PerformingAction.LASERED, 4);
-                put(PerformingAction.ZAPPED, 4);
-                put(PerformingAction.FALLING, 2);
-                put(PerformingAction.PROPELLING, 2);
-                put(PerformingAction.HEAD_DRAGGING, 2);
-            }
-        };
+        final Map<PerformingAction, Integer> framesPerAnimation = new HashMap<>();
+        framesPerAnimation.put(PerformingAction.WALKING, 4);
+        framesPerAnimation.put(PerformingAction.BURNED, 4);
+        framesPerAnimation.put(PerformingAction.LASERED, 4);
+        framesPerAnimation.put(PerformingAction.ZAPPED, 4);
+        framesPerAnimation.put(PerformingAction.FALLING, 2);
+        framesPerAnimation.put(PerformingAction.PROPELLING, 2);
+        framesPerAnimation.put(PerformingAction.HEAD_DRAGGING, 2);
+
         for (final var entry : framesPerAnimation.entrySet()) {
             final List<Image> images = new ArrayList<>();
             for (int i = 0; i < entry.getValue(); i++) {

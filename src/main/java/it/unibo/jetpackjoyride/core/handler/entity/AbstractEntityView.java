@@ -1,14 +1,9 @@
 package it.unibo.jetpackjoyride.core.handler.entity;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,17 +79,7 @@ public abstract class AbstractEntityView implements EntityView {
         imageView.setFitWidth(width);
         imageView.setFitHeight(height);
 
-        if (this.animationFrame < this.images.size()) {
-            imageView.setImage(this.images.get(this.animationFrame));
-        } else {
-            final Canvas canvas = new Canvas(width, height);
-            final GraphicsContext graphics = canvas.getGraphicsContext2D();
-            graphics.setFill(entity.getEntityType().equals(EntityType.OBSTACLE) 
-                ? Color.RED : entity.getEntityType().equals(EntityType.POWERUP) 
-                    ? Color.GREEN : Color.AQUA);
-            graphics.fillRect(0, 0, width, height);
-            this.imageView.setImage(canvas.snapshot(null, null));
-        }
+        imageView.setImage(this.images.get(this.animationFrame));
     }
 
     /**

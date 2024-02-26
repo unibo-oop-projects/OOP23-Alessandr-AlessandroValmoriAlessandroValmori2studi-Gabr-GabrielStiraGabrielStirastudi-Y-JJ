@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controller class for the shop menu.
@@ -35,6 +37,8 @@ public final class ShopControllerImpl implements ShopController {
 
     /** The main menu of the application . */
     private final GameMenu gameMenu;
+
+    private static final Logger LOGGER = Logger.getLogger(ShopControllerImpl.class.getName());
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -67,6 +71,7 @@ public final class ShopControllerImpl implements ShopController {
      * Method used to read from file the set of unlocked items, if the file does
      * not exist or if the text file contains strings
      * that do not associate with an item, the unlocked set field of this class is initialized.
+     * @param filePath the filepath of the text file.
      */
     private void readFromFile(final String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
@@ -97,7 +102,7 @@ public final class ShopControllerImpl implements ShopController {
                     throw new DirectoryCreationException("Failed to create directory, may not have permission");
                 }
             } catch (DirectoryCreationException e1) {
-                e1.getMessage();
+                LOGGER.log(Level.SEVERE, "Failed to create the directory {0}", parentDir);
             }
         }
         try (BufferedWriter writer = new BufferedWriter(
@@ -107,7 +112,7 @@ public final class ShopControllerImpl implements ShopController {
                 writer.newLine(); // Write a newline character
             }
         } catch (IOException e) {
-            e.getMessage();
+            LOGGER.log(Level.SEVERE, "Error saving Items to file", e);
         }
 
     }

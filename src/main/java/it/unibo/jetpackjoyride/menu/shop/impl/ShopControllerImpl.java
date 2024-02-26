@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controller class for the shop menu.
@@ -35,6 +37,8 @@ public final class ShopControllerImpl implements ShopController {
 
     /** The main menu of the application . */
     private final GameMenu gameMenu;
+
+    private static final Logger LOGGER = Logger.getLogger(ShopControllerImpl.class.getName());
 
     /**
      * Constructs a new ShopControllerImpl instance.
@@ -97,7 +101,7 @@ public final class ShopControllerImpl implements ShopController {
                     throw new DirectoryCreationException("Failed to create directory, may not have permission");
                 }
             } catch (DirectoryCreationException e1) {
-                e1.getMessage();
+                LOGGER.log(Level.SEVERE, "Failed to create the directory {0}", parentDir);
             }
         }
         try (BufferedWriter writer = new BufferedWriter(
@@ -107,7 +111,7 @@ public final class ShopControllerImpl implements ShopController {
                 writer.newLine(); // Write a newline character
             }
         } catch (IOException e) {
-            e.getMessage();
+            LOGGER.log(Level.SEVERE, "Error saving Items to file", e);
         }
 
     }

@@ -302,7 +302,7 @@ public final class ObstacleLoader {
 
             this.tick++;
 
-            return this.allObstacles.get(this.difficulty).stream()
+            return this.allObstacles.get(12).stream()
                     .filter(p -> p.get2().equals(this.tick))
                     .map(p -> p.get1())
                     .map(p -> this.entityGenerator.generateObstacle(p.getObstacleType(), p.getEntityMovement()))

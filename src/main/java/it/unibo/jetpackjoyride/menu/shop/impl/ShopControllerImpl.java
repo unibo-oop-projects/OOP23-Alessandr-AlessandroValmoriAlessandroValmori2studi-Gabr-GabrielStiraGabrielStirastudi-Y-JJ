@@ -71,6 +71,7 @@ public final class ShopControllerImpl implements ShopController {
      * Method used to read from file the set of unlocked items, if the file does
      * not exist or if the text file contains strings
      * that do not associate with an item, the unlocked set field of this class is initialized.
+     * @param filePath the filepath of the text file.
      */
     private void readFromFile(final String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {

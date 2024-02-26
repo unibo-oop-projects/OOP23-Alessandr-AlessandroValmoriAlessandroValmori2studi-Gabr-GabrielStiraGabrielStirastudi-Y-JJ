@@ -26,8 +26,8 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     private static final double MIN_SIZE_RATE = 0.2;
     private static final double MAX_SIZE_RATE = 0.9;
     private static final int SPACECING = 50;
-    private double minY;
-    private double maxY; 
+    private final double minY;
+    private final double maxY; 
 
     private final GameInfo gameInfo;
     private final Random random;
@@ -40,15 +40,14 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
     public CoinShapeFactoryImpl() {
         this.gameInfo = GameInfo.getInstance();
         random = new Random();
-        minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
-        maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
+        minY = gameInfo.getDefaultHeight() * MIN_SIZE_RATE;
+        maxY = gameInfo.getDefaultHeight() * MAX_SIZE_RATE; 
         this.cachedRegularShapes = new HashMap<>();
         loadInitialShapes();
     }
 
     @Override
     public List<Pair<Double, Double>> regularShapes() {
-        updateDimension();
         final List<String> keys = new ArrayList<>(cachedRegularShapes.keySet());
         final String randomKey = keys.get(random.nextInt(keys.size()));
         return randomYwithoutOutofmap(cachedRegularShapes.get(randomKey));
@@ -171,13 +170,5 @@ public final class CoinShapeFactoryImpl implements CoinShapeFactory {
         return cachedShape.stream()
                           .map(pos -> new Pair<Double, Double>(pos.get1() + newStartX, pos.get2() - minY1 + newStartY))
                           .collect(Collectors.toList());
-    }
-
-    /**
-     * Updates the minimum and maximum y-coordinates based on the new screen height.
-     */
-    private void updateDimension() {
-        minY = gameInfo.getScreenHeight() * MIN_SIZE_RATE;
-        maxY = gameInfo.getScreenHeight() * MAX_SIZE_RATE; 
     }
 }

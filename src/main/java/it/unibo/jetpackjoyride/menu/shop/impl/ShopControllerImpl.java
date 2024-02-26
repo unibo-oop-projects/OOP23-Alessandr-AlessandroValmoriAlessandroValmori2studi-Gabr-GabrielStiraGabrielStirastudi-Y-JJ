@@ -23,6 +23,8 @@ import java.nio.charset.Charset;
 /**
  * Controller class for the shop menu.
  * This class manages the interaction between the shop model and view.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public final class ShopControllerImpl implements ShopController {
     /** The view component of the shop */

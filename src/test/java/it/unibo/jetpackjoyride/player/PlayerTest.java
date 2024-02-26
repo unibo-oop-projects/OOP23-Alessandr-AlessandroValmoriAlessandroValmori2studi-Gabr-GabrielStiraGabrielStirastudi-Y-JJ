@@ -14,7 +14,8 @@ import it.unibo.jetpackjoyride.utilities.Pair;
 /**
  * The {@link PlayerTest} class is a test class used
  * to ensure that the main characteristics of Barry entity are
- * properly initialized, and that collision with other entities works as intended.
+ * properly initialized, and that collision with other entities works as
+ * intended.
  */
 public final class PlayerTest {
 
@@ -37,6 +38,7 @@ public final class PlayerTest {
         assertEquals(this.barry.getPerformingAction(), PerformingAction.WALKING);
         assertFalse(this.barry.hasShield());
     }
+
     /**
      * Tests {@link Barry}'s status after being
      * hit by an {@link Obstacle}.
@@ -54,6 +56,7 @@ public final class PlayerTest {
         assertFalse(this.barry.isAlive());
         assertEquals(this.barry.getPerformingAction(), PerformingAction.ZAPPED);
     }
+
     /**
      * Tests {@link Barry}'s status after being
      * hit by an {@link Obstacle}.
@@ -65,7 +68,7 @@ public final class PlayerTest {
         this.barry.hit(ObstacleType.LASER);
         assertFalse(this.barry.isAlive());
         assertEquals(PerformingAction.LASERED, this.barry.getPerformingAction());
-    }   
+    }
 
     /**
      * Tests {@link Barry}'s update together, and its effect on its

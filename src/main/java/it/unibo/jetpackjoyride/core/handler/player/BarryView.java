@@ -17,12 +17,11 @@ import it.unibo.jetpackjoyride.utilities.CircularIterator;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 
 /**
- * @author alessandro.valmori2@studio.unibo.it
- */
-/**
  * The BarryView class represents the view of the Barry entity.
  * It is responsible for updating the visual representation of the Barry entity
  * based on its state.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public final class BarryView implements EntityView {
     /**

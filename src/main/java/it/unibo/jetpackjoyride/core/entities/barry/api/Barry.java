@@ -2,16 +2,17 @@ package it.unibo.jetpackjoyride.core.entities.barry.api;
 
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
-
-/**
- * @author alessandro.valmori2@studio.unibo.it
- */
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Zapper;
 
 /**
  * The Barry interface defines the behavior of the player character, Barry, in
  * the Jetpack Joyride game.
  * It provides methods for managing Barry's position, movement, status, hitbox,
  * and shield.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public interface Barry extends Entity {
 

@@ -2,21 +2,33 @@ package it.unibo.jetpackjoyride.menu.shop.impl;
 
 import java.util.Deque;
 import java.util.LinkedList;
+
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import javafx.scene.input.KeyCode;
 
+/**
+ * The implementation of the {@link CharacterObs} interface,
+ * responsible for handling a key press, in order to unlock
+ * the secret powerup, {@link DukeFishron}
+ * @author alessandro.valmori2@studio.unibo.it
+ */
+
 public class CharacterImpl implements CharacterObs {
 
-    /** The shop controller */
+    /** The shop controller .*/
     private final ShopController shopController;
-    /** A Deque used to store the characters pressed */
+    /** A Deque used to store the characters pressed .*/
     private final Deque<String> characters;
-    /** The password which needs to be matched */
+    /** The password which needs to be matched .*/
     private static final String PASSWORD = "TRUFFLEWORM";
 
-    /** The constructor, which takes in a {@link ShopController} */
+    /** The constructor
+     * 
+     * @param shopController the {@link ShopController} class
+    */
     public CharacterImpl(final ShopController shopController) {
         this.shopController = shopController;
         this.characters = new LinkedList<>();
@@ -24,7 +36,7 @@ public class CharacterImpl implements CharacterObs {
 
     /**
      * A method used for checking wether the password typed mathes the password
-     * if so, alerts the {@link ShopController} of the recent unlocking
+     * if so, alerts the {@link ShopController} of the recent unlocking.
      */
     @Override
     public void type(final KeyCode code) {

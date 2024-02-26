@@ -1,11 +1,13 @@
 package it.unibo.jetpackjoyride.menu.shop.impl;
 
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
 import it.unibo.jetpackjoyride.core.statistical.impl.GameStats;
 import it.unibo.jetpackjoyride.menu.buttoncommand.ButtonFactory;
 import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
+import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
@@ -27,6 +29,8 @@ import static it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 /**
  * The view class for the shop menu, it extends {@link GameMenuImpl},
  * because of some common functionalities, such as background rescaling.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public final class ShopView extends GameMenuImpl {
     /** Constants related to image positioning . */
@@ -41,9 +45,12 @@ public final class ShopView extends GameMenuImpl {
     private static final int BUY_BUTTON_Y_DISPLACEMENT = (IMAGE_SIZE - BUTTON_HEIGHT) / 2;
     private static final int QUIT_BUTTON_WIDTH = 160;
     private static final int QUIT_BUTTON_HEIGHT = 60;
+    private static final int TOP_RIGHT_QUIT_DIST = 20;
+    private final static int MONEY_Y_POS = 160;
+    private final static int DUKE_WARNING_Y_POS = 500;
 
     /** Constants related to text and font . */
-    private static final int FONT_SIZE = 20;
+    private static final int FONT_SIZE = TOP_RIGHT_QUIT_DIST;
     private static final int SHIELD_COUNTER_X_POS = BUY_BUTTON_X_POS + 2 * BUTTON_WIDTH + 2 * IMAGE_DISTANCE;
     private static final int DESCR_X_POS = SHIELD_COUNTER_X_POS + IMAGE_DISTANCE;
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
@@ -143,20 +150,20 @@ public final class ShopView extends GameMenuImpl {
                 QUIT_BUTTON_WIDTH,
                 QUIT_BUTTON_HEIGHT);
 
-        backButton.setTranslateX(20);
-        backButton.setTranslateY(20);
+        backButton.setTranslateX(TOP_RIGHT_QUIT_DIST);
+        backButton.setTranslateY(TOP_RIGHT_QUIT_DIST);
 
         moneyText = new Text();
         moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
         moneyText.setFill(Color.WHITE);
-        moneyText.setTranslateY(BUTTON_HEIGHT * 2);
+        moneyText.setTranslateY(MONEY_Y_POS);
         moneyText.setTextAlignment(TextAlignment.RIGHT);
         moneyText.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
         dukeUnlocked = new Text();
         dukeUnlocked.setFont(Font.font("Arial", FontWeight.BOLD, FONT_SIZE));
         dukeUnlocked.setFill(Color.YELLOWGREEN);
-        dukeUnlocked.setTranslateY(500);
+        dukeUnlocked.setTranslateY(DUKE_WARNING_Y_POS);
         dukeUnlocked.setTextAlignment(TextAlignment.RIGHT);
         dukeUnlocked.setWrappingWidth(GameInfo.getInstance().getScreenWidth() - BUTTON_HEIGHT);
 
@@ -179,6 +186,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Subscriber method for {@link ShopItemPurchaseObs} observers.
+     * @param observer the observer
      */
     public void addBuyObs(final ShopItemPurchaseObs observer) {
         buyObsList.add(observer);
@@ -186,6 +194,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Subscriber method for {@link BackToMenu} observers.
+     * @param observer the observer
      */
     public void addBackToMenuObs(final BackToMenuObs observer) {
         backList.add(observer);
@@ -193,6 +202,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Subscriber method for {@link CharacterObs} observers.
+     * @param observer the observer
      */
     public void addCharObs(final CharacterObs observer) {
         charObsList.add(observer);
@@ -200,6 +210,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Unsubscriber method for {@link BackToMenuObs} observers.
+     * @param observer the observer
      */
     public void removeBackToMenuObs(final BackToMenuObs observer) {
         backList.remove(observer);
@@ -207,6 +218,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Unsubscriber method for {@link ShopItemPurchaseObs} observers.
+     * @param observer the observer
      */
     public void removeBuyObs(final ShopItemPurchaseObs observer) {
         buyObsList.remove(observer);
@@ -214,6 +226,7 @@ public final class ShopView extends GameMenuImpl {
 
     /**
      * Unsubscriber method for {@link CharacterObs} observers.
+     * @param observer the observer
      */
     public void removeCharObs(final CharacterObs observer) {
         charObsList.remove(observer);

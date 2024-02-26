@@ -1,10 +1,3 @@
-/**
- * BarryImpl class represents the implementation of the Barry interface,
- * which defines the behavior of the player character in the Jetpack Joyride game.
- *
- * This class manages Barry's position, movement, and performingAction, including walking,
- * falling, and propelling using a jetpack. It also handles hitbox-related operations.
- */
 package it.unibo.jetpackjoyride.core.entities.barry.impl;
 
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
@@ -15,13 +8,12 @@ import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import java.util.List;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 
-/**
- * @author alessandro.valmori2@studio.unibo.it.
- */
 
 /**
  * This class implements the Barry interface and provides the functionality
  * for controlling the player character, Barry.
+ * 
+ * @author alessandro.valmori2@studio.unibo.it
  */
 public final class BarryImpl extends AbstractEntity implements Barry {
     /* The performing action. */

@@ -85,8 +85,6 @@ public final class ShopControllerImpl implements ShopController {
         }
     }
 
-    
-
     @Override
     public Set<Items> getUnlocked() {
         return Collections.unmodifiableSet(this.unlockedSet);

@@ -197,7 +197,7 @@ public class EntityImageLoader {
      * @return The sublist of images.
      */
     private List<Image> takeImages(final List<Image> images, final Integer fromIndex, final Integer toIndex) {
-        if(images.isEmpty()) {
+        if (images.isEmpty()) {
             return List.of();
         }
         return IntStream.rangeClosed(fromIndex, toIndex).mapToObj(i -> images.get(i)).toList();

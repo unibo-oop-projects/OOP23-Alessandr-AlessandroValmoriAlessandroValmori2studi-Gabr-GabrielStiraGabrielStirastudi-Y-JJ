@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
@@ -85,6 +84,22 @@ public final class ObstacleLoader {
     private static final Integer PATTERN_VARIETY_MODIFIER = 3;
 
     /**
+     * Define in order the parameters as they are found in the file.
+     */
+    private static final Integer PATTERN_NUMBER = 0;
+    private static final Integer OBSTACLE_TYPE = 1;
+    private static final Integer OBSTACLE_POSITIONX = 2;
+    private static final Integer OBSTACLE_POSITIONY = 3;
+    private static final Integer OBSTACLE_SPEEDX = 4;
+    private static final Integer OBSTACLE_SPEEDY = 5;
+    private static final Integer OBSTACLE_ACCELERATIONX = 6;
+    private static final Integer OBSTACLE_ACCELERATIONY = 7;
+    private static final Integer OBSTACLE_ROTATIONX = 8;
+    private static final Integer OBSTACLE_ROTATIONY = 9;
+    private static final Integer OBSTACLE_TICKTIME = 10;
+    private static final Integer TOTAL_NUM_OF_PARAMETERS = 10;
+
+    /**
      * Is used to read a stream of bytes.
      */
     private InputStream in;
@@ -119,27 +134,6 @@ public final class ObstacleLoader {
     private final Random random;
 
     /**
-     * Defines the attributes of the obstacles that are read read from the file
-     * which
-     * contains all the patterns of obstacles.
-     */
-    private final Map<String, Integer> attributes = new HashMap<>() {
-        {
-            put("PATTERN_NUMBER", 0);
-            put("OBSTACLE_TYPE", 1);
-            put("OBSTACLE_POSITIONX", 2);
-            put("OBSTACLE_POSITIONY", 3);
-            put("OBSTACLE_SPEEDX", 4);
-            put("OBSTACLE_SPEEDY", 5);
-            put("OBSTACLE_ACCELERATIONX", 6);
-            put("OBSTACLE_ACCELERATIONY", 7);
-            put("OBSTACLE_ROTATIONX", 8);
-            put("OBSTACLE_ROTATIONY", 9);
-            put("OBSTACLE_TICKTIME", 10);
-        }
-    };
-
-    /**
      * Constructor used to create an instance of ObstacleLoader and initialize it.
      */
     public ObstacleLoader() {
@@ -162,7 +156,7 @@ public final class ObstacleLoader {
             this.allObstacles.clear();
             this.randomBasedObstacleGeneration();
         }
-    } 
+    }
 
     /**
      * Defines a method used to generate random patterns of obstacles.
@@ -233,40 +227,40 @@ public final class ObstacleLoader {
         for (line = reader.readLine(); line != null; line = reader.readLine()) {
             if (!"".equals(line) && !"END_OF_PATTERNS".equals(line)) {
                 final String[] parts = line.split(",");
-                if (parts.length != this.attributes.keySet().size()) {
+                if (parts.length != TOTAL_NUM_OF_PARAMETERS) {
                     throw new InvalidDataFormatException("Invalid formatting in file: " + in);
                 }
 
-                patternNumber = Integer.parseInt(parts[this.attributes.get("PATTERN_NUMBER")]);
+                patternNumber = Integer.parseInt(parts[PATTERN_NUMBER]);
 
-                final String obstacleType = parts[this.attributes.get("OBSTACLE_TYPE")];
+                final String obstacleType = parts[OBSTACLE_TYPE];
 
-                Double xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONX")]);
-                Double yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_POSITIONY")]);
+                Double xCoordinate = Double.parseDouble(parts[OBSTACLE_POSITIONX]);
+                Double yCoordinate = Double.parseDouble(parts[OBSTACLE_POSITIONY]);
                 final Pair<Double, Double> pos = new Pair<>(xCoordinate, yCoordinate);
 
-                xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDX")]);
-                yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_SPEEDY")]);
+                xCoordinate = Double.parseDouble(parts[OBSTACLE_SPEEDX]);
+                yCoordinate = Double.parseDouble(parts[OBSTACLE_SPEEDY]);
                 final Pair<Double, Double> speed = new Pair<>(xCoordinate, yCoordinate);
 
-                xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONX")]);
-                yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ACCELERATIONY")]);
+                xCoordinate = Double.parseDouble(parts[OBSTACLE_ACCELERATIONX]);
+                yCoordinate = Double.parseDouble(parts[OBSTACLE_ACCELERATIONY]);
                 final Pair<Double, Double> acc = new Pair<>(xCoordinate, yCoordinate);
 
-                xCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ROTATIONX")]);
+                xCoordinate = Double.parseDouble(parts[OBSTACLE_ROTATIONX]);
 
-                if (parts[this.attributes.get("OBSTACLE_ROTATIONY")].startsWith("RANDOM")) {
-                    final String toExtract = parts[this.attributes.get("OBSTACLE_ROTATIONY")];
+                if (parts[OBSTACLE_ROTATIONY].startsWith("RANDOM")) {
+                    final String toExtract = parts[OBSTACLE_ROTATIONY];
                     final String integersString = toExtract
                             .substring(toExtract.indexOf('(') + 1, toExtract.indexOf(')'))
                             .replaceAll(";", "").trim();
 
                     yCoordinate = Double.parseDouble(integersString);
                 } else {
-                    yCoordinate = Double.parseDouble(parts[this.attributes.get("OBSTACLE_ROTATIONY")]);
+                    yCoordinate = Double.parseDouble(parts[OBSTACLE_ROTATIONY]);
                 }
                 final Pair<Double, Double> rot = new Pair<>(xCoordinate, yCoordinate);
-                final Integer tickTimeSpawn = Integer.parseInt(parts[this.attributes.get("OBSTACLE_TICKTIME")]);
+                final Integer tickTimeSpawn = Integer.parseInt(parts[OBSTACLE_TICKTIME]);
 
                 obstaclesOfInstance
                         .add(new Pair<>(

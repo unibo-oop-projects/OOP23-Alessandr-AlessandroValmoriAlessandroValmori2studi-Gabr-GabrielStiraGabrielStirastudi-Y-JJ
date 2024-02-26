@@ -17,17 +17,17 @@ public final class ShopItemPurchaseObsImpl implements ShopItemPurchaseObs {
     private ShopController shopController;
 
     /**
-     * Constructor that takes in the
+     * The constructor.
      * 
-     * @param shopController
+     * @param shopController the {@link ShopController} associated with this observer.
      */
-    public ShopItemPurchaseObsImpl(ShopController shopController) {
+    public ShopItemPurchaseObsImpl(final ShopController shopController) {
         this.shopController = shopController;
 
     }
 
     @Override
-    public void onItemBought(Items item) {
+    public void onItemBought(final Items item) {
         final var available = GameStats.getCoins();
 
         if (!this.shopController.getUnlocked().contains(item)) {

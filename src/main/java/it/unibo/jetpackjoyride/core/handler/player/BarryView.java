@@ -28,7 +28,7 @@ public final class BarryView implements EntityView {
      * The imageview of Barry.
      */
     private final ImageView imageView;
-    /** The imageview of the shield .*/
+    /** The imageview of the shield . */
     private final ImageView shieldImageView;
     /**
      * The list of the current images which corresponing to the current
@@ -46,7 +46,7 @@ public final class BarryView implements EntityView {
      */
     private PerformingAction oldAction;
 
-    /** The width of the Barry sprite .*/
+    /** The width of the Barry sprite . */
     private static final double BARRY_WIDTH = 75.0;
     /** The height of the Barry sprite. */
     private static final double BARRY_HEIGHT = 100.0;
@@ -81,9 +81,8 @@ public final class BarryView implements EntityView {
         this.iterator = new CircularIterator<>(this.images);
     }
 
-    
     @Override
-    @SuppressFBWarnings(value="BC")
+    @SuppressFBWarnings(value = "BC")
     public void updateView(final Entity entity) {
         final Barry barry = (Barry) entity;
 

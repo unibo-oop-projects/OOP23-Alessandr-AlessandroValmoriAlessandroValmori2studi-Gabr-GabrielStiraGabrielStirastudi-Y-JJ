@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
  * @author alessandro.valmori2@studio.unibo.it
  */
 public final class ShopControllerImpl implements ShopController {
-    /** The view component of the shop */
+    /** The view component of the shop .*/
     private final ShopView view;
     /** The path of the file where the unlocked items are stored as text . */
     private static final String SHOP_DATA_PATH = System.getProperty("user.home") + File.separator + "jetpackJoyride"

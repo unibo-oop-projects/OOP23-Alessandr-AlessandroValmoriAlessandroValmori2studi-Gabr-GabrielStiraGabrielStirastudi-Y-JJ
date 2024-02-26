@@ -7,7 +7,6 @@ import it.unibo.jetpackjoyride.menu.menus.impl.GameMenuImpl;
 import it.unibo.jetpackjoyride.menu.shop.api.BackToMenuObs;
 import it.unibo.jetpackjoyride.menu.shop.api.CharacterObs;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopController;
-import it.unibo.jetpackjoyride.menu.shop.api.ShopController.Items;
 import it.unibo.jetpackjoyride.menu.shop.api.ShopItemPurchaseObs;
 import it.unibo.jetpackjoyride.utilities.GameInfo;
 import javafx.scene.control.Button;
@@ -46,14 +45,15 @@ public final class ShopView extends GameMenuImpl {
     private static final int QUIT_BUTTON_WIDTH = 160;
     private static final int QUIT_BUTTON_HEIGHT = 60;
     private static final int TOP_RIGHT_QUIT_DIST = 20;
-    private final static int MONEY_Y_POS = 160;
-    private final static int DUKE_WARNING_Y_POS = 500;
+    private static final int MONEY_Y_POS = 160;
+    private static final int DUKE_WARNING_Y_POS = 500;
 
     /** Constants related to text and font . */
     private static final int FONT_SIZE = TOP_RIGHT_QUIT_DIST;
     private static final int SHIELD_COUNTER_X_POS = BUY_BUTTON_X_POS + 2 * BUTTON_WIDTH + 2 * IMAGE_DISTANCE;
     private static final int DESCR_X_POS = SHIELD_COUNTER_X_POS + IMAGE_DISTANCE;
     private static final String BUTTON_STYLE = "-fx-background-color: #000000; -fx-text-fill: white; -fx-font-size: 16;";
+    private static final int MONEY_FONT = 40;
 
     /**
      * Y position of the mrcuddles image, used as a reference for the rest
@@ -154,7 +154,7 @@ public final class ShopView extends GameMenuImpl {
         backButton.setTranslateY(TOP_RIGHT_QUIT_DIST);
 
         moneyText = new Text();
-        moneyText.setFont(Font.font("Arial", FontWeight.BOLD, 40));
+        moneyText.setFont(Font.font("Arial", FontWeight.BOLD, MONEY_FONT));
         moneyText.setFill(Color.WHITE);
         moneyText.setTranslateY(MONEY_Y_POS);
         moneyText.setTextAlignment(TextAlignment.RIGHT);

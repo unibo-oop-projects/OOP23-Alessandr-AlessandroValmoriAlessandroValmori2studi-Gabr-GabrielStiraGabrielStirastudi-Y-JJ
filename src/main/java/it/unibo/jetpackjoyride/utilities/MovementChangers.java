@@ -8,23 +8,23 @@ package it.unibo.jetpackjoyride.utilities;
  */
 public enum MovementChangers {
     /**
-     * Indicates bouncing behavior.
+     * Indicates a bouncing behavior.
      * Once the upper or lower bound of the screen is hit, the y speed is inverted.
      */
     BOUNCING,
     /**
-     * Indicates gravity behavior.
+     * Indicates a gravity based behavior.
      * The y speed is accelerated downwards.
      */
     GRAVITY,
     /**
-     * Indicates inverse gravity behavior.
+     * Indicates an inverse gravity based behavior.
      * The y speed is accelerated upwards.
      */
     INVERSEGRAVITY,
     /**
-     * Indicates bounds behavior.
-     * x and y will only vary between specified limits.
+     * Indicates a bounded behavior.
+     * x and y position cannot exceed specified limits.
      */
     BOUNDS
 }

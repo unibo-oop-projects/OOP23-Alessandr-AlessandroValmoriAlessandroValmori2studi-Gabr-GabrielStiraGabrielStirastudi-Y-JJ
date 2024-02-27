@@ -14,6 +14,7 @@ import it.unibo.jetpackjoyride.core.handler.entity.AbstractEntityView;
  * characteristics, etc...
  * 
  * @author gabriel.stira@studio.unibo.it
+ * (I know a file would have been better...)
  */
 public final class ObstacleView extends AbstractEntityView {
 

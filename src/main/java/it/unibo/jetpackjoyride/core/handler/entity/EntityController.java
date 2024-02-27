@@ -35,7 +35,7 @@ public class EntityController {
      * A utility class used to calculate the corresponding
      * list of images based on model information.
      */
-    private final EntityImageLoader imageLoader = new EntityImageLoader();
+    private final EntityImageLoader imageLoader;
     /**
      * A map used to maintain a correspondence between active entities
      * and the associated view, mainly used for boosting performance, in order
@@ -51,6 +51,7 @@ public class EntityController {
      *             regarding unlocked items.
      */
     public EntityController(final ShopController shop) {
+        this.imageLoader = new EntityImageLoader();
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);
         this.modelViewMapper = new HashMap<>();
@@ -117,7 +118,7 @@ public class EntityController {
                     entityView = new PickUpView(this.imageLoader.loadImages(entity));
                     break;
                 default:
-                    throw new NotImplementedObjectException("Tried to spawn an alien entity");
+                    throw new NotImplementedObjectException("Tried to spawn an unknown entity");
 
             }
         } catch (NotImplementedObjectException e) {

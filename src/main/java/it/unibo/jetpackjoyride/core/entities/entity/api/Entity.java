@@ -2,6 +2,18 @@ package it.unibo.jetpackjoyride.core.entities.entity.api;
 
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
+import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Laser;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Missile;
+import it.unibo.jetpackjoyride.core.entities.obstacle.impl.Zapper;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.ShieldPickUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
+import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
+import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
+import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 
 /**
  * The {@link Entity} interface defines the common behaviour on which to base
@@ -17,19 +29,19 @@ public interface Entity {
      */
     enum EntityType {
         /**
-         * The obstacle entity type,
+         * The {@link Obstacle} entity type,
          * which itself is further divided into
          * {@link Zapper}, {@link Missile} and {@link Laser}.
          */
         OBSTACLE, 
         /**
-         * The power up entity type,
+         * The {@link PowerUp} entity type,
          * which itself is further divided into
          * {@link ProfitBird}, {@link MrCuddles}, {@link DukeFishron} and {@link LilStomper}.
          */
         POWERUP, 
         /**
-         * The pick-up entity type,
+         * The {@link PickUp} entity type,
          * which itself is further divided into
          * {@link VehiclePickUp} and {@link ShieldPickUp}.
          */

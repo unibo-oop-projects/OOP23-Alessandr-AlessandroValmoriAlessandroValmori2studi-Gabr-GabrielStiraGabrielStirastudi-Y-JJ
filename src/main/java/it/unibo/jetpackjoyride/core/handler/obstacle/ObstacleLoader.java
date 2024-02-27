@@ -1,6 +1,7 @@
 package it.unibo.jetpackjoyride.core.handler.obstacle;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -153,8 +154,7 @@ public final class ObstacleLoader {
             if (in != null) {
                 this.readFromFile();
             } else {
-                this.allObstacles.clear();
-                this.randomBasedObstacleGeneration();
+                throw new FileNotFoundException("Could not find the file " + filePath);
             }
         } catch (IOException | InvalidDataFormatException e) {
             this.allObstacles.clear();
@@ -268,10 +268,10 @@ public final class ObstacleLoader {
 
                 obstaclesOfInstance
                         .add(new Pair<>(
-                                this.entityGenerator
-                                        .generateObstacle(ObstacleType.valueOf(obstacleType),
-                                                new Movement.Builder().addNewPosition(pos).addNewSpeed(speed)
-                                                        .addNewAcceleration(acc).addNewRotation(rot).build()),
+                                this.entityGenerator.generateObstacle(
+                                    ObstacleType.valueOf(obstacleType),
+                                    new Movement.Builder().addNewPosition(pos).addNewSpeed(speed)
+                                        .addNewAcceleration(acc).addNewRotation(rot).build()),
                                 tickTimeSpawn));
             } else {
                 this.allObstacles.put(patternNumber, new ArrayList<>(obstaclesOfInstance));

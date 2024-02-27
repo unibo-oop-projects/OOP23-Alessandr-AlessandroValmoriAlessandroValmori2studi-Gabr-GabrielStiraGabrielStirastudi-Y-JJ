@@ -5,6 +5,7 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.HashSet;
 import java.util.Collections;
 
@@ -65,6 +66,7 @@ public abstract class AbstractHitbox implements Hitbox {
 
         final Double initialX = hitboxNewPos.get1() - width / 2;
         final Double initialY = hitboxNewPos.get2() - height / 2;
+
         this.hitbox = new HashSet<>();
         this.hitbox.add(new Pair<>(initialX, initialY));
         this.hitbox.add(new Pair<>(initialX + width, initialY));
@@ -94,16 +96,12 @@ public abstract class AbstractHitbox implements Hitbox {
         this.hitboxPosition = newPosition;
         this.createHitbox(newPosition);
 
-        final Set<Pair<Double, Double>> newHitbox = new HashSet<>();
-
-        for (final var elem : this.hitbox) {
-            final Pair<Double, Double> newPoint = computeNewPoint(elem, this.hitboxPosition, angle);
-            newHitbox.add(
-                    new Pair<>(newPoint.get1() + (newPosition.get1() - this.hitboxPosition.get1()),
-                            newPoint.get2() + (newPosition.get2() - this.hitboxPosition.get2())));
-        }
-
-        this.hitbox = newHitbox;
+        this.hitbox = this.hitbox.stream()
+                            .map(elem -> computeNewPoint(elem, this.hitboxPosition, angle))
+                            .map(p -> new Pair<>(
+                                p.get1() + (newPosition.get1() - this.hitboxPosition.get1()),
+                                p.get2() + (newPosition.get2() - this.hitboxPosition.get2())))
+                            .collect(Collectors.toSet());
     }
 
     /**
@@ -124,15 +122,12 @@ public abstract class AbstractHitbox implements Hitbox {
                 .forEach(vertex -> allPoints.addPoint(
                     vertex.get1().intValue(), vertex.get2().intValue()));
 
-        boolean isTouching;
-        isTouching = secondHitbox.getHitboxVertex().stream()
-            .anyMatch(otherVertex -> allPoints.contains(otherVertex.get1(), otherVertex.get2()));
-
-        if (allPoints.contains(secondHitbox.getHitboxPosition().get1(), secondHitbox.getHitboxPosition().get2())) {
-            isTouching = true;
-        }
-
-        return isTouching;
+        return secondHitbox.getHitboxVertex().stream()
+                    .anyMatch(otherVertex -> allPoints.contains(otherVertex.get1(), otherVertex.get2()))
+                    ||
+                    allPoints.contains(
+                            secondHitbox.getHitboxPosition().get1(), 
+                            secondHitbox.getHitboxPosition().get2());
     }
 
     @Override

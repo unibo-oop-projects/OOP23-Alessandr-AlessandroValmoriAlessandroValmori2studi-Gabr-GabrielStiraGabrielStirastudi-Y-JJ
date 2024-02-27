@@ -26,8 +26,7 @@ import java.util.Collections;
  * {@link PickupHandler}),
  * the {@link CoinGenerator} and {@link Barry}.
  * It is responsible for managing the interactions between these classes, and
- * can also
- * notify the {@link GameLoop} if the game is over.
+ * can also notify the {@link GameLoop} if the game is over.
  * Entity handler represents the core of the game's entity managing
  * system.
  *

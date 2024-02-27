@@ -80,8 +80,7 @@ public final class MovementModifierFactoryImpl implements MovementModifierFactor
         return new MovementModifier() {
             @Override
             public MovCharacterizing applyModifier(final MovCharacterizing toModify) {
-                final MovCharacterizing modified = m1.applyModifier(toModify);
-                return m2.applyModifier(modified);
+                return m2.applyModifier(m1.applyModifier(toModify));
             }
         };
     }

@@ -10,22 +10,20 @@ import java.util.Collections;
 
 /**
  * The {@link Movement} is one of the two elements which characterize every
- * entity along with
- * the {@link Hitbox}.
+ * entity along with the {@link Hitbox}.
  * This class encapsulates elements such as position, speed, acceleration and
- * rotation which allow
- * entity to be represented in a two dimensional space. A record is used as a
- * simple data-carrying
- * class to store the most important values which characterize the movement.
+ * rotation which allow entities to be represented in a two dimensional space.
+ * A record is used as a simple data-carrying class to store the most important
+ * values which characterize the movement ({@link MovCharacterizing});
  * A list of modifiers is also used to define common behaviours for the classes
- * which use Movement.
+ * which use {@link Movement}. The list of modifiers is associated to a list of
+ * {@link MovementModifier}, a class used to create and add every kind of personalized 
+ * modifier to a movement.
  * This class also provides a method to get a relative position which is the
- * position of the entity
- * scaled based on the current screen size.
- * This is an immutable class, hence the creation of a new Movement class is
- * required every time the
- * movement has to be updated. While it could seem more resource consuming
- * compared to a mutable
+ * position of the entity scaled based on the current screen size.
+ * This is an immutable class, hence the creation of a new {@link Movement} class is
+ * required every time the movement has to be updated. 
+ * While it could seem more resource consuming compared to a mutable
  * implementation, there are several reason a mutable one can be preferred.
  * 
  * @author gabriel.stira@studio.unibo.it
@@ -205,15 +203,18 @@ public final class Movement {
         final MovCharacterizing modifiedSpecifiers = this.applyModifiers();
         Pair<Double, Double> modifiedPosition = modifiedSpecifiers.pos();
         Pair<Double, Double> modifiedSpeed = modifiedSpecifiers.speed();
+        /* Acceleration declared final only because currently no modifiers change it, but
+         * they could!!! */
         final Pair<Double, Double> modifiedAcceleration = modifiedSpecifiers.acc();
         Pair<Double, Double> modifiedRotation = modifiedSpecifiers.rot();
 
+        // V = Vo + a
         modifiedSpeed = new Pair<>(modifiedSpeed.get1() + modifiedAcceleration.get1(),
                 modifiedSpeed.get2() + modifiedAcceleration.get2());
-
+        // S = So + V
         modifiedPosition = new Pair<>(modifiedPosition.get1() + modifiedSpeed.get1(),
                 modifiedPosition.get2() + modifiedSpeed.get2());
-
+        //Every call to update add a rotation.get2() angle to rotation.get1()
         modifiedRotation = new Pair<>(modifiedRotation.get1() + modifiedRotation.get2(), modifiedRotation.get2());
 
         return new Builder().addNewPosition(modifiedPosition)
@@ -237,23 +238,16 @@ public final class Movement {
      * the builder, we emulate the so-called "named arguments".
      * 
      * Since the Movement class is used by all entities and its values (position,
-     * speed, etc...)
-     * may need to be changed also from outside, this solution is better than
-     * accessing directly
-     * the values or using lots of getters and setters, especially if only one
-     * getter for the Movement
-     * class is provided and the only way to change the values is by doing a
-     * get().set(newValue), which
-     * "may expose internal representation by storing an externally mutable...".
+     * speed, etc...) may need to be changed also from outside, this solution is 
+     * better than accessing directly the values or using lots of getters and 
+     * setters, especially if only one getter for the Movement class is provided 
+     * and the only way to change the values is by doing a get().set(newValue),
+     * which "may expose internal representation by storing an externally mutable...".
      * The movement class was actually mutable before, but all these problems led to
-     * think that
-     * an immutable, side-effects free implementation was better, even if more
-     * resource-consuming.
-     * (since a new class has to be created every time an entity has to update its
-     * movement, which actually
-     * happens a lot, but the number of entities which do this at all times is
-     * generally really low).
-     * 
+     * think that an immutable, side-effects free implementation was better, even 
+     * if more resource-consuming (since a new class has to be created every time
+     * an entity updates its movement, which actually happens a lot, but the number
+     * of entities which do this at all times is generally really low).
      */
     public static final class Builder {
 

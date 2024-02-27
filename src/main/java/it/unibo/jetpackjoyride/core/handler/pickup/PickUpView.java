@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
  * characteristics, etc...
  * 
  * @author gabriel.stira@studio.unibo.it
+ * (I know a file would have been better...)
  */
 public final class PickUpView extends AbstractEntityView {
 

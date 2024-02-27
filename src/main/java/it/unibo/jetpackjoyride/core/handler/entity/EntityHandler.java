@@ -143,6 +143,7 @@ public class EntityHandler {
 
         if (obstacleHit.isPresent()) {
             if (this.isUsingPowerUp) {
+                this.player.setEntityMovement(this.powerUpHandler.getAllPowerUps().get(0).getEntityMovement());
                 this.powerUpHandler.destroyAllPowerUps();
                 this.isUsingPowerUp = false;
                 this.player.setEntityStatus(EntityStatus.ACTIVE);

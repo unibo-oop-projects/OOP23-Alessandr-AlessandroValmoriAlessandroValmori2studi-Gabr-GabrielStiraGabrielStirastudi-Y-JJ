@@ -4,6 +4,7 @@ import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.movement.Movement;
+import java.util.function.Predicate;
 
 /**
  * The {@link Laser} class defines one of the obstacles implemented
@@ -75,14 +76,21 @@ public final class Laser extends AbstractObstacle {
         }
 
         /* Set the status of the laser based on its lifetime */
-        if (this.getLifetime().equals(TIME_FOR_CHARGING)) {
-            this.setEntityStatus(EntityStatus.ACTIVE);
-        }
-        if (this.getLifetime().equals(TIME_FOR_CHARGING + LASER_DURATION)) {
-            this.setEntityStatus(EntityStatus.DEACTIVATED);
-        }
-        if (this.getLifetime().equals(TIME_FOR_CHARGING + LASER_DURATION + TIME_FOR_DECHARGING)) {
-            this.setEntityStatus(EntityStatus.INACTIVE);
+        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING), EntityStatus.ACTIVE);
+        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION), EntityStatus.DEACTIVATED);
+        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION + TIME_FOR_DECHARGING), EntityStatus.INACTIVE);
+    }
+
+    /**
+     *  Defines a method used to avoid code repetition, which changes the status of the 
+     *  entity if a certain lifetime is reached.
+     * 
+     * @param time The required lifetime to change status.
+     * @param newStatus The status which is set when reaching a certain lifetime.
+     */
+    private void checkTimeUpdateStatus(final Predicate<Integer> time, final EntityStatus newStatus) {
+        if (time.test(this.getLifetime())) {
+            this.setEntityStatus(newStatus);
         }
     }
 }

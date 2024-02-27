@@ -121,15 +121,9 @@ public abstract class AbstractHitbox implements Hitbox {
         final Polygon allPoints = new Polygon();
         boolean isTouching = false;
 
-        for (final var vertex : firstHitbox.getHitboxVertex()) {
-            allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue());
-        }
+        firstHitbox.getHitboxVertex().stream().forEach(vertex -> allPoints.addPoint(vertex.get1().intValue(), vertex.get2().intValue()));
 
-        for (final var otherVertex : secondHitbox.getHitboxVertex()) {
-            if (allPoints.contains(otherVertex.get1(), otherVertex.get2())) {
-                isTouching = true;
-            }
-        }
+        isTouching = secondHitbox.getHitboxVertex().stream().anyMatch(otherVertex -> allPoints.contains(otherVertex.get1(), otherVertex.get2()));
 
         if (allPoints.contains(secondHitbox.getHitboxPosition().get1(), secondHitbox.getHitboxPosition().get2())) {
             isTouching = true;

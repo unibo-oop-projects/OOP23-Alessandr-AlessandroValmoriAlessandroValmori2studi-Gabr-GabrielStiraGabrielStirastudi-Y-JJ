@@ -68,11 +68,7 @@ public final class MrCuddles extends AbstractPowerUp {
         this.lastFrames.remove(0);
         this.lastFrames.add(isSpaceBarPressed);
 
-        if (lastFrames.get(0)) {
-            this.setPerformingAction(PerformingAction.DESCENDING);
-        } else {
-            this.setPerformingAction(PerformingAction.ASCENDING);
-        }
+        this.setPerformingAction(this.lastFrames.get(0) ? PerformingAction.DESCENDING : PerformingAction.ASCENDING);
 
         this.setEntityMovement(new Movement.Builder()
                 .addNewPosition(this.getEntityMovement().getPosition())

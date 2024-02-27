@@ -3,9 +3,11 @@ package it.unibo.jetpackjoyride.core.movement;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.utilities.MovementChangers;
 import it.unibo.jetpackjoyride.utilities.Pair;
+import it.unibo.jetpackjoyride.utilities.exceptions.NotImplementedObjectException;
 import java.util.List;
-
+import java.util.ArrayList;
 import java.util.Collections;
+
 /**
  * The {@link Movement} is one of the two elements which characterize every
  * entity along with
@@ -46,11 +48,19 @@ public final class Movement {
      */
     private static final Double MAPBOUNDDOWN = 630.0;
 
-    /*
+    /**
      * A record is used to store the four most important values of the movement
      * class. Since Movement is immutable,
      * a record is a good idea to avoid having to implement getters, is more
      * readable and guarantees immutability.
+     * 
+     * @param pos   The position of the entity, represented as a pair of (x, y)
+     *              coordinates.
+     * @param speed The speed of the entity, represented as a pair of (x-speed,
+     *              y-speed).
+     * @param acc   The acceleration of the entity, represented as a pair of
+     *              (x-acceleration, y-acceleration).
+     * @param rot   The rotation of the entity.
      */
     record MovCharacterizing(Pair<Double, Double> pos, Pair<Double, Double> speed, Pair<Double, Double> acc,
             Pair<Double, Double> rot) {
@@ -69,15 +79,15 @@ public final class Movement {
     /**
      * Constructor used to create the instance of the class Movement.
      *
-     * @param position         The position of the entity (x and y coordinates).
-     * @param speed            The speed of the entity (x and y coordinates).
-     * @param acceleration     The acceleration of the entity (x and y coordinates).
-     * @param rotation         The rotation values of the entity (x and y
-     *                         coordinates).
-     *                         (v1 is the angle by which the entity is rotated, v2
-     *                         is how much it rotates with every call of the update
-     *                         method)
-     * @param listOfChangers   The modifiers affecting the entity.
+     * @param position       The position of the entity (x and y coordinates).
+     * @param speed          The speed of the entity (x and y coordinates).
+     * @param acceleration   The acceleration of the entity (x and y coordinates).
+     * @param rotation       The rotation values of the entity (x and y
+     *                       coordinates).
+     *                       (v1 is the angle by which the entity is rotated, v2
+     *                       is how much it rotates with every call of the update
+     *                       method)
+     * @param listOfChangers The modifiers affecting the entity.
      */
     private Movement(final Pair<Double, Double> position, final Pair<Double, Double> speed,
             final Pair<Double, Double> acceleration, final Pair<Double, Double> rotation,
@@ -138,63 +148,46 @@ public final class Movement {
      * when
      * applying them, to avoid complications, some if statements are used.
      * 
-     * @param toModifyPosition     The position modified by the changers.
-     * @param toModifySpeed        The speed modified by the changers.
-     * @param toModifyAcceleration The acceleration modified by the changers.
-     * @param toModifyRotation     The rotation modified by the changers.
      * @return The modified movement characteristics (as a record).
      */
-    private MovCharacterizing applyModifiers(final Pair<Double, Double> toModifyPosition,
-            final Pair<Double, Double> toModifySpeed,
-            final Pair<Double, Double> toModifyAcceleration,
-            final Pair<Double, Double> toModifyRotation) {
-        Pair<Double, Double> modifiedPosition = new Pair<>(toModifyPosition.get1(), toModifyPosition.get2());
-        Pair<Double, Double> modifiedSpeed = new Pair<>(toModifySpeed.get1(), toModifySpeed.get2());
-        final Pair<Double, Double> modifiedAcceleration = new Pair<>(toModifyAcceleration.get1(),
-                toModifyAcceleration.get2());
-        Pair<Double, Double> modifiedRotation = new Pair<>(toModifyRotation.get1(), toModifyRotation.get2());
+    private MovCharacterizing applyModifiers() {
+
+        final MovementModifierFactory modifiersFactory = new MovementModifierFactoryImpl();
+        final List<MovementModifier> listOfModifiers = new ArrayList<>();
 
         // Applying modifiers
         for (final MovementChangers changer : listOfChangers) {
-            switch (changer) {
-                /* GRAVITY */ /* The entity will be constantly accelerated downwards */
-                case GRAVITY:
-                    modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + GRAVITYMODIFIER);
-                    break;
-                /* INVERSEGRAVITY */ /* The entity will be constantly accelerated upwards */
-                case INVERSEGRAVITY:
-                    modifiedSpeed = new Pair<>(modifiedSpeed.get1(), modifiedSpeed.get2() + INVERSEGRAVITYMODIFIER);
-                    break;
-                case BOUNCING: /* BOUNCING */ /*
-                                               * The entity has its speed and rotation inverted when touching one of the
-                                               * edges of the map
-                                               */
-                    if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
-                        modifiedSpeed = new Pair<>(modifiedSpeed.get1(), Math.abs(modifiedSpeed.get2()));
-                        modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(),
-                                this.movementSpecifiers.rot().get2());
-                    } else if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
-                        modifiedSpeed = new Pair<>(modifiedSpeed.get1(), -Math.abs(modifiedSpeed.get2()));
-                        modifiedRotation = new Pair<>(-this.movementSpecifiers.rot().get1(),
-                                this.movementSpecifiers.rot().get2());
-                    }
-                    break;
-                case BOUNDS: /* BOUNDS */ /* The entity can't go further that the limits of the map */
-                    if (this.movementSpecifiers.pos().get2() > MAPBOUNDDOWN) {
-                        modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDDOWN);
-                        modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(),
-                                Math.min(0.0, this.movementSpecifiers.speed().get2()));
-                    } else if (this.movementSpecifiers.pos().get2() < MAPBOUNDUP) {
-                        modifiedPosition = new Pair<>(modifiedPosition.get1(), MAPBOUNDUP);
-                        modifiedSpeed = new Pair<>(this.movementSpecifiers.speed().get1(),
-                                Math.max(0.0, this.movementSpecifiers.speed().get2()));
-                    }
-                    break;
-                default:
-                break;
+            MovementModifier newModifier;
+            try {
+                switch (changer) {
+                    /** The entity will be constantly accelerated downwards */
+                    case GRAVITY:
+                        newModifier = modifiersFactory.gravity(GRAVITYMODIFIER);
+                        break;
+                    /** The entity will be constantly accelerated upwards */
+                    case INVERSEGRAVITY:
+                        newModifier = modifiersFactory.gravity(INVERSEGRAVITYMODIFIER);
+                        break;
+                    case BOUNCING:
+                        /**
+                         * The entity has its speed and rotation inverted when touching one of the edges
+                         * of the map
+                         */
+                        newModifier = modifiersFactory.bouncing(MAPBOUNDDOWN, MAPBOUNDUP);
+                        break;
+                    case BOUNDS:
+                        /** The entity can't go further that the limits of the map */
+                        newModifier = modifiersFactory.bounds(MAPBOUNDDOWN, MAPBOUNDUP);
+                        break;
+                    default:
+                        throw new NotImplementedObjectException("The provided modifier does not exist: " + changer);
+                }
+                listOfModifiers.add(newModifier);
+            } catch (NotImplementedObjectException e) {
+                listOfModifiers.add(modifiersFactory.gravity(GRAVITYMODIFIER));
             }
         }
-        return new MovCharacterizing(modifiedPosition, modifiedSpeed, modifiedAcceleration, modifiedRotation);
+        return modifiersFactory.combineList(listOfModifiers).applyModifier(movementSpecifiers);
     }
 
     /**
@@ -209,8 +202,7 @@ public final class Movement {
      *         computed.
      */
     public Movement update() {
-        final MovCharacterizing modifiedSpecifiers = this.applyModifiers(this.movementSpecifiers.pos(),
-                this.movementSpecifiers.speed(), this.movementSpecifiers.acc(), this.movementSpecifiers.rot());
+        final MovCharacterizing modifiedSpecifiers = this.applyModifiers();
         Pair<Double, Double> modifiedPosition = modifiedSpecifiers.pos();
         Pair<Double, Double> modifiedSpeed = modifiedSpecifiers.speed();
         final Pair<Double, Double> modifiedAcceleration = modifiedSpecifiers.acc();
@@ -325,7 +317,8 @@ public final class Movement {
         /**
          * Sets the new position of the movement.
          * 
-         * @param newPosition The new position expressed as a pair of coordinates (x, y).
+         * @param newPosition The new position expressed as a pair of coordinates (x,
+         *                    y).
          * @return A new instance of Builder with the modified position.
          */
         public Builder addNewPosition(final Pair<Double, Double> newPosition) {
@@ -347,7 +340,8 @@ public final class Movement {
         /**
          * Sets the new acceleration of the movement.
          * 
-         * @param newAcceleration The new acceleration expressed as a pair of coordinates (x, y).
+         * @param newAcceleration The new acceleration expressed as a pair of
+         *                        coordinates (x, y).
          * @return A new instance of Builder with the modified acceleration.
          */
         public Builder addNewAcceleration(final Pair<Double, Double> newAcceleration) {
@@ -358,7 +352,8 @@ public final class Movement {
         /**
          * Sets the new rotation of the movement.
          * 
-         * @param newRotation The new rotation expressed as a pair of coordinates (x, y).
+         * @param newRotation The new rotation expressed as a pair of coordinates (x,
+         *                    y).
          * @return A new instance of Builder with the modified rotation.
          */
         public Builder addNewRotation(final Pair<Double, Double> newRotation) {

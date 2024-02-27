@@ -67,6 +67,7 @@ public final class MrCuddlesGenerator {
      * @return The MrCuddle powerup as a list of powerup.
      */
     public List<PowerUp> generateMrCuddle() {
+        Collections.reverse(mrCuddles);
         return Collections.unmodifiableList(this.mrCuddles);
     }
 

@@ -97,5 +97,6 @@ public class ProfitBird extends AbstractPowerUp {
             .addNewPosition(this.getEntityMovement().getPosition())
             .addNewRotation(this.getEntityMovement().getSpeed().get2(), 0.0)
             .addNewMovementChangers(this.getEntityMovement().getMovementChangers()).build());
+
     }
 }

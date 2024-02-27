@@ -76,9 +76,14 @@ public final class Laser extends AbstractObstacle {
         }
 
         /* Set the status of the laser based on its lifetime */
-        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING), EntityStatus.ACTIVE);
-        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION), EntityStatus.DEACTIVATED);
-        this.checkTimeUpdateStatus(lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION + TIME_FOR_DECHARGING), EntityStatus.INACTIVE);
+        this.checkTimeUpdateStatus(
+            lifetime -> lifetime.equals(TIME_FOR_CHARGING), EntityStatus.ACTIVE);
+
+        this.checkTimeUpdateStatus(
+            lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION), EntityStatus.DEACTIVATED);
+
+        this.checkTimeUpdateStatus(
+            lifetime -> lifetime.equals(TIME_FOR_CHARGING + LASER_DURATION + TIME_FOR_DECHARGING), EntityStatus.INACTIVE);
     }
 
     /**

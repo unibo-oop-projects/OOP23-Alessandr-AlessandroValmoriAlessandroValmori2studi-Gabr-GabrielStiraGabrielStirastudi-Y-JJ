@@ -7,6 +7,7 @@ import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinView;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
 import it.unibo.jetpackjoyride.core.hitbox.impl.HitboxImpl;
+import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -35,7 +36,13 @@ public final class CoinImpl implements Coin {
 
     @Override
     public void updateModel() {
-        this.model.updateCoinModel();
+        final Pair<Double, Double> currentPosition = this.model.getPosition();
+        final Pair<Double, Double> newPosition = new Pair<>(
+            currentPosition.get1() - GameInfo.MOVE_SPEED.get(), 
+            currentPosition.get2()
+        );
+        this.model.setPosition(newPosition);
+        this.model.geHitbox().updateHitbox(newPosition, 0.0);
     }
 
     @Override

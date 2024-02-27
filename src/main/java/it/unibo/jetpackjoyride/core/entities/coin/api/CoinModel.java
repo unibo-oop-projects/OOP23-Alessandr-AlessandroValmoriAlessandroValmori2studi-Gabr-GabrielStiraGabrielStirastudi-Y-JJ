@@ -9,12 +9,6 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  * @author yukai.zhou@studio.unibo.it
  */
 public interface CoinModel {
-
-    /**
-     * Update coin model.
-     */
-    void updateCoinModel();
-
     /**
      * Get position of the coin.
      * 

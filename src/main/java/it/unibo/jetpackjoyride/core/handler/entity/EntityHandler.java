@@ -127,8 +127,7 @@ public class EntityHandler {
         } else {
             player.update(isSpaceBarPressed);
         }
-        coinHandler.updatPosition();
-        coinHandler.renderCoin();
+        coinHandler.updateCoin();
         if (!isCanvasAdded) {
             coinHandler.addCoinsView(entityGroup);
             isCanvasAdded = true;

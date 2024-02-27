@@ -126,11 +126,18 @@ public final class CoinGenerator {
         PROBABILITY_BASE + (GameInfo.MOVE_SPEED.get() - initialSpeed) * PROBABILITY_RATE;
         return random.nextDouble() < probabilityInfluenBySpeed;
     }
+     /**
+     * Update the coins model and View on the canvas.
+     */
+    public void updateCoin() {
+        updatPosition();
+        renderCoin();
+    }
 
     /**
      * Renders the coins on the canvas.
      */
-    public void renderCoin() {
+    private void renderCoin() {
         if (isScreenSizeChange()) {
             canvas.setHeight(gameInfo.getScreenHeight());
             canvas.setWidth(gameInfo.getScreenWidth());
@@ -143,7 +150,7 @@ public final class CoinGenerator {
 /**
 * Updates the position of the coins.
 */
-    public void updatPosition() {
+    private void updatPosition() {
         if (this.playeHitbox.isPresent()) {
             checkCollision();
         }

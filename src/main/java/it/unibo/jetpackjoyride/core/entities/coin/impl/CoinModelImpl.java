@@ -2,7 +2,6 @@ package it.unibo.jetpackjoyride.core.entities.coin.impl;
 
 import it.unibo.jetpackjoyride.core.entities.coin.api.CoinModel;
 import it.unibo.jetpackjoyride.core.hitbox.api.Hitbox;
-import it.unibo.jetpackjoyride.utilities.GameInfo;
 import it.unibo.jetpackjoyride.utilities.Pair;
 
 /**
@@ -26,12 +25,6 @@ public final class CoinModelImpl implements CoinModel {
             this.position = position;
             this.coinHitbox = hitbox;
             this.isCollected = false;
-    }
-
-    @Override
-    public void updateCoinModel() {
-        this.position = new Pair<>(position.get1() - GameInfo.MOVE_SPEED.get(), position.get2());
-        coinHitbox.updateHitbox(position, 0.0);
     }
 
     @Override

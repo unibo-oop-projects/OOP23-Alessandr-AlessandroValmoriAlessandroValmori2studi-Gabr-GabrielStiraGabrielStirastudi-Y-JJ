@@ -142,9 +142,12 @@ public final class Movement {
     /**
      * Applies the modifiers to the movement depending on what the listOfChangers
      * contains.
-     * Since the possible modifiers are few and a correct order has to be followed
-     * when
-     * applying them, to avoid complications, some if statements are used.
+     * The switch in this method associates every {@link MovementModifier} to a 
+     * {@link MovementChangers} enum value just to provide a comfortable way to add
+     * specific, personalized behaviours that change the movement of an entity and 
+     * therefore, every time a new {@link MovementModifier} is created, this switch 
+     * has to be updated aswell.
+     * N.B: The order the modifiers are applied is important.
      * 
      * @return The modified movement characteristics (as a record).
      */

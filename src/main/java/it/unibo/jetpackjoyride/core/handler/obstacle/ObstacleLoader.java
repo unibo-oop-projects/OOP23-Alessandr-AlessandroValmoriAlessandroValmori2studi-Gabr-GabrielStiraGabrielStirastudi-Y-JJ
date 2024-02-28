@@ -61,7 +61,7 @@ public final class ObstacleLoader {
     /**
      * Defines how many ticks pass before a pattern and another.
      */
-    private static final Integer TIME_OF_LAZYNESS = 10;
+    private static final Integer TIME_OF_LAZYNESS = 15;
     /**
      * Defines a default speed the obstacles of a random generated pattern move.
      */

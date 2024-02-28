@@ -50,11 +50,7 @@ public final class MrCuddles extends AbstractPowerUp {
             this.lastFrames.add(false);
         }
 
-        if (indexOfBody == 0) {
-            this.setEntityStatus(EntityStatus.ACTIVE);
-        } else {
-            this.setEntityStatus(EntityStatus.DEACTIVATED);
-        }
+        this.setEntityStatus(indexOfBody == 0 ? EntityStatus.ACTIVE : EntityStatus.DEACTIVATED);
     }
 
     /**

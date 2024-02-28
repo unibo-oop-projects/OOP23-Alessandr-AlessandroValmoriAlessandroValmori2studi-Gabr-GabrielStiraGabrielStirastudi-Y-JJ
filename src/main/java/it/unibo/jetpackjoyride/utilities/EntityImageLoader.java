@@ -3,7 +3,6 @@ package it.unibo.jetpackjoyride.utilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
@@ -23,8 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.awt.Color;
-import java.util.Collections;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -131,55 +128,50 @@ public class EntityImageLoader {
      * @param entity The entity for which to load images.
      * @return The list of images for the entity.
      */
-    @SuppressFBWarnings("BC")
     public List<Image> loadImages(final Entity entity) {
-        switch (entity.getEntityType()) {
-            case OBSTACLE:
-                final Obstacle obstacle = (Obstacle) entity;
-                switch (obstacle.getObstacleType()) {
-                    case MISSILE:
-                        return takeImages(this.obstacleImages, 0, MISSILESPRITES - 1);
-                    case ZAPPER:
-                        return takeImages(this.obstacleImages, MISSILESPRITES, MISSILESPRITES + ZAPPERSPRITES - 1);
-                    case LASER:
-                        return takeImages(this.obstacleImages, MISSILESPRITES + ZAPPERSPRITES,
-                                MISSILESPRITES + ZAPPERSPRITES + LASERSPRITES - 1);
-                    default:
-                        break;
-                }
-            case POWERUP:
-                final PowerUp powerUp = (PowerUp) entity;
-                switch (powerUp.getPowerUpType()) {
-                    case LILSTOMPER:
-                        return takeImages(this.powerupImages, 0, LILSTOMPERSPRITES - 1);
-                    case MRCUDDLES:
-                        return takeImages(this.powerupImages, LILSTOMPERSPRITES,
-                                LILSTOMPERSPRITES + MRCUDDLESPRITES - 1);
-                    case PROFITBIRD:
-                        return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES,
-                                LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES - 1);
-                    case DUKEFISHRON:
-                        return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES,
-                                LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES + DUKEFISHRONSPRITES - 1);
-                    default:
-                        break;
-                }
-            case PICKUP:
-                final PickUp pickUp = (PickUp) entity;
-                switch (pickUp.getPickUpType()) {
-                    case VEHICLE:
-                        return takeImages(this.pickupImages, 0, VEHICLEPICKUPSPRITES - 1);
-                    case SHIELD:
-                        return takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,
-                                VEHICLEPICKUPSPRITES + SHIELDPICKUPSPRITES - 1);
-                    default:
-                        break;
-                }
-                return Collections.unmodifiableList(pickupImages);
-            case BARRY:
-            default:
-                return List.of();
-        }
+        if (entity instanceof Obstacle) {
+            final Obstacle obstacle = (Obstacle) entity;
+            switch (obstacle.getObstacleType()) {
+                case MISSILE:
+                    return takeImages(this.obstacleImages, 0, MISSILESPRITES - 1);
+                case ZAPPER:
+                    return takeImages(this.obstacleImages, MISSILESPRITES, MISSILESPRITES + ZAPPERSPRITES - 1);
+                case LASER:
+                    return takeImages(this.obstacleImages, MISSILESPRITES + ZAPPERSPRITES,
+                            MISSILESPRITES + ZAPPERSPRITES + LASERSPRITES - 1);
+                default:
+                    break;
+            }
+        } else if (entity instanceof PowerUp) {
+            final PowerUp powerUp = (PowerUp) entity;
+            switch (powerUp.getPowerUpType()) {
+                case LILSTOMPER:
+                    return takeImages(this.powerupImages, 0, LILSTOMPERSPRITES - 1);
+                case MRCUDDLES:
+                    return takeImages(this.powerupImages, LILSTOMPERSPRITES,
+                            LILSTOMPERSPRITES + MRCUDDLESPRITES - 1);
+                case PROFITBIRD:
+                    return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES,
+                            LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES - 1);
+                case DUKEFISHRON:
+                    return takeImages(this.powerupImages, LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES,
+                            LILSTOMPERSPRITES + MRCUDDLESPRITES + PROFITBIRDSPRITES + DUKEFISHRONSPRITES - 1);
+                default:
+                    break;
+            }
+        } else if (entity instanceof PickUp) {
+            final PickUp pickUp = (PickUp) entity;
+            switch (pickUp.getPickUpType()) {
+                case VEHICLE:
+                    return takeImages(this.pickupImages, 0, VEHICLEPICKUPSPRITES - 1);
+                case SHIELD:
+                    return takeImages(this.pickupImages, VEHICLEPICKUPSPRITES,
+                            VEHICLEPICKUPSPRITES + SHIELDPICKUPSPRITES - 1);
+                default:
+                    break;
+            }
+        } 
+        return List.of();
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.Set;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityType;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.AbstractObstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
@@ -39,14 +39,14 @@ public final class EntityTest {
     /**
      * The factory which produces all entities.
      */
-    private EntityModelGeneratorImpl entityFactory;
+    private EntityFactoryImpl entityFactory;
 
     /**
      * Initializes the entity generator.
      */
     @org.junit.Before
     public void init() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
     }
 
     /**

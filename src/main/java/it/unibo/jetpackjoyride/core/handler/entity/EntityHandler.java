@@ -4,9 +4,9 @@ import it.unibo.jetpackjoyride.core.GameLoop;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.coin.impl.CoinGenerator;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity;
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityFactory;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
 import it.unibo.jetpackjoyride.core.handler.obstacle.ObstacleHandler;
@@ -93,7 +93,7 @@ public class EntityHandler {
      */
 
     public void initialize(final ShopController shopController) {
-        final EntityModelGenerator entityGenerator = new EntityModelGeneratorImpl();
+        final EntityFactory entityGenerator = new EntityFactoryImpl();
         this.unlockedItems = shopController.getUnlocked();
         this.listOfEntities = new HashSet<>();
         this.obstacleHandler = new ObstacleHandler();

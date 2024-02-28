@@ -3,7 +3,7 @@ package it.unibo.jetpackjoyride.core.handler.pickup;
 import java.util.ArrayList;
 import java.util.List;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp;
 import it.unibo.jetpackjoyride.core.entities.pickups.api.PickUp.PickUpType;
 import it.unibo.jetpackjoyride.core.entities.pickups.impl.VehiclePickUp;
@@ -36,7 +36,7 @@ public class PickUpHandler {
     /**
      * Is used to generate the pickups.
      */
-    private final EntityModelGeneratorImpl entityModelGenerator;
+    private final EntityFactoryImpl entityModelGenerator;
     /**
      * Is used to generate random numbers.
      */
@@ -54,7 +54,7 @@ public class PickUpHandler {
     public PickUpHandler(final Set<Items> unlockedItems) {
         this.unlockedItems = new HashSet<>(unlockedItems);
         this.listOfPickUp = new ArrayList<>();
-        this.entityModelGenerator = new EntityModelGeneratorImpl();
+        this.entityModelGenerator = new EntityFactoryImpl();
         this.random = new Random();
     }
 

@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry.PerformingAction;
 import it.unibo.jetpackjoyride.core.entities.barry.api.Barry;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityFactory;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -21,7 +21,7 @@ import it.unibo.jetpackjoyride.utilities.Pair;
  */
 public final class PlayerTest {
 
-    private EntityModelGeneratorImpl entityFactory;
+    private EntityFactoryImpl entityFactory;
     private Barry barry;
     private static final Pair<Double, Double> BARRY_STARTING_POS = new Pair<>(200.0, 630.0);
     private static final double OBS_SPEED = 10.0;
@@ -29,11 +29,11 @@ public final class PlayerTest {
     private static final int LOOP_LIMIT = 500;
 
     /**
-     * Tests {@link Barry} initialization through the {@link EntityModelGenerator}.
+     * Tests {@link Barry} initialization through the {@link EntityFactory}.
      */
     @org.junit.Test
     public void testPlayerInitialization() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
         this.barry = this.entityFactory.generateBarry();
         assertTrue(this.barry.isAlive());
         assertEquals(this.barry.getEntityStatus(), EntityStatus.ACTIVE);
@@ -47,7 +47,7 @@ public final class PlayerTest {
      */
     @org.junit.Test
     public void testPlayerHit() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
         this.barry = this.entityFactory.generateBarry();
         this.barry.setShieldOn();
         final var status = this.barry.getPerformingAction();
@@ -65,7 +65,7 @@ public final class PlayerTest {
      */
     @org.junit.Test
     public void testPlayerHit2() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
         this.barry = this.entityFactory.generateBarry();
         this.barry.hit(ObstacleType.LASER);
         assertFalse(this.barry.isAlive());
@@ -78,7 +78,7 @@ public final class PlayerTest {
      */
     @org.junit.Test
     public void testPlayerMove() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
 
         this.barry = this.entityFactory.generateBarry();
         this.barry.update(true);
@@ -104,7 +104,7 @@ public final class PlayerTest {
      */
     @org.junit.Test
     public void testPlayerObstacleCollision() {
-        this.entityFactory = new EntityModelGeneratorImpl();
+        this.entityFactory = new EntityFactoryImpl();
         this.barry = this.entityFactory.generateBarry();
 
         boolean hasTouched1 = false;

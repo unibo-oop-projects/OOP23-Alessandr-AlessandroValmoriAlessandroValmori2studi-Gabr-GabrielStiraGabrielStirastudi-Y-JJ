@@ -1,13 +1,13 @@
 package it.unibo.jetpackjoyride.core.handler.powerup;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp;
 import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityFactory;
 import it.unibo.jetpackjoyride.core.entities.entity.api.Entity.EntityStatus;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
  /**
@@ -26,14 +26,14 @@ public final class PowerUpHandler {
     /**
      * Is used to generate the powerups.
      */
-    private final EntityModelGenerator entityModelGenerator;
+    private final EntityFactory entityModelGenerator;
 
     /**
      * Constructor used to create an instance of PowerUpHandler and initialize it.
      */
     public PowerUpHandler() {
         this.listOfPowerUp = new ArrayList<>();
-        this.entityModelGenerator = new EntityModelGeneratorImpl();
+        this.entityModelGenerator = new EntityFactoryImpl();
     }
 
     /**

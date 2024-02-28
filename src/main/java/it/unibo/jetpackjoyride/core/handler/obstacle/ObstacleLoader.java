@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
-import it.unibo.jetpackjoyride.core.entities.entity.api.EntityModelGenerator;
-import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityModelGeneratorImpl;
+import it.unibo.jetpackjoyride.core.entities.entity.api.EntityFactory;
+import it.unibo.jetpackjoyride.core.entities.entity.impl.EntityFactoryImpl;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle;
 import it.unibo.jetpackjoyride.core.entities.obstacle.api.Obstacle.ObstacleType;
 import it.unibo.jetpackjoyride.core.movement.Movement;
@@ -106,7 +106,7 @@ public final class ObstacleLoader {
     /**
      * Defines the factory used to generate the obstacles.
      */
-    private final EntityModelGenerator entityGenerator;
+    private final EntityFactory entityGenerator;
     /**
      * Defines a map which associate a number to a pattern of obstacles.
      */
@@ -138,7 +138,7 @@ public final class ObstacleLoader {
      */
     public ObstacleLoader() {
         final String filePath = "files/chunkdata.txt";
-        this.entityGenerator = new EntityModelGeneratorImpl();
+        this.entityGenerator = new EntityFactoryImpl();
         this.allObstacles = new HashMap<>();
         this.random = new Random();
         this.duration = 0;

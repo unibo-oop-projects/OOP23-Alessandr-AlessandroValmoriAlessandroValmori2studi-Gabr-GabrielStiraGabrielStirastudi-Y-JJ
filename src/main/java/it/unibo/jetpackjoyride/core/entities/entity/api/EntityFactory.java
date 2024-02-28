@@ -12,14 +12,14 @@ import it.unibo.jetpackjoyride.core.entities.powerup.api.PowerUp.PowerUpType;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 
 /**
- * The {@link EntityModelGenerator} interface defines the methods used for generating all {@link Entity} 
+ * The {@link EntityFactory} interface defines the methods used for generating all {@link Entity} 
  * in the game. Currently, {@link Barry}, {@link Obstacle}, {@link PowerUp} and {@link PickUp} are 
  * {@link Entity} and therefore can be generated easily by these methods in a factory which implements this
  * interface.
  *
  * @author gabriel.stira@studio.unibo.it
  */
-public interface EntityModelGenerator {
+public interface EntityFactory {
     /**
      * Generates an {@link Obstacle} with the specified type and movement behavior.
      *

@@ -1,7 +1,7 @@
 package it.unibo.jetpackjoyride.core;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
+import it.unibo.jetpackjoyride.core.handler.entity.EntityManager;
 import it.unibo.jetpackjoyride.core.map.api.MapBackground;
 import it.unibo.jetpackjoyride.core.map.impl.MapBackgroundImpl;
 import it.unibo.jetpackjoyride.core.statistical.api.GameStatsController;
@@ -35,7 +35,7 @@ public final class GameLoop implements GameLoopControl {
     private final GameStatsController gameStatsHandler;
     private PauseMenu pauseMenu;
     private GameStatsView gameStatsView;
-    private final EntityController entityController;
+    private final EntityManager entityController;
     private final Stage stage;
     private Pane root;
     private Group entityGroup;
@@ -55,7 +55,7 @@ public final class GameLoop implements GameLoopControl {
         this.stage = stage;
         this.spacePressed = false;
         this.gameStatsHandler = new GameStatsHandler();
-        this.entityController = new EntityController(shopController);
+        this.entityController = new EntityManager(shopController);
         initializeScene();
         this.initializeGameElements();
         setListenerForGameInfo();

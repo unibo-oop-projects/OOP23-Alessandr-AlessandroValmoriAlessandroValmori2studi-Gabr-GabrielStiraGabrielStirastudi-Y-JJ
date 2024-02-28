@@ -18,7 +18,6 @@ import it.unibo.jetpackjoyride.core.entities.powerup.impl.DukeFishron;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.LilStomper;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.MrCuddles;
 import it.unibo.jetpackjoyride.core.entities.powerup.impl.ProfitBird;
-import it.unibo.jetpackjoyride.core.handler.entity.EntityController;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;

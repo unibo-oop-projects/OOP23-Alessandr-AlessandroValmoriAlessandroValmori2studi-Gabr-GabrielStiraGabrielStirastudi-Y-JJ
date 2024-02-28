@@ -24,7 +24,7 @@ import javafx.scene.Node;
  * @author gabriel.stira@studio.unibo.it
  */
 
-public class EntityController {
+public class EntityManager {
 
     /** 
      * The model that incapsulates all other entity models .
@@ -50,7 +50,7 @@ public class EntityController {
      *             to {@link EntityHandler}, which then uses shop to extract information
      *             regarding unlocked items.
      */
-    public EntityController(final ShopController shop) {
+    public EntityManager(final ShopController shop) {
         this.imageLoader = new EntityImageLoader();
         this.entityHandler = new EntityHandler();
         this.entityHandler.initialize(shop);

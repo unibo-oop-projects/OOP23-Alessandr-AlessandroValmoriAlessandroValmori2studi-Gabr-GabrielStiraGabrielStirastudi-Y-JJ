@@ -31,7 +31,7 @@ public interface ShopController {
         MRCUDDLES(500, Optional.of(PowerUpType.MRCUDDLES), Optional.of(0),
                 Optional.of("MR CUDDLES\n Too cool not to buy")),
         /**The shield. */
-        SHIELD(100, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A shield ot protect Barry")),
+        SHIELD(100, Optional.empty(), Optional.of(3), Optional.of("SHIELD\n A shield to protect Barry")),
         /**The item that corresponds to the powerup {@link LilStomper} .*/
         STOMPER(250, Optional.of(PowerUpType.LILSTOMPER), Optional.of(1),
                 Optional.of("STOMPER\n Clumsy but robust vehicle")),
